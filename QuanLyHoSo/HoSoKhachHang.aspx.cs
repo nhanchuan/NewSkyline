@@ -243,75 +243,92 @@ public partial class QuanLyHoSo_HoSoKhachHang : BasePage
     }
     protected void btnBagFileTranslate_ServerClick(object sender, EventArgs e)
     {
-        bagtranslate = new BagFileTranslateBLL();
-        UserAccounts ad = Session.GetCurrentUser();
-        bool swit = (gwBagProfileManager.SelectedRow == null) ? true : false;
-        switch (swit)
+        try
         {
-            case false:
-                foreach (HttpPostedFile postedFile in fileBagFileTranslate.PostedFiles)
-                {
-                    int profileId = Convert.ToInt32((gwBagProfileManager.SelectedRow.FindControl("lblBagProfileID") as Label).Text);
-                    string fileName = Path.GetFileName(postedFile.FileName);
-                    string fileExtension = Path.GetExtension(postedFile.FileName).ToLower();
-                    string RandomFileName = "Anh-van-hoi-anh-my-" + RandomName + DateTime.Now.Day.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Year.ToString();
-                    string filePath = "FileManager/BagFileTranslate/" + RandomFileName + fileExtension;
-                    List<BagFileTranslate> lstBT = bagtranslate.GetBagFileTranslateName(fileName, profileId);
-                    BagFileTranslate btl = lstBT.FirstOrDefault();
-                    if (btl != null)
+            bagtranslate = new BagFileTranslateBLL();
+            UserAccounts ad = Session.GetCurrentUser();
+            bool swit = (gwBagProfileManager.SelectedRow == null) ? true : false;
+            switch (swit)
+            {
+                case false:
+                    foreach (HttpPostedFile postedFile in fileBagFileTranslate.PostedFiles)
                     {
-                        return;
+                        int profileId = Convert.ToInt32((gwBagProfileManager.SelectedRow.FindControl("lblBagProfileID") as Label).Text);
+                        string DocName = this.XoaKyTuDacBiet((gwBagProfileManager.SelectedRow.FindControl("lblDocName") as Label).Text);
+                        string fileName = Path.GetFileName(postedFile.FileName);
+                        string fileExtension = Path.GetExtension(postedFile.FileName).ToLower();
+                        string RandomFileName = DocName + "-" + DateTime.Now.Day.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Year.ToString() + "-" + RandomName;
+                        string filePath = "FileManager/BagFileTranslate/" + RandomFileName + fileExtension;
+                        List<BagFileTranslate> lstBT = bagtranslate.GetBagFileTranslateName(fileName, profileId);
+                        BagFileTranslate btl = lstBT.FirstOrDefault();
+                        if (btl != null)
+                        {
+                            return;
+                        }
+                        else
+                        {
+                            this.bagtranslate.UploadBagFileTranslate(fileName, filePath, profileId, ad.UserID);
+                            postedFile.SaveAs(Server.MapPath("../" + filePath));
+                        }
                     }
-                    else
-                    {
-                        this.bagtranslate.UploadBagFileTranslate(fileName, filePath, profileId, ad.UserID);
-                        postedFile.SaveAs(Server.MapPath("../" + filePath));
-                    }
-                }
-                lblSuccess.Visible = true;
-                lblSuccess.Text = string.Format("Upload thành công {0} files dịch hồ sơ \n! <br />", fileBagFileTranslate.PostedFiles.Count);
-                this.load_gwFileTranslate();
-                break;
-            case true:
-                Response.Write("<script>alert('Chưa chọn hồ sơ !')</script>");
-                break;
+                    lblSuccess.Visible = true;
+                    lblSuccess.Text = string.Format("Upload thành công {0} files dịch hồ sơ \n! <br />", fileBagFileTranslate.PostedFiles.Count);
+                    this.load_gwFileTranslate();
+                    break;
+                case true:
+                    Response.Write("<script>alert('Chưa chọn hồ sơ !')</script>");
+                    break;
+            }
+            //gwBagProfileManager.SelectedIndex = -1;
         }
-        //gwBagProfileManager.SelectedIndex = -1;
+        catch (Exception ex)
+        {
+            lblSuccess.Text = ex.ToString();
+        }
     }
     protected void btnBagAttachments_Click(object sender, EventArgs e)
     {
-        bagattachments = new BagAttachmentsBLL();
-        UserAccounts ad = Session.GetCurrentUser();
-        bool swit = (gwBagProfileManager.SelectedRow == null) ? true : false;
-        switch (swit)
+        try
         {
-            case false:
-                foreach (HttpPostedFile postedFile in fileUploadBagAttachments.PostedFiles)
-                {
-                    int profileId = Convert.ToInt32((gwBagProfileManager.SelectedRow.FindControl("lblBagProfileID") as Label).Text);
-                    string fileName = Path.GetFileName(postedFile.FileName);
-                    string fileExtension = Path.GetExtension(postedFile.FileName).ToLower();
-                    string RandomFileName = "Anh-van-hoi-anh-my-" + RandomName + DateTime.Now.Day.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Year.ToString();
-                    string filePath = "FileManager/BagAttachments/" + RandomFileName + fileExtension;
-                    List<BagAttachments> lstBg = bagattachments.GetbagattWihname(fileName, profileId);
-                    BagAttachments bg = lstBg.FirstOrDefault();
-                    if (bg != null)
+            bagattachments = new BagAttachmentsBLL();
+            UserAccounts ad = Session.GetCurrentUser();
+            bool swit = (gwBagProfileManager.SelectedRow == null) ? true : false;
+            switch (swit)
+            {
+                case false:
+                    foreach (HttpPostedFile postedFile in fileUploadBagAttachments.PostedFiles)
                     {
-                        return;
+                        int profileId = Convert.ToInt32((gwBagProfileManager.SelectedRow.FindControl("lblBagProfileID") as Label).Text);
+                        string DocName = this.XoaKyTuDacBiet((gwBagProfileManager.SelectedRow.FindControl("lblDocName") as Label).Text);
+
+                        string fileName = Path.GetFileName(postedFile.FileName);
+                        string fileExtension = Path.GetExtension(postedFile.FileName).ToLower();
+                        string RandomFileName = DocName + "-" + DateTime.Now.Day.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Year.ToString() + "-" + RandomName;
+                        string filePath = "FileManager/BagAttachments/" + RandomFileName + fileExtension;
+                        List<BagAttachments> lstBg = bagattachments.GetbagattWihname(fileName, profileId);
+                        BagAttachments bg = lstBg.FirstOrDefault();
+                        if (bg != null)
+                        {
+                            return;
+                        }
+                        else
+                        {
+                            this.bagattachments.UploadBagAttachments(fileName, filePath, profileId, ad.UserID);
+                            postedFile.SaveAs(Server.MapPath("../" + filePath));
+                        }
                     }
-                    else
-                    {
-                        this.bagattachments.UploadBagAttachments(fileName, filePath, profileId, ad.UserID);
-                        postedFile.SaveAs(Server.MapPath("../" + filePath));
-                    }
-                }
-                lblSuccess.Visible = true;
-                lblSuccess.Text = string.Format("Upload thành công {0} files đính kèm \n! <br />", fileUploadBagAttachments.PostedFiles.Count);
-                this.load_bagattachment();
-                break;
-            case true:
-                Response.Write("<script>alert('Chưa chọn hồ sơ !')</script>");
-                break;
+                    lblSuccess.Visible = true;
+                    lblSuccess.Text = string.Format("Upload thành công {0} files đính kèm \n! <br />", fileUploadBagAttachments.PostedFiles.Count);
+                    this.load_bagattachment();
+                    break;
+                case true:
+                    Response.Write("<script>alert('Chưa chọn hồ sơ !')</script>");
+                    break;
+            }
+        }
+        catch (Exception ex)
+        {
+            lblSuccess.Text = ex.ToString();
         }
     }
     private void GetKeySearchBagProfilePageWise(int pageIndex, int InfoID, string keysearch)

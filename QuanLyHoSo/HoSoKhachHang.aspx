@@ -274,26 +274,17 @@
                                     <ItemStyle Width="30px" />
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Tên giấy tờ / Hồ sơ">
-                                    <EditItemTemplate>
-                                        <asp:TextBox ID="TextBox1" runat="server" Text='<%# Bind("DocName") %>'></asp:TextBox>
-                                    </EditItemTemplate>
                                     <ItemTemplate>
-                                        <asp:Label ID="Label1" CssClass="bold" runat="server" Text='<%# Bind("DocName") %>'></asp:Label>
+                                        <asp:Label ID="lblDocName" CssClass="bold" runat="server" Text='<%# Bind("DocName") %>'></asp:Label>
                                         <asp:Label ID="lblBagProfileID" CssClass="display-none" runat="server" Text='<%# Eval("BagProfileID") %>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Ghi chú">
-                                    <EditItemTemplate>
-                                        <asp:TextBox ID="TextBox2" runat="server" Text='<%# Bind("DocNote") %>'></asp:TextBox>
-                                    </EditItemTemplate>
                                     <ItemTemplate>
                                         <asp:Label ID="Label2" runat="server" Text='<%# Bind("DocNote") %>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Tạo lúc">
-                                    <EditItemTemplate>
-                                        <asp:TextBox ID="TextBox3" runat="server" Text='<%# Bind("DateOfCreate") %>'></asp:TextBox>
-                                    </EditItemTemplate>
                                     <ItemTemplate>
                                         <asp:Label ID="Label3" runat="server" Text='<%# Bind("DateOfCreate","{0:dd/MM/yyyy hh:mm:ss tt}") %>'></asp:Label>
                                     </ItemTemplate>
