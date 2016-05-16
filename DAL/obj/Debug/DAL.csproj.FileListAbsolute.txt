@@ -118,3 +118,8 @@ E:\OneDrive\DEVELOPER\WebSite\NewSkyline\DAL\bin\Debug\DAL.dll
 E:\OneDrive\DEVELOPER\WebSite\NewSkyline\DAL\bin\Debug\DAL.pdb
 E:\OneDrive\DEVELOPER\WebSite\NewSkyline\DAL\obj\Debug\DAL.dll
 E:\OneDrive\DEVELOPER\WebSite\NewSkyline\DAL\obj\Debug\DAL.pdb
+D:\DEVELOPER\WEBSITE\GitHub\NewSkyline\DAL\bin\Debug\DAL.dll
+D:\DEVELOPER\WEBSITE\GitHub\NewSkyline\DAL\bin\Debug\DAL.pdb
+D:\DEVELOPER\WEBSITE\GitHub\NewSkyline\DAL\obj\Debug\DAL.csprojResolveAssemblyReference.cache
+D:\DEVELOPER\WEBSITE\GitHub\NewSkyline\DAL\obj\Debug\DAL.dll
+D:\DEVELOPER\WEBSITE\GitHub\NewSkyline\DAL\obj\Debug\DAL.pdb

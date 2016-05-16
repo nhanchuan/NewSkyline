@@ -11,7 +11,7 @@ html {
   background-size: cover;
 }
 #panelLogin{
-     margin-top:10%;
+     margin-top:8%;
      background:#7f7f7f;
   background:rgba(0,0,0,0.5);
   color:white;
@@ -47,5 +47,5 @@ html {
   background:rgba(0,0,0,0.5);
 }
 .dllLanguages{
-    opacity:0.3!important;
+    opacity:1!important;
 }

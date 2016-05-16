@@ -173,3 +173,10 @@ E:\OneDrive\DEVELOPER\WebSite\NewSkyline\BLL\bin\Debug\DAL.pdb
 E:\OneDrive\DEVELOPER\WebSite\NewSkyline\BLL\obj\Debug\BLL.csprojResolveAssemblyReference.cache
 E:\OneDrive\DEVELOPER\WebSite\NewSkyline\BLL\obj\Debug\BLL.dll
 E:\OneDrive\DEVELOPER\WebSite\NewSkyline\BLL\obj\Debug\BLL.pdb
+D:\DEVELOPER\WEBSITE\GitHub\NewSkyline\BLL\bin\Debug\BLL.dll
+D:\DEVELOPER\WEBSITE\GitHub\NewSkyline\BLL\bin\Debug\BLL.pdb
+D:\DEVELOPER\WEBSITE\GitHub\NewSkyline\BLL\bin\Debug\DAL.dll
+D:\DEVELOPER\WEBSITE\GitHub\NewSkyline\BLL\bin\Debug\DAL.pdb
+D:\DEVELOPER\WEBSITE\GitHub\NewSkyline\BLL\obj\Debug\BLL.csprojResolveAssemblyReference.cache
+D:\DEVELOPER\WEBSITE\GitHub\NewSkyline\BLL\obj\Debug\BLL.dll
+D:\DEVELOPER\WEBSITE\GitHub\NewSkyline\BLL\obj\Debug\BLL.pdb
