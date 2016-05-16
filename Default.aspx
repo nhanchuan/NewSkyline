@@ -36,7 +36,7 @@
                 </div>
                 <div class="details">
                     <div class="number">
-                        5054
+                        <asp:Label ID="lblSumBoHoSo" runat="server"></asp:Label>
                     </div>
                     <div class="desc">
                         Bộ Hồ Sơ
@@ -998,68 +998,6 @@
     </div>
     <div class="row ">
         <div class="col-md-6 col-sm-6">
-            <!-- BEGIN REGIONAL STATS PORTLET-->
-            <div class="portlet">
-                <div class="portlet-title">
-                    <div class="caption">
-                        <i class="fa fa-globe"></i>Regional Stats
-                    </div>
-                    <div class="tools">
-                        <a href="" class="collapse"></a>
-                        <a href="#portlet-config" data-toggle="modal" class="config"></a>
-                        <a href="" class="reload"></a>
-                        <a href="" class="fullscreen"></a>
-                        <a href="" class="remove"></a>
-                    </div>
-                </div>
-                <div class="portlet-body">
-                    <div id="region_statistics_loading">
-                        <img src="../../assets/admin/layout/img/loading.gif" alt="loading" />
-                    </div>
-                    <div id="region_statistics_content" class="display-none">
-                        <div class="btn-toolbar margin-bottom-10">
-                            <div class="btn-group" data-toggle="buttons">
-                                <a href="" class="btn default btn-sm active">Users </a>
-                                <a href="" class="btn default btn-sm">Orders </a>
-                            </div>
-                            <div class="btn-group pull-right">
-                                <a href="" class="btn default btn-sm dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">Select Region <span class="fa fa-angle-down"></span>
-                                </a>
-                                <ul class="dropdown-menu pull-right">
-                                    <li>
-                                        <a href="javascript:;" id="regional_stat_world">World </a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:;" id="regional_stat_usa">USA </a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:;" id="regional_stat_europe">Europe </a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:;" id="regional_stat_russia">Russia </a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:;" id="regional_stat_germany">Germany </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div id="vmap_world" class="vmaps display-none">
-                        </div>
-                        <div id="vmap_usa" class="vmaps display-none">
-                        </div>
-                        <div id="vmap_europe" class="vmaps display-none">
-                        </div>
-                        <div id="vmap_russia" class="vmaps display-none">
-                        </div>
-                        <div id="vmap_germany" class="vmaps display-none">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- END REGIONAL STATS PORTLET-->
-        </div>
-        <div class="col-md-6 col-sm-6">
             <!-- BEGIN PORTLET-->
             <div class="portlet paddingless">
                 <div class="portlet-title line">
@@ -1081,15 +1019,15 @@
                                 <a href="#tab_1_1" data-toggle="tab">System </a>
                             </li>
                             <li>
-                                <a href="#tab_1_2" data-toggle="tab">Activities </a>
+                                <a href="#tab_1_2" data-toggle="tab">TRUNG TÂM ANH NGỮ </a>
                             </li>
                             <li>
-                                <a href="#tab_1_3" data-toggle="tab">Recent Users </a>
+                                <a href="#tab_1_3" data-toggle="tab">QUẢN LÝ HỒ SƠ </a>
                             </li>
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane active" id="tab_1_1">
-                                <div class="scroller" style="height: 290px;" data-always-visible="1" data-rail-visible="0">
+                                <div class="scroller" style="height: 560px;" data-always-visible="1" data-rail-visible="0">
                                     <ul class="feeds">
                                         <li>
                                             <div class="col1">
@@ -1476,7 +1414,7 @@
                                 </div>
                             </div>
                             <div class="tab-pane" id="tab_1_2">
-                                <div class="scroller" style="height: 290px;" data-always-visible="1" data-rail-visible1="1">
+                                <div class="scroller" style="height: 560px;" data-always-visible="1" data-rail-visible1="1">
                                     <ul class="feeds">
                                         <li>
                                             <a href="#">
@@ -1711,7 +1649,7 @@
                                 </div>
                             </div>
                             <div class="tab-pane" id="tab_1_3">
-                                <div class="scroller" style="height: 290px;" data-always-visible="1" data-rail-visible1="1">
+                                <div class="scroller" style="height: 560px;" data-always-visible="1" data-rail-visible1="1">
                                     <div class="row">
                                         <div class="col-md-6 user-info">
                                             <img alt="" src="../../assets/admin/layout/img/avatar.png" class="img-responsive" />
@@ -1877,10 +1815,6 @@
             </div>
             <!-- END PORTLET-->
         </div>
-    </div>
-    <div class="clearfix">
-    </div>
-    <div class="row ">
         <div class="col-md-6 col-sm-6">
             <!-- BEGIN PORTLET-->
             <div class="portlet box blue-madison calendar">
@@ -1891,113 +1825,6 @@
                 </div>
                 <div class="portlet-body light-grey">
                     <div id="calendar">
-                    </div>
-                </div>
-            </div>
-            <!-- END PORTLET-->
-        </div>
-        <div class="col-md-6 col-sm-6">
-            <!-- BEGIN PORTLET-->
-            <div class="portlet">
-                <div class="portlet-title line">
-                    <div class="caption">
-                        <i class="fa fa-comments"></i>Chats
-                    </div>
-                    <div class="tools">
-                        <a href="" class="collapse"></a>
-                        <a href="#portlet-config" data-toggle="modal" class="config"></a>
-                        <a href="" class="reload"></a>
-                        <a href="" class="fullscreen"></a>
-                        <a href="" class="remove"></a>
-                    </div>
-                </div>
-                <div class="portlet-body" id="chats">
-                    <div class="scroller" style="height: 352px;" data-always-visible="1" data-rail-visible1="1">
-                        <ul class="chats">
-                            <li class="in">
-                                <img class="avatar" alt="" src="../../assets/admin/layout/img/avatar1.jpg" />
-                                <div class="message">
-                                    <span class="arrow"></span>
-                                    <a href="#" class="name">Bob Nilson </a>
-                                    <span class="datetime">at 20:09 </span>
-                                    <span class="body">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. </span>
-                                </div>
-                            </li>
-                            <li class="out">
-                                <img class="avatar" alt="" src="../../assets/admin/layout/img/avatar2.jpg" />
-                                <div class="message">
-                                    <span class="arrow"></span>
-                                    <a href="#" class="name">Lisa Wong </a>
-                                    <span class="datetime">at 20:11 </span>
-                                    <span class="body">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. </span>
-                                </div>
-                            </li>
-                            <li class="in">
-                                <img class="avatar" alt="" src="../../assets/admin/layout/img/avatar1.jpg" />
-                                <div class="message">
-                                    <span class="arrow"></span>
-                                    <a href="#" class="name">Bob Nilson </a>
-                                    <span class="datetime">at 20:30 </span>
-                                    <span class="body">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. </span>
-                                </div>
-                            </li>
-                            <li class="out">
-                                <img class="avatar" alt="" src="../../assets/admin/layout/img/avatar3.jpg" />
-                                <div class="message">
-                                    <span class="arrow"></span>
-                                    <a href="#" class="name">Richard Doe </a>
-                                    <span class="datetime">at 20:33 </span>
-                                    <span class="body">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. </span>
-                                </div>
-                            </li>
-                            <li class="in">
-                                <img class="avatar" alt="" src="../../assets/admin/layout/img/avatar3.jpg" />
-                                <div class="message">
-                                    <span class="arrow"></span>
-                                    <a href="#" class="name">Richard Doe </a>
-                                    <span class="datetime">at 20:35 </span>
-                                    <span class="body">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. </span>
-                                </div>
-                            </li>
-                            <li class="out">
-                                <img class="avatar" alt="" src="../../assets/admin/layout/img/avatar1.jpg" />
-                                <div class="message">
-                                    <span class="arrow"></span>
-                                    <a href="#" class="name">Bob Nilson </a>
-                                    <span class="datetime">at 20:40 </span>
-                                    <span class="body">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. </span>
-                                </div>
-                            </li>
-                            <li class="in">
-                                <img class="avatar" alt="" src="../../assets/admin/layout/img/avatar3.jpg" />
-                                <div class="message">
-                                    <span class="arrow"></span>
-                                    <a href="#" class="name">Richard Doe </a>
-                                    <span class="datetime">at 20:40 </span>
-                                    <span class="body">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. </span>
-                                </div>
-                            </li>
-                            <li class="out">
-                                <img class="avatar" alt="" src="../../assets/admin/layout/img/avatar1.jpg" />
-                                <div class="message">
-                                    <span class="arrow"></span>
-                                    <a href="#" class="name">Bob Nilson </a>
-                                    <span class="datetime">at 20:54 </span>
-                                    <span class="body">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. sed diam nonummy nibh euismod tincidunt ut laoreet. </span>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="chat-form">
-                        <div class="input-cont">
-                            <input class="form-control" type="text" placeholder="Type a message here..." />
-                        </div>
-                        <div class="btn-cont">
-                            <span class="arrow"></span>
-                            <a href="#" class="btn blue icn-only">
-                                <i class="fa fa-check icon-white"></i>
-                            </a>
-                        </div>
                     </div>
                 </div>
             </div>

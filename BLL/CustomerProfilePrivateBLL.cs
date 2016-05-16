@@ -625,5 +625,18 @@ namespace BLL
             this.DB.CloseConnection();
             return true;
         }
+        //Đếm tổng số bộ hồ sơ
+        public int COUNTProFile()
+        {
+            int count = 0;
+            if (!this.DB.OpenConnection())
+            {
+                return 0;
+            }
+            string sql = "select COUNT(*) from CustomerProfilePrivate";
+            count=this.DB.GetValues(sql);
+            this.DB.CloseConnection();
+            return count;
+        }
     }
 }
