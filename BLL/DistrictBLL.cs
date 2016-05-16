@@ -111,5 +111,30 @@ namespace BLL
             this.DB.CloseConnection();
             return true;
         }
+        //Delete with ProvinceID
+        public Boolean DeleteWithProvinceID(int ProvinceID)
+        {
+            if (!this.DB.OpenConnection())
+            {
+                return false;
+            }
+            string sql = "delete from District where ProvinceID=@ProvinceID";
+            SqlParameter pProvinceID = new SqlParameter("@ProvinceID", ProvinceID);
+            this.DB.Updatedata(sql, pProvinceID);
+            this.DB.CloseConnection();
+            return true;
+        }
+        public Boolean DeleteWithID(int DistrictID)
+        {
+            if (!this.DB.OpenConnection())
+            {
+                return false;
+            }
+            string sql = "delete from District where DistrictID=@DistrictID";
+            SqlParameter pDistrictID = new SqlParameter("@DistrictID", DistrictID);
+            this.DB.Updatedata(sql, pDistrictID);
+            this.DB.CloseConnection();
+            return true;
+        }
     }
 }

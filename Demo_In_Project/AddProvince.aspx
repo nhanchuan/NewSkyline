@@ -34,7 +34,32 @@
                         <asp:DropDownList ID="dlcheckcountry" AutoPostBack="true" OnSelectedIndexChanged="dlcheckcountry_SelectedIndexChanged" runat="server"></asp:DropDownList>
                     </div>
                     <div class="form-group">
-                        <asp:GridView ID="gwProvice" runat="server"></asp:GridView>
+                        <asp:GridView ID="gwProvice" AutoGenerateColumns="false" 
+                            OnRowDataBound="gwProvice_RowDataBound" OnRowDeleting="gwProvice_RowDeleting" runat="server">
+                            <Columns>
+                                <asp:TemplateField HeaderText="ProvinceID">
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblProvinceID" runat="server" Text='<%# Eval("ProvinceID") %>'></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="ProvinceName">
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblProvinceName" runat="server" Text='<%# Eval("ProvinceName") %>'></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="CountryID">
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblCountryID" runat="server" Text='<%# Eval("CountryID") %>'></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField>
+                                    <ItemTemplate>
+                                        <asp:LinkButton ID="linkBtnDel" CssClass="bold" runat="server" CausesValidation="False" CommandName="Delete" ToolTip="Delete" Text="Xóa bỏ lỗi lầm"></asp:LinkButton>
+                                    </ItemTemplate>
+                                    <ItemStyle Width="100px" />
+                                </asp:TemplateField>
+                            </Columns>
+                        </asp:GridView>
                     </div>
                 </ContentTemplate>
             </asp:UpdatePanel>

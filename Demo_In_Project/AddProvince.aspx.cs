@@ -13,6 +13,7 @@ public partial class Demo_In_Project_AddProvince : BasePage
 {
     CountryBLL country;
     ProvinceBLL province;
+    DistrictBLL district;
     protected void Page_Load(object sender, EventArgs e)
     {
         this.setcurenturl();
@@ -101,5 +102,32 @@ public partial class Demo_In_Project_AddProvince : BasePage
             return false;
         }
         return true;
+    }
+
+    protected void gwProvice_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        try
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                LinkButton del = e.Row.FindControl("linkBtnDel") as LinkButton;
+                del.Attributes.Add("onclick", "return confirm('Trong cơn buồn ngủ . Vô tình xóa nhầm . Xóa luôn ?')");
+            }
+        }
+        catch (Exception)
+        {
+
+        }
+    }
+
+    protected void gwProvice_RowDeleting(object sender, GridViewDeleteEventArgs e)
+    {
+        province = new ProvinceBLL();
+        district = new DistrictBLL();
+        int ProvinceID = Convert.ToInt32((gwProvice.Rows[e.RowIndex].FindControl("lblProvinceID") as Label).Text);
+        this.district.DeleteWithProvinceID(ProvinceID);
+        this.province.DeleteWithProvinceID(ProvinceID);
+        gwProvice.DataSource = province.getProvinceWithCid(Convert.ToInt32(dlcheckcountry.SelectedValue));
+        gwProvice.DataBind();
     }
 }

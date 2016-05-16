@@ -116,4 +116,29 @@ public partial class Demo_In_Project_AddDistrict : BasePage
         }
         return true;
     }
+
+    protected void gwdata_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        try
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                LinkButton del = e.Row.FindControl("linkBtnDel") as LinkButton;
+                del.Attributes.Add("onclick", "return confirm('Trong cơn buồn ngủ . Vô tình xóa nhầm . Xóa luôn ?')");
+            }
+        }
+        catch (Exception)
+        {
+
+        }
+    }
+
+    protected void gwdata_RowDeleting(object sender, GridViewDeleteEventArgs e)
+    {
+        district = new DistrictBLL();
+        int DistrictID = Convert.ToInt32((gwdata.Rows[e.RowIndex].FindControl("lblDistrictID") as Label).Text);
+        this.district.DeleteWithID(DistrictID);
+        gwdata.DataSource = district.getDistrictwithProid(Convert.ToInt32(dlcheckProvinces.SelectedValue));
+        gwdata.DataBind();
+    }
 }

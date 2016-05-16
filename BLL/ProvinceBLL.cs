@@ -110,5 +110,18 @@ namespace BLL
             this.DB.CloseConnection();
             return true;
         }
+        //Delete 
+        public Boolean DeleteWithProvinceID(int ProvinceID)
+        {
+            if (!this.DB.OpenConnection())
+            {
+                return false;
+            }
+            string sql = "delete from Province where ProvinceID=@ProvinceID";
+            SqlParameter pProvinceID = new SqlParameter("@ProvinceID", ProvinceID);
+            this.DB.Updatedata(sql, pProvinceID);
+            this.DB.CloseConnection();
+            return true;
+        }
     }
 }
