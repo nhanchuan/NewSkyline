@@ -187,7 +187,7 @@ namespace BLL
                         lv.end = new DateTime(tostart.Year, tostart.Month, tostart.Day, gioend.EndTime.Hour, gioend.EndTime.Minute, gioend.EndTime.Second);
                         lvents.Add(lv);
                     }
-                    if (tostart.DayOfWeek.ToString() == "Tuesday" && (int)r[2] == 2)
+                    if (tostart.DayOfWeek.ToString() == "Tuesday" && (int)r["DayID"] == 2)
                     {
                         LichHocEvent lv = new LichHocEvent();
                         //lv.id = (int)r[0];
@@ -197,7 +197,7 @@ namespace BLL
                         lv.end = new DateTime(tostart.Year, tostart.Month, tostart.Day, gioend.EndTime.Hour, gioend.EndTime.Minute, gioend.EndTime.Second);
                         lvents.Add(lv);
                     }
-                    if (tostart.DayOfWeek.ToString() == "Wednesday" && (int)r[2] == 3)
+                    if (tostart.DayOfWeek.ToString() == "Wednesday" && (int)r["DayID"] == 3)
                     {
                         LichHocEvent lv = new LichHocEvent();
                         //lv.id = (int)r[0];
@@ -207,7 +207,7 @@ namespace BLL
                         lv.end = new DateTime(tostart.Year, tostart.Month, tostart.Day, gioend.EndTime.Hour, gioend.EndTime.Minute, gioend.EndTime.Second);
                         lvents.Add(lv);
                     }
-                    if (tostart.DayOfWeek.ToString() == "Thursday" && (int)r[2] == 4)
+                    if (tostart.DayOfWeek.ToString() == "Thursday" && (int)r["DayID"] == 4)
                     {
                         LichHocEvent lv = new LichHocEvent();
                         //lv.id = (int)r[0];
@@ -217,7 +217,7 @@ namespace BLL
                         lv.end = new DateTime(tostart.Year, tostart.Month, tostart.Day, gioend.EndTime.Hour, gioend.EndTime.Minute, gioend.EndTime.Second);
                         lvents.Add(lv);
                     }
-                    if (tostart.DayOfWeek.ToString() == "Friday" && (int)r[2] == 5)
+                    if (tostart.DayOfWeek.ToString() == "Friday" && (int)r["DayID"] == 5)
                     {
                         LichHocEvent lv = new LichHocEvent();
                         //lv.id = (int)r[0];
@@ -227,7 +227,7 @@ namespace BLL
                         lv.end = new DateTime(tostart.Year, tostart.Month, tostart.Day, gioend.EndTime.Hour, gioend.EndTime.Minute, gioend.EndTime.Second);
                         lvents.Add(lv);
                     }
-                    if (tostart.DayOfWeek.ToString() == "Saturday" && (int)r[2] == 6)
+                    if (tostart.DayOfWeek.ToString() == "Saturday" && (int)r["DayID"] == 6)
                     {
                         LichHocEvent lv = new LichHocEvent();
                         //lv.id = (int)r[0];
@@ -237,7 +237,7 @@ namespace BLL
                         lv.end = new DateTime(tostart.Year, tostart.Month, tostart.Day, gioend.EndTime.Hour, gioend.EndTime.Minute, gioend.EndTime.Second);
                         lvents.Add(lv);
                     }
-                    if (tostart.DayOfWeek.ToString() == "Sunday" && (int)r[2] == 7)
+                    if (tostart.DayOfWeek.ToString() == "Sunday" && (int)r["DayID"] == 7)
                     {
                         LichHocEvent lv = new LichHocEvent();
                         //lv.id = (int)r[0];

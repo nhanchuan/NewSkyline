@@ -67,6 +67,7 @@
     <Compile Include="kus_BienLaiBLL.cs" />
     <Compile Include="kus_BooksBLL.cs" />
     <Compile Include="kus_CoSoBLL.cs" />
+    <Compile Include="kus_DiemDanhBLL.cs" />
     <Compile Include="kus_GhiDanhBLL.cs" />
     <Compile Include="kus_GioHocBLL.cs" />
     <Compile Include="kus_GioThiBLL.cs" />
@@ -76,6 +77,7 @@
     <Compile Include="kus_HopDongGVBLL.cs" />
     <Compile Include="kus_HTChiNhanhBLL.cs" />
     <Compile Include="kus_LichHocBLL.cs" />
+    <Compile Include="kus_NgayDiemDanhBLL.cs" />
     <Compile Include="kus_PhongHocBLL.cs" />
     <Compile Include="ListOfMIMETypesBLL.cs" />
     <Compile Include="ListOfNationalitiesBLL.cs" />

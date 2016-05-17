@@ -67,6 +67,7 @@
     <Compile Include="kus_BienLai.cs" />
     <Compile Include="kus_Books.cs" />
     <Compile Include="kus_CoSo.cs" />
+    <Compile Include="kus_DiemDanh.cs" />
     <Compile Include="kus_GhiDanh.cs" />
     <Compile Include="kus_GioHoc.cs" />
     <Compile Include="kus_GioThi.cs" />
@@ -76,6 +77,7 @@
     <Compile Include="kus_HopDongGV.cs" />
     <Compile Include="kus_HTChiNhanh.cs" />
     <Compile Include="kus_LichHoc.cs" />
+    <Compile Include="kus_NgayDiemDanh.cs" />
     <Compile Include="kus_PhongHoc.cs" />
     <Compile Include="LichHocEvent.cs" />
     <Compile Include="ListOfMIMETypes.cs" />
