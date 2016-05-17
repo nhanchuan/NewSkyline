@@ -40,6 +40,7 @@ public partial class Pages_Users : BasePage
                     this.load_CheckLst();
                     btnChangeFunction.Visible = false;
                     btnViewDetail.Visible = false;
+                    lblPageisValid.Text = "";
                 }
             }
         }
@@ -610,23 +611,39 @@ public partial class Pages_Users : BasePage
 
     protected void btnSaveFuntion_Click(object sender, EventArgs e)
     {
-        userpermiss = new UserPermissBLL();
-        int Userid = Convert.ToInt32((gwListUsers.SelectedRow.FindControl("lblUserID") as Label).Text);
-        bool delAuthGroup = userpermiss.DeleteWithUserID(Userid);
-        if (delAuthGroup)
+        try
         {
-            this.NewUserPermiss(chlSystem, Userid);
-            this.NewUserPermiss(chlUsermanager, Userid);
-            this.NewUserPermiss(chlFileManager, Userid);
-            this.NewUserPermiss(chlmedia, Userid);
-            this.NewUserPermiss(chlFile, Userid);
-            this.NewUserPermiss(chlCenter, Userid);
-            this.NewUserPermiss(chlAdv, Userid);
-            this.NewUserPermiss(chlWeb, Userid);
+            bool result = HasPermission(Session.GetCurrentUser().UserID, FunctionName.AllUser, TypeAudit.Edit);
+            if (result == false)
+            {
+                lblchkFcSave.Text = "Bạn không có quyền thực hiện chức năng này !";
+            }
+            else
+            {
+                userpermiss = new UserPermissBLL();
+                int Userid = Convert.ToInt32((gwListUsers.SelectedRow.FindControl("lblUserID") as Label).Text);
+                bool delAuthGroup = userpermiss.DeleteWithUserID(Userid);
+                if (delAuthGroup)
+                {
+                    this.NewUserPermiss(chlSystem, Userid);
+                    this.NewUserPermiss(chlUsermanager, Userid);
+                    this.NewUserPermiss(chlFileManager, Userid);
+                    this.NewUserPermiss(chlmedia, Userid);
+                    this.NewUserPermiss(chlFile, Userid);
+                    this.NewUserPermiss(chlCenter, Userid);
+                    this.NewUserPermiss(chlAdv, Userid);
+                    this.NewUserPermiss(chlWeb, Userid);
+                }
+                else
+                {
+                    Response.Write("<script>Thêm thất bại, lỗi kết nối CSDL !</script>");
+                }
+            }
+            
         }
-        else
+        catch(Exception ex)
         {
-            Response.Write("<script>Thêm thất bại, lỗi kết nối CSDL !</script>");
+            lblPageisValid.Text = ex.ToString();
         }
     }
 }

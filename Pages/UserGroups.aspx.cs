@@ -37,6 +37,10 @@ public partial class Pages_UserGroups : BasePage
                     this.load_dlManager();
                     btnAuthentication.Visible = false;
                     this.load_CheckLst();
+                    lblPageisValid.Text = "";
+                    lblchkNew.Text = "";
+                    lblchkEdit.Text = "";
+                    lblCheckDel.Text = "";
                 }
             }
         }
@@ -75,19 +79,50 @@ public partial class Pages_UserGroups : BasePage
 
     protected void gwListDepartments_RowDeleting(object sender, GridViewDeleteEventArgs e)
     {
-        Response.Write("<script>alert('This function is in the process of building!')</script>");
+        try
+        {
+            bool result = HasPermission(Session.GetCurrentUser().UserID, FunctionName.UserGroups, TypeAudit.Delete);
+            if (result == false)
+            {
+                lblCheckDel.Text = "Bạn không có quyền thực hiện chức năng này !";
+            }
+            else
+            {
+                Response.Write("<script>alert('This function is in the process of building!')</script>");
+            }
+            
+        }
+        catch (Exception ex)
+        {
+            lblPageisValid.Text = ex.ToString();
+        }
     }
 
     protected void btnAddGroup_Click(object sender, EventArgs e)
     {
-        departments = new DepartmentsBLL();
-        if(departments.NewDepartment(txtDepGroup.Text,Convert.ToInt32(dlManager.SelectedValue)))
+        try
         {
-            Response.Redirect(Request.Url.AbsoluteUri);
+            bool result = HasPermission(Session.GetCurrentUser().UserID, FunctionName.UserGroups, TypeAudit.AddNew);
+            if (result == false)
+            {
+                lblchkNew.Text = "Bạn không có quyền thực hiện chức năng này !";
+            }
+            else
+            {
+                departments = new DepartmentsBLL();
+                if (departments.NewDepartment(txtDepGroup.Text, Convert.ToInt32(dlManager.SelectedValue)))
+                {
+                    Response.Redirect(Request.Url.AbsoluteUri);
+                }
+                else
+                {
+                    Response.Write("<script>alert('Thêm Nhóm thất bại. Lỗi kết nối CSDL !')</script>");
+                }
+            }
         }
-        else
+        catch (Exception ex)
         {
-            Response.Write("<script>alert('Thêm Nhóm thất bại. Lỗi kết nối CSDL !')</script>");
+            lblPageisValid.Text = ex.ToString();
         }
     }
     
@@ -412,24 +447,40 @@ public partial class Pages_UserGroups : BasePage
     }
     protected void btnSaveFuntion_Click(object sender, EventArgs e)
     {
-        authenticationgroup = new AuthenticationGroupsBLL();
-        int depID = Convert.ToInt32((gwListDepartments.SelectedRow.FindControl("lblDepartmentsID") as Label).Text);
-        bool delAuthGroup = authenticationgroup.DeleteWithDepartmentsID(depID);
-        if(delAuthGroup)
+        try
         {
-            this.NewAuthenGroup(chlSystem, depID);
-            this.NewAuthenGroup(chlUsermanager, depID);
-            this.NewAuthenGroup(chlFileManager, depID);
-            this.NewAuthenGroup(chlmedia, depID);
-            this.NewAuthenGroup(chlFile, depID);
-            this.NewAuthenGroup(chlCenter, depID);
-            this.NewAuthenGroup(chlAdv, depID);
-            this.NewAuthenGroup(chlWeb, depID);
+            bool result = HasPermission(Session.GetCurrentUser().UserID, FunctionName.UserGroups, TypeAudit.Edit);
+            if (result == false)
+            {
+                lblchkEdit.Text = "Bạn không có quyền thực hiện chức năng này !";
+            }
+            else
+            {
+                authenticationgroup = new AuthenticationGroupsBLL();
+                int depID = Convert.ToInt32((gwListDepartments.SelectedRow.FindControl("lblDepartmentsID") as Label).Text);
+                bool delAuthGroup = authenticationgroup.DeleteWithDepartmentsID(depID);
+                if (delAuthGroup)
+                {
+                    this.NewAuthenGroup(chlSystem, depID);
+                    this.NewAuthenGroup(chlUsermanager, depID);
+                    this.NewAuthenGroup(chlFileManager, depID);
+                    this.NewAuthenGroup(chlmedia, depID);
+                    this.NewAuthenGroup(chlFile, depID);
+                    this.NewAuthenGroup(chlCenter, depID);
+                    this.NewAuthenGroup(chlAdv, depID);
+                    this.NewAuthenGroup(chlWeb, depID);
+                }
+                else
+                {
+                    Response.Write("<script>Thêm thất bại, lỗi kết nối CSDL !</script>");
+                }
+            }
         }
-        else
+        catch (Exception ex)
         {
-            Response.Write("<script>Thêm thất bại, lỗi kết nối CSDL !</script>");
+            lblPageisValid.Text = ex.ToString();
         }
+        
     }
     private void NewAuthenGroup(CheckBoxList chkl, int depid)
     {

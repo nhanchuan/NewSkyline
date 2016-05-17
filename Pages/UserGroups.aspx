@@ -35,6 +35,9 @@
             <div class="form-group">
                 <asp:Button ID="btnAddGroup" CssClass="btn btn-primary" ValidationGroup="validNewGroups" OnClick="btnAddGroup_Click" runat="server" Text="Thêm Nhóm" />
             </div>
+            <div class="form-group">
+                <asp:Label ID="lblchkNew" ForeColor="Red" runat="server"></asp:Label>
+            </div>
         </div>
         <div class="col-lg-8">
             <div class="row">
@@ -42,6 +45,7 @@
                     <a id="btnAuthentication" class="btn btn-danger" href="#modalAuthentication" data-toggle="modal" runat="server"><i class="fa fa-group"></i>Authentication Groups</a>
                 </div>
             </div>
+            <asp:Label ID="lblCheckDel" ForeColor="Red" runat="server"></asp:Label>
             <asp:GridView ID="gwListDepartments" CssClass="table table-condensed" runat="server" AutoGenerateColumns="False" RowStyle-BackColor="#A1DCF2" Font-Names="Arial" Font-Size="10pt"
                 HeaderStyle-BackColor="#3AC0F2" HeaderStyle-ForeColor="White"
                 OnRowDataBound="gwListDepartments_RowDataBound" OnRowDeleting="gwListDepartments_RowDeleting" OnSelectedIndexChanged="gwListDepartments_SelectedIndexChanged">
@@ -86,17 +90,18 @@
     <div class="modal fade" id="modalAuthentication" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                    <h4 class="modal-title uppercase">
-                        <img src="../images/icon/Actions-im-ban-user-icon.png" width="35" height="35" />
-                        Authentication Groups
-                    </h4>
-                </div>
-                <div class="modal-body background">
-                    <div style="height: 500px; overflow: auto;">
-                        <asp:UpdatePanel runat="server">
-                            <ContentTemplate>
+                <asp:UpdatePanel runat="server">
+                    <ContentTemplate>
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                            <h4 class="modal-title uppercase">
+                                <img src="../images/icon/Actions-im-ban-user-icon.png" width="35" height="35" />
+                                Authentication Groups
+                            </h4>
+                        </div>
+                        <div class="modal-body background">
+                            <div style="height: 500px; overflow: auto;">
+
                                 <div class="form-group">
                                     <asp:CheckBox ID="chlSystemall" AutoPostBack="true" OnCheckedChanged="chlSystemall_CheckedChanged" runat="server" />
                                     <label class="control-label">Hệ thống</label>
@@ -137,18 +142,19 @@
                                     <label class="control-label">WebSite</label>
                                     <asp:CheckBoxList ID="chlWeb" AutoPostBack="true" OnSelectedIndexChanged="chlWeb_SelectedIndexChanged" CssClass="checkbox-list" Style="margin-left: 35px;" runat="server"></asp:CheckBoxList>
                                 </div>
-                                
-                            </ContentTemplate>
-                        </asp:UpdatePanel>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <a class="btn btn-warning" data-dismiss="modal">Cancel</a>
-                    <asp:Button ID="btnSaveFuntion" CssClass="btn btn-primary" OnClick="btnSaveFuntion_Click" runat="server" Text="Save" />
-                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <asp:Label ID="lblchkEdit" ForeColor="Red" runat="server"></asp:Label>
+                            <a class="btn btn-warning" data-dismiss="modal">Cancel</a>
+                            <asp:Button ID="btnSaveFuntion" CssClass="btn btn-primary" OnClick="btnSaveFuntion_Click" runat="server" Text="Save" />
+                        </div>
+                    </ContentTemplate>
+                </asp:UpdatePanel>
             </div>
         </div>
     </div>
     <%-- End Modal Authentication --%>
+    <asp:Label ID="lblPageisValid" ForeColor="Red" runat="server"></asp:Label>
 </asp:Content>
 
