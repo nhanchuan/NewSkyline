@@ -39,7 +39,7 @@ public partial class Pages_UserGroups : BasePage
                     this.load_CheckLst();
                     lblPageisValid.Text = "";
                     lblchkNew.Text = "";
-                    lblchkEdit.Text = "";
+                    //lblchkEdit.Text = "";
                     lblCheckDel.Text = "";
                 }
             }
@@ -452,7 +452,8 @@ public partial class Pages_UserGroups : BasePage
             bool result = HasPermission(Session.GetCurrentUser().UserID, FunctionName.UserGroups, TypeAudit.Edit);
             if (result == false)
             {
-                lblchkEdit.Text = "Bạn không có quyền thực hiện chức năng này !";
+                //lblchkEdit.Text = "Bạn không có quyền thực hiện chức năng này !";
+                Response.Write("<script>alert('Bạn không có quyền thực hiện chức năng này !')</script>");
             }
             else
             {
@@ -472,7 +473,7 @@ public partial class Pages_UserGroups : BasePage
                 }
                 else
                 {
-                    Response.Write("<script>Thêm thất bại, lỗi kết nối CSDL !</script>");
+                    Response.Write("<script>alert('Thêm thất bại, lỗi kết nối CSDL !')</script>");
                 }
             }
         }

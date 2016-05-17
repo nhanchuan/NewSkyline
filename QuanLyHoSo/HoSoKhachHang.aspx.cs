@@ -549,7 +549,6 @@ public partial class QuanLyHoSo_HoSoKhachHang : BasePage
     private void load_bagattachment()
     {
         bagattachments = new BagAttachmentsBLL();
-        UserAccounts ac = Session.GetCurrentUser();
         customerProPri = new CustomerProfilePrivateBLL();
         customerbasicinfo = new CustomerBasicInfoBLL();
         bagprofiletype = new BagProfileTypeBLL();
@@ -557,21 +556,20 @@ public partial class QuanLyHoSo_HoSoKhachHang : BasePage
         List<CustomerBasicInfo> lstcus = customerbasicinfo.GetCusBasicInfoWithCode(BaseCode);
         CustomerBasicInfo cb = lstcus.FirstOrDefault();
 
-        gwFileAttachment.DataSource = bagattachments.GetBagAttWihUidInfoId(ac.UserID, cb.InfoID);
+        gwFileAttachment.DataSource = bagattachments.GetBagAttWihUidInfoId(cb.InfoID);
         gwFileAttachment.DataBind();
     }
     //=======View Bag File Translate============================================================================================
     private void load_gwFileTranslate()
     {
         bagtranslate = new BagFileTranslateBLL();
-        UserAccounts ac = Session.GetCurrentUser();
         customerProPri = new CustomerProfilePrivateBLL();
         customerbasicinfo = new CustomerBasicInfoBLL();
         bagprofiletype = new BagProfileTypeBLL();
         string BaseCode = Request.QueryString["FileCode"];
         List<CustomerBasicInfo> lstcus = customerbasicinfo.GetCusBasicInfoWithCode(BaseCode);
         CustomerBasicInfo cb = lstcus.FirstOrDefault();
-        gwFileTranslate.DataSource = bagtranslate.GetFileTranslatWihUidInfoId(ac.UserID, cb.InfoID);
+        gwFileTranslate.DataSource = bagtranslate.GetFileTranslatWihUidInfoId(cb.InfoID);
         gwFileTranslate.DataBind();
     }
     

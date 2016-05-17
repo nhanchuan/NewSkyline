@@ -110,17 +110,17 @@
     <div class="modal fade" id="modalSetFunction" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <asp:UpdatePanel runat="server">
-                    <ContentTemplate>
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                            <h4 class="modal-title uppercase">
-                                <img src="../images/icon/Actions-im-ban-user-icon.png" width="35" height="35" />
-                                Phân Quyền chức năng
-                            </h4>
-                        </div>
-                        <div class="modal-body background">
 
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title uppercase">
+                        <img src="../images/icon/Actions-im-ban-user-icon.png" width="35" height="35" />
+                        Phân Quyền chức năng
+                    </h4>
+                </div>
+                <div class="modal-body background">
+                    <asp:UpdatePanel runat="server">
+                        <ContentTemplate>
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="form-group">
@@ -174,17 +174,17 @@
                                     </div>
                                 </div>
                             </div>
-
-                        </div>
-                        <div class="modal-footer">
-                            <asp:Label ID="lblchkFcSave" ForeColor="Red" runat="server"></asp:Label>
-                            <a class="btn btn-warning" data-dismiss="modal">Cancel</a>
-                            <asp:Button ID="btnSaveFuntion" CssClass="btn btn-primary" OnClick="btnSaveFuntion_Click" runat="server" Text="Save" />
-                        </div>
-                    </ContentTemplate>
-                </asp:UpdatePanel>
+                        </ContentTemplate>
+                    </asp:UpdatePanel>
+                </div>
+            <div class="modal-footer">
+                <%--<asp:Label ID="lblchkFcSave" ForeColor="Red" runat="server"></asp:Label>--%>
+                <a class="btn btn-warning" data-dismiss="modal">Cancel</a>
+                <asp:Button ID="btnSaveFuntion" CssClass="btn btn-primary" OnClick="btnSaveFuntion_Click" runat="server" Text="Save" />
             </div>
+
         </div>
+    </div>
     </div>
     <%-- End modal --%>
     <asp:Label ID="lblPageisValid" ForeColor="Red" runat="server"></asp:Label>

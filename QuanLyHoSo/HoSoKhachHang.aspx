@@ -368,7 +368,7 @@
                                                     </asp:TemplateField>
                                                     <asp:TemplateField HeaderText="Thời gian Upload">
                                                         <ItemTemplate>
-                                                            <asp:Label ID="Label6" runat="server" Text='<%# Eval("DateOfCreate","{0:dd/MM/yyyy hh:mm:ss tt}") %>'></asp:Label>
+                                                            <i class="fa fa-clock-o"></i> <asp:Label ID="Label6" runat="server" Text='<%# Eval("DateOfCreate","{0:dd/MM/yyyy hh:mm:ss tt}") %>'></asp:Label>
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
                                                     <asp:TemplateField ShowHeader="False">

@@ -4,7 +4,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
     <!-- BEGIN PAGE HEADER-->
-    <h1 class="page-title">Điểm Danh
+    <h1 class="page-title">Điểm Danh Lớp <asp:Label ID="lblLop" runat="server" Text="Label"></asp:Label> - Khóa Học : <asp:Label ID="lblkhoahoc" runat="server" Text="Label"></asp:Label> , Ngày <asp:Label ID="lblngayDiemDanh" runat="server" Text="Label"></asp:Label>
     </h1>
     <div class="page-bar">
         <ul class="page-breadcrumb">

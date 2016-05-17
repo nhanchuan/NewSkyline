@@ -100,16 +100,15 @@ namespace BLL
             this.DB.CloseConnection();
             return lst;
         }
-        public DataTable GetBagAttWihUidInfoId(int uid, int infoUId)
+        public DataTable GetBagAttWihUidInfoId(int infoUId)
         {
-            string sql = "select at.AttachmentID,at.AttachmentName,at.AttachmentURL,at.BagProfileID,at.UserUpload,at.DateOfCreate,bp.DocName from BagAttachments  at join BagProfile bp on at.BagProfileID=bp.BagProfileID where bp.InfoID=@infoUId and at.UserUpload=@uid";
+            string sql = "select at.AttachmentID,at.AttachmentName,at.AttachmentURL,at.BagProfileID,at.UserUpload,at.DateOfCreate,bp.DocName from BagAttachments  at join BagProfile bp on at.BagProfileID=bp.BagProfileID where bp.InfoID=@infoUId";
             if (!this.DB.OpenConnection())
             {
                 return null;
             }
-            SqlParameter puid = new SqlParameter("uid", uid);
             SqlParameter pinfoUId = new SqlParameter("infoUId", infoUId);
-            DataTable tb = DB.DAtable(sql, puid, pinfoUId);
+            DataTable tb = DB.DAtable(sql,pinfoUId);
             
             this.DB.CloseConnection();
             return tb;

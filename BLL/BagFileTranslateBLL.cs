@@ -100,16 +100,15 @@ namespace BLL
             this.DB.CloseConnection();
             return lst;
         }
-        public DataTable GetFileTranslatWihUidInfoId(int uid, int infoUId)
+        public DataTable GetFileTranslatWihUidInfoId(int infoUId)
         {
-            string sql = "select bt.FileTranslateID,bt.FileTranslateName,bt.FileTranslateURL,bt.BagProfileID,bt.UserUpload,bt.DateOfCreate,bp.DocName from BagFileTranslate bt join BagProfile bp on bt.BagProfileID=bp.BagProfileID where bp.InfoID=@infoUId and bt.UserUpload=@uid";
+            string sql = "select bt.FileTranslateID,bt.FileTranslateName,bt.FileTranslateURL,bt.BagProfileID,bt.UserUpload,bt.DateOfCreate,bp.DocName from BagFileTranslate bt join BagProfile bp on bt.BagProfileID=bp.BagProfileID where bp.InfoID=@infoUId";
             if (!this.DB.OpenConnection())
             {
                 return null;
             }
-            SqlParameter puid = new SqlParameter("uid", uid);
             SqlParameter pinfoUId = new SqlParameter("infoUId", infoUId);
-            DataTable tb = DB.DAtable(sql, puid, pinfoUId);
+            DataTable tb = DB.DAtable(sql, pinfoUId);
 
             this.DB.CloseConnection();
             return tb;

@@ -616,7 +616,8 @@ public partial class Pages_Users : BasePage
             bool result = HasPermission(Session.GetCurrentUser().UserID, FunctionName.AllUser, TypeAudit.Edit);
             if (result == false)
             {
-                lblchkFcSave.Text = "Bạn không có quyền thực hiện chức năng này !";
+                //lblchkFcSave.Text = "Bạn không có quyền thực hiện chức năng này !";
+                Response.Write("<script>alert('Bạn không có quyền thực hiện chức năng này !')</script>");
             }
             else
             {
@@ -636,7 +637,7 @@ public partial class Pages_Users : BasePage
                 }
                 else
                 {
-                    Response.Write("<script>Thêm thất bại, lỗi kết nối CSDL !</script>");
+                    Response.Write("<script>alert('Thêm thất bại, lỗi kết nối CSDL !')</script>");
                 }
             }
             
