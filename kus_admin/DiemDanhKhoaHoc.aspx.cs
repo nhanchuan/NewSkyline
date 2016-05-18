@@ -13,6 +13,8 @@ public partial class kus_admin_DiemDanhKhoaHoc : BasePage
 {
     nc_LopHocBLL nc_lophoc;
     nc_KhoaHocBLL nc_khoahoc;
+    kus_LichHocBLL kus_lichhoc;
+    kus_NgayDiemDanhBLL kus_ngaydiemdanh;
     protected void Page_Load(object sender, EventArgs e)
     {
         this.setcurenturl();
@@ -40,6 +42,7 @@ public partial class kus_admin_DiemDanhKhoaHoc : BasePage
                     {
                         lblPageisValid.Text = "";
                         this.Load_TitlePage(MaKhoaHoc);
+                        //panelLichDiemDanh.Visible = (!checkLichHoc()) ? false : true;
                     }
                 }
             }
@@ -90,10 +93,117 @@ public partial class kus_admin_DiemDanhKhoaHoc : BasePage
             StrDate = strdate;
         }
     }
-    private void load_gwNgayDiemDanh()
+    private void load_gwNgayDiemDanh(int MaKhoaHoc)
     {
+        kus_ngaydiemdanh = new kus_NgayDiemDanhBLL();
         List<clsListDate> clsdate = new List<clsListDate>();
-        gwNgayDiemDanh.DataSource = clsdate;
+        gwNgayDiemDanh.DataSource = kus_ngaydiemdanh.getTableNgayDiemDanh(MaKhoaHoc);
         gwNgayDiemDanh.DataBind();
     }
+    private Boolean checkLichHoc()
+    {
+        bool result = true;
+        try
+        {
+            nc_khoahoc = new nc_KhoaHocBLL();
+            kus_lichhoc = new kus_LichHocBLL();
+            string MaKhoaHoc = Request.QueryString["makhoahoc"];
+            List<nc_KhoaHoc> lstkh = nc_khoahoc.getListKhoaHocWithMaKhoaHoc(MaKhoaHoc);
+            nc_KhoaHoc khoahoc = lstkh.FirstOrDefault();
+            List<kus_LichHoc> lstLichHoc = kus_lichhoc.getListLichHocWithKhoaHoc(khoahoc.ID);
+            kus_LichHoc lichhoc = lstLichHoc.FirstOrDefault();
+            if(lichhoc==null)
+            {
+                result = false;
+            }
+        }
+        catch (Exception ex)
+        {
+            lblPageisValid.Text = ex.ToString();
+        }
+        return result;
+    }
+
+    protected void btnLoadLichDiemDanh_ServerClick(object sender, EventArgs e)
+    {
+        if(!checkLichHoc())
+        {
+            lblMessageDiemDanh.Text = "Khóa Học chưa có lịch học. Vui lòng vào Quản lý -> Khóa học, để lên lịch học cho Khóa học này !";
+            panelLichDiemDanh.Visible = false;
+        }
+        else
+        {
+            nc_khoahoc = new nc_KhoaHocBLL();
+            kus_lichhoc = new kus_LichHocBLL();
+            kus_ngaydiemdanh = new kus_NgayDiemDanhBLL();
+            string MaKhoaHoc = Request.QueryString["makhoahoc"];
+            List<nc_KhoaHoc> lstkh = nc_khoahoc.getListKhoaHocWithMaKhoaHoc(MaKhoaHoc);
+            nc_KhoaHoc khoahoc = lstkh.FirstOrDefault();
+            List<kus_NgayDiemDanh> lstNDD = kus_ngaydiemdanh.getListWithKhoaHoc(khoahoc.ID);
+            kus_NgayDiemDanh ngayDD = lstNDD.FirstOrDefault();
+            if(ngayDD==null)
+            {
+                //Khoi Tao va View
+                this.HamTaoLichDD();
+                this.load_gwNgayDiemDanh(khoahoc.ID);
+            }
+            else
+            {
+                //Chi View
+                this.load_gwNgayDiemDanh(khoahoc.ID);
+            }
+            lblMessageDiemDanh.Text = "";
+            panelLichDiemDanh.Visible = true;
+        }
+    }
+    //Ham Tao Lich Diem danh
+    private void HamTaoLichDD()
+    {
+        nc_khoahoc = new nc_KhoaHocBLL();
+        kus_lichhoc = new kus_LichHocBLL();
+        kus_ngaydiemdanh = new kus_NgayDiemDanhBLL();
+        string MaKhoaHoc = Request.QueryString["makhoahoc"];
+        List<nc_KhoaHoc> lstkh = nc_khoahoc.getListKhoaHocWithMaKhoaHoc(MaKhoaHoc);
+        nc_KhoaHoc khoahoc = lstkh.FirstOrDefault();
+        DataTable tbLichHoc = kus_lichhoc.kus_LichHocWithKhoaHocEvent(khoahoc.ID);
+        //List<clsListDate> lstdate = new List<clsListDate>();
+        foreach (DataRow r in tbLichHoc.Rows)
+        {
+            DateTime tostart = Convert.ToDateTime(r["NgayKhaiGiang"]);
+            DateTime toend = Convert.ToDateTime(r["NgayKetThuc"]);
+            while (tostart <= toend)
+            {
+                if (tostart.DayOfWeek.ToString() == "Monday" && (int)r["DayID"] == 1)
+                {
+                    this.kus_ngaydiemdanh.InsertNgayDiemDanh((int)r["KhoaHoc"], new DateTime(tostart.Year, tostart.Month, tostart.Day));
+                }
+                if (tostart.DayOfWeek.ToString() == "Tuesday" && (int)r["DayID"] == 2)
+                {
+                    this.kus_ngaydiemdanh.InsertNgayDiemDanh((int)r["KhoaHoc"], new DateTime(tostart.Year, tostart.Month, tostart.Day));
+                }
+                if (tostart.DayOfWeek.ToString() == "Wednesday" && (int)r["DayID"] == 3)
+                {
+                    this.kus_ngaydiemdanh.InsertNgayDiemDanh((int)r["KhoaHoc"], new DateTime(tostart.Year, tostart.Month, tostart.Day));
+                }
+                if (tostart.DayOfWeek.ToString() == "Thursday" && (int)r["DayID"] == 4)
+                {
+                    this.kus_ngaydiemdanh.InsertNgayDiemDanh((int)r["KhoaHoc"], new DateTime(tostart.Year, tostart.Month, tostart.Day));
+                }
+                if (tostart.DayOfWeek.ToString() == "Friday" && (int)r["DayID"] == 5)
+                {
+                    this.kus_ngaydiemdanh.InsertNgayDiemDanh((int)r["KhoaHoc"], new DateTime(tostart.Year, tostart.Month, tostart.Day));
+                }
+                if (tostart.DayOfWeek.ToString() == "Saturday" && (int)r["DayID"] == 6)
+                {
+                    this.kus_ngaydiemdanh.InsertNgayDiemDanh((int)r["KhoaHoc"], new DateTime(tostart.Year, tostart.Month, tostart.Day));
+                }
+                if (tostart.DayOfWeek.ToString() == "Sunday" && (int)r["DayID"] == 7)
+                {
+                    this.kus_ngaydiemdanh.InsertNgayDiemDanh((int)r["KhoaHoc"], new DateTime(tostart.Year, tostart.Month, tostart.Day));
+                }
+                tostart = tostart.AddDays(1);
+            }
+        }
+    }
+
 }

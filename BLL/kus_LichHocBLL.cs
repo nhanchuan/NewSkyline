@@ -22,14 +22,14 @@ namespace BLL
             string sql = "select * from kus_LichHoc";
             DataTable tb = DB.DAtable(sql);
             List<kus_LichHoc> lst = new List<kus_LichHoc>();
-            foreach(DataRow r in tb.Rows)
+            foreach (DataRow r in tb.Rows)
             {
                 kus_LichHoc lh = new kus_LichHoc();
                 lh.LichHocID = (int)r[0];
                 lh.KhoaHoc = (string.IsNullOrEmpty(r["KhoaHoc"].ToString())) ? 0 : (int)r["KhoaHoc"];
-                lh.DayID= (string.IsNullOrEmpty(r["DayID"].ToString())) ? 0 : (int)r["DayID"];
-                lh.GioHocID= (string.IsNullOrEmpty(r["GioHocID"].ToString())) ? 0 : (int)r["GioHocID"];
-                lh.PhongHocID= (string.IsNullOrEmpty(r["PhongHocID"].ToString())) ? 0 : (int)r["PhongHocID"];
+                lh.DayID = (string.IsNullOrEmpty(r["DayID"].ToString())) ? 0 : (int)r["DayID"];
+                lh.GioHocID = (string.IsNullOrEmpty(r["GioHocID"].ToString())) ? 0 : (int)r["GioHocID"];
+                lh.PhongHocID = (string.IsNullOrEmpty(r["PhongHocID"].ToString())) ? 0 : (int)r["PhongHocID"];
                 lh.SoTiet = (string.IsNullOrEmpty(r["SoTiet"].ToString())) ? 0 : (int)r["SoTiet"];
                 lh.GVTT = (string.IsNullOrEmpty(r["GVTT"].ToString())) ? 0 : (int)r["GVTT"];
                 lh.GVHD = (string.IsNullOrEmpty(r["GVHD"].ToString())) ? 0 : (int)r["GVHD"];
@@ -79,7 +79,18 @@ namespace BLL
             this.DB.CloseConnection();
             return tb;
         }
-       
+        public DataTable kus_LichHocWithKhoaHocEvent(int KhoaHoc)
+        {
+            if (!this.DB.OpenConnection())
+            {
+                return null;
+            }
+            string sql = "Exec kus_LichHocWithKhoaHocEvent @KhoaHoc";
+            SqlParameter pKhoaHoc = new SqlParameter("@KhoaHoc", KhoaHoc);
+            DataTable tb = DB.DAtable(sql, pKhoaHoc);
+            this.DB.CloseConnection();
+            return tb;
+        }
         //Create Lich Hoc
         public Boolean kus_AddNewLichHoc(int KhoaHoc, int DayID, int GioHocID, int PhongHocID, int SoTiet)
         {
@@ -160,7 +171,7 @@ namespace BLL
         //Delete lich hoc with LichHocID
         public Boolean DeleteLichHoc(int LichHocID)
         {
-            if(!this.DB.OpenConnection())
+            if (!this.DB.OpenConnection())
             {
                 return false;
             }
@@ -206,7 +217,7 @@ namespace BLL
         public int SumSoTietWithKhoaHoc(int KhoaHoc)
         {
             int sum = 0;
-            if(!this.DB.OpenConnection())
+            if (!this.DB.OpenConnection())
             {
                 return 0;
             }
