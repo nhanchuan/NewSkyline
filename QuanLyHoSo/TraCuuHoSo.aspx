@@ -207,8 +207,8 @@
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Hồ Sơ">
                             <ItemTemplate>
-                                <li class='<%# Eval("BagProfileTypeID").ToString() == "1" ? "list-group-item bg-blue" : Eval("BagProfileTypeID").ToString() == "2" ? "list-group-item bg-danger" : Eval("BagProfileTypeID").ToString() == "3" ? "list-group-item bg-green" :"list-group-item bg-yellow" %>'>
-                                    <asp:Label ID="Label6" runat="server" Text='<%# Eval("BagProfileTypeID").ToString()=="1"?"Du Học": Eval("BagProfileTypeID").ToString()=="2"?"Thực Tập": Eval("BagProfileTypeID").ToString()=="3"?"Du Lịch":"Định Cư" %>'></asp:Label>
+                                <li class='<%# Eval("BagProfileTypeID").ToString() == "1" ? "list-group-item bg-blue" : Eval("BagProfileTypeID").ToString() == "2" ? "list-group-item bg-danger" : Eval("BagProfileTypeID").ToString() == "3" ? "list-group-item bg-green" : Eval("BagProfileTypeID").ToString() == "4" ? "list-group-item bg-yellow" : "list-group-item bg-blue-sharp" %>'>
+                                    <asp:Label ID="Label6" runat="server" Text='<%# Eval("BagProfileTypeID").ToString()=="1"?"Du Học": Eval("BagProfileTypeID").ToString()=="2"?"Thực Tập": Eval("BagProfileTypeID").ToString()=="3"?"Du Lịch": Eval("BagProfileTypeID").ToString()=="4"? "Định Cư": "* Thăm nuôi" %>'></asp:Label>
                                 </li>
                             </ItemTemplate>
                         </asp:TemplateField>

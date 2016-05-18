@@ -234,9 +234,9 @@
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Phiếu tư vấn">
                                 <ItemTemplate>
-                                    <span class='<%# Eval("TypeName").ToString() == "Tư Vấn Du Học" ? "label label-primary" : Eval("TypeName").ToString() == "Tư Vấn Thực Tập" ? "label label-default" : Eval("TypeName").ToString() == "Tư Vấn Du Lịch" ? "label label-success" :"label label-warning" %>'>
-                                        <strong><i class="icon-earphones-alt"></i>
-                                            <asp:Label ID="Label5" runat="server" Text='<%# Bind("TypeName") %>'></asp:Label></strong></span>
+                                    <span class='<%# Eval("TypeName").ToString() == "Tư Vấn Du Học" ? "label label-primary" : Eval("TypeName").ToString() == "Tư Vấn Thực Tập" ? "label label-default" : Eval("TypeName").ToString() == "Tư Vấn Du Lịch" ? "label label-success" :Eval("TypeName").ToString() == "Tư Vấn Định Cư" ? "label label-warning":"label label-info" %>'>
+                                                <strong><i class="fa fa-pencil-square-o"></i>
+                                                    <asp:Label ID="Label5" runat="server" Text='<%# Bind("TypeName") %>'></asp:Label></strong></span>
                                     <br />
                                     <div class="form-inline  pull-right">
                                         <i style="color: #d64d25;" class="icon-user-female"></i>&nbsp<i><%# Eval("EmpName")+" - Mã NV: "+ Eval("EmployeesCode") %></i>
@@ -245,8 +245,8 @@
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Loại Hồ Sơ">
                                 <ItemTemplate>
-                                    <li class='<%# Eval("BagProfileTypeID").ToString() == "1" ? "list-group-item bg-blue" : Eval("BagProfileTypeID").ToString() == "2" ? "list-group-item bg-danger" : Eval("BagProfileTypeID").ToString() == "3" ? "list-group-item bg-green" :"list-group-item bg-yellow" %>'>
-                                        <asp:Label ID="Label6" runat="server" Text='<%# Eval("BagProfileTypeID").ToString()=="1"?"Du Học": Eval("BagProfileTypeID").ToString()=="2"?"Thực Tập": Eval("BagProfileTypeID").ToString()=="3"?"Du Lịch":Eval("BagProfileTypeID").ToString()=="4"?"Định Cư":"" %>'></asp:Label>
+                                    <li class='<%# Eval("BagProfileTypeID").ToString() == "1" ? "list-group-item bg-blue" : Eval("BagProfileTypeID").ToString() == "2" ? "list-group-item bg-danger" : Eval("BagProfileTypeID").ToString() == "3" ? "list-group-item bg-green" : Eval("BagProfileTypeID").ToString() == "4" ? "list-group-item bg-yellow" : "list-group-item bg-blue-sharp" %>'>
+                                        <asp:Label ID="Label6" runat="server" Text='<%# Eval("BagProfileTypeID").ToString()=="1"?"Du Học": Eval("BagProfileTypeID").ToString()=="2"?"Thực Tập": Eval("BagProfileTypeID").ToString()=="3"?"Du Lịch": Eval("BagProfileTypeID").ToString()=="4"? "Định Cư": "* Thăm nuôi" %>'></asp:Label>
                                     </li>
                                 </ItemTemplate>
                             </asp:TemplateField>
@@ -347,6 +347,8 @@
             <label>Tư Vấn Du Lịch</label></strong></span>
         <span class="label label-warning"><strong><i class="icon-earphones-alt"></i>
             <label>Tư Vấn Định Cư</label></strong></span>
+        <span class="label label-info"><strong><i class="fa fa-pencil-square-o"></i>
+                <label>* Tư Vấn Thăm nuôi</label></strong></span>
     </div>
     <div class="row"></div>
     <br />
