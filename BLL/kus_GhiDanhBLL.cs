@@ -107,6 +107,21 @@ namespace BLL
             this.DB.CloseConnection();
             return true;
         }
+        //Table Tao DiemDanh
+        public DataTable TbGhiDanhWithKhoaHoc(int KhoaHoc)
+        {
+            if (!this.DB.OpenConnection())
+            {
+                return null;
+            }
+            string sql = "select ghidanh.GhiDanhID,ghidanh.HocVienID from kus_GhiDanh ghidanh full outer join kus_HocVien hocvien on ghidanh.HocVienID=hocvien.HocVienID full outer join CustomerBasicInfo info on hocvien.InfoID=info.InfoID";
+            sql += " ";
+            sql += "where ghidanh.GhiDanhID is not null and ghidanh.KhoaHoc=@KhoaHoc order by info.FirstName asc";
+            SqlParameter pKhoaHoc = new SqlParameter("@KhoaHoc", KhoaHoc);
+            DataTable tb = DB.DAtable(sql, pKhoaHoc);
+            this.DB.CloseConnection();
+            return tb;
+        }
         //===================================================================================================================
         public DataTable kus_getHVGhiDanh(int PageIndex, int PageSize, DateTime Startdate, DateTime Enddate)
         {

@@ -15,6 +15,8 @@ public partial class kus_admin_DiemDanhKhoaHoc : BasePage
     nc_KhoaHocBLL nc_khoahoc;
     kus_LichHocBLL kus_lichhoc;
     kus_NgayDiemDanhBLL kus_ngaydiemdanh;
+    kus_DiemDanhBLL kus_diemdanh;
+    kus_GhiDanhBLL kus_ghidanh;
     protected void Page_Load(object sender, EventArgs e)
     {
         this.setcurenturl();
@@ -43,6 +45,7 @@ public partial class kus_admin_DiemDanhKhoaHoc : BasePage
                         lblPageisValid.Text = "";
                         this.Load_TitlePage(MaKhoaHoc);
                         //panelLichDiemDanh.Visible = (!checkLichHoc()) ? false : true;
+                        btnSaveDiemDanh.Visible = false;
                     }
                 }
             }
@@ -77,7 +80,7 @@ public partial class kus_admin_DiemDanhKhoaHoc : BasePage
             lblTitlekhoahoc.Text = khoahoc.TenKhoaHoc + " - " + makhoahoc;
             lblTitleNKG.Text = khoahoc.NgayKhaiGiang.ToString("dd-MM-yyyy");
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             lblPageisValid.Text = ex.ToString();
         }
@@ -112,7 +115,7 @@ public partial class kus_admin_DiemDanhKhoaHoc : BasePage
             nc_KhoaHoc khoahoc = lstkh.FirstOrDefault();
             List<kus_LichHoc> lstLichHoc = kus_lichhoc.getListLichHocWithKhoaHoc(khoahoc.ID);
             kus_LichHoc lichhoc = lstLichHoc.FirstOrDefault();
-            if(lichhoc==null)
+            if (lichhoc == null)
             {
                 result = false;
             }
@@ -126,7 +129,7 @@ public partial class kus_admin_DiemDanhKhoaHoc : BasePage
 
     protected void btnLoadLichDiemDanh_ServerClick(object sender, EventArgs e)
     {
-        if(!checkLichHoc())
+        if (!checkLichHoc())
         {
             lblMessageDiemDanh.Text = "Khóa Học chưa có lịch học. Vui lòng vào Quản lý -> Khóa học, để lên lịch học cho Khóa học này !";
             panelLichDiemDanh.Visible = false;
@@ -141,7 +144,7 @@ public partial class kus_admin_DiemDanhKhoaHoc : BasePage
             nc_KhoaHoc khoahoc = lstkh.FirstOrDefault();
             List<kus_NgayDiemDanh> lstNDD = kus_ngaydiemdanh.getListWithKhoaHoc(khoahoc.ID);
             kus_NgayDiemDanh ngayDD = lstNDD.FirstOrDefault();
-            if(ngayDD==null)
+            if (ngayDD == null)
             {
                 //Khoi Tao va View
                 this.HamTaoLichDD();
@@ -206,4 +209,56 @@ public partial class kus_admin_DiemDanhKhoaHoc : BasePage
         }
     }
 
+    //Diem danh
+    private void load_gwDiemDanh(int ngaydiemdanh)
+    {
+        kus_diemdanh = new kus_DiemDanhBLL();
+        gwDiemDanh.DataSource = kus_diemdanh.TBDiemDanhWithNgayID(ngaydiemdanh);
+        gwDiemDanh.DataBind();
+    }
+    private void HamTaoDiemDanh()
+    {
+        kus_diemdanh = new kus_DiemDanhBLL();
+        kus_ghidanh = new kus_GhiDanhBLL();
+        nc_khoahoc = new nc_KhoaHocBLL();
+        string MaKhoaHoc = Request.QueryString["makhoahoc"];
+        List<nc_KhoaHoc> lstkh = nc_khoahoc.getListKhoaHocWithMaKhoaHoc(MaKhoaHoc);
+        nc_KhoaHoc khoahoc = lstkh.FirstOrDefault();
+        DataTable tbghidanh = kus_ghidanh.TbGhiDanhWithKhoaHoc(khoahoc.ID);
+        int NgayID = Convert.ToInt32((gwNgayDiemDanh.SelectedRow.FindControl("lblNgayID") as Label).Text);
+        foreach (DataRow r in tbghidanh.Rows)
+        {
+            this.kus_diemdanh.CreateDiemDanh(NgayID, (int)r["HocVienID"]);
+        }
+    }
+    protected void gwNgayDiemDanh_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        
+        try
+        {
+            int sumDD = Convert.ToInt32((gwNgayDiemDanh.SelectedRow.FindControl("lblSumNgayDD") as Label).Text);
+            int NgayID = Convert.ToInt32((gwNgayDiemDanh.SelectedRow.FindControl("lblNgayID") as Label).Text);
+            btnSaveDiemDanh.Visible = true;
+            if (sumDD == 0)
+            {
+                //Ham Tao + load
+                this.HamTaoDiemDanh();
+                this.load_gwDiemDanh(NgayID);
+            }
+            else
+            {
+                //Ham Load
+                this.load_gwDiemDanh(NgayID);
+            }
+        }
+        catch(Exception ex)
+        {
+            lblPageisValid.Text = ex.ToString();
+        }
+    }
+
+    protected void btnSaveDiemDanh_ServerClick(object sender, EventArgs e)
+    {
+
+    }
 }
