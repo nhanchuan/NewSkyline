@@ -46,6 +46,7 @@ public partial class kus_admin_DiemDanhKhoaHoc : BasePage
                         this.Load_TitlePage(MaKhoaHoc);
                         //panelLichDiemDanh.Visible = (!checkLichHoc()) ? false : true;
                         btnSaveDiemDanh.Visible = false;
+                        btnDownloadExcel.Visible = false;
                     }
                 }
             }
@@ -239,6 +240,7 @@ public partial class kus_admin_DiemDanhKhoaHoc : BasePage
             int sumDD = Convert.ToInt32((gwNgayDiemDanh.SelectedRow.FindControl("lblSumNgayDD") as Label).Text);
             int NgayID = Convert.ToInt32((gwNgayDiemDanh.SelectedRow.FindControl("lblNgayID") as Label).Text);
             btnSaveDiemDanh.Visible = true;
+            btnDownloadExcel.Visible = true;
             if (sumDD == 0)
             {
                 //Ham Tao + load
@@ -257,8 +259,66 @@ public partial class kus_admin_DiemDanhKhoaHoc : BasePage
         }
     }
 
+    protected void gwNgayDiemDanh_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        try
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                Label lblSumNgay = e.Row.FindControl("lblSumNgayDD") as Label;
+                if(lblSumNgay.Text=="0")
+                {
+                    LinkButton select = e.Row.FindControl("lkselect") as LinkButton;
+                    select.Attributes.Add("onclick", "return confirm('Bạn chắc muốn tạo Bảng điểm danh cho ngày này ?')");
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            lblPageisValid.Text = ex.ToString();
+        }
+    }
+
+    protected void btnSelectAllDD_ServerClick(object sender, EventArgs e)
+    {
+        foreach (GridViewRow r in gwDiemDanh.Rows)
+        {
+            CheckBox ch = (CheckBox)r.FindControl("chkrowDiemDanh");
+            ch.Checked = true;
+        }
+    }
+
+    protected void btnUnselectAllDD_ServerClick(object sender, EventArgs e)
+    {
+        foreach (GridViewRow r in gwDiemDanh.Rows)
+        {
+            CheckBox ch = (CheckBox)r.FindControl("chkrowDiemDanh");
+            ch.Checked = false;
+        }
+    }
     protected void btnSaveDiemDanh_ServerClick(object sender, EventArgs e)
     {
-
+        try
+        {
+            kus_diemdanh = new kus_DiemDanhBLL();
+           
+            foreach (GridViewRow r in gwDiemDanh.Rows)
+            {
+                //int DiemDanhID = Convert.ToInt32((gwDiemDanh.SelectedRow.FindControl("lblDiemDanhID") as Label).Text);
+                Label lbdiemdanhid = (Label)r.FindControl("lblDiemDanhID");
+                CheckBox chkDD = (CheckBox)r.FindControl("chkrowDiemDanh");
+                CheckBox chkCoP = (CheckBox)r.FindControl("chkrowCoPhep");
+                int DiemDanhID = Convert.ToInt32(lbdiemdanhid.Text);
+                int DD = (chkDD.Checked) ? 1 : 0;
+                int CoP = (chkCoP.Checked) ? 1 : 0;
+                this.kus_diemdanh.UpdateDiemDanh(DiemDanhID, DD, CoP, "");
+                //Response.Write("<script>alert('" + DD.ToString() + "    " + CoP.ToString() + "')</script>");
+            }
+            Response.Redirect(Request.Url.AbsoluteUri);
+        }
+        catch(Exception ex)
+        {
+            lblPageisValid.Text = ex.ToString();
+        }
     }
 }

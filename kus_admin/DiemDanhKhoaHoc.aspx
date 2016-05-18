@@ -42,7 +42,10 @@
             <div id="panelLichDiemDanh" runat="server">
                 <div class="form-group">
                     <asp:GridView ID="gwNgayDiemDanh" CssClass="table table-condensed" AutoGenerateColumns="false" RowStyle-BackColor="#A1DCF2" Font-Names="Arial" Font-Size="10pt"
-                        HeaderStyle-BackColor="#3AC0F2" HeaderStyle-ForeColor="White" OnSelectedIndexChanged="gwNgayDiemDanh_SelectedIndexChanged" runat="server">
+                        HeaderStyle-BackColor="#3AC0F2" HeaderStyle-ForeColor="White" 
+                        OnSelectedIndexChanged="gwNgayDiemDanh_SelectedIndexChanged"
+                        OnRowDataBound="gwNgayDiemDanh_RowDataBound"
+                         runat="server">
                         <Columns>
                             <asp:TemplateField>
                                 <ItemTemplate>
@@ -58,7 +61,7 @@
                             </asp:TemplateField>
                             <asp:TemplateField>
                                 <ItemTemplate>
-                                    <asp:LinkButton ID="LinkButton1" runat="server" CausesValidation="False" CommandName="Select" Text="Select"><i class="btn btn-circle btn-icon-only btn-default"><i class="glyphicon glyphicon-share-alt"></i></i></asp:LinkButton>
+                                    <asp:LinkButton ID="lkselect" runat="server" CausesValidation="False" CommandName="Select" Text="Select"><i class="btn btn-circle btn-icon-only btn-default"><i class="glyphicon glyphicon-share-alt"></i></i></asp:LinkButton>
                                 </ItemTemplate>
                                 <ItemStyle Width="30px" />
                             </asp:TemplateField>
@@ -74,6 +77,7 @@
             <h3 style="color: #0078D7;">Bảng điểm danh</h3>
             <div class="form-group">
                 <a class="btn green" id="btnSaveDiemDanh" onserverclick="btnSaveDiemDanh_ServerClick" runat="server"><i class="glyphicon glyphicon-ok"></i>&nbsp Lưu bảng điểm danh</a>
+                <a class="btn btn-default disabled" id="btnDownloadExcel" style="background:#F78E4B;" runat="server"><i class="fa fa-file-excel-o"></i> Download file Excel</a>
             </div>
             <div class="form-group">
                 <asp:GridView ID="gwDiemDanh" CssClass="table table-condensed" AutoGenerateColumns="false" RowStyle-BackColor="#A1DCF2" Font-Names="Arial" Font-Size="10pt"
@@ -82,6 +86,7 @@
                         <asp:TemplateField HeaderText="Mã Học Viên">
                             <ItemTemplate>
                                 <asp:Label ID="lblHocVienCode" runat="server" Text='<%# Eval("HocVienCode") %>'></asp:Label>
+                                <asp:Label ID="lblDiemDanhID" CssClass="display-none" runat="server" Text='<%# Eval("DiemDanhID") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Họ">
@@ -105,14 +110,22 @@
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Điểm Danh" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
+                            <HeaderTemplate>
+                                Điểm Danh<br />
+                                <a id="btnSelectAllDD" onserverclick="btnSelectAllDD_ServerClick" runat="server">Select All</a> | <a id="btnUnselectAllDD" onserverclick="btnUnselectAllDD_ServerClick" runat="server">Unselect All</a>
+                            </HeaderTemplate>
                             <ItemTemplate>
-                                <asp:CheckBox ID="chkrowDiemDanh" runat="server" />
+                                <asp:CheckBox ID="chkrowDiemDanh" Checked='<%# string.IsNullOrEmpty(Eval("DiemDanh").ToString())?false: Eval("DiemDanh").ToString()=="0"? false:true %>' runat="server" />
                             </ItemTemplate>
                             <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" />
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Có Phép" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
+                            <HeaderTemplate>
+                                Có Phép<br />
+                                <a>Select All</a>
+                            </HeaderTemplate>
                             <ItemTemplate>
-                                <asp:CheckBox ID="chkrowCoPhep" runat="server" />
+                                <asp:CheckBox ID="chkrowCoPhep" Checked='<%# string.IsNullOrEmpty(Eval("CoPhep").ToString())?false: Eval("CoPhep").ToString()=="0"? false:true %>' runat="server" />
                             </ItemTemplate>
                             <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" />
                         </asp:TemplateField>

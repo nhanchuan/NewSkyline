@@ -65,6 +65,22 @@ namespace BLL
             this.dt.CloseConnection();
             return true;
         }
+        //Update diem danh
+        public Boolean UpdateDiemDanh(int DiemDanhID, int DiemDanh, int CoPhep, string GhiChu)
+        {
+            if (!this.dt.OpenConnection())
+            {
+                return false;
+            }
+            string sql = "update kus_DiemDanh set DiemDanh=@DiemDanh, CoPhep=@CoPhep, GhiChu=@GhiChu where DiemDanhID=@DiemDanhID";
+            SqlParameter pDiemDanhID = new SqlParameter("@DiemDanhID", DiemDanhID);
+            SqlParameter pDiemDanh = (DiemDanh == 0) ? new SqlParameter("@DiemDanh", DBNull.Value) : new SqlParameter("@DiemDanh", DiemDanh);
+            SqlParameter pCoPhep = (CoPhep == 0) ? new SqlParameter("@CoPhep", DBNull.Value) : new SqlParameter("@CoPhep", CoPhep);
+            SqlParameter pGhiChu = (GhiChu == "") ? new SqlParameter("@GhiChu", DBNull.Value) : new SqlParameter("@GhiChu", GhiChu);
+            this.dt.Updatedata(sql, pDiemDanhID, pDiemDanh, pCoPhep, pGhiChu);
+            this.dt.CloseConnection();
+            return true;
+        }
     }
 
 }
