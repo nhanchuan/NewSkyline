@@ -110,7 +110,7 @@
     <asp:UpdatePanel runat="server">
         <ContentTemplate>
             <div class="portlet box blue">
-                <div class="portlet-title"> 
+                <div class="portlet-title">
                     <div class="caption">
                         <i class="fa fa-edit"></i>Danh Sách Hồ sơ thụ lý
                    
@@ -235,8 +235,8 @@
                             <asp:TemplateField HeaderText="Phiếu tư vấn">
                                 <ItemTemplate>
                                     <span class='<%# Eval("TypeName").ToString() == "Tư Vấn Du Học" ? "label label-primary" : Eval("TypeName").ToString() == "Tư Vấn Thực Tập" ? "label label-default" : Eval("TypeName").ToString() == "Tư Vấn Du Lịch" ? "label label-success" :Eval("TypeName").ToString() == "Tư Vấn Định Cư" ? "label label-warning":"label label-info" %>'>
-                                                <strong><i class="fa fa-pencil-square-o"></i>
-                                                    <asp:Label ID="Label5" runat="server" Text='<%# Bind("TypeName") %>'></asp:Label></strong></span>
+                                        <strong><i class="fa fa-pencil-square-o"></i>
+                                            <asp:Label ID="Label5" runat="server" Text='<%# Bind("TypeName") %>'></asp:Label></strong></span>
                                     <br />
                                     <div class="form-inline  pull-right">
                                         <i style="color: #d64d25;" class="icon-user-female"></i>&nbsp<i><%# Eval("EmpName")+" - Mã NV: "+ Eval("EmployeesCode") %></i>
@@ -252,7 +252,9 @@
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Ghi Chú Tiến Trình">
                                 <ItemTemplate>
-                                    <a class="btn default btn-xs blue-stripe" href="#"><asp:Label ID="lblProcessCode" runat="server" Text='<%# Bind("ProcessCode") %>'></asp:Label> </a>
+                                    <a class="btn default btn-xs blue-stripe" href="#">
+                                        <asp:Label ID="lblProcessCode" runat="server" Text='<%# Bind("ProcessCode") %>'></asp:Label>
+                                    </a>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField>
@@ -348,7 +350,7 @@
         <span class="label label-warning"><strong><i class="icon-earphones-alt"></i>
             <label>Tư Vấn Định Cư</label></strong></span>
         <span class="label label-info"><strong><i class="fa fa-pencil-square-o"></i>
-                <label>* Tư Vấn Thăm nuôi</label></strong></span>
+            <label>* Tư Vấn Thăm nuôi</label></strong></span>
     </div>
     <div class="row"></div>
     <br />
@@ -356,8 +358,8 @@
     <div class="portlet box yellow">
         <div class="portlet-title">
             <div class="caption">
-                <i class="fa fa-edit"></i> <i>Biểu đồ thống kê số lượng hồ sơ đi các quốc gia</i>
-           
+                <i class="fa fa-edit"></i><i>Biểu đồ thống kê số lượng hồ sơ đi các quốc gia</i>
+
             </div>
             <div class="tools">
                 <a href="javascript:;" class="collapse"></a>
@@ -406,10 +408,26 @@
                         CHỌN TRƯỜNG CHO <span class="bold">HỒ SƠ DU HỌC</span></h4>
                 </div>
                 <div class="modal-body background">
-                    <div class="row">
-                        <div class="col-lg-12" style="height: 750px; overflow: auto;">
-                            <asp:UpdatePanel runat="server">
-                                <ContentTemplate>
+                    <asp:UpdatePanel runat="server">
+                        <ContentTemplate>
+                            <div class="row">
+                                <div class="col-lg-8 pull-right">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <div class="input-icon">
+                                                <i class="fa fa-search"></i>
+                                                <input id="txtSearchSchoolName" class="form-control" type="text" placeholder="Tìm Trường" runat="server" />
+                                            </div>
+                                            <span class="input-group-btn">
+                                                <button id="btnsearchSchoolname" class="btn btn-success" type="button" onserverclick="btnsearchSchoolname_ServerClick" runat="server"><i class="fa fa-arrow-left fa-fw"></i>Search</button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12" style="height: 750px; overflow: auto;">
+
                                     <asp:GridView ID="gwInternationalSchool" CssClass="table table-condensed" runat="server" AutoGenerateColumns="False" RowStyle-BackColor="#A1DCF2" Font-Names="Arial" Font-Size="10pt"
                                         HeaderStyle-BackColor="#3AC0F2" HeaderStyle-ForeColor="White">
                                         <Columns>
@@ -472,12 +490,13 @@
                                         <HeaderStyle BackColor="#FFB848" ForeColor="White"></HeaderStyle>
                                         <RowStyle BackColor="#FAF3DF"></RowStyle>
                                     </asp:GridView>
-                                </ContentTemplate>
-                            </asp:UpdatePanel>
-                        </div>
-                    </div>
+
+                                </div>
+                            </div>
+                        </ContentTemplate>
+                    </asp:UpdatePanel>
                 </div>
-                <div class="modal-footer">
+            <div class="modal-footer">
                     <a id="btnSaveSchool" class="btn btn-primary" onserverclick="btnSaveSchool_ServerClick" runat="server">
                         <img src="../images/icon/Save-icon.png" width="30" height="30" />
                         Chọn Trường</a>
@@ -709,10 +728,10 @@
             }, {
                 "country": "Taiwan",
                 "visits": document.getElementById('<%=HiddenField8.ClientID %>').value,
-                    "color": "#008000"
-                }, {
-                    "country": "Netherlands",
-                    "visits": document.getElementById('<%=HiddenField9.ClientID %>').value,
+                "color": "#008000"
+            }, {
+                "country": "Netherlands",
+                "visits": document.getElementById('<%=HiddenField9.ClientID %>').value,
                     "color": "#0D52D1"
                 }, {
                     "country": "Germany",
@@ -788,5 +807,5 @@
             $('#chart_5at').closest('.portlet').find('.fullscreen').click(function () {
                 chart.invalidateSize();
             });
-        </script>
+    </script>
 </asp:Content>

@@ -161,6 +161,18 @@ namespace BLL
             this.DB.CloseConnection();
             return tb;
         }
+        public DataTable GetTbInternationalSchoolWithSchoolName(string SchoolName)
+        {
+            string sql = "select * from InternationalSchool ins full outer join Country ct on ins.CountryID=ct.CountryID where ins.SchoolID is not null and ins.SchoolName like '%'+@SchoolName+'%'";
+            if (!this.DB.OpenConnection())
+            {
+                return null;
+            }
+            SqlParameter pSchoolName = new SqlParameter("@SchoolName", SchoolName);
+            DataTable tb = DB.DAtable(sql, pSchoolName);
+            this.DB.CloseConnection();
+            return tb;
+        }
         public DataTable GetInternationalSchoolOrderByName(int orderby)
         {
             string sql = "Exec GetInternationalSchoolOrderByName @orderby";

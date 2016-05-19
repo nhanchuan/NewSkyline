@@ -911,4 +911,14 @@ public partial class QuanLyHoSo_ThuLyHoSo : BasePage
             lblProcessTypeValid.Text = ex.ToString();
         }
     }
+
+    protected void btnsearchSchoolname_ServerClick(object sender, EventArgs e)
+    {
+        internalSchool = new InternationalSchoolBLL();
+        gwInternationalSchool.DataSource = internalSchool.GetTbInternationalSchoolWithSchoolName(txtSearchSchoolName.Value);
+        gwInternationalSchool.DataBind();
+        this.load_dlFilterCountry();
+        this.load_dlSchoolLvl();
+        this.load_dlSchoolName();
+    }
 }
