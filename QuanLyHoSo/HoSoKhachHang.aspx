@@ -26,6 +26,14 @@
     </div>
     <!-- END PAGE HEADER-->
     <div class="row">
+        <div class="col-lg-12">
+            <div class="alert alert-danger display-none" id="alertPageValid" runat="server">
+                <asp:Label ID="lblPageValid" runat="server"></asp:Label>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
         <div class="col-lg-4">
             <div class="tabbable-custom">
                 <ul class="nav nav-tabs">
@@ -59,10 +67,10 @@
                         <img id="imgavatarCus" src="../images/default_images.jpg" alt="" class="img-responsive" runat="server" />
                     </div>
                     <div class="col-md-8 blog-article">
-                        <li class="list-group-item bg-blue" id="liTypeStyle" runat="server">
+                        <a class="list-group-item bg-blue" id="liTypeStyle" runat="server">
                             <label class="bold uppercase">
                                 Hồ Sơ
-                                <asp:Label ID="lblBagProfileType" runat="server" Text="Label"></asp:Label></label></li>
+                                <asp:Label ID="lblBagProfileType" runat="server" Text="Label"></asp:Label></label></a>
                         <br />
                         <div class="form-group">
                             <label class="control-label">Mã Hồ Sơ : </label>
@@ -258,7 +266,9 @@
                         <%-- Gridview --%>
                         <asp:GridView ID="gwBagProfileManager" CssClass="table table-condensed" runat="server" AutoGenerateColumns="False" RowStyle-BackColor="#A1DCF2" Font-Names="Arial" Font-Size="10pt"
                             HeaderStyle-BackColor="#3AC0F2" HeaderStyle-ForeColor="White"
-                            OnSelectedIndexChanged="gwBagProfileManager_SelectedIndexChanged" OnRowDataBound="gwBagProfileManager_RowDataBound" OnRowDeleting="gwBagProfileManager_RowDeleting">
+                            OnSelectedIndexChanged="gwBagProfileManager_SelectedIndexChanged" 
+                            OnRowDataBound="gwBagProfileManager_RowDataBound" 
+                            OnRowDeleting="gwBagProfileManager_RowDeleting">
                             <SelectedRowStyle BackColor="#79B782" ForeColor="Black" />
                             <Columns>
                                 <asp:TemplateField ShowHeader="False">

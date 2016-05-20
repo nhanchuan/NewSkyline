@@ -89,7 +89,6 @@ public partial class Pages_Images_upload : BasePage
 
             File.Delete(path + str_image); // DELETE THE FILE BEFORE CREATING A NEW ONE.
 
-
             System.Drawing.Image image = System.Drawing.Image.FromStream(FileImgUpload.FileContent);
             if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Gif.Guid)
                 jgpEncoder = GetEncoder(ImageFormat.Gif);

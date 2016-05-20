@@ -15,6 +15,7 @@ public partial class QuanLyHoSo_HoSoKhachHang : BasePage
     BagAttachmentsBLL bagattachments;
     CustomerBasicInfoBLL customerbasicinfo;
     CustomerProfilePrivateBLL customerProPri;
+    CustomerProfileTypeInforBLL customerProfileTypeInfor;
     BagProfileBLL bagprofile;
     BagProfileTypeBLL bagprofiletype;
     BagFileTranslateBLL bagtranslate;
@@ -45,8 +46,22 @@ public partial class QuanLyHoSo_HoSoKhachHang : BasePage
                     RpOrderBy.Visible = false;
                     this.load_bagattachment();
                     this.load_gwFileTranslate();
+                    this.AlertPageValid(false, "");
                 }
             }
+        }
+    }
+    private void AlertPageValid(bool isvalid, string validString)
+    {
+        if (isvalid)
+        {
+            alertPageValid.Attributes.Add("class", "alert alert-danger");
+            lblPageValid.Text = "<strong>Error!</strong>" +" "+ validString.ToString();
+        }
+        else
+        {
+            alertPageValid.Attributes.Add("class", "alert alert-danger display-none");
+            lblPageValid.Text = "";
         }
     }
     public void gopro()
@@ -129,28 +144,36 @@ public partial class QuanLyHoSo_HoSoKhachHang : BasePage
     }
     protected void btnaddnewDoc_ServerClick(object sender, EventArgs e)
     {
-        bagprofile = new BagProfileBLL();
-        customerbasicinfo = new CustomerBasicInfoBLL();
-        string docname = txtDocName.Text;
-        string docNote = CKDocNote.Text;
-        string BaseCode = Request.QueryString["FileCode"];
-        List<CustomerBasicInfo> lstcus = customerbasicinfo.GetCusBasicInfoWithCode(BaseCode);
-        CustomerBasicInfo cb = lstcus.FirstOrDefault();
+        
+        try
+        {
+            bagprofile = new BagProfileBLL();
+            customerbasicinfo = new CustomerBasicInfoBLL();
+            string docname = txtDocName.Text;
+            string docNote = CKDocNote.Text;
+            string BaseCode = Request.QueryString["FileCode"];
+            List<CustomerBasicInfo> lstcus = customerbasicinfo.GetCusBasicInfoWithCode(BaseCode);
+            CustomerBasicInfo cb = lstcus.FirstOrDefault();
 
-        if (cb == null)
-        {
-            return;
-        }
-        else
-        {
-            if (bagprofile.NewDocProfile(cb.InfoID, txtDocName.Text, docNote, 1))
-            {
-                Response.Redirect(Request.Url.AbsoluteUri);
-            }
-            else
+            if (cb == null)
             {
                 return;
             }
+            else
+            {
+                if (bagprofile.NewDocProfile(cb.InfoID, txtDocName.Text, docNote, 1))
+                {
+                    Response.Redirect(Request.Url.AbsoluteUri);
+                }
+                else
+                {
+                    return;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            this.AlertPageValid(true, ex.ToString());
         }
     }
     private void GetBagProfilePageWise(int pageIndex, int InfoID)
@@ -245,9 +268,27 @@ public partial class QuanLyHoSo_HoSoKhachHang : BasePage
     {
         try
         {
+            customerbasicinfo = new CustomerBasicInfoBLL();
+            customerProPri = new CustomerProfilePrivateBLL();
+            customerProfileTypeInfor = new CustomerProfileTypeInforBLL();
+            bagprofiletype = new BagProfileTypeBLL();
             bagtranslate = new BagFileTranslateBLL();
             UserAccounts ad = Session.GetCurrentUser();
             bool swit = (gwBagProfileManager.SelectedRow == null) ? true : false;
+
+            string BaseCode = Request.QueryString["FileCode"];
+            List<CustomerBasicInfo> lstcus = customerbasicinfo.GetCusBasicInfoWithCode(BaseCode);
+            CustomerBasicInfo cb = lstcus.FirstOrDefault();
+
+            List<CustomerProfilePrivate> lstproprivite = customerProPri.GetCustomerProfilePrivateWithInfoID(cb.InfoID);
+            CustomerProfilePrivate propri = lstproprivite.FirstOrDefault();
+
+            List<CustomerProfileTypeInfor> lsttypeinfo = customerProfileTypeInfor.getListEithProfileID(propri.ProfileID);
+            CustomerProfileTypeInfor protype = lsttypeinfo.FirstOrDefault();
+
+            List<BagProfileType> lstbptype = bagprofiletype.getBagProfileTypeWithId(protype.BagProfileTypeID);
+            BagProfileType bgtype = lstbptype.FirstOrDefault();
+
             switch (swit)
             {
                 case false:
@@ -257,8 +298,24 @@ public partial class QuanLyHoSo_HoSoKhachHang : BasePage
                         string DocName = this.XoaKyTuDacBiet((gwBagProfileManager.SelectedRow.FindControl("lblDocName") as Label).Text);
                         string fileName = Path.GetFileName(postedFile.FileName);
                         string fileExtension = Path.GetExtension(postedFile.FileName).ToLower();
-                        string RandomFileName = DocName + "-" + DateTime.Now.Day.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Year.ToString() + "-" + RandomName;
-                        string filePath = "FileManager/BagFileTranslate/" + RandomFileName + fileExtension;
+                        
+                        string Loai_Ho_So = (bgtype == null) ? "Chua_Phan_Loai" : XoaKyTuDacBiet(bgtype.TypeName);
+                        string Ma_Ho_So = propri.ProfileCode;
+                        string Ten_Khach_Hang = XoaKyTuDacBiet(cb.LastName + " " + cb.FirstName);
+                        string DirPath = Server.MapPath("../FileManager/ProfileManagement/" + Loai_Ho_So + "/" + Ma_Ho_So + "_" + Ten_Khach_Hang + "/Translations/");
+
+                        string RandomFileName = DocName + "-" + RandomName + "-" + DateTime.Now.Day.ToString() + "-" + DateTime.Now.Month.ToString() + "-" + DateTime.Now.Year.ToString();
+
+
+                        DirectoryInfo myDir = new DirectoryInfo(DirPath);
+                        if (!myDir.Exists)   // CHECK IF THE FOLDER EXISTS. IF NOT, CREATE A NEW FOLDER.
+                        {
+                            myDir.Create();
+                        }
+                        File.Delete(DirPath + RandomFileName + fileExtension); // DELETE THE FILE BEFORE CREATING A NEW ONE.
+
+
+
                         List<BagFileTranslate> lstBT = bagtranslate.GetBagFileTranslateName(fileName, profileId);
                         BagFileTranslate btl = lstBT.FirstOrDefault();
                         if (btl != null)
@@ -267,8 +324,8 @@ public partial class QuanLyHoSo_HoSoKhachHang : BasePage
                         }
                         else
                         {
-                            this.bagtranslate.UploadBagFileTranslate(fileName, filePath, profileId, ad.UserID);
-                            postedFile.SaveAs(Server.MapPath("../" + filePath));
+                            this.bagtranslate.UploadBagFileTranslate(fileName, "FileManager/ProfileManagement/" + Loai_Ho_So + "/" + Ma_Ho_So + "_" + Ten_Khach_Hang + "/Translations/" + RandomFileName + fileExtension, profileId, ad.UserID);
+                            postedFile.SaveAs(DirPath + RandomFileName + fileExtension);
                         }
                     }
                     lblSuccess.Visible = true;
@@ -283,16 +340,35 @@ public partial class QuanLyHoSo_HoSoKhachHang : BasePage
         }
         catch (Exception ex)
         {
-            lblSuccess.Text = ex.ToString();
+            this.AlertPageValid(true, ex.ToString());
         }
     }
     protected void btnBagAttachments_Click(object sender, EventArgs e)
     {
         try
         {
+            customerbasicinfo = new CustomerBasicInfoBLL();
+            customerProPri = new CustomerProfilePrivateBLL();
+            customerProfileTypeInfor = new CustomerProfileTypeInforBLL();
+            bagprofiletype = new BagProfileTypeBLL();
             bagattachments = new BagAttachmentsBLL();
             UserAccounts ad = Session.GetCurrentUser();
             bool swit = (gwBagProfileManager.SelectedRow == null) ? true : false;
+
+            string BaseCode = Request.QueryString["FileCode"];
+            List<CustomerBasicInfo> lstcus = customerbasicinfo.GetCusBasicInfoWithCode(BaseCode);
+            CustomerBasicInfo cb = lstcus.FirstOrDefault();
+
+            List<CustomerProfilePrivate> lstproprivite = customerProPri.GetCustomerProfilePrivateWithInfoID(cb.InfoID);
+            CustomerProfilePrivate propri = lstproprivite.FirstOrDefault();
+
+            List<CustomerProfileTypeInfor> lsttypeinfo = customerProfileTypeInfor.getListEithProfileID(propri.ProfileID);
+            CustomerProfileTypeInfor protype = lsttypeinfo.FirstOrDefault();
+
+            List<BagProfileType> lstbptype = bagprofiletype.getBagProfileTypeWithId(protype.BagProfileTypeID);
+            BagProfileType bgtype = lstbptype.FirstOrDefault();
+            
+
             switch (swit)
             {
                 case false:
@@ -301,20 +377,35 @@ public partial class QuanLyHoSo_HoSoKhachHang : BasePage
                         int profileId = Convert.ToInt32((gwBagProfileManager.SelectedRow.FindControl("lblBagProfileID") as Label).Text);
                         string DocName = this.XoaKyTuDacBiet((gwBagProfileManager.SelectedRow.FindControl("lblDocName") as Label).Text);
 
+                        string Loai_Ho_So = (bgtype == null) ? "Chua_Phan_Loai" : XoaKyTuDacBiet(bgtype.TypeName);
+                        string Ma_Ho_So = propri.ProfileCode;
+                        string Ten_Khach_Hang = XoaKyTuDacBiet(cb.LastName + " " + cb.FirstName);
+                        string DirPath = Server.MapPath("../FileManager/ProfileManagement/" + Loai_Ho_So + "/" + Ma_Ho_So + "_" + Ten_Khach_Hang + "/Attachments/");
                         string fileName = Path.GetFileName(postedFile.FileName);
                         string fileExtension = Path.GetExtension(postedFile.FileName).ToLower();
-                        string RandomFileName = DocName + "-" + DateTime.Now.Day.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Year.ToString() + "-" + RandomName;
-                        string filePath = "FileManager/BagAttachments/" + RandomFileName + fileExtension;
+
+
+                        string RandomFileName = DocName + "-" + RandomName + "-" + DateTime.Now.Day.ToString() + "-" + DateTime.Now.Month.ToString() + "-" + DateTime.Now.Year.ToString();
+
+
+                        DirectoryInfo myDir = new DirectoryInfo(DirPath);
+                        if (!myDir.Exists)   // CHECK IF THE FOLDER EXISTS. IF NOT, CREATE A NEW FOLDER.
+                        {
+                            myDir.Create();
+                        }
+                        File.Delete(DirPath + RandomFileName + fileExtension); // DELETE THE FILE BEFORE CREATING A NEW ONE.
+                        
                         List<BagAttachments> lstBg = bagattachments.GetbagattWihname(fileName, profileId);
                         BagAttachments bg = lstBg.FirstOrDefault();
+
                         if (bg != null)
                         {
                             return;
                         }
                         else
                         {
-                            this.bagattachments.UploadBagAttachments(fileName, filePath, profileId, ad.UserID);
-                            postedFile.SaveAs(Server.MapPath("../" + filePath));
+                            this.bagattachments.UploadBagAttachments(fileName, "FileManager/ProfileManagement/" + Loai_Ho_So + "/" + Ma_Ho_So + "_" + Ten_Khach_Hang + "/Attachments/" + RandomFileName + fileExtension, profileId, ad.UserID);
+                            postedFile.SaveAs(DirPath + RandomFileName + fileExtension);
                         }
                     }
                     lblSuccess.Visible = true;
@@ -328,7 +419,7 @@ public partial class QuanLyHoSo_HoSoKhachHang : BasePage
         }
         catch (Exception ex)
         {
-            lblSuccess.Text = ex.ToString();
+            this.AlertPageValid(true, ex.ToString());
         }
     }
     private void GetKeySearchBagProfilePageWise(int pageIndex, int InfoID, string keysearch)

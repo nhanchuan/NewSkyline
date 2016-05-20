@@ -168,19 +168,14 @@
 		type.AllowedExtensions = new string[] { "swf", "flv" };
 		type.DeniedExtensions = new string[] { };
 
-        type = ResourceType.Add( "Attachments" );
-		type.Url = BaseUrl + "BagAttachments/";
-		type.Dir = BaseDir == "" ? "" : BaseDir + "BagAttachments/";
+        type = ResourceType.Add( "Profile Management" );
+		type.Url = BaseUrl + "ProfileManagement/";
+		type.Dir = BaseDir == "" ? "" : BaseDir + "ProfileManagement/";
 		type.MaxSize = 0;
 		type.AllowedExtensions = new string[] { "doc", "docx", "ppt", "pptx", "pdf", "bmp", "csv", "jpeg", "jpg","png", "mpeg", "mpg", "xls", "xlsx" };
 		type.DeniedExtensions = new string[] { };
 
-        type = ResourceType.Add( "FileTranslate" );
-		type.Url = BaseUrl + "BagFileTranslate/";
-		type.Dir = BaseDir == "" ? "" : BaseDir + "BagFileTranslate/";
-		type.MaxSize = 0;
-		type.AllowedExtensions = new string[] { "doc", "docx", "ppt", "pptx", "pdf", "bmp", "csv", "jpeg", "jpg","png", "mpeg", "mpg", "xls", "xlsx" };
-		type.DeniedExtensions = new string[] { };
+        
 	}
 
 </script>

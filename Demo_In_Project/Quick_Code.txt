@@ -105,3 +105,12 @@ public bool IsNumber(string pText)
         title_url = regex.Replace(temp, String.Empty).Replace('\u0111', 'd').Replace('\u0110', 'D');
         return title_url;
     }
+
+//LAM VIEC VOI Directory
+string path = Server.MapPath("../images/Upload/" + RemoveSpecialCharacters(imt.ImagesTypeName) + "/");
+            if (!Directory.Exists(path))   // CHECK IF THE FOLDER EXISTS. IF NOT, CREATE A NEW FOLDER.
+            {
+                Directory.CreateDirectory(path);
+            }
+
+            File.Delete(path + str_image); // DELETE THE FILE BEFORE CREATING A NEW ONE.
