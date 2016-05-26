@@ -321,4 +321,13 @@ public partial class kus_admin_DiemDanhKhoaHoc : BasePage
             lblPageisValid.Text = ex.ToString();
         }
     }
+
+    protected void btncophepall_ServerClick(object sender, EventArgs e)
+    {
+        foreach (GridViewRow r in gwDiemDanh.Rows)
+        {
+            CheckBox ch = (CheckBox)r.FindControl("chkrowCoPhep");
+            ch.Checked = true;
+        }
+    }
 }

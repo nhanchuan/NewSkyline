@@ -1,4 +1,5 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/GlobalMasterPage.master" AutoEventWireup="true" CodeFile="HoSoKhachHang.aspx.cs" Inherits="QuanLyHoSo_HoSoKhachHang" %>
+﻿
+<%@ Page Title="" Language="C#" MasterPageFile="~/GlobalMasterPage.master" AutoEventWireup="true" CodeFile="HoSoKhachHang.aspx.cs" Inherits="QuanLyHoSo_HoSoKhachHang" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
 
@@ -368,6 +369,7 @@
                                                     <asp:TemplateField HeaderText="Tên Giấy Tờ">
                                                         <ItemTemplate>
                                                             <asp:Label ID="Label4" runat="server" Text='<%# Eval("DocName") %>'></asp:Label>
+                                                            <%--<asp:Label ID="Label1" runat="server" Text='<%# string.IsNullOrEmpty(Eval("ViewCount").ToString())?"0":Eval("ViewCount") %>'></asp:Label>--%>
                                                             <asp:Label ID="lblAttachmentID" CssClass="display-none" runat="server" Text='<%# Eval("AttachmentID") %>'></asp:Label>
                                                         </ItemTemplate>
                                                     </asp:TemplateField>

@@ -122,7 +122,7 @@
                         <asp:TemplateField HeaderText="Có Phép" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
                             <HeaderTemplate>
                                 Có Phép<br />
-                                <a>Select All</a>
+                                <a id="btncophepall" onserverclick="btncophepall_ServerClick" runat="server">Select All</a>
                             </HeaderTemplate>
                             <ItemTemplate>
                                 <asp:CheckBox ID="chkrowCoPhep" Checked='<%# string.IsNullOrEmpty(Eval("CoPhep").ToString())?false: Eval("CoPhep").ToString()=="0"? false:true %>' runat="server" />
