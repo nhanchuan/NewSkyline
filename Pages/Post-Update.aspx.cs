@@ -53,7 +53,7 @@ public partial class Pages_Post_Update : BasePage
                         Response.Redirect("http://" + Request.Url.Authority + "/Pages/Post-All.aspx");
                     }
                 }
-                
+
             }
         }
     }
@@ -166,7 +166,7 @@ public partial class Pages_Post_Update : BasePage
                 break;
         }
         dlpost_status.Items.FindByValue(po.PostStatus.ToString()).Selected = true;
-        lblTimePost.Text = (po.PostModified < DateTime.Now) ? ((po.PostModified.Year==1900)? "Đã đăng":po.PostModified.ToString()) : "Được lên lịch vào : " + po.PostModified.ToString();
+        lblTimePost.Text = (po.PostModified < DateTime.Now) ? ((po.PostModified.Year == 1900) ? "Đã đăng" : po.PostModified.ToString()) : "Được lên lịch vào : " + po.PostModified.ToString();
     }
     protected void checkedTreeBoxCategory(string postid)
     {
@@ -363,7 +363,8 @@ public partial class Pages_Post_Update : BasePage
             string script = "window.onload = function() { callImagesPanelClickEvent(); };";
             ClientScript.RegisterStartupScript(this.GetType(), "callImagesPanelClickEvent", script, true);
         }
-        catch(Exception ex) {
+        catch (Exception ex)
+        {
             Response.Write("<script>alert('" + ex.ToString() + " !')</script>");
         }
 
@@ -455,7 +456,7 @@ public partial class Pages_Post_Update : BasePage
         bool newpost;
         posts = new PostBLL();
         UserAccounts ac = Session.GetCurrentUser();
-        int postid =int.Parse(Request.QueryString["PostCode"]);
+        int postid = int.Parse(Request.QueryString["PostCode"]);
         string contentVN = EditorPostContentVN.Text;
         string contentEN = EditorPostContentEN.Text;
         if (ImagesID(txtPostImgTemp.Text) == 0)
@@ -514,30 +515,14 @@ public partial class Pages_Post_Update : BasePage
     }
     protected void btnPostUpdate_Click(object sender, EventArgs e)
     {
-        posts = new PostBLL();
-        
-        int timepost = (timePost.Value == "") ? 1 : 2;
-        switch (timepost)
+        try
         {
-            case 1:
-                if (UpdatePost())
-                {
-                    this.New_Post_Category_relationships();
-                    this.New_Tags_relationships();
-                    Response.Redirect(Request.Url.AbsoluteUri);
-                }
-                else
-                {
-                    return;
-                }
-                break;
-            case 2:
-                string time = timePost.Value.ToString();
-                DateTime modified;
-                try
-                {
-                    modified = Convert.ToDateTime(getmonth(time) + "/" + getday(time) + "/" + getyear(time) + " " + gethours(time) + ":" + getminutes(time) + ":00" + " " + gettimeRefix(time));
-                    if (UpdatePostWithModified(modified))
+            posts = new PostBLL();
+            int timepost = (timePost.Value == "") ? 1 : 2;
+            switch (timepost)
+            {
+                case 1:
+                    if (UpdatePost())
                     {
                         this.New_Post_Category_relationships();
                         this.New_Tags_relationships();
@@ -547,17 +532,52 @@ public partial class Pages_Post_Update : BasePage
                     {
                         return;
                     }
-                }
-                catch (Exception ex)
-                {
-                    lblTimePost.Attributes.Add("style", "color:red;");
-                    lblTimePost.Text = "Fales to Datetime format !";
-                    string script = "window.onload = function() { calldropdownTimepostClickEvent(); };";
-                    ClientScript.RegisterStartupScript(this.GetType(), "calldropdownTimepostClickEvent", script, true);
-                    timePost.Value = "";
-                    timePost.Focus();
-                }
-                break;
+                    break;
+                case 2:
+                    string time = timePost.Value.ToString();
+                    DateTime modified;
+                    try
+                    {
+                        modified = Convert.ToDateTime(getmonth(time) + "/" + getday(time) + "/" + getyear(time) + " " + gethours(time) + ":" + getminutes(time) + ":00" + " " + gettimeRefix(time));
+                        if (UpdatePostWithModified(modified))
+                        {
+                            this.New_Post_Category_relationships();
+                            this.New_Tags_relationships();
+                            Response.Redirect(Request.Url.AbsoluteUri);
+                        }
+                        else
+                        {
+                            return;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        lblTimePost.Attributes.Add("style", "color:red;");
+                        lblTimePost.Text = "Fales to Datetime format !";
+                        string script = "window.onload = function() { calldropdownTimepostClickEvent(); };";
+                        ClientScript.RegisterStartupScript(this.GetType(), "calldropdownTimepostClickEvent", script, true);
+                        timePost.Value = "";
+                        timePost.Focus();
+                    }
+                    break;
+            }
+        }
+        catch (Exception ex)
+        {
+            this.AlertPageValid(true, ex.ToString());
+        }
+    }
+    private void AlertPageValid(bool isvalid, string validString)
+    {
+        if (isvalid)
+        {
+            alertPageValid.Attributes.Add("class", "alert alert-danger");
+            lblPageValid.Text = "<strong>Error!</strong>" + " " + validString.ToString();
+        }
+        else
+        {
+            alertPageValid.Attributes.Add("class", "alert alert-danger display-none");
+            lblPageValid.Text = "";
         }
     }
 }

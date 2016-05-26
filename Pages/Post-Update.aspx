@@ -35,6 +35,13 @@
     </div>
     <!-- END PAGE HEADER-->
     <div class="row">
+        <div class="col-lg-12">
+            <div class="alert alert-danger display-none" id="alertPageValid" runat="server">
+                <asp:Label ID="lblPageValid" runat="server"></asp:Label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-lg-9">
             <div class="form-group">
                 <label class="control-label"><strong>Tiêu đề bài viết</strong></label>

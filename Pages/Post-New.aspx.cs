@@ -44,7 +44,6 @@ public partial class Pages_Post_New : BasePage
                     this.PopulateRootLevel();
                     this.load_cbltags();
                     this.load_rpLstImg(admin.UserID);
-                    lblExeption.Visible = false;
                 }
             }
         }
@@ -395,14 +394,14 @@ public partial class Pages_Post_New : BasePage
     }
     protected void btnPostNew_Click(object sender, EventArgs e)
     {
-        posts = new PostBLL();
-        string contentVN = EditorPostContentVN.Text;
-        string contentEN = EditorPostContentEN.Text;
-        string dateString = DateTime.Now.ToString("MM-dd-yyyy");
-        string postcode = RandomName + "-" + dateString;
-        int timepost = (timePost.Value == "") ? 1 : 2;
         try
         {
+            posts = new PostBLL();
+            string contentVN = EditorPostContentVN.Text;
+            string contentEN = EditorPostContentEN.Text;
+            string dateString = DateTime.Now.ToString("MM-dd-yyyy");
+            string postcode = RandomName + "-" + dateString;
+            int timepost = (timePost.Value == "") ? 1 : 2;
             switch (timepost)
             {
                 case 1:
@@ -448,10 +447,22 @@ public partial class Pages_Post_New : BasePage
         }
         catch (Exception ex)
         {
-            lblExeption.Text = ex.ToString();
+            this.AlertPageValid(true, ex.ToString());
         }
         
 
     }
-    
+    private void AlertPageValid(bool isvalid, string validString)
+    {
+        if (isvalid)
+        {
+            alertPageValid.Attributes.Add("class", "alert alert-danger");
+            lblPageValid.Text = "<strong>Error!</strong>" + " " + validString.ToString();
+        }
+        else
+        {
+            alertPageValid.Attributes.Add("class", "alert alert-danger display-none");
+            lblPageValid.Text = "";
+        }
+    }
 }
