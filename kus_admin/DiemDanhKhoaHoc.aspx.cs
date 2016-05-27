@@ -42,11 +42,12 @@ public partial class kus_admin_DiemDanhKhoaHoc : BasePage
                     }
                     else
                     {
-                        lblPageisValid.Text = "";
                         this.Load_TitlePage(MaKhoaHoc);
                         //panelLichDiemDanh.Visible = (!checkLichHoc()) ? false : true;
                         btnSaveDiemDanh.Visible = false;
                         btnDownloadExcel.Visible = false;
+                        divGhiChu.Visible = false;
+                        this.AlertPageValid(false, "");
                     }
                 }
             }
@@ -83,7 +84,7 @@ public partial class kus_admin_DiemDanhKhoaHoc : BasePage
         }
         catch (Exception ex)
         {
-            lblPageisValid.Text = ex.ToString();
+            this.AlertPageValid(true, ex.ToString());
         }
     }
     [Serializable()]
@@ -123,7 +124,7 @@ public partial class kus_admin_DiemDanhKhoaHoc : BasePage
         }
         catch (Exception ex)
         {
-            lblPageisValid.Text = ex.ToString();
+            this.AlertPageValid(true, ex.ToString());
         }
         return result;
     }
@@ -255,7 +256,7 @@ public partial class kus_admin_DiemDanhKhoaHoc : BasePage
         }
         catch(Exception ex)
         {
-            lblPageisValid.Text = ex.ToString();
+            this.AlertPageValid(true, ex.ToString());
         }
     }
 
@@ -275,7 +276,7 @@ public partial class kus_admin_DiemDanhKhoaHoc : BasePage
         }
         catch (Exception ex)
         {
-            lblPageisValid.Text = ex.ToString();
+            this.AlertPageValid(true, ex.ToString());
         }
     }
 
@@ -318,7 +319,7 @@ public partial class kus_admin_DiemDanhKhoaHoc : BasePage
         }
         catch(Exception ex)
         {
-            lblPageisValid.Text = ex.ToString();
+            this.AlertPageValid(true, ex.ToString());
         }
     }
 
@@ -328,6 +329,52 @@ public partial class kus_admin_DiemDanhKhoaHoc : BasePage
         {
             CheckBox ch = (CheckBox)r.FindControl("chkrowCoPhep");
             ch.Checked = true;
+        }
+    }
+    private void AlertPageValid(bool isvalid, string validString)
+    {
+        if (isvalid)
+        {
+            alertPageValid.Attributes.Add("class", "alert alert-danger");
+            lblPageValid.Text = "<strong>Error!</strong>" + " " + validString.ToString();
+        }
+        else
+        {
+            alertPageValid.Attributes.Add("class", "alert alert-danger display-none");
+            lblPageValid.Text = "";
+        }
+    }
+
+    protected void gwDiemDanh_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        try
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                Label lblGhiChu = e.Row.FindControl("lblGhiChu") as Label;
+                if (string.IsNullOrEmpty(lblGhiChu.Text))
+                {
+                    LinkButton select = e.Row.FindControl("lkselectDD") as LinkButton;
+                    select.Attributes.Add("onclick", "return confirm('Xác nhận viết Ghi chú - Nhận xét ?')");
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            this.AlertPageValid(true, ex.ToString());
+        }
+    }
+
+    protected void gwDiemDanh_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            divGhiChu.Visible = true;
+            //lblNgayDanhGia.Text
+        }
+        catch (Exception ex)
+        {
+            this.AlertPageValid(true, ex.ToString());
         }
     }
 }

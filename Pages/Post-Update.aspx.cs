@@ -47,6 +47,7 @@ public partial class Pages_Post_Update : BasePage
                         this.load_cbltags();
                         this.load_rpLstImg();
                         this.Load_PostUpdateInfo();
+                        this.AlertPageValid(false, "");
                     }
                     else
                     {

@@ -44,6 +44,7 @@ public partial class Pages_Post_New : BasePage
                     this.PopulateRootLevel();
                     this.load_cbltags();
                     this.load_rpLstImg(admin.UserID);
+                    this.AlertPageValid(false, "");
                 }
             }
         }
