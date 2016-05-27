@@ -12,6 +12,31 @@ namespace BLL
     public class kus_DiemDanhBLL
     {
         DataServices dt = new DataServices();
+        public List<kus_DiemDanh> GetlistWithID(int DiemDanhID)
+        {
+            if (!this.dt.OpenConnection())
+            {
+                return null;
+            }
+            string sql = "select * from kus_DiemDanh where DiemDanhID=@DiemDanhID";
+            SqlParameter pDiemDanhID = new SqlParameter("@DiemDanhID", DiemDanhID);
+            DataTable tb = dt.DAtable(sql, pDiemDanhID);
+            List<kus_DiemDanh> lst = new List<kus_DiemDanh>();
+            foreach (DataRow r in tb.Rows)
+            {
+                kus_DiemDanh dd = new kus_DiemDanh();
+                dd.DiemDanhID = (int)r["DiemDanhID"];
+                dd.NgayDiemDanh = (int)r["NgayDiemDanh"];
+                dd.HocVien = (int)r["HocVien"];
+                dd.DiemDanh = (string.IsNullOrEmpty(r["DiemDanh"].ToString())) ? 0 : (int)r["DiemDanh"];
+                dd.CoPhep = (string.IsNullOrEmpty(r["CoPhep"].ToString())) ? 0 : (int)r["CoPhep"];
+                dd.GhiChu = (string.IsNullOrEmpty(r["GhiChu"].ToString())) ? "" : (string)r["GhiChu"];
+                dd.DateOfCreate = (DateTime)r["DateOfCreate"];
+                lst.Add(dd);
+            }
+            this.dt.CloseConnection();
+            return lst;
+        }
         public List<kus_DiemDanh> GetlistWithNgayDiemDanh(int NgayDiemDanh)
         {
             if (!this.dt.OpenConnection())
@@ -78,6 +103,20 @@ namespace BLL
             SqlParameter pCoPhep = (CoPhep == 0) ? new SqlParameter("@CoPhep", DBNull.Value) : new SqlParameter("@CoPhep", CoPhep);
             SqlParameter pGhiChu = (GhiChu == "") ? new SqlParameter("@GhiChu", DBNull.Value) : new SqlParameter("@GhiChu", GhiChu);
             this.dt.Updatedata(sql, pDiemDanhID, pDiemDanh, pCoPhep, pGhiChu);
+            this.dt.CloseConnection();
+            return true;
+        }
+        //Update ghi chu
+        public Boolean UpdateGhiChuDiemDanh(string GhiChu, int DiemDanhID)
+        {
+            if (!this.dt.OpenConnection())
+            {
+                return false;
+            }
+            string sql = "Update kus_DiemDanh set GhiChu=@GhiChu where DiemDanhID=@DiemDanhID";
+            SqlParameter pDiemDanhID = new SqlParameter("@DiemDanhID", DiemDanhID);
+            SqlParameter pGhiChu = (GhiChu == "") ? new SqlParameter("@GhiChu", DBNull.Value) : new SqlParameter("@GhiChu", GhiChu);
+            this.dt.Updatedata(sql, pDiemDanhID, pGhiChu);
             this.dt.CloseConnection();
             return true;
         }

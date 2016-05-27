@@ -116,7 +116,7 @@
                                             <div class="form-group">
                                                 <label class="control-label col-md-4">Mã HV :</label>
                                                 <label class="control-label col-md-7" style="border:1px black solid;">
-                                                    <asp:Label ID="Label1" CssClass="bold pull-left" runat="server" Text="Label"></asp:Label>
+                                                    <asp:Label ID="lblShowMaHV" CssClass="bold pull-left" runat="server" Text="Label"></asp:Label>
                                                 </label>
                                             </div>
                                         </div>
@@ -127,7 +127,7 @@
                                             <div class="form-group">
                                                 <label class="control-label col-md-4">Họ tên HV :</label>
                                                 <label class="control-label col-md-7" style="border:1px black solid;">
-                                                    <asp:Label ID="Label2" CssClass="bold pull-left" runat="server" Text="Label"></asp:Label>
+                                                    <asp:Label ID="lblShowHVName" CssClass="bold pull-left" runat="server" Text="Label"></asp:Label>
                                                 </label>
                                             </div>
                                         </div>
@@ -145,7 +145,7 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <a class="btn green"><i class="glyphicon glyphicon-check"></i>Lưu nhận xét</a>
+                                <a class="btn green" id="btnSaveNhanxet" onserverclick="btnSaveNhanxet_ServerClick" runat="server"><i class="glyphicon glyphicon-check"></i>&nbsp Lưu nhận xét</a>
                             </div>
                             <div class="form-group">
                                 <cc1:Editor ID="EditorGhiChu" runat="server" />

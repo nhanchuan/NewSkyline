@@ -369,8 +369,39 @@ public partial class kus_admin_DiemDanhKhoaHoc : BasePage
     {
         try
         {
-            divGhiChu.Visible = true;
-            //lblNgayDanhGia.Text
+            this.load_InforGhiChu();
+        }
+        catch (Exception ex)
+        {
+            this.AlertPageValid(true, ex.ToString());
+        }
+    }
+    private void load_InforGhiChu()
+    {
+        kus_diemdanh = new kus_DiemDanhBLL();
+        divGhiChu.Visible = true;
+        lblNgayDanhGia.Text = (gwNgayDiemDanh.SelectedRow.FindControl("lblGetNgayDiemDanh") as Label).Text;
+        lblShowMaHV.Text = (gwDiemDanh.SelectedRow.FindControl("lblHocVienCode") as Label).Text;
+        lblShowHVName.Text = (gwDiemDanh.SelectedRow.FindControl("lblLastName") as Label).Text + " " + (gwDiemDanh.SelectedRow.FindControl("lblFirstName") as Label).Text;
+        List<kus_DiemDanh> lst = kus_diemdanh.GetlistWithID(Convert.ToInt32((gwDiemDanh.SelectedRow.FindControl("lblDiemDanhID") as Label).Text));
+        kus_DiemDanh diemdanh = lst.FirstOrDefault();
+
+        lblNhanXetDanhGia.Text = diemdanh.GhiChu;
+        EditorGhiChu.Content = diemdanh.GhiChu;
+    }
+    protected void btnSaveNhanxet_ServerClick(object sender, EventArgs e)
+    {
+        try
+        {
+            kus_diemdanh = new kus_DiemDanhBLL();
+            if (this.kus_diemdanh.UpdateGhiChuDiemDanh(EditorGhiChu.Content, Convert.ToInt32((gwDiemDanh.SelectedRow.FindControl("lblDiemDanhID") as Label).Text)))
+            {
+                this.load_InforGhiChu();
+            }
+            else
+            {
+                this.AlertPageValid(true, "Lưu đánh giá không thành công, lỗi kết nối CSDL !");
+            }
         }
         catch (Exception ex)
         {
