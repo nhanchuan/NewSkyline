@@ -53,7 +53,7 @@
                 </div>
                 <div class="details">
                     <div class="number">
-                        12,5M$
+                        10,1M$
                     </div>
                     <div class="desc">
                         Total Profit
