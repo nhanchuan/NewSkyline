@@ -242,6 +242,7 @@ public partial class kus_admin_DiemDanhKhoaHoc : BasePage
             int NgayID = Convert.ToInt32((gwNgayDiemDanh.SelectedRow.FindControl("lblNgayID") as Label).Text);
             btnSaveDiemDanh.Visible = true;
             btnDownloadExcel.Visible = true;
+            divGhiChu.Visible = false;
             if (sumDD == 0)
             {
                 //Ham Tao + load
