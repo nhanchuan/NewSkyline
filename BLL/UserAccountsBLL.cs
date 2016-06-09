@@ -242,5 +242,19 @@ namespace BLL
             this.DB.CloseConnection();
             return sum;
         }
+        //Update User status
+        public Boolean DeactiveUser(int UserID, int UserStatus)
+        {
+            if (!this.DB.OpenConnection())
+            {
+                return false;
+            }
+            string sql = "update UserProfile set UserStatus=@UserStatus where UserID=@UserID";
+            SqlParameter pUserID = new SqlParameter("@UserID", UserID);
+            SqlParameter pUserStatus = new SqlParameter("@UserStatus", UserStatus);
+            this.DB.Updatedata(sql, pUserID, pUserStatus);
+            this.DB.CloseConnection();
+            return true;
+        }
     }
 }

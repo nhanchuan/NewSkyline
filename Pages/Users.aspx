@@ -21,17 +21,28 @@
     <!-- END PAGE HEADER-->
     <div class="row">
         <div class="col-lg-12">
-            <asp:Button ID="btnAddNew" CssClass="btn green" OnClick="btnAddNew_Click" runat="server" Text="Thêm Mới Thành Viên" />
+            <div class="alert alert-danger display-none" id="alertPageValid" runat="server">
+                <asp:Label ID="lblPageValid" runat="server"></asp:Label>
+            </div>
         </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="form-group">
+                <asp:Button ID="btnAddNew" CssClass="btn green" OnClick="btnAddNew_Click" runat="server" Text="Thêm Mới Thành Viên" />
+                <a class="btn btn-success pull-right">Active User</a>
+                <a id="btndeactiveuser" href="#modalDeactiveUser" data-toggle="modal" runat="server">Deactive User</a>
 
+            </div>
+        </div>
         <div class="clearfix"></div>
         <div class="col-lg-12">
             <div class="panel panel-info">
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-12">
-                            <a id="btnViewDetail" class="btn btn-info" runat="server"><i class="fa fa-info"></i>Thông tin chi tiết</a>
-                            <a id="btnChangeFunction" class="btn btn-warning" href="#modalSetFunction" data-toggle="modal" runat="server"><i class="fa fa-cog"></i>Phân quyền chức năng</a>
+                            <a id="btnViewDetail" runat="server"><i class="fa fa-info"></i>Thông tin chi tiết</a>
+                            <a id="btnChangeFunction" href="#modalSetFunction" data-toggle="modal" runat="server"><i class="fa fa-cog"></i>Phân quyền chức năng</a>
                         </div>
                     </div>
                     <asp:GridView ID="gwListUsers" CssClass="table table-condensed" runat="server" AutoGenerateColumns="False" RowStyle-BackColor="#A1DCF2" Font-Names="Arial" Font-Size="10pt"
@@ -177,16 +188,43 @@
                         </ContentTemplate>
                     </asp:UpdatePanel>
                 </div>
-            <div class="modal-footer">
-                <%--<asp:Label ID="lblchkFcSave" ForeColor="Red" runat="server"></asp:Label>--%>
-                <a class="btn btn-warning" data-dismiss="modal">Cancel</a>
-                <asp:Button ID="btnSaveFuntion" CssClass="btn btn-primary" OnClick="btnSaveFuntion_Click" runat="server" Text="Save" />
-            </div>
+                <div class="modal-footer">
+                    <%--<asp:Label ID="lblchkFcSave" ForeColor="Red" runat="server"></asp:Label>--%>
+                    <a class="btn btn-warning" data-dismiss="modal">Cancel</a>
+                    <asp:Button ID="btnSaveFuntion" CssClass="btn btn-primary" OnClick="btnSaveFuntion_Click" runat="server" Text="Save" />
+                </div>
 
+            </div>
         </div>
     </div>
-    </div>
     <%-- End modal --%>
-    <asp:Label ID="lblPageisValid" ForeColor="Red" runat="server"></asp:Label>
+
+    <%-- Modal Confirm Deactive User --%>
+    <div class="modal fade" id="modalDeactiveUser" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <img src="../images/icon/Warning-icon.png" class="img-responsive" />
+                        </div>
+                        <div class="col-lg-10">
+                            <div class="form-group">
+                                <h4 style="color:red; font-weight:bold;">Bạn có chắc muốn ngừng kích hoạt tài khoản này ?</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-warning" data-dismiss="modal">Hủy</a>
+                    <a class="btn btn-primary" id="btnUserDeactive" onserverclick="btnUserDeactive_ServerClick" runat="server">Xác nhận</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%--End Modal Confirm Deactive User --%>
 </asp:Content>
 

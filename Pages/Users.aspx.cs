@@ -35,14 +35,29 @@ public partial class Pages_Users : BasePage
                 }
                 else
                 {
+                    this.AlertPageValid(false, "");
                     this.Getkus_listAllUserPageWise(1);
                     this.load_dlDepartments();
                     this.load_CheckLst();
-                    btnChangeFunction.Visible = false;
-                    btnViewDetail.Visible = false;
-                    lblPageisValid.Text = "";
+                    
+                    btndeactiveuser.Attributes.Add("class", "btn btn-danger pull-right disabled");
+                    btnChangeFunction.Attributes.Add("class", "btn btn-warning disabled");
+                    btnViewDetail.Attributes.Add("class", "btn btn-info disabled");
                 }
             }
+        }
+    }
+    private void AlertPageValid(bool isvalid, string validString)
+    {
+        if (isvalid)
+        {
+            alertPageValid.Attributes.Add("class", "alert alert-danger");
+            lblPageValid.Text = "<strong>Error!</strong>" + " " + validString.ToString();
+        }
+        else
+        {
+            alertPageValid.Attributes.Add("class", "alert alert-danger display-none");
+            lblPageValid.Text = "";
         }
     }
     protected void btnAddNew_Click(object sender, EventArgs e)
@@ -144,8 +159,9 @@ public partial class Pages_Users : BasePage
 
     protected void gwListUsers_SelectedIndexChanged(object sender, EventArgs e)
     {
-        btnChangeFunction.Visible = true;
-        btnViewDetail.Visible = true;
+        btndeactiveuser.Attributes.Add("class", "btn btn-danger pull-right");
+        btnChangeFunction.Attributes.Add("class", "btn btn-warning");
+        btnViewDetail.Attributes.Add("class", "btn btn-info");
 
         this.ClearSelection();
         int UserID = Convert.ToInt32((gwListUsers.SelectedRow.FindControl("lblUserID") as Label).Text);
@@ -526,32 +542,34 @@ public partial class Pages_Users : BasePage
 
     protected void dlDepartments_SelectedIndexChanged(object sender, EventArgs e)
     {
-        //btnAuthentication.Visible = true;
-        this.ClearSelection();
-        int depID = Convert.ToInt32(dlDepartments.SelectedValue);
-        this.load_checkedCHK(chlSystem, depID);
-        this.load_checkedCHK(chlUsermanager, depID);
-        this.load_checkedCHK(chlFileManager, depID);
-        this.load_checkedCHK(chlmedia, depID);
-        this.load_checkedCHK(chlFile, depID);
-        this.load_checkedCHK(chlCenter, depID);
-        this.load_checkedCHK(chlAdv, depID);
-        this.load_checkedCHK(chlWeb, depID);
+        try
+        {
+            //btnAuthentication.Visible = true;
+            this.ClearSelection();
+            int depID = Convert.ToInt32(dlDepartments.SelectedValue);
+            this.load_checkedCHK(chlSystem, depID);
+            this.load_checkedCHK(chlUsermanager, depID);
+            this.load_checkedCHK(chlFileManager, depID);
+            this.load_checkedCHK(chlmedia, depID);
+            this.load_checkedCHK(chlFile, depID);
+            this.load_checkedCHK(chlCenter, depID);
+            this.load_checkedCHK(chlAdv, depID);
+            this.load_checkedCHK(chlWeb, depID);
 
-        this.checkSelectedAll(chlSystemall, chlSystem, depID);
-        this.checkSelectedAll(chlUsermanagerall, chlUsermanager, depID);
-        this.checkSelectedAll(chlFileManagerall, chlFileManager, depID);
-        this.checkSelectedAll(chlmediaall, chlmedia, depID);
-        this.checkSelectedAll(chlFileall, chlFile, depID);
-        this.checkSelectedAll(chlCenterall, chlCenter, depID);
-        this.checkSelectedAll(chlAdvall, chlAdv, depID);
-        this.checkSelectedAll(chlWeball, chlWeb, depID);
+            this.checkSelectedAll(chlSystemall, chlSystem, depID);
+            this.checkSelectedAll(chlUsermanagerall, chlUsermanager, depID);
+            this.checkSelectedAll(chlFileManagerall, chlFileManager, depID);
+            this.checkSelectedAll(chlmediaall, chlmedia, depID);
+            this.checkSelectedAll(chlFileall, chlFile, depID);
+            this.checkSelectedAll(chlCenterall, chlCenter, depID);
+            this.checkSelectedAll(chlAdvall, chlAdv, depID);
+            this.checkSelectedAll(chlWeball, chlWeb, depID);
+        }
+        catch (Exception ex)
+        {
+            this.AlertPageValid(true, ex.ToString());
+        }
     }
-
-
-
-
-
     private Boolean has_checkedListBox(int perID, int UID)
     {
         userpermiss = new UserPermissBLL();
@@ -644,7 +662,30 @@ public partial class Pages_Users : BasePage
         }
         catch(Exception ex)
         {
-            lblPageisValid.Text = ex.ToString();
+            this.AlertPageValid(true, ex.ToString());
+        }
+    }
+    //btndeactiveuser.Attributes.Add("onclick", "return confirm('Bạn có chắc muốn ngừng kích hoạt tài khoản này ?')");
+    //Response.Write("<script>alert('User has been deactive !')</script>");
+    protected void btnUserDeactive_ServerClick(object sender, EventArgs e)
+    {
+        try
+        {
+            useraccount = new UserAccountsBLL();
+            int userid = Convert.ToInt32((gwListUsers.SelectedRow.FindControl("lblUserID") as Label).Text);
+            if (useraccount.DeactiveUser(userid, 0))
+            {
+                Response.Redirect(Request.Url.AbsoluteUri);
+            }
+            else
+            {
+                Response.Write("<script>alert('Thao tác thất bại, lỗi kết nối csdl !')</script>");
+            }
+        }
+        catch (Exception ex)
+        {
+
+            this.AlertPageValid(true, ex.ToString());
         }
     }
 }
