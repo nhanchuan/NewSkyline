@@ -189,7 +189,7 @@
                     </asp:UpdatePanel>
                 </div>
                 <div class="modal-footer">
-                    <%--<asp:Label ID="lblchkFcSave" ForeColor="Red" runat="server"></asp:Label>--%>
+                    <%--<asp:Label ID="lblchkFcSave" ForeColor="Red" runat="server"></asp:Label> fd--%>
                     <a class="btn btn-warning" data-dismiss="modal">Cancel</a>
                     <asp:Button ID="btnSaveFuntion" CssClass="btn btn-primary" OnClick="btnSaveFuntion_Click" runat="server" Text="Save" />
                 </div>
