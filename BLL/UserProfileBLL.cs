@@ -26,24 +26,24 @@ namespace BLL
             foreach(DataRow r in tb.Rows)
             {
                 UserProfile us = new UserProfile();
-                us.ProfileID = (int)r[0];
-                us.UserID = (string.IsNullOrEmpty(r[1].ToString())) ? 0 : (int)r[1];
-                us.FirstName = (string.IsNullOrEmpty(r[2].ToString())) ? "" : (string)r[2];
-                us.LastName = (string.IsNullOrEmpty(r[3].ToString())) ? "" : (string)r[3];
-                us.Sex = (string.IsNullOrEmpty(r[4].ToString())) ? 0 : (int)r[4];
-                us.Birthday = (string.IsNullOrEmpty(r[5].ToString())) ? Convert.ToDateTime(defaultdate) : (DateTime)r[5];
-                us.CountryID = (string.IsNullOrEmpty(r[6].ToString())) ? 0 : (int)r[6];
-                us.ProvinceID = (string.IsNullOrEmpty(r[7].ToString())) ? 0 : (int)r[7];
-                us.DistrictID = (string.IsNullOrEmpty(r[8].ToString())) ? 0 : (int)r[8];
-                us.Address_ui = (string.IsNullOrEmpty(r[9].ToString())) ? "" : (string)r[9];
-                us.MobileNumber = (string.IsNullOrEmpty(r[10].ToString())) ? "" : (string)r[10];
-                us.Interests = (string.IsNullOrEmpty(r[11].ToString())) ? "" : (string)r[11];
-                us.Occupation = (string.IsNullOrEmpty(r[12].ToString())) ? "" : (string)r[12];
-                us.About = (string.IsNullOrEmpty(r[13].ToString())) ? "" : (string)r[13];
-                us.WebsiteUrl = (string.IsNullOrEmpty(r[14].ToString())) ? "" : (string)r[14];
-                us.Img_id = (string.IsNullOrEmpty(r[15].ToString())) ? 0 : (int)r[15];
-                us.DateOfStart = (DateTime)r[16];
-                us.UserStatus = (string.IsNullOrEmpty(r[17].ToString())) ? 0 : (int)r[17];
+                us.ProfileID = (int)r["ProfileID"];
+                us.UserID = (string.IsNullOrEmpty(r["UserID"].ToString())) ? 0 : (int)r["UserID"];
+                us.FirstName = (string.IsNullOrEmpty(r["FirstName"].ToString())) ? "" : (string)r["FirstName"];
+                us.LastName = (string.IsNullOrEmpty(r["LastName"].ToString())) ? "" : (string)r["LastName"];
+                us.Sex = (string.IsNullOrEmpty(r["Sex"].ToString())) ? 0 : (int)r["Sex"];
+                us.Birthday = (string.IsNullOrEmpty(r["Birthday"].ToString())) ? Convert.ToDateTime(defaultdate) : (DateTime)r["Birthday"];
+                us.CountryID = (string.IsNullOrEmpty(r["CountryID"].ToString())) ? 0 : (int)r["CountryID"];
+                us.ProvinceID = (string.IsNullOrEmpty(r["ProvinceID"].ToString())) ? 0 : (int)r["ProvinceID"];
+                us.DistrictID = (string.IsNullOrEmpty(r["DistrictID"].ToString())) ? 0 : (int)r["DistrictID"];
+                us.Address_ui = (string.IsNullOrEmpty(r["Address_ui"].ToString())) ? "" : (string)r["Address_ui"];
+                us.MobileNumber = (string.IsNullOrEmpty(r["MobileNumber"].ToString())) ? "" : (string)r["MobileNumber"];
+                us.Interests = (string.IsNullOrEmpty(r["Interests"].ToString())) ? "" : (string)r["Interests"];
+                us.Occupation = (string.IsNullOrEmpty(r["Occupation"].ToString())) ? "" : (string)r["Occupation"];
+                us.About = (string.IsNullOrEmpty(r["About"].ToString())) ? "" : (string)r["About"];
+                us.WebsiteUrl = (string.IsNullOrEmpty(r["WebsiteUrl"].ToString())) ? "" : (string)r["WebsiteUrl"];
+                us.Img_id = (string.IsNullOrEmpty(r["Img_id"].ToString())) ? 0 : (int)r["Img_id"];
+                us.DateOfStart = (DateTime)r["DateOfStart"];
+                us.UserStatus = (string.IsNullOrEmpty(r["UserStatus"].ToString())) ? 0 : (int)r["UserStatus"];
                 lst.Add(us);
             }
             this.DB.CloseConnection();

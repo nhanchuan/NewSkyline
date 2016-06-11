@@ -30,7 +30,7 @@
         <div class="col-lg-12">
             <div class="form-group">
                 <asp:Button ID="btnAddNew" CssClass="btn green" OnClick="btnAddNew_Click" runat="server" Text="Thêm Mới Thành Viên" />
-                <a class="btn btn-success pull-right">Active User</a>
+                <a id="btnActiveUser" onserverclick="btnActiveUser_ServerClick" runat="server">Active User</a>
                 <a id="btndeactiveuser" href="#modalDeactiveUser" data-toggle="modal" runat="server">Deactive User</a>
 
             </div>
