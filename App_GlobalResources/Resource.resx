@@ -204,4 +204,7 @@
   <data name="myCalendar" xml:space="preserve">
     <value>My Calendar</value>
   </data>
+  <data name="accountinactivity" xml:space="preserve">
+    <value>Account inactivity, please contact the Administrator for more details!</value>
+  </data>
 </root>

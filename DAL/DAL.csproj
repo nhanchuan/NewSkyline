@@ -61,6 +61,7 @@
     <Compile Include="EducationLV.cs" />
     <Compile Include="Employees.cs" />
     <Compile Include="EthnicList.cs" />
+    <Compile Include="HistoryLogin.cs" />
     <Compile Include="Images.cs" />
     <Compile Include="ImagesType.cs" />
     <Compile Include="InternationalSchool.cs" />

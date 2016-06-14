@@ -47,7 +47,7 @@ public partial class kus_admin_DiemDanhKhoaHoc : BasePage
                         btnSaveDiemDanh.Visible = false;
                         btnDownloadExcel.Visible = false;
                         divGhiChu.Visible = false;
-                        this.AlertPageValid(false, "");
+                        this.AlertPageValid(false, "", alertPageValid, lblPageValid);
                     }
                 }
             }
@@ -84,7 +84,7 @@ public partial class kus_admin_DiemDanhKhoaHoc : BasePage
         }
         catch (Exception ex)
         {
-            this.AlertPageValid(true, ex.ToString());
+            this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
         }
     }
     [Serializable()]
@@ -124,7 +124,7 @@ public partial class kus_admin_DiemDanhKhoaHoc : BasePage
         }
         catch (Exception ex)
         {
-            this.AlertPageValid(true, ex.ToString());
+            this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
         }
         return result;
     }
@@ -257,7 +257,7 @@ public partial class kus_admin_DiemDanhKhoaHoc : BasePage
         }
         catch(Exception ex)
         {
-            this.AlertPageValid(true, ex.ToString());
+            this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
         }
     }
 
@@ -277,7 +277,7 @@ public partial class kus_admin_DiemDanhKhoaHoc : BasePage
         }
         catch (Exception ex)
         {
-            this.AlertPageValid(true, ex.ToString());
+            this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
         }
     }
 
@@ -320,7 +320,7 @@ public partial class kus_admin_DiemDanhKhoaHoc : BasePage
         }
         catch(Exception ex)
         {
-            this.AlertPageValid(true, ex.ToString());
+            this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
         }
     }
 
@@ -332,19 +332,7 @@ public partial class kus_admin_DiemDanhKhoaHoc : BasePage
             ch.Checked = true;
         }
     }
-    private void AlertPageValid(bool isvalid, string validString)
-    {
-        if (isvalid)
-        {
-            alertPageValid.Attributes.Add("class", "alert alert-danger");
-            lblPageValid.Text = "<strong>Error!</strong>" + " " + validString.ToString();
-        }
-        else
-        {
-            alertPageValid.Attributes.Add("class", "alert alert-danger display-none");
-            lblPageValid.Text = "";
-        }
-    }
+    
 
     protected void gwDiemDanh_RowDataBound(object sender, GridViewRowEventArgs e)
     {
@@ -362,10 +350,9 @@ public partial class kus_admin_DiemDanhKhoaHoc : BasePage
         }
         catch (Exception ex)
         {
-            this.AlertPageValid(true, ex.ToString());
+            this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
         }
     }
-
     protected void gwDiemDanh_SelectedIndexChanged(object sender, EventArgs e)
     {
         try
@@ -374,7 +361,7 @@ public partial class kus_admin_DiemDanhKhoaHoc : BasePage
         }
         catch (Exception ex)
         {
-            this.AlertPageValid(true, ex.ToString());
+            this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
         }
     }
     private void load_InforGhiChu()
@@ -401,12 +388,12 @@ public partial class kus_admin_DiemDanhKhoaHoc : BasePage
             }
             else
             {
-                this.AlertPageValid(true, "Lưu đánh giá không thành công, lỗi kết nối CSDL !");
+                this.AlertPageValid(true, "Lưu đánh giá không thành công, lỗi kết nối CSDL !", alertPageValid, lblPageValid);
             }
         }
         catch (Exception ex)
         {
-            this.AlertPageValid(true, ex.ToString());
+            this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
         }
     }
 }

@@ -243,4 +243,18 @@ public class BasePage : System.Web.UI.Page
         }
         return year;
     }
+    //============================================================================================================
+    public void AlertPageValid(bool isvalid, string validString, System.Web.UI.HtmlControls.HtmlGenericControl divValid, Label lblvalid)
+    {
+        if (isvalid)
+        {
+            divValid.Attributes.Add("class", "alert alert-danger");
+            lblvalid.Text = "<strong>Error!</strong>" + " " + validString.ToString();
+        }
+        else
+        {
+            divValid.Attributes.Add("class", "alert alert-danger display-none");
+            lblvalid.Text = "";
+        }
+    }
 }

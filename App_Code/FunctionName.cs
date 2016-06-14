@@ -47,7 +47,7 @@ public static class FunctionName
     public static string VideoEdit= "FC037";
     public static string ThongTinHocVien= "FC038";
     public static string GhiDanhHocVien= "FC039";
-    //public static string SuaThongTinLop= "FC040";
+    public static string History= "FC040";
     //public static string DiemDanh= "FC041";
     public static string PhieuGhiDanh= "FC042";
     public static string ThongTinHoSoKhachHang= "FC043";

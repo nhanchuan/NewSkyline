@@ -61,6 +61,7 @@
     <Compile Include="EmployeesBLL.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="EthnicListBLL.cs" />
+    <Compile Include="HistoryLoginBLL.cs" />
     <Compile Include="ImagesBLL.cs" />
     <Compile Include="ImagesTypeBLL.cs" />
     <Compile Include="InternationalSchoolBLL.cs" />

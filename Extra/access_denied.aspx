@@ -4,7 +4,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
     <!-- BEGIN PAGE HEADER-->
-    <h1 class="page-title"><label class="label label-warning">Waring !</label>
+    <h1 class="page-title"><label class="label label-warning bold">Warning !</label>
     </h1>
     <div class="page-bar">
         <ul class="page-breadcrumb">

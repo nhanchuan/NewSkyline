@@ -13,6 +13,8 @@ using BLL;
 public partial class Login : BasePage
 {
     UserAccountsBLL useraccount;
+    UserProfileBLL userprofile;
+    HistoryLoginBLL historylogin;
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!this.IsPostBack)
@@ -79,25 +81,53 @@ public partial class Login : BasePage
         }
         return false;
     }
-
+    protected Boolean checkUserStaus(int userid)
+    {
+        userprofile = new UserProfileBLL();
+        List<UserProfile> lst = userprofile.getUserProfileWithID(userid);
+        UserProfile pro = lst.FirstOrDefault();
+        if (pro.UserStatus != 1)
+        {
+            return false;
+        }
+        return true;
+    }
     protected void btnloginform_Click(object sender, EventArgs e)
     {
-        if (check_login(txtusername.Text, CreateSHAHash(txtpasswords.Text, SaltPassword())))
+        try
         {
-            this.check_rememberUser();
-            if (checkUriLogin() == false)
+            historylogin = new HistoryLoginBLL();
+            if (check_login(txtusername.Text, CreateSHAHash(txtpasswords.Text, SaltPassword())))
             {
-                Response.Redirect("/Pages/MyProfile.aspx");
+                this.check_rememberUser();
+                if (checkUserStaus(Session.GetCurrentUser().UserID))
+                {
+                    if (checkUriLogin() == false)
+                    {
+                        Response.Redirect("/Pages/MyProfile.aspx");
+                    }
+                    else
+                    {
+                        this.historylogin.NewHistoryLogin(Session.GetCurrentUser().UserID);
+                        Response.Redirect(Session.GetCurrentURL());
+                    }
+                }
+                else
+                {
+                    lblFalalseLogin.Text = Resources.Resource.accountinactivity;
+                }
+
+                //Response.Redirect("/Pages/ServerMaintenance.aspx");
             }
             else
             {
-                Response.Redirect(Session.GetCurrentURL());
+                lblFalalseLogin.Text = Resources.Resource.falselogin;
             }
-            //Response.Redirect("/Pages/ServerMaintenance.aspx");
         }
-        else
+        catch (Exception ex)
         {
-            lblFalalseLogin.Text = Resources.Resource.falselogin;
+
+            lblFalalseLogin.Text = ex.ToString();
         }
     }
 }
