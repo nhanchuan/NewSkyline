@@ -174,11 +174,11 @@
                 <div class="modal-body">
                     <div class="panel-default">
                         <div class="panel-body">
-                            <div class="col-lg-2"></div>
-                            <div class="col-lg-4">
+                            <div class="col-lg-1"></div>
+                            <div class="col-lg-6">
                                 <img src="#" id="imgThumgProduct" runat="server" style="width: 100%; height: auto;" />
                             </div>
-                            <div class="col-lg-2"></div>
+                            <div class="col-lg-1"></div>
                             <div class="col-lg-4">
                                 <div class="panel panel-default">
                                     <div class="panel-body">
