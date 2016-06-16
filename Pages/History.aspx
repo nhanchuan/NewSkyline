@@ -35,7 +35,7 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="form-group">
-                <a class="btn btn-default">Clear History</a>
+                <a class="btn btn-default" href="#modalClearHistory" data-toggle="modal">Clear History</a>
             </div>
             <div class="tabbable tabbable-custom tabbable-custom-profile">
                 <ul class="nav nav-tabs">
@@ -221,5 +221,54 @@
         </div>
     </div>
     <%-- End Row Content --%>
+    <%-- Modal clear History data --%>
+    <div id="modalClearHistory" class="modal fade modal-scroll" tabindex="-1" data-replace="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <i class="icon-trash"></i>&nbsp Clear History data
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-horizontal">
+                                <div class="form-body">
+                                    <%-- /Row --%>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-8">Obliterate the following items from:</label>
+                                                <div class="col-md-4">
+                                                    <asp:DropDownList ID="dlItemsFrom" CssClass="form-control" runat="server">
+                                                        <asp:ListItem>the past hour</asp:ListItem>
+                                                        <asp:ListItem>the past day</asp:ListItem>
+                                                        <asp:ListItem>the past week</asp:ListItem>
+                                                        <asp:ListItem>the last 4 weeks</asp:ListItem>
+                                                        <asp:ListItem>the beginning of time</asp:ListItem>
+                                                    </asp:DropDownList>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <asp:CheckBox ID="chkLoginHistory" Text="Lịch sử đăng nhập" runat="server" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <asp:Button ID="Button1" CssClass="btn btn-warning" runat="server" Text="Clear data" />
+                    <a class="btn btn-default" data-dismiss="modal">Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%-- End Modal clear History data --%>
 </asp:Content>
-
