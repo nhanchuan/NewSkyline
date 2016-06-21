@@ -1,9 +1,10 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/GlobalMasterPage.master" AutoEventWireup="true" CodeFile="NewUser.aspx.cs" Inherits="Pages_NewUser" %>
+
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <link href="../App_Themes/admin/StylePortlet.css" rel="stylesheet" />
     <style type="text/css">
         .VeryPoorStrength {
@@ -63,23 +64,34 @@
         </ul>
     </div>
     <!-- END PAGE HEADER-->
-    <div class="row">
-        <div class="col-lg-5">
-            <asp:UpdatePanel runat="server">
-                <ContentTemplate>
+    <%-- Pages is Valid --%>
+    <asp:UpdatePanel runat="server">
+        <ContentTemplate>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="alert alert-danger display-none" id="alertPageValid" runat="server">
+                        <asp:Label ID="lblPageValid" runat="server"></asp:Label>
+                    </div>
+                </div>
+            </div>
+            <%--End Pages is Valid --%>
+            <div class="row">
+                <div class="col-lg-5">
+
                     <i>
                         <label>Tạo một người sử dụng mới và thêm vào hệ thống này.</label>
-                    </i><br />
+                    </i>
+                    <br />
                     <div class="form-group">
                         <label class="control-label">Tên đăng nhập <span class="required">*</span></label>
                         <asp:TextBox ID="txtUsername" CssClass="form-control" AutoPostBack="true" OnTextChanged="txtUsername_TextChanged" runat="server"></asp:TextBox>
-                        <asp:RequiredFieldValidator 
-                            ID="RequiredFieldValidator1" 
-                            ControlToValidate="txtUsername" 
-                            ValidationGroup="validNewUser" 
-                            ForeColor="Red" 
-                            Display="Dynamic" 
-                            runat="server" 
+                        <asp:RequiredFieldValidator
+                            ID="RequiredFieldValidator1"
+                            ControlToValidate="txtUsername"
+                            ValidationGroup="validNewUser"
+                            ForeColor="Red"
+                            Display="Dynamic"
+                            runat="server"
                             ErrorMessage="Tên đăng nhập không để trống !">
                         </asp:RequiredFieldValidator>
                         <asp:Label ID="lblcheckusername" ForeColor="Red" runat="server"></asp:Label>
@@ -134,16 +146,15 @@
                     <div class="form-group">
                         <asp:Button ID="btnNewUser" CssClass="btn btn-primary" ValidationGroup="validNewUser" OnClick="btnNewUser_Click" runat="server" Text="Thêm Người Dùng Mới" />
                     </div>
-                    <asp:Label ID="lblPageValid" ForeColor="Red" runat="server"></asp:Label>
-                </ContentTemplate>
-                <Triggers>
-                    <asp:AsyncPostBackTrigger ControlID="txtUsername" EventName="TextChanged" />
-                    <asp:AsyncPostBackTrigger ControlID="txtEmail" EventName="TextChanged" />
-                </Triggers>
-            </asp:UpdatePanel>
-        </div>
-        <div class="col-lg-7"></div>
-    </div>
-    
+                    <%--<asp:Label ID="lblPageValid" ForeColor="Red" runat="server"></asp:Label>--%>
+                </div>
+                <div class="col-lg-7"></div>
+            </div>
+        </ContentTemplate>
+        <Triggers>
+            <asp:AsyncPostBackTrigger ControlID="txtUsername" EventName="TextChanged" />
+            <asp:AsyncPostBackTrigger ControlID="txtEmail" EventName="TextChanged" />
+        </Triggers>
+    </asp:UpdatePanel>
 </asp:Content>
 

@@ -19,6 +19,7 @@
         </ul>
     </div>
     <!-- END PAGE HEADER-->
+    <%-- Alert Pages Valid --%>
     <div class="row">
         <div class="col-lg-12">
             <div class="alert alert-danger display-none" id="alertPageValid" runat="server">
@@ -26,6 +27,7 @@
             </div>
         </div>
     </div>
+    <%-- End Alert Pages Valid --%>
     <div class="row">
         <div class="col-lg-12">
             <div class="form-group">

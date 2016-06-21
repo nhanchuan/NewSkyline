@@ -108,7 +108,7 @@ public partial class Login : BasePage
                     }
                     else
                     {
-                        this.historylogin.NewHistoryLogin(Session.GetCurrentUser().UserID);
+                        this.historylogin.NewHistoryLogin(Session.GetCurrentUser().UserID, GetIPAddress());
                         Response.Redirect(Session.GetCurrentURL());
                     }
                 }

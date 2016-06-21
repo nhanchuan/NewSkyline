@@ -11,5 +11,11 @@
             </span>
         </div>
     </div>
+    <%-- Get client IP --%>
+    <div class="row">
+        <div class="form-group">
+            <asp:Button ID="btnGetIP" CssClass="btn btn-default" OnClick="btnGetIP_Click" runat="server" Text="Get IP" />
+        </div>
+    </div>
 </asp:Content>
 

@@ -688,20 +688,39 @@ public partial class Pages_Users : BasePage
     }
     //btndeactiveuser.Attributes.Add("onclick", "return confirm('Bạn có chắc muốn ngừng kích hoạt tài khoản này ?')");
     //Response.Write("<script>alert('User has been deactive !')</script>");
+    protected Boolean isAdmin(int userid)
+    {
+        useraccount = new UserAccountsBLL();
+        List<UserAccounts> lst = useraccount.getUseraccountUID(userid);
+        UserAccounts account = lst.FirstOrDefault();
+        if (account.UserName == "admin")
+        {
+            return true;
+        }
+        return false;
+    }
     protected void btnUserDeactive_ServerClick(object sender, EventArgs e)
     {
         try
         {
             useraccount = new UserAccountsBLL();
             int userid = Convert.ToInt32((gwListUsers.SelectedRow.FindControl("lblUserID") as Label).Text);
-            if (useraccount.DeactiveUser(userid, 0))
+            if (isAdmin(userid))
             {
-                Response.Redirect(Request.Url.AbsoluteUri);
+                this.AlertPageValid(true, "Sr! You can't Deactive Admin account !");
             }
             else
             {
-                Response.Write("<script>alert('Thao tác thất bại, lỗi kết nối csdl !')</script>");
+                if (useraccount.DeactiveUser(userid, 0))
+                {
+                    Response.Redirect(Request.Url.AbsoluteUri);
+                }
+                else
+                {
+                    Response.Write("<script>alert('Thao tác thất bại, lỗi kết nối csdl !')</script>");
+                }
             }
+            
         }
         catch (Exception ex)
         {

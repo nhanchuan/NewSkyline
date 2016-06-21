@@ -33,6 +33,7 @@ public partial class Pages_NewUser : BasePage
                 }
                 else
                 {
+                    this.AlertPageValid(false, "", alertPageValid, lblPageValid);
                     this.load_dlDepartments();
                 }
             }
@@ -91,7 +92,8 @@ public partial class Pages_NewUser : BasePage
             bool result = HasPermission(Session.GetCurrentUser().UserID, FunctionName.NewUser, TypeAudit.AddNew);
             if (result == false)
             {
-                lblPageValid.Text = "Bạn không có quyền thực hiện chức năng này !";
+                //lblPageValid.Text = "Bạn không có quyền thực hiện chức năng này !";
+                this.AlertPageValid(true, "Bạn không có quyền thực hiện chức năng này !", alertPageValid, lblPageValid);
             }
             else
             {
@@ -121,7 +123,8 @@ public partial class Pages_NewUser : BasePage
         }
         catch(Exception ex)
         {
-            lblPageValid.Text = ex.ToString();
+            //lblPageValid.Text = ex.ToString();
+            this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
         }
     }
 }

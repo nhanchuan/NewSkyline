@@ -96,6 +96,13 @@
                                         </asp:TemplateField>
                                         <asp:TemplateField>
                                             <ItemTemplate>
+                                                <i class="glyphicon glyphicon-map-marker"></i>
+                                                <asp:Label ID="lblClientIP" runat="server" Text='<%# Eval("ClientIP") %>'></asp:Label>
+                                            </ItemTemplate>
+                                            <ItemStyle Width="200px" />
+                                        </asp:TemplateField>
+                                        <asp:TemplateField>
+                                            <ItemTemplate>
                                                 <i class="fa fa-clock-o"></i>
                                                 <asp:Label ID="lblDateOfLogin" runat="server" Text='<%# Eval("DateOfLogin") %>'></asp:Label>
                                             </ItemTemplate>

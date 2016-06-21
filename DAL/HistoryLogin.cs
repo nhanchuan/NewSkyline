@@ -11,6 +11,7 @@ namespace DAL
         private long historyID;
         private int userID;
         private DateTime dateOfLogin;
+        private string clientIP;
         public long HistoryID
         {
             get
@@ -47,6 +48,19 @@ namespace DAL
             set
             {
                 dateOfLogin = value;
+            }
+        }
+
+        public string ClientIP
+        {
+            get
+            {
+                return clientIP;
+            }
+
+            set
+            {
+                clientIP = value;
             }
         }
     }

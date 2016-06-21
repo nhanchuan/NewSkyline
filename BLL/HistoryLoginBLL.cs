@@ -28,6 +28,7 @@ namespace BLL
                 hl.HistoryID = (long)r["HistoryID"];
                 hl.UserID = (int)r["UserID"];
                 hl.DateOfLogin = (DateTime)r["DateOfLogin"];
+                hl.ClientIP = (string.IsNullOrEmpty(r["ClientIP"].ToString())) ? "" : (string)r["ClientIP"];
                 lst.Add(hl);
             }
             this.dt.CloseConnection();
@@ -48,6 +49,7 @@ namespace BLL
                 hl.HistoryID = (long)r["HistoryID"];
                 hl.UserID = (int)r["UserID"];
                 hl.DateOfLogin = (DateTime)r["DateOfLogin"];
+                hl.ClientIP = (string.IsNullOrEmpty(r["ClientIP"].ToString())) ? "" : (string)r["ClientIP"];
                 lst.Add(hl);
             }
             this.dt.CloseConnection();
@@ -66,15 +68,16 @@ namespace BLL
             return tb;
         }
         //Create
-        public Boolean NewHistoryLogin(int UserID)
+        public Boolean NewHistoryLogin(int UserID, string ClientIP)
         {
             if (!this.dt.OpenConnection())
             {
                 return false;
             }
-            string sql = "insert into HistoryLogin(UserID) values(@UserID)";
+            string sql = "insert into HistoryLogin(UserID,ClientIP) values(@UserID,@ClientIP)";
             SqlParameter pUserID = new SqlParameter("@UserID", UserID);
-            this.dt.Updatedata(sql, pUserID);
+            SqlParameter pClientIP = (ClientIP == "") ? new SqlParameter("@ClientIP", DBNull.Value) : new SqlParameter("@ClientIP", ClientIP);
+            this.dt.Updatedata(sql, pUserID, pClientIP);
             this.dt.CloseConnection();
             return true;
         }
