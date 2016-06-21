@@ -33,7 +33,7 @@
         <%-- Panel Body --%>
         <div id="panel" runat="server">
             <div class="col-lg-12">
-                <div class="panel panel-info">
+                <div class="panel panel-primary background">
                     <div class="panel-body">
                         <h2>BẢNG KÊ KHAI THÔNG TIN</h2>
                         <hr />
@@ -41,7 +41,7 @@
                         <div class="tabbable-custom">
                             <ul class="nav nav-tabs">
                                 <li class="active">
-                                    <a href="#tab_hocsinh_info" data-toggle="tab">Thông tin học sinh </a>
+                                    <a href="#tab_hocsinh_info" data-toggle="tab">Thông tin khách hàng </a>
                                 </li>
                                 <li>
                                     <a href="#tab_phuhuynh_info" data-toggle="tab">Thông tin phụ huynh </a>
