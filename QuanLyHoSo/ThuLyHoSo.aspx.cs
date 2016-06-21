@@ -49,6 +49,9 @@ public partial class QuanLyHoSo_ThuLyHoSo : BasePage
                 {
                     btnGhiChuTienTrinh.Attributes.Add("class", "btn btn-warning disabled");
                     btnWriteNote.Attributes.Add("class", "btn btn-danger disabled");
+                    btnlamHSKH.Attributes.Add("class", "btn btn-primary disabled");
+                    btnxemHSKH.Attributes.Add("class", "btn btn-success disabled");
+
                     this.Summary();
                     this.load_dlLoaiHoSo();
                     dlLoaiHoSo.Items.Insert(0, new ListItem("--  Loại hồ sơ --", "0"));
@@ -64,6 +67,8 @@ public partial class QuanLyHoSo_ThuLyHoSo : BasePage
                     this.load_dlSchoolLvl();
                     this.load_dlSchoolName();
                     this.loadHidden();
+                    
+
                 }
                 
             }
@@ -411,56 +416,22 @@ public partial class QuanLyHoSo_ThuLyHoSo : BasePage
         this.load_gwProfileProcessType();
         txtWriteNoteTitle.Text = "";
         EditorWriteNote.Content = "";
-    }
-    protected void btnAction_ServerClick(object sender, EventArgs e)
-    {
-        customerBsInfo = new CustomerBasicInfoBLL();
-        customerProPri = new CustomerProfilePrivateBLL();
+
         bagprofile = new BagProfileBLL();
-        int profileId = Convert.ToInt32((gwThuLyHSManager.SelectedRow.FindControl("lblProfileID") as Label).Text);
-        List<CustomerProfilePrivate> lstCR = customerProPri.GetCustomerProfilePrivateWithProfileID(profileId);
-        CustomerProfilePrivate cuspri = lstCR.FirstOrDefault();
-        List<CustomerBasicInfo> lstbs = customerBsInfo.GetCusBasicInfoWithInfoId(cuspri.InfoID);
-        CustomerBasicInfo cubs = lstbs.FirstOrDefault();
-        List<BagProfile> lstbag = bagprofile.GetBagProfileWithInfoID(cuspri.InfoID);
+        List<BagProfile> lstbag = bagprofile.GetBagProfileWithInfoID(cuspro.InfoID);
         BagProfile bag = lstbag.FirstOrDefault();
-        if (gwThuLyHSManager.SelectedRow == null)
+
+        if (bag != null)
         {
-            lblActionsMessage.Text = "Chưa chọn hồ sơ !";
+            btnlamHSKH.Attributes.Add("class", "btn btn-primary disabled");
+            btnxemHSKH.Attributes.Add("class", "btn btn-success");
         }
         else
         {
-            int key = Convert.ToInt32(dlEmployeesAdvisory.SelectedValue);
-            switch (key)
-            {
-                case 0:
-                    lblActionsMessage.Text = "Chưa chọn hành động !";
-                    break;
-                case 1:
-                    if (bag != null)
-                    {
-                        lblActionsMessage.Text = "Hồ Sơ Khách Hàng đã được làm, hoặc đang làm. Vui lòng chọn xem hồ sơ !";
-                        return;
-                    }
-                    else
-                    {
-                        Response.Redirect("http://" + Request.Url.Authority + "/QuanLyHoSo/HoSoKhachHang.aspx?FileCode=" + cubs.BasicInfoCode);
-                    }
-                    break;
-                case 2:
-                    if (bag == null)
-                    {
-                        lblActionsMessage.Text = "Hồ Sơ Khách Hàng chưa có trên hệ thống. Vui lòng chọn làm hồ sơ !";
-                        return;
-                    }
-                    else
-                    {
-                        Response.Redirect("http://" + Request.Url.Authority + "/QuanLyHoSo/HoSoKhachHang.aspx?FileCode=" + cubs.BasicInfoCode);
-                    }
-                    break;
-            }
-
+            btnlamHSKH.Attributes.Add("class", "btn btn-primary");
+            btnxemHSKH.Attributes.Add("class", "btn btn-success disabled");
         }
+
     }
     //======Change School================================================
     protected void load_gwInternationalSchool()
@@ -920,5 +891,31 @@ public partial class QuanLyHoSo_ThuLyHoSo : BasePage
         this.load_dlFilterCountry();
         this.load_dlSchoolLvl();
         this.load_dlSchoolName();
+    }
+
+    protected void btnlamHSKH_Click(object sender, EventArgs e)
+    {
+        customerBsInfo = new CustomerBasicInfoBLL();
+        customerProPri = new CustomerProfilePrivateBLL();
+        bagprofile = new BagProfileBLL();
+        int profileId = Convert.ToInt32((gwThuLyHSManager.SelectedRow.FindControl("lblProfileID") as Label).Text);
+        List<CustomerProfilePrivate> lstCR = customerProPri.GetCustomerProfilePrivateWithProfileID(profileId);
+        CustomerProfilePrivate cuspri = lstCR.FirstOrDefault();
+        List<CustomerBasicInfo> lstbs = customerBsInfo.GetCusBasicInfoWithInfoId(cuspri.InfoID);
+        CustomerBasicInfo cubs = lstbs.FirstOrDefault();
+        Response.Redirect("http://" + Request.Url.Authority + "/QuanLyHoSo/HoSoKhachHang.aspx?FileCode=" + cubs.BasicInfoCode);
+    }
+
+    protected void btnxemHSKH_Click(object sender, EventArgs e)
+    {
+        customerBsInfo = new CustomerBasicInfoBLL();
+        customerProPri = new CustomerProfilePrivateBLL();
+        bagprofile = new BagProfileBLL();
+        int profileId = Convert.ToInt32((gwThuLyHSManager.SelectedRow.FindControl("lblProfileID") as Label).Text);
+        List<CustomerProfilePrivate> lstCR = customerProPri.GetCustomerProfilePrivateWithProfileID(profileId);
+        CustomerProfilePrivate cuspri = lstCR.FirstOrDefault();
+        List<CustomerBasicInfo> lstbs = customerBsInfo.GetCusBasicInfoWithInfoId(cuspri.InfoID);
+        CustomerBasicInfo cubs = lstbs.FirstOrDefault();
+        Response.Redirect("http://" + Request.Url.Authority + "/QuanLyHoSo/HoSoKhachHang.aspx?FileCode=" + cubs.BasicInfoCode);
     }
 }

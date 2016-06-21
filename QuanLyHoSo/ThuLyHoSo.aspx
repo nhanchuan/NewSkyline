@@ -126,20 +126,10 @@
                 <div class="portlet-body background">
                     <div class="row">
                         <div class="col-lg-4">
-                            <div class="input-group">
-                                <div class="input-icon">
-                                    <i class="fa fa-tasks"></i>
-                                    <asp:DropDownList ID="dlEmployeesAdvisory" CssClass="form-control" runat="server">
-                                        <asp:ListItem Value="0">-- Chọn hành động --</asp:ListItem>
-                                        <asp:ListItem Value="1">LÀM HỒ SƠ KHÁCH HÀNG</asp:ListItem>
-                                        <asp:ListItem Value="2">XEM HỒ SƠ KHÁCH HÀNG</asp:ListItem>
-                                    </asp:DropDownList>
-                                </div>
-                                <span class="input-group-btn">
-                                    <a href="#" id="btnAction" class="btn btn-primary" onserverclick="btnAction_ServerClick" runat="server"><i class="fa fa-terminal"></i>Áp dụng</a>
-                                </span>
+                            <div class="form-group">
+                                <asp:Button ID="btnlamHSKH" OnClick="btnlamHSKH_Click" runat="server" Text="LÀM FILE HỒ SƠ" />
+                                <asp:Button ID="btnxemHSKH" OnClick="btnxemHSKH_Click" runat="server" Text="XEM FILE HỒ SƠ" />
                             </div>
-                            <asp:Label ID="lblActionsMessage" ForeColor="Red" runat="server"></asp:Label>
                         </div>
                         <div class="col-lg-4">
                             <div class="input-group">
@@ -248,6 +238,11 @@
                                     <li class='<%# Eval("BagProfileTypeID").ToString() == "1" ? "list-group-item bg-blue" : Eval("BagProfileTypeID").ToString() == "2" ? "list-group-item bg-danger" : Eval("BagProfileTypeID").ToString() == "3" ? "list-group-item bg-green" : Eval("BagProfileTypeID").ToString() == "4" ? "list-group-item bg-yellow" : "list-group-item bg-blue-sharp" %>'>
                                         <asp:Label ID="Label6" runat="server" Text='<%# Eval("BagProfileTypeID").ToString()=="1"?"Du Học": Eval("BagProfileTypeID").ToString()=="2"?"Thực Tập": Eval("BagProfileTypeID").ToString()=="3"?"Du Lịch": Eval("BagProfileTypeID").ToString()=="4"? "Định Cư": "* Thăm nuôi" %>'></asp:Label>
                                     </li>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Quốc gia">
+                                <ItemTemplate>
+                                    <asp:Label ID="lblCountry" runat="server" Text='<%# Eval("CountryName") %>'></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Ghi Chú Tiến Trình">
@@ -496,7 +491,7 @@
                         </ContentTemplate>
                     </asp:UpdatePanel>
                 </div>
-            <div class="modal-footer">
+                <div class="modal-footer">
                     <a id="btnSaveSchool" class="btn btn-primary" onserverclick="btnSaveSchool_ServerClick" runat="server">
                         <img src="../images/icon/Save-icon.png" width="30" height="30" />
                         Chọn Trường</a>
@@ -732,10 +727,10 @@
             }, {
                 "country": "Netherlands",
                 "visits": document.getElementById('<%=HiddenField9.ClientID %>').value,
-                    "color": "#0D52D1"
-                }, {
-                    "country": "Germany",
-                    "visits": document.getElementById('<%=HiddenField10.ClientID %>').value,
+                "color": "#0D52D1"
+            }, {
+                "country": "Germany",
+                "visits": document.getElementById('<%=HiddenField10.ClientID %>').value,
                     "color": "#FCD202"
                 }, {
                     "country": "South Korea",
