@@ -274,4 +274,10 @@ public class BasePage : System.Web.UI.Page
 
         return context.Request.ServerVariables["REMOTE_ADDR"];
     }
+    //===============
+    public string SUSerectKey()//ilovemyfamily + Salt
+    {
+        string serectkey = "RBlpsQq68lgl2a7Rc8Fe0lgl7MWrmrH3XkYdTtOLiPhnZCrKzbmyXkZ7DFmpBZrPASpBFcEDmemD0i3Cn0hPfQ==";
+        return serectkey;
+    }
 }

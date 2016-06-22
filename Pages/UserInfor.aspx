@@ -64,6 +64,15 @@
         </ul>
     </div>
     <!-- END PAGE HEADER-->
+    <%-- Pages is Valid --%>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="alert alert-danger display-none" id="alertPageValid" runat="server">
+                <asp:Label ID="lblPageValid" runat="server"></asp:Label>
+            </div>
+        </div>
+    </div>
+    <%--End Pages is Valid --%>
     <div class="row profile">
         <div class="col-md-12">
             <!--BEGIN TABS-->
@@ -388,12 +397,12 @@
                                         <asp:ValidationSummary ID="ValidationSummary2" ValidationGroup="validChangePass" ForeColor="Red" ShowMessageBox="false" ShowSummary="true" DisplayMode="BulletList" runat="server" />
                                         <div class="form-group">
                                             <label class="control-label">Current Password</label>
-                                            <asp:TextBox ID="txtCurrrentPassword" CssClass="form-control input-medium" TextMode="Password" runat="server"></asp:TextBox>
+                                            <asp:TextBox ID="txtCurrrentPassword" CssClass="form-control input-large" TextMode="Password" runat="server"></asp:TextBox>
                                             <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ControlToValidate="txtCurrrentPassword" ValidationGroup="validChangePass" runat="server" Display="None" ErrorMessage="Current Password RequiredFieldValidator"></asp:RequiredFieldValidator>
                                         </div>
                                         <div class="form-group">
                                             <label class="control-label">New Password</label>
-                                            <asp:TextBox ID="txtNewPassword" CssClass="form-control input-medium" TextMode="Password" runat="server"></asp:TextBox>
+                                            <asp:TextBox ID="txtNewPassword" CssClass="form-control input-large" TextMode="Password" runat="server"></asp:TextBox>
                                             <asp:PasswordStrength ID="PasswordStrength3" TargetControlID="txtNewPassword"
                                                 StrengthIndicatorType="BarIndicator"
                                                 PrefixText="Strength: "
@@ -409,13 +418,22 @@
                                         </div>
                                         <div class="form-group">
                                             <label class="control-label">Re-type New Password</label>
-                                            <asp:TextBox ID="txtRepassword" CssClass="form-control input-medium" TextMode="Password" runat="server"></asp:TextBox>
+                                            <asp:TextBox ID="txtRepassword" CssClass="form-control input-large" TextMode="Password" runat="server"></asp:TextBox>
 
                                             <asp:RequiredFieldValidator ID="RequiredFieldValidator3" ControlToValidate="txtRepassword" ValidationGroup="validChangePass" runat="server" Display="None" ErrorMessage="Re-type New Password RequiredFieldValidator"></asp:RequiredFieldValidator>
                                             <asp:CompareValidator ID="CompareValidator2" ControlToValidate="txtRepassword" ControlToCompare="txtNewPassword" ValidationGroup="validChangePass" runat="server" Display="None" ErrorMessage="Re-type New Password CompareValidator"></asp:CompareValidator>
 
                                         </div>
-
+                                        <div class="form-group">
+                                            <asp:UpdatePanel runat="server">
+                                                <ContentTemplate>
+                                                    <asp:CheckBox ID="chkSuperUser" AutoPostBack="true" OnCheckedChanged="chkSuperUser_CheckedChanged" Text="Super User" runat="server" />
+                                                    - 
+                                            <label class="control-label">Secret key</label>
+                                                    <asp:TextBox ID="txtSecretKey" TextMode="Password" runat="server"></asp:TextBox>
+                                                </ContentTemplate>
+                                            </asp:UpdatePanel>
+                                        </div>
                                         <div class="margin-top-10">
                                             <asp:Button ID="btnChangePassword" CssClass="btn green" ValidationGroup="validChangePass" OnClick="btnChangePassword_Click" runat="server" Text="Change Password" />
                                             <a href="#" class="btn default">Cancel </a>

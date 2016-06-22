@@ -48,11 +48,13 @@ public partial class Pages_UserInfor : BasePage
                     }
                     else
                     {
+                        this.AlertPageValid(false, "", alertPageValid, lblPageValid);
                         this.load_dlcountry();
 
                         this.load_userprofile(Convert.ToInt32(userid));
                         this.load_rpchangeAvatar(Convert.ToInt32(userid));
                         this.load_gwPermisstion();
+                        txtSecretKey.Attributes.Add("class", "form-control display-none");
                     }
                 }
             }
@@ -74,7 +76,7 @@ public partial class Pages_UserInfor : BasePage
         }
         else
         {
-            if(!IsNumber(UserID))
+            if (!IsNumber(UserID))
             {
                 return false;
             }
@@ -209,7 +211,7 @@ public partial class Pages_UserInfor : BasePage
                 updateinfo = userprofile.UpdatePersonalInfo(userid, txtfirtname.Text, txtlastname.Text, sex, birthday, countryid, provinceid, distrctid, txtaddress.Text, txtphone.Text, txtInterests.Text, txtOccupation.Text, txtAbout.Text, txtwebsite.Text);
             updateinfo = true;
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             updateinfo = false;
         }
@@ -249,25 +251,74 @@ public partial class Pages_UserInfor : BasePage
         HashTool.Clear();
         return Convert.ToBase64String(EncryptedBytes);
     }
+    protected Boolean checkSerectkey(string key)
+    {
+        if (CreateSHAHash(key, SaltPassword()) != SUSerectKey())
+        {
+            return false;
+        }
+        return true;
+    }
     protected void btnChangePassword_Click(object sender, EventArgs e)
     {
-        useraccount = new UserAccountsBLL();
-        int userid = Convert.ToInt32(Request.QueryString["Userid"]);
-        if (CreateSHAHash(txtCurrrentPassword.Text, SaltPassword()) != useraccount.GetPasswordWithID(userid))
+        try
         {
-            Response.Write("<script>alert('Current Password Incorrect !')</script>");
-            return;
-        }
-        else
-        {
-            if (useraccount.UpadatePassword(userid, CreateSHAHash(txtRepassword.Text, SaltPassword())))
+            useraccount = new UserAccountsBLL();
+            int userid = Convert.ToInt32(Request.QueryString["Userid"]);
+            List<UserAccounts> lst = useraccount.getUseraccountUID(userid);
+            UserAccounts account = lst.FirstOrDefault();
+            if (userid == 1 || account.UserName == "admin")
             {
-                Response.Redirect(Request.Url.AbsoluteUri);
+                if (!checkSerectkey(txtSecretKey.Text))
+                {
+                    this.AlertPageValid(true, "Serect key is valid !", alertPageValid, lblPageValid);
+                }
+                else
+                {
+                    if (CreateSHAHash(txtCurrrentPassword.Text, SaltPassword()) != useraccount.GetPasswordWithID(userid))
+                    {
+                        Response.Write("<script>alert('Current Password Incorrect !')</script>");
+                        return;
+                    }
+                    else
+                    {
+                        if (useraccount.UpadatePassword(userid, CreateSHAHash(txtRepassword.Text, SaltPassword())))
+                        {
+                            Session.SetCurrentUser(null);
+                            Response.Redirect(Request.Url.AbsoluteUri);
+                        }
+                        else
+                        {
+                            Response.Write("<script>alert('Update False ! Connect dadabase Error !')</script>");
+                        }
+                    }
+                }
             }
             else
             {
-                Response.Write("<script>alert('Update False ! Connect dadabase Error !')</script>");
+                if (CreateSHAHash(txtCurrrentPassword.Text, SaltPassword()) != useraccount.GetPasswordWithID(userid))
+                {
+                    Response.Write("<script>alert('Current Password Incorrect !')</script>");
+                    return;
+                }
+                else
+                {
+                    if (useraccount.UpadatePassword(userid, CreateSHAHash(txtRepassword.Text, SaltPassword())))
+                    {
+                        Session.SetCurrentUser(null);
+                        Response.Redirect(Request.Url.AbsoluteUri);
+                    }
+                    else
+                    {
+                        Response.Write("<script>alert('Update False ! Connect dadabase Error !')</script>");
+                    }
+                }
             }
+
+        }
+        catch (Exception ex)
+        {
+            this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
         }
     }
     protected void btnUploadFile_Click(object sender, EventArgs e)
@@ -318,7 +369,7 @@ public partial class Pages_UserInfor : BasePage
                 return;
             }
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             Response.Write("<script>alert('" + ex.ToString() + " !')</script>");
         }
@@ -446,7 +497,7 @@ public partial class Pages_UserInfor : BasePage
         int t = 0;
         t = (int)(addnew() | edit() | delete() | view());
         string userid = Request.QueryString["Userid"];
-        if (gwPermisstion.SelectedRow!=null)
+        if (gwPermisstion.SelectedRow != null)
         {
             string PermissFuncID = (gwPermisstion.SelectedRow.FindControl("lblPermissFuncID") as Label).Text;
             this.userpermiss.setpermission(Convert.ToInt32(userid), Convert.ToInt32(PermissFuncID), t);
@@ -456,6 +507,18 @@ public partial class Pages_UserInfor : BasePage
         {
             Response.Write("<script>alert('PermissFunction not Available, please select a PermissFunction... !')</script>");
             return;
+        }
+    }
+
+    protected void chkSuperUser_CheckedChanged(object sender, EventArgs e)
+    {
+        if (chkSuperUser.Checked == true)
+        {
+            txtSecretKey.Attributes.Add("class", "form-control");
+        }
+        else
+        {
+            txtSecretKey.Attributes.Add("class", "form-control display-none");
         }
     }
 }
