@@ -14,18 +14,29 @@ namespace DAL
         string strconn = ConfigurationManager.ConnectionStrings["connectionStrCon"].ToString();
         private SqlConnection m_conn;
 
+
+        /// <summary>
+        /// 
+        /// </summary>
         public SqlConnection Conn
         {
             get { return m_conn; }
             set { m_conn = value; }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public DataServices()
         {
             this.Conn = new SqlConnection(strconn);
         }
 
-        //Ham mo ket noi
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public Boolean OpenConnection()
         {
             try

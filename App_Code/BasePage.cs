@@ -14,9 +14,7 @@ using System.Text.RegularExpressions;
 using System.Web.UI.WebControls;
 using System.Text;
 
-/// <summary>
-/// Summary description for BasePage
-/// </summary>
+
 public class BasePage : System.Web.UI.Page
 {
     SecuriryServices services;
@@ -281,3 +279,4 @@ public class BasePage : System.Web.UI.Page
         return serectkey;
     }
 }
+
