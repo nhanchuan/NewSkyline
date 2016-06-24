@@ -16,7 +16,7 @@ namespace DAL
 
 
         /// <summary>
-        /// 
+        /// Thuộc tính kết nối
         /// </summary>
         public SqlConnection Conn
         {
@@ -34,7 +34,7 @@ namespace DAL
 
         
         /// <summary>
-        /// 
+        /// Hàm mở kết nối với cơ sở dữ liệu
         /// </summary>
         /// <returns></returns>
         public Boolean OpenConnection()
@@ -52,11 +52,21 @@ namespace DAL
             return false;
         }
 
-        //Ham dong ket noi
+        
+        /// <summary>
+        /// Hàm đóng kết nối với cơ sở dữ liệu
+        /// </summary>
         public void CloseConnection()
         {
             this.Conn.Close();
         }
+
+        /// <summary>
+        /// Hàm lấy dữ liệu trả về Bảng
+        /// </summary>
+        /// <param name="strsql">Câu lệnh sql</param>
+        /// <param name="thamao">Tham số parameter</param>
+        /// <returns></returns>
         public DataTable DAtable(string strsql, params SqlParameter[] thamao)
         {
             try
