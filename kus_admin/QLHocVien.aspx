@@ -1,8 +1,8 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/GlobalMasterPage.master" AutoEventWireup="true" CodeFile="QLHocVien.aspx.cs" Inherits="kus_admin_QLHocVien" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <link href="../App_Themes/admin/StylePortlet.css" rel="stylesheet" />
     <!-- BEGIN PAGE HEADER-->
     <h1 class="page-title">Quản Lý Học Viên
@@ -22,6 +22,15 @@
             </li>
         </ul>
     </div>
+    <%-- Pages is Valid --%>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="alert alert-danger display-none" id="alertPageValid" runat="server">
+                <asp:Label ID="lblPageValid" runat="server"></asp:Label>
+            </div>
+        </div>
+    </div>
+    <%--End Pages is Valid --%>
     <!-- END PAGE HEADER-->
     <div class="row">
         <div class="col-lg-3">
@@ -95,7 +104,7 @@
     </div>
     <div class="row">
         <div class="col-lg-3">
-            <asp:Button ID="btnSunmitGhiDanhLop" CssClass="btn btn-primary"  OnClick="btnSunmitGhiDanhLop_Click" runat="server" Text="XEM DANH SÁCH" />
+            <asp:Button ID="btnSunmitGhiDanhLop" CssClass="btn btn-primary" OnClick="btnSunmitGhiDanhLop_Click" runat="server" Text="XEM DANH SÁCH" />
             <asp:Button ID="btnSunmitGhiDanhHV" CssClass="btn btn-primary" ValidationGroup="validViewGhiDanh" OnClick="btnSunmitGhiDanhHV_Click" runat="server" Text="XEM DANH SÁCH" />
         </div>
         <div class="col-lg-3"></div>
@@ -117,10 +126,11 @@
     <div class="clearfix"></div>
     <div class="row">
         <div class="col-lg-12">
-            <asp:Label ID="lblConfirm" runat="server"></asp:Label> <a id="btDownLoadFile" onserverclick="DownLoadFile" style="display:none;" runat="server"> Click here to download file => <i class="fa fa-download"></i>Download</a>
+            <asp:Label ID="lblConfirm" runat="server"></asp:Label>
+            <a id="btDownLoadFile" onserverclick="DownLoadFile" style="display: none;" runat="server">Click here to download file => <i class="fa fa-download"></i>Download</a>
         </div>
     </div>
-    
+
     <div class="row">
         <div class="col-lg-12">
             <div class="portlet box blue">
@@ -139,9 +149,9 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <%--<a id="btnPhieuGD" class="btn btn-default" onserverclick="btnPhieuGD_ServerClick" runat="server"><i class="fa fa-ticket"></i> Phiếu Ghi Danh Học Viên</a>--%>
-                            <a class="btn btn-info" id="btnViewHocVienInfor" onserverclick="btnViewHocVienInfor_ServerClick" runat="server"><i class="fa fa-info-circle"></i> Thông tin chi tiết</a>
-                            <a id="btnExporttoExcel" class="btn btn-default" onserverclick="btnExporttoExcel_ServerClick" runat="server"><i class="fa fa-file-excel-o"></i> Xuất DS file Excel</a>
-                            
+                            <a class="btn btn-info" id="btnViewHocVienInfor" onserverclick="btnViewHocVienInfor_ServerClick" runat="server"><i class="fa fa-info-circle"></i>Thông tin chi tiết</a>
+                            <a id="btnExporttoExcel" class="btn btn-default" onserverclick="btnExporttoExcel_ServerClick" runat="server"><i class="fa fa-file-excel-o"></i>Xuất DS file Excel</a>
+
                         </div>
                     </div>
                     <div class="row">

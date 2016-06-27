@@ -15,7 +15,7 @@
                 <a href="../Default.aspx">Home</a>
                 <i class="fa fa-angle-right"></i>
             </li>
-            <li>Quản lý Học phí
+            <li>Quản lý Học viên
                 <i class="fa fa-angle-right"></i>
             </li>
             <li>
@@ -351,7 +351,8 @@
             <%-- End More Info --%>
             <div class="clearfix"></div>
             <div class="col-lg-12 text-right">
-                <a id="btnUpdateInfor" class="btn green" onserverclick="btnUpdateInfor_ServerClick" runat="server"><i class="fa fa-save"></i> LƯU THÔNG TIN</a>
+                <a class="btn btn-info"><i class="fa fa-print"> In thông tin</i></a>
+                <a id="btnUpdateInfor" class="btn green" onserverclick="btnUpdateInfor_ServerClick" runat="server"><i class="fa fa-save"></i> Lưu thông tin</a>
             </div>
         </div>
     </div>

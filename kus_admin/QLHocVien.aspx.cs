@@ -40,6 +40,7 @@ public partial class kus_admin_QLHocVien : BasePage
                 }
                 else
                 {
+                    this.AlertPageValid(false, "", alertPageValid, lblPageValid);
                     this.load_dlHTChiNhanh();
                     formHT_CoSO.Visible = false;
                     dlLoaiThongKe.Items.FindByValue("0").Selected = true;
@@ -347,22 +348,31 @@ public partial class kus_admin_QLHocVien : BasePage
     }
     protected void btnExporttoExcel_ServerClick(object sender, EventArgs e)
     {
-        if (gwGhiDanhHocVien.Rows.Count == 0)
+        try
         {
-            Response.Write("<script>alert('No data')</script>");
-        }
-        else
-        {
-            int lophocID = Convert.ToInt32(dlKhoaHoc.SelectedValue);
-            if (lophocID == 0)
+            if (gwGhiDanhHocVien.Rows.Count == 0)
             {
-                Response.Write("<script>alert('Chưa chọn lớp học !')</script>");
+                Response.Write("<script>alert('No data')</script>");
             }
             else
             {
-                this.ExportToExcel(Convert.ToInt32(dlKhoaHoc.SelectedValue));
+                int lophocID = Convert.ToInt32(dlKhoaHoc.SelectedValue);
+                if (lophocID == 0)
+                {
+                    Response.Write("<script>alert('Chưa chọn lớp học !')</script>");
+                }
+                else
+                {
+                    this.ExportToExcel(Convert.ToInt32(dlKhoaHoc.SelectedValue));
+                }
             }
         }
+        catch (Exception ex)
+        {
+
+            this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
+        }
+        
     }
     // FUNCTION EXPORT TO EXCEL
     protected void ExportToExcel(int khoahoc)
