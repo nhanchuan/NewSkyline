@@ -11,9 +11,10 @@ using BLL;
 using System.Text.RegularExpressions;
 using System.Globalization;
 using System.IO;
+using ClosedXML.Excel;
 
-using Excel = Microsoft.Office.Interop.Excel;
-using ExcelAutoFormat = Microsoft.Office.Interop.Excel.XlRangeAutoFormat;
+//using Excel = Microsoft.Office.Interop.Excel;
+//using ExcelAutoFormat = Microsoft.Office.Interop.Excel.XlRangeAutoFormat;
 public partial class kus_admin_QLHocVien : BasePage
 {
     kus_HTChiNhanhBLL kus_htchinhanh;
@@ -379,87 +380,140 @@ public partial class kus_admin_QLHocVien : BasePage
     {
         kus_hocvien = new kus_HocVienBLL();
         nc_khoahoc = new nc_KhoaHocBLL();
-        DataTable tb = kus_hocvien.ExprotHVtoExcel(khoahoc);
         try
         {
-            if (tb.Rows.Count > 0)
+            using (DataTable dt = kus_hocvien.ExprotHVtoExcel(khoahoc))
             {
-                string path = Server.MapPath("../FileManager/Excel/");
-
-                if (!Directory.Exists(path))   // CHECK IF THE FOLDER EXISTS. IF NOT, CREATE A NEW FOLDER.
+                using (XLWorkbook wb = new XLWorkbook())
                 {
-                    Directory.CreateDirectory(path);
+                    wb.Worksheets.Add(dt, "DanhSachHocvien");
+                    
+                    //Response.Clear();
+                    //Response.Buffer = true;
+                    //Response.Charset = "";
+                    //Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                    //Response.AddHeader("content-disposition", "attachment;filename=SqlExport.xlsx");
+
+
+                    string path = Server.MapPath("../FileManager/Excel/");
+
+                    if (!Directory.Exists(path))   // CHECK IF THE FOLDER EXISTS. IF NOT, CREATE A NEW FOLDER.
+                    {
+                        Directory.CreateDirectory(path);
+                    }
+
+                    File.Delete(path + "ListHocVien.xlsx"); // DELETE THE FILE BEFORE CREATING A NEW ONE.
+
+
+                    //SAVE THE FILE IN A FOLDER.
+                                wb.SaveAs(path + "ListHocVien.xlsx");
+
+
+
+                    lblConfirm.Text = "Data Exported Successfully.";
+                    lblConfirm.Attributes.Add("style", "color:green; font: normal 14px Verdana;");
+                    btDownLoadFile.Attributes.Add("style", "display:block; font: normal 18px Verdana;");
+                    //using (MemoryStream MyMemoryStream = new MemoryStream())
+                    //{
+                    //    wb.SaveAs(MyMemoryStream);
+                    //    MyMemoryStream.WriteTo(Response.OutputStream);
+                    //    Response.Flush();
+                    //    Response.End();
+                    //}
                 }
-
-                File.Delete(path + "ListHocVien.xlsx"); // DELETE THE FILE BEFORE CREATING A NEW ONE.
-
-                // ADD A WORKBOOK USING THE EXCEL APPLICATION.
-                Excel.Application xlAppToExport = new Excel.Application();
-                xlAppToExport.Workbooks.Add("");
-
-                // ADD A WORKSHEET.
-                Excel.Worksheet xlWorkSheetToExport = default(Excel.Worksheet);
-                xlWorkSheetToExport = (Excel.Worksheet)xlAppToExport.Sheets["Sheet1"];
-                // ROW ID FROM WHERE THE DATA STARTS SHOWING.
-                int iRowCnt = 4;
-
-                // SHOW THE HEADER.
-                List<nc_KhoaHoc> lstKhoaHoc = nc_khoahoc.getListKhoaHocWithID(khoahoc);
-                nc_KhoaHoc khoh = lstKhoaHoc.FirstOrDefault();
-                xlWorkSheetToExport.Cells[1, 1] = "DANH SÁCH HỌC VIÊN KHÓA " + ((khoh == null) ? "" : khoh.TenKhoaHoc + " - " + khoh.MaKhoaHoc);
-
-                Excel.Range range = xlWorkSheetToExport.Cells[1, 1] as Excel.Range;
-                range.EntireRow.Font.Name = "Calibri";
-                range.EntireRow.Font.Bold = true;
-                range.EntireRow.Font.Size = 18;
-
-                xlWorkSheetToExport.Range["A1:H1"].MergeCells = true;       // MERGE CELLS OF THE HEADER.
-
-                // SHOW COLUMNS ON THE TOP.
-                xlWorkSheetToExport.Cells[iRowCnt - 1, 1] = "STT";
-                xlWorkSheetToExport.Cells[iRowCnt - 1, 2] = "MÃ HỌC VIÊN.";
-                xlWorkSheetToExport.Cells[iRowCnt - 1, 3] = "HỌ";
-                xlWorkSheetToExport.Cells[iRowCnt - 1, 4] = "TÊN";
-                xlWorkSheetToExport.Cells[iRowCnt - 1, 5] = "GIỚI TÍNH";
-                xlWorkSheetToExport.Cells[iRowCnt - 1, 6] = "NGÀY SINH";
-                xlWorkSheetToExport.Cells[iRowCnt - 1, 7] = "HỌC PHÍ";
-
-                foreach (DataRow r in tb.Rows)
-                {
-                    xlWorkSheetToExport.Cells[iRowCnt, 1] = (string.IsNullOrEmpty(r["ThuTu"].ToString())) ? "" : ((int)r["ThuTu"]).ToString();
-                    xlWorkSheetToExport.Cells[iRowCnt, 2] = (string.IsNullOrEmpty(r["HocVienCode"].ToString())) ? "" : (string)r["HocVienCode"];
-                    xlWorkSheetToExport.Cells[iRowCnt, 3] = (string.IsNullOrEmpty(r["LastName"].ToString())) ? "" : (string)r["LastName"];
-                    xlWorkSheetToExport.Cells[iRowCnt, 4] = (string.IsNullOrEmpty(r["FirstName"].ToString())) ? "" : (string)r["FirstName"];
-                    xlWorkSheetToExport.Cells[iRowCnt, 5] = (string.IsNullOrEmpty(r["Sex"].ToString())) ? "" : (string)r["Sex"];
-                    xlWorkSheetToExport.Cells[iRowCnt, 6] = (string.IsNullOrEmpty(r["Birthday"].ToString())) ? "" : ((DateTime)r["Birthday"]).ToString("dd/MM/yyyy");
-                    xlWorkSheetToExport.Cells[iRowCnt, 7] = (string.IsNullOrEmpty(r[9].ToString())) ? "" : ((int)r[9] == 0) ? "Chưa đóng" : "Đã đóng";
-                    iRowCnt = iRowCnt + 1;
-                }
-                // FINALLY, FORMAT THE EXCEL SHEET USING EXCEL'S AUTOFORMAT FUNCTION.
-                Excel.Range range1 = xlAppToExport.ActiveCell.Worksheet.Cells[4, 1] as Excel.Range;
-                range1.AutoFormat(ExcelAutoFormat.xlRangeAutoFormatList3);
-
-                // SAVE THE FILE IN A FOLDER.
-                xlWorkSheetToExport.SaveAs(path + "ListHocVien.xlsx");
-
-                // CLEAR.
-                xlAppToExport.Workbooks.Close();
-                xlAppToExport.Quit();
-                xlAppToExport = null;
-                xlWorkSheetToExport = null;
-
-                lblConfirm.Text = "Data Exported Successfully.";
-                lblConfirm.Attributes.Add("style", "color:green; font: normal 14px Verdana;");
-                btDownLoadFile.Attributes.Add("style", "display:block; font: normal 18px Verdana;");
             }
         }
         catch (Exception ex)
         {
-            lblConfirm.Text = ex.Message.ToString();
-            lblConfirm.Attributes.Add("style", "color:red; font: bold 14px/16px Sans-Serif,Arial");
+            this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
         }
-
     }
+
+    //protected void ExportToExcel(int khoahoc)
+    //{
+    //    kus_hocvien = new kus_HocVienBLL();
+    //    nc_khoahoc = new nc_KhoaHocBLL();
+    //    DataTable tb = kus_hocvien.ExprotHVtoExcel(khoahoc);
+    //    try
+    //    {
+    //        if (tb.Rows.Count > 0)
+    //        {
+    //            string path = Server.MapPath("../FileManager/Excel/");
+
+    //            if (!Directory.Exists(path))   // CHECK IF THE FOLDER EXISTS. IF NOT, CREATE A NEW FOLDER.
+    //            {
+    //                Directory.CreateDirectory(path);
+    //            }
+
+    //            File.Delete(path + "ListHocVien.xlsx"); // DELETE THE FILE BEFORE CREATING A NEW ONE.
+
+    //            // ADD A WORKBOOK USING THE EXCEL APPLICATION.
+    //            Excel.Application xlAppToExport = new Excel.Application();
+    //            xlAppToExport.Workbooks.Add("");
+
+    //            // ADD A WORKSHEET.
+    //            Excel.Worksheet xlWorkSheetToExport = default(Excel.Worksheet);
+    //            xlWorkSheetToExport = (Excel.Worksheet)xlAppToExport.Sheets["Sheet1"];
+    //            // ROW ID FROM WHERE THE DATA STARTS SHOWING.
+    //            int iRowCnt = 4;
+
+    //            // SHOW THE HEADER.
+    //            List<nc_KhoaHoc> lstKhoaHoc = nc_khoahoc.getListKhoaHocWithID(khoahoc);
+    //            nc_KhoaHoc khoh = lstKhoaHoc.FirstOrDefault();
+    //            xlWorkSheetToExport.Cells[1, 1] = "DANH SÁCH HỌC VIÊN KHÓA " + ((khoh == null) ? "" : khoh.TenKhoaHoc + " - " + khoh.MaKhoaHoc);
+
+    //            Excel.Range range = xlWorkSheetToExport.Cells[1, 1] as Excel.Range;
+    //            range.EntireRow.Font.Name = "Calibri";
+    //            range.EntireRow.Font.Bold = true;
+    //            range.EntireRow.Font.Size = 18;
+
+    //            xlWorkSheetToExport.Range["A1:H1"].MergeCells = true;       // MERGE CELLS OF THE HEADER.
+
+    //            // SHOW COLUMNS ON THE TOP.
+    //            xlWorkSheetToExport.Cells[iRowCnt - 1, 1] = "STT";
+    //            xlWorkSheetToExport.Cells[iRowCnt - 1, 2] = "MÃ HỌC VIÊN.";
+    //            xlWorkSheetToExport.Cells[iRowCnt - 1, 3] = "HỌ";
+    //            xlWorkSheetToExport.Cells[iRowCnt - 1, 4] = "TÊN";
+    //            xlWorkSheetToExport.Cells[iRowCnt - 1, 5] = "GIỚI TÍNH";
+    //            xlWorkSheetToExport.Cells[iRowCnt - 1, 6] = "NGÀY SINH";
+    //            xlWorkSheetToExport.Cells[iRowCnt - 1, 7] = "HỌC PHÍ";
+
+    //            foreach (DataRow r in tb.Rows)
+    //            {
+    //                xlWorkSheetToExport.Cells[iRowCnt, 1] = (string.IsNullOrEmpty(r["ThuTu"].ToString())) ? "" : ((int)r["ThuTu"]).ToString();
+    //                xlWorkSheetToExport.Cells[iRowCnt, 2] = (string.IsNullOrEmpty(r["HocVienCode"].ToString())) ? "" : (string)r["HocVienCode"];
+    //                xlWorkSheetToExport.Cells[iRowCnt, 3] = (string.IsNullOrEmpty(r["LastName"].ToString())) ? "" : (string)r["LastName"];
+    //                xlWorkSheetToExport.Cells[iRowCnt, 4] = (string.IsNullOrEmpty(r["FirstName"].ToString())) ? "" : (string)r["FirstName"];
+    //                xlWorkSheetToExport.Cells[iRowCnt, 5] = (string.IsNullOrEmpty(r["Sex"].ToString())) ? "" : (string)r["Sex"];
+    //                xlWorkSheetToExport.Cells[iRowCnt, 6] = (string.IsNullOrEmpty(r["Birthday"].ToString())) ? "" : ((DateTime)r["Birthday"]).ToString("dd/MM/yyyy");
+    //                xlWorkSheetToExport.Cells[iRowCnt, 7] = (string.IsNullOrEmpty(r[9].ToString())) ? "" : ((int)r[9] == 0) ? "Chưa đóng" : "Đã đóng";
+    //                iRowCnt = iRowCnt + 1;
+    //            }
+    //            // FINALLY, FORMAT THE EXCEL SHEET USING EXCEL'S AUTOFORMAT FUNCTION.
+    //            Excel.Range range1 = xlAppToExport.ActiveCell.Worksheet.Cells[4, 1] as Excel.Range;
+    //            range1.AutoFormat(ExcelAutoFormat.xlRangeAutoFormatList3);
+
+    //            // SAVE THE FILE IN A FOLDER.
+    //            xlWorkSheetToExport.SaveAs(path + "ListHocVien.xlsx");
+
+    //            // CLEAR.
+    //            xlAppToExport.Workbooks.Close();
+    //            xlAppToExport.Quit();
+    //            xlAppToExport = null;
+    //            xlWorkSheetToExport = null;
+
+    //            lblConfirm.Text = "Data Exported Successfully.";
+    //            lblConfirm.Attributes.Add("style", "color:green; font: normal 14px Verdana;");
+    //            btDownLoadFile.Attributes.Add("style", "display:block; font: normal 18px Verdana;");
+    //        }
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        lblConfirm.Text = ex.Message.ToString();
+    //        lblConfirm.Attributes.Add("style", "color:red; font: bold 14px/16px Sans-Serif,Arial");
+    //    }
+
+    //}
     protected void DownLoadFile(object sender, EventArgs e)
     {
         string sPath = Server.MapPath("../FileManager/Excel/ListHocVien.xlsx");

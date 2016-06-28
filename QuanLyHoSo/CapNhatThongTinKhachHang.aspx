@@ -250,6 +250,12 @@
                                                         <div class="form-group">
                                                             <label class="control-label">Số CMND</label>
                                                             <asp:TextBox ID="txtformIdentityCard" CssClass="form-control" runat="server"></asp:TextBox>
+                                                            <asp:RegularExpressionValidator ID="RegularExpressionValidator10" 
+                                                                    ControlToValidate="txtformIdentityCard" 
+                                                                    ValidationGroup="validFormPrivateProfile" 
+                                                                    ForeColor="Red" Display="Dynamic"
+                                                                    ValidationExpression="^[0-9]{9,12}" 
+                                                                    runat="server" ErrorMessage="CMND chỉ được nhập số  - Tối đa 12 ký tự .(VD: 245156321)"></asp:RegularExpressionValidator>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6">
@@ -356,6 +362,12 @@
                                                                 <label class="control-label bold col-md-4">Số CMND : </label>
                                                                 <div class="col-md-8">
                                                                     <asp:TextBox ID="txtpSoCmnd_Dad" CssClass="form-control" runat="server"></asp:TextBox>
+                                                                    <asp:RegularExpressionValidator ID="RegularExpressionValidator8" 
+                                                                    ControlToValidate="txtpSoCmnd_Dad" 
+                                                                    ValidationGroup="validFormPrivateProfile" 
+                                                                    ForeColor="Red" Display="Dynamic"
+                                                                    ValidationExpression="^[0-9]{9,12}" 
+                                                                    runat="server" ErrorMessage="CMND chỉ được nhập số  - Tối đa 12 ký tự .(VD: 245156321)"></asp:RegularExpressionValidator>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -449,6 +461,12 @@
                                                                 <label class="control-label bold col-md-4">Số CMND : </label>
                                                                 <div class="col-md-8">
                                                                     <asp:TextBox ID="txtpSoCmnd_Mom" CssClass="form-control" runat="server"></asp:TextBox>
+                                                                    <asp:RegularExpressionValidator ID="RegularExpressionValidator9"
+                                                                        ControlToValidate="txtpSoCmnd_Mom"
+                                                                        ValidationGroup="validFormPrivateProfile"
+                                                                        ForeColor="Red" Display="Dynamic"
+                                                                        ValidationExpression="^[0-9]{9,12}"
+                                                                        runat="server" ErrorMessage="CMND chỉ được nhập số  - Tối đa 12 ký tự .(VD: 245156321)"></asp:RegularExpressionValidator>
                                                                 </div>
                                                             </div>
                                                         </div>

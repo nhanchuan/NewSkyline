@@ -70,10 +70,10 @@
                 </div>
                 <div class="details">
                     <div class="number">
-                        2581
+                        <asp:Label ID="lblNumGhiDanh" runat="server" Text="Label"></asp:Label>
                     </div>
                     <div class="desc">
-                        New Orders
+                        Học viên ghi danh
                     </div>
                 </div>
                 <a class="more" href="#">View more <i class="m-icon-swapright m-icon-white"></i>

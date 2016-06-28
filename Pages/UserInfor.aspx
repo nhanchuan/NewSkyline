@@ -153,67 +153,33 @@
                                             </li>
                                         </ul>
                                     </div>
-                                    <!--end col-md-8-->
-                                    <%-- Col Sales Summary --%>
-                                    <%--<div class="col-md-4">
-                                        <div class="portlet sale-summary">
-                                            <div class="portlet-title">
-                                                <div class="caption">
-                                                    Sales Summary
-                                                </div>
-                                                <div class="tools">
-                                                    <a class="reload" href="javascript:;"></a>
-                                                </div>
-                                            </div>
-                                            <div class="portlet-body">
-                                                <ul class="list-unstyled">
-                                                    <li>
-                                                        <span class="sale-info">TODAY SOLD <i class="fa fa-img-up"></i>
-                                                        </span>
-                                                        <span class="sale-num">23 </span>
-                                                    </li>
-                                                    <li>
-                                                        <span class="sale-info">WEEKLY SALES <i class="fa fa-img-down"></i>
-                                                        </span>
-                                                        <span class="sale-num">87 </span>
-                                                    </li>
-                                                    <li>
-                                                        <span class="sale-info">TOTAL SOLD </span>
-                                                        <span class="sale-num">2377 </span>
-                                                    </li>
-                                                    <li>
-                                                        <span class="sale-info">EARNS </span>
-                                                        <span class="sale-num">$37.990 </span>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>--%>
-                                    <%-- End col Sales Summary --%>
-                                    <!--end col-md-4-->
                                 </div>
                                 <!--end row-->
-                               
-                                <asp:GridView ID="gwPermisstion" runat="server" CssClass="table table-bordered"
-                                    AutoGenerateColumns="false" OnSelectedIndexChanged="gwPermisstion_SelectedIndexChanged">
-                                    <Columns>
-                                        <asp:TemplateField HeaderText="Permission for Authentication">
-                                            <ItemTemplate>
-                                                <asp:Label ID="lblPermissFuncID" CssClass="display-none" runat="server" Text='<%# Eval("PermissFuncID") %>'></asp:Label>
-                                                <asp:Label ID="lblFunctionName" runat="server" Text='<%# Eval("FunctionName") %>'></asp:Label>
-                                                <asp:Label ID="lblPermisstionNumber" CssClass="display-none" runat="server" Text='<%# Eval("PermisstionNumber") %>'></asp:Label>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField>
-                                            <ItemTemplate>
-                                                <asp:LinkButton ID="LinkButton1" runat="server" CausesValidation="False" CommandName="Select" Text="Select"></asp:LinkButton>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                    </Columns>
-                                    <%--<HeaderStyle BackColor="#3AC0F2" ForeColor="White"></HeaderStyle>
-                                                    <RowStyle BackColor="#A1DCF2"></RowStyle>--%>
-                                    <SelectedRowStyle BackColor="#79B782" ForeColor="Black" />
-                                </asp:GridView>
+                                <div class="panel-body" style="height: 500px; overflow-y: auto;">
+                                    <div class="form-control height-auto">
+                                        <div class="scroller" style="height: 420px; overflow-x: scroll;" data-always-visible="1">
+                                            <asp:GridView ID="gwPermisstion" runat="server" CssClass="table table-bordered"
+                                                AutoGenerateColumns="false" OnSelectedIndexChanged="gwPermisstion_SelectedIndexChanged">
+                                                <Columns>
+                                                    <asp:TemplateField HeaderText="Permission for Authentication">
+                                                        <ItemTemplate>
+                                                            <asp:Label ID="lblPermissFuncID" CssClass="display-none" runat="server" Text='<%# Eval("PermissFuncID") %>'></asp:Label>
+                                                            <asp:Label ID="lblFunctionName" runat="server" Text='<%# Eval("FunctionName") %>'></asp:Label>
+                                                            <asp:Label ID="lblPermisstionNumber" CssClass="display-none" runat="server" Text='<%# Eval("PermisstionNumber") %>'></asp:Label>
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
+                                                    <asp:TemplateField>
+                                                        <ItemTemplate>
+                                                            <asp:LinkButton ID="LinkButton1" runat="server" CausesValidation="False" CommandName="Select" Text="Select"></asp:LinkButton>
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
+                                                </Columns>
+                                                <SelectedRowStyle BackColor="#79B782" ForeColor="Black" />
+                                            </asp:GridView>
+                                        </div>
+                                    </div>
+                                </div>
+                                
                                         <!--end profile-settings-->
                                 <div class="margin-top-10">
                                     <a href="#modalChangePermission" id="btnchangespermisswion" data-toggle="modal" class="btn green" runat="server"><i class="fa fa-cogs"></i>Permission Setting </a>

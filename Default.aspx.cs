@@ -12,6 +12,7 @@ using BLL;
 public partial class _Default : BasePage
 {
     CustomerProfilePrivateBLL customerProPri;
+    kus_GhiDanhBLL kus_ghidanh;
     protected void Page_Load(object sender, EventArgs e)
     {
         this.setcurenturl();
@@ -32,6 +33,8 @@ public partial class _Default : BasePage
     private void load_Number()
     {
         customerProPri = new CustomerProfilePrivateBLL();
+        kus_ghidanh = new kus_GhiDanhBLL();
         lblSumBoHoSo.Text= customerProPri.CounThuLyHoSoPageWise().ToString();
+        lblNumGhiDanh.Text = kus_ghidanh.CountHocVien().ToString();
     }
 }

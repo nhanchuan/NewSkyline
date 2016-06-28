@@ -254,5 +254,23 @@ namespace BLL
             this.DB.CloseConnection();
             return true;
         }
+        
+        /// <summary>
+        /// Tính tổng số Học Viên Ghi Danh tại Trung Tâm
+        /// </summary>
+        /// <returns>Interger</returns>
+        public int CountHocVien()
+        {
+            int count = 0;
+            if (!this.DB.OpenConnection())
+            {
+                return 0;
+            }
+            string sql = "select COUNT(*) from kus_GhiDanh";
+            count = DB.GetValues(sql);
+            this.DB.CloseConnection();
+            return count;
+
+        }
     }
 }
