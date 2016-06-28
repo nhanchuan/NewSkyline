@@ -33,13 +33,12 @@ public partial class Pages_UserGroups : BasePage
                 }
                 else
                 {
+                    this.AlertPageValid(false, "", alertPageValid, lblPageValid);
                     this.load_gwListDepartments();
                     this.load_dlManager();
-                    btnAuthentication.Visible = false;
+                    btnAuthentication.Attributes.Add("class", "btn btn-danger disabled");
                     this.load_CheckLst();
-                    lblPageisValid.Text = "";
                     lblchkNew.Text = "";
-                    //lblchkEdit.Text = "";
                     lblCheckDel.Text = "";
                 }
             }
@@ -71,9 +70,9 @@ public partial class Pages_UserGroups : BasePage
                 del.Attributes.Add("onclick", "return confirm('Bạn chắc chắn muốn xóa ?')");
             }
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-
+            this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
         }
     }
 
@@ -94,7 +93,7 @@ public partial class Pages_UserGroups : BasePage
         }
         catch (Exception ex)
         {
-            lblPageisValid.Text = ex.ToString();
+            this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
         }
     }
 
@@ -122,32 +121,39 @@ public partial class Pages_UserGroups : BasePage
         }
         catch (Exception ex)
         {
-            lblPageisValid.Text = ex.ToString();
+            this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
         }
     }
     
     protected void gwListDepartments_SelectedIndexChanged(object sender, EventArgs e)
     {
-        btnAuthentication.Visible = true;
-        this.ClearSelection();
-        int depID = Convert.ToInt32((gwListDepartments.SelectedRow.FindControl("lblDepartmentsID") as Label).Text);
-        this.load_checkedCHK(chlSystem, depID);
-        this.load_checkedCHK(chlUsermanager, depID);
-        this.load_checkedCHK(chlFileManager, depID);
-        this.load_checkedCHK(chlmedia, depID);
-        this.load_checkedCHK(chlFile, depID);
-        this.load_checkedCHK(chlCenter, depID);
-        this.load_checkedCHK(chlAdv, depID);
-        this.load_checkedCHK(chlWeb, depID);
+        try
+        {
+            btnAuthentication.Attributes.Add("class", "btn btn-danger");
+            this.ClearSelection();
+            int depID = Convert.ToInt32((gwListDepartments.SelectedRow.FindControl("lblDepartmentsID") as Label).Text);
+            this.load_checkedCHK(chlSystem, depID);
+            this.load_checkedCHK(chlUsermanager, depID);
+            this.load_checkedCHK(chlFileManager, depID);
+            this.load_checkedCHK(chlmedia, depID);
+            this.load_checkedCHK(chlFile, depID);
+            this.load_checkedCHK(chlCenter, depID);
+            this.load_checkedCHK(chlAdv, depID);
+            this.load_checkedCHK(chlWeb, depID);
 
-        this.checkSelectedAll(chlSystemall, chlSystem, depID);
-        this.checkSelectedAll(chlUsermanagerall, chlUsermanager, depID);
-        this.checkSelectedAll(chlFileManagerall, chlFileManager, depID);
-        this.checkSelectedAll(chlmediaall, chlmedia, depID);
-        this.checkSelectedAll(chlFileall, chlFile, depID);
-        this.checkSelectedAll(chlCenterall, chlCenter, depID);
-        this.checkSelectedAll(chlAdvall, chlAdv, depID);
-        this.checkSelectedAll(chlWeball, chlWeb, depID);
+            this.checkSelectedAll(chlSystemall, chlSystem, depID);
+            this.checkSelectedAll(chlUsermanagerall, chlUsermanager, depID);
+            this.checkSelectedAll(chlFileManagerall, chlFileManager, depID);
+            this.checkSelectedAll(chlmediaall, chlmedia, depID);
+            this.checkSelectedAll(chlFileall, chlFile, depID);
+            this.checkSelectedAll(chlCenterall, chlCenter, depID);
+            this.checkSelectedAll(chlAdvall, chlAdv, depID);
+            this.checkSelectedAll(chlWeball, chlWeb, depID);
+        }
+        catch (Exception ex)
+        {
+            this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
+        }
     }
 
     #region CheckBoxList
@@ -479,7 +485,7 @@ public partial class Pages_UserGroups : BasePage
         }
         catch (Exception ex)
         {
-            lblPageisValid.Text = ex.ToString();
+            this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
         }
         
     }

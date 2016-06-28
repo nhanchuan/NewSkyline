@@ -19,6 +19,15 @@
             </li>
         </ul>
     </div>
+    <%-- Pages is Valid --%>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="alert alert-danger display-none" id="alertPageValid" runat="server">
+                <asp:Label ID="lblPageValid" runat="server"></asp:Label>
+            </div>
+        </div>
+    </div>
+    <%--End Pages is Valid --%>
     <!-- END PAGE HEADER-->
     <div class="row">
         <div class="col-lg-5">

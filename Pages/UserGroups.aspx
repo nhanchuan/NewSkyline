@@ -19,6 +19,15 @@
         </ul>
     </div>
     <!-- END PAGE HEADER-->
+    <%-- Pages is Valid --%>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="alert alert-danger display-none" id="alertPageValid" runat="server">
+                <asp:Label ID="lblPageValid" runat="server"></asp:Label>
+            </div>
+        </div>
+    </div>
+    <%--End Pages is Valid --%>
     <div class="row">
         <div class="col-lg-4">
             <h3>Thêm Nhóm Thành Viên</h3>
@@ -40,9 +49,9 @@
             </div>
         </div>
         <div class="col-lg-8">
-            <div class="row">
+            <div class="row margin-bottom-20">
                 <div class="col-lg-12">
-                    <a id="btnAuthentication" class="btn btn-danger" href="#modalAuthentication" data-toggle="modal" runat="server"><i class="fa fa-group"></i>Authentication Groups</a>
+                    <a id="btnAuthentication" class="btn btn-danger disabled" href="#modalAuthentication" data-toggle="modal" runat="server"><i class="fa fa-group"></i>Authentication Groups</a>
                 </div>
             </div>
             <asp:Label ID="lblCheckDel" ForeColor="Red" runat="server"></asp:Label>
@@ -157,6 +166,6 @@
         </div>
     </div>
     <%-- End Modal Authentication --%>
-    <asp:Label ID="lblPageisValid" ForeColor="Red" runat="server"></asp:Label>
+    <%--<asp:Label ID="lblPageisValid" ForeColor="Red" runat="server"></asp:Label>--%>
 </asp:Content>
 

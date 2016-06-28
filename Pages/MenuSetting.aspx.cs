@@ -32,6 +32,7 @@ public partial class Pages_MenuSetting : BasePage
                 }
                 else
                 {
+                    this.AlertPageValid(false, "", alertPageValid, lblPageValid);
                     this.load_gwMenuItems();
                     btnSubmit.Enabled = false;
                 }
@@ -41,15 +42,30 @@ public partial class Pages_MenuSetting : BasePage
 
     protected void btnAddMenuItem_Click(object sender, EventArgs e)
     {
-        mainmenu = new MainMenuBLL();
-        if (mainmenu.NewMainMenu(txtItemname.Text, txtPermalink.Text, mainmenu.MaxItemindex() + 1))
+        try
         {
-            Response.Redirect(Request.Url.AbsoluteUri);
+            bool result = HasPermission(Session.GetCurrentUser().UserID, FunctionName.MenuSetting, TypeAudit.AddNew);
+            if (result == false)
+            {
+                this.AlertPageValid(true, "Bạn không có quyền thực hiện chức năng này !", alertPageValid, lblPageValid);
+            }
+            else
+            {
+                mainmenu = new MainMenuBLL();
+                if (mainmenu.NewMainMenu(txtItemname.Text, txtPermalink.Text, mainmenu.MaxItemindex() + 1))
+                {
+                    Response.Redirect(Request.Url.AbsoluteUri);
+                }
+                else
+                {
+                    Response.Write("<script>alert('Thêm Menu thất bại. Lỗi kết nối CSDL !')</srcipt>");
+                    return;
+                }
+            }
         }
-        else
+        catch (Exception ex)
         {
-            Response.Write("<script>alert('Thêm Menu thất bại. Lỗi kết nối CSDL !')</srcipt>");
-            return;
+            this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
         }
     }
     private void load_gwMenuItems()
@@ -81,7 +97,7 @@ public partial class Pages_MenuSetting : BasePage
         a.setNum(b.getNum());                   // gan num cua b cho a
         b.setNum(temp);                         // gan temp cho num cua b
     }
-    
+
     protected void lkbtnUp_Click(object sender, EventArgs e)
     {
         mainmenu = new MainMenuBLL();
@@ -96,8 +112,8 @@ public partial class Pages_MenuSetting : BasePage
 
         List<MainMenu> lstMUP = mainmenu.ListMenuItemsWithIndex(mainmenu.MaxItemindexLK(menu.ItemIndex)); //index B
         MainMenu menuUp = lstMUP.FirstOrDefault();
-        
-        if (menuUp==null)
+
+        if (menuUp == null)
         {
             a = new Number(0);
             b = new Number(0);
@@ -110,8 +126,8 @@ public partial class Pages_MenuSetting : BasePage
             a = new Number(menu.ItemIndex);
             b = new Number(menuUp.ItemIndex);
             this.swap(a, b);
-            this.mainmenu.UpdateItemIndex(a.getNum(),A.getNum());
-            this.mainmenu.UpdateItemIndex(b.getNum(),B.getNum());
+            this.mainmenu.UpdateItemIndex(a.getNum(), A.getNum());
+            this.mainmenu.UpdateItemIndex(b.getNum(), B.getNum());
             this.load_gwMenuItems();
             gwMenuItems.SelectedIndex = -1;
         }
@@ -129,7 +145,7 @@ public partial class Pages_MenuSetting : BasePage
         MainMenu menu = lstMN.FirstOrDefault();
         List<MainMenu> lstMDown = mainmenu.ListMenuItemsWithIndex(mainmenu.MinItemindexLK(menu.ItemIndex)); //index B
         MainMenu menuDown = lstMDown.FirstOrDefault();
-        if(menuDown==null)
+        if (menuDown == null)
         {
             a = new Number(0);
             b = new Number(0);
@@ -173,14 +189,14 @@ public partial class Pages_MenuSetting : BasePage
     protected void btnSubmit_Click(object sender, EventArgs e)
     {
         mainmenu = new MainMenuBLL();
-        if (gwMenuItems.SelectedRow==null)
+        if (gwMenuItems.SelectedRow == null)
         {
             lblWaringEdit.Text = "Chưa chọn menu Item !";
         }
         else
         {
             string strMenuID = (gwMenuItems.SelectedRow.FindControl("lblMenuID") as Label).Text;
-            if(this.mainmenu.UpdateMainMenu(Convert.ToInt32(strMenuID), txtEditItemname.Text, txtEPermalink.Text))
+            if (this.mainmenu.UpdateMainMenu(Convert.ToInt32(strMenuID), txtEditItemname.Text, txtEPermalink.Text))
             {
                 this.load_gwMenuItems();
                 btnSubmit.Enabled = false;
@@ -239,7 +255,7 @@ public partial class Pages_MenuSetting : BasePage
     protected void btnInsertItemtoMenu_ServerClick(object sender, EventArgs e)
     {
         menu_categry = new Menu_CategoryBLL();
-        if(gwMenuItems.SelectedRow==null)
+        if (gwMenuItems.SelectedRow == null)
         {
             lblAddSubItemWaring.Text = "Chưa chọn Menu !";
         }
@@ -248,7 +264,7 @@ public partial class Pages_MenuSetting : BasePage
             string strMenuID = (gwMenuItems.SelectedRow.FindControl("lblMenuID") as Label).Text;
             List<Menu_Category> lstMC = menu_categry.ListItemWithMenuAndCT(Convert.ToInt32(strMenuID), Convert.ToInt32(dlSelectCategory.SelectedValue));
             Menu_Category menuItem = lstMC.FirstOrDefault();
-            if (menuItem!=null)
+            if (menuItem != null)
             {
                 lblAddSubItemWaring.Text = "Danh mục đã có. Vui lòng chọn danh mục khác !";
             }
@@ -256,7 +272,7 @@ public partial class Pages_MenuSetting : BasePage
             {
                 //lblAddSubItemWaring.Text = menu_categry.CounkItemWithMenuID(Convert.ToInt32(strMenuID)).ToString();
                 lblAddSubItemWaring.Text = "";
-                if (menu_categry.AddNewMenu_Category(Convert.ToInt32(strMenuID), Convert.ToInt32(dlSelectCategory.SelectedValue), menu_categry.MaxItemindexWithMenuID(Convert.ToInt32(strMenuID))+1))
+                if (menu_categry.AddNewMenu_Category(Convert.ToInt32(strMenuID), Convert.ToInt32(dlSelectCategory.SelectedValue), menu_categry.MaxItemindexWithMenuID(Convert.ToInt32(strMenuID)) + 1))
                 {
                     this.load_gwSubMenuItem(Convert.ToInt32(strMenuID));
                 }
@@ -280,7 +296,7 @@ public partial class Pages_MenuSetting : BasePage
         Menu_Category c_menu = lstCMN.FirstOrDefault();
         List<Menu_Category> lstCMUP = menu_categry.ListItemWithIndex(menu_categry.MaxItemindexLK(c_menu.ItemIndex, Convert.ToInt32(strMenuID)), Convert.ToInt32(strMenuID));
         Menu_Category menuUp = lstCMUP.FirstOrDefault();
-        
+
         if (menuUp == null)
         {
             a = new Number(0);
