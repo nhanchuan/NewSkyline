@@ -1,8 +1,8 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/GlobalMasterPage.master" AutoEventWireup="true" CodeFile="Post-All.aspx.cs" Inherits="Pages_Post_All" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <style>
         .background {
             background: url('../../images/backgrounds/noise_light-grey.jpg');
@@ -58,9 +58,18 @@
             </div>
         </div>
     </div>
-    <!-- END PAGE HEADER-->
+    <%-- Pages is Valid --%>
     <div class="row">
         <div class="col-lg-12">
+            <div class="alert alert-danger display-none" id="alertPageValid" runat="server">
+                <asp:Label ID="lblPageValid" runat="server"></asp:Label>
+            </div>
+        </div>
+    </div>
+    <%--End Pages is Valid --%>
+    <!-- END PAGE HEADER-->
+    <div id="PostManager" runat="server">
+        <div class="col-lg-12 margin-bottom-30">
             <a class="btn green" href="../Pages/Post-New.aspx">Viết bài mới</a>
         </div>
         <hr />
@@ -90,7 +99,7 @@
                             </asp:DropDownList>
                         </div>
                         <div class="col-lg-2">
-                            <asp:DropDownList ID="dlCategory" style="margin-left:100px;" CssClass="form-control input-medium" AutoPostBack="true" OnSelectedIndexChanged="dlCategory_SelectedIndexChanged" runat="server"></asp:DropDownList>
+                            <asp:DropDownList ID="dlCategory" Style="margin-left: 100px;" CssClass="form-control input-medium" AutoPostBack="true" OnSelectedIndexChanged="dlCategory_SelectedIndexChanged" runat="server"></asp:DropDownList>
                         </div>
                         <div class="col-lg-5 pull-right">
                             <div class="input-group">
@@ -113,8 +122,8 @@
                                     <asp:TextBox ID="TextBox1" runat="server" Text='<%# Bind("ImagesUrl") %>'></asp:TextBox>
                                 </EditItemTemplate>
                                 <ItemTemplate>
-                                   <%-- <asp:Label ID="Label1" runat="server" Text='<%# Bind("ImagesUrl") %>'></asp:Label>--%>
-                                    <img src='<%# "../" + Eval("ImagesUrl") %>' style="width:60px; height:auto;"/>
+                                    <%-- <asp:Label ID="Label1" runat="server" Text='<%# Bind("ImagesUrl") %>'></asp:Label>--%>
+                                    <img src='<%# "../" + Eval("ImagesUrl") %>' style="width: 60px; height: auto;" />
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Tiêu Đề Bài Viết">
@@ -123,7 +132,7 @@
                                 </EditItemTemplate>
                                 <ItemTemplate>
                                     <asp:Label ID="lblPostID" CssClass="display-none" runat="server" Text='<%# Eval("PostID") %>'></asp:Label>
-                                    <a class="control-label" style="font-size:larger; text-transform:uppercase; color:black;" href='<%#"../Pages/Post-Update.aspx?PostCode="+Eval("PostID") %>'>
+                                    <a class="control-label" style="font-size: larger; text-transform: uppercase; color: black;" href='<%#"../Pages/Post-Update.aspx?PostCode="+Eval("PostID") %>'>
                                         <asp:Label ID="Label2" runat="server" Text='<%# Bind("PostTitle") %>'></asp:Label>
                                     </a>
                                 </ItemTemplate>
@@ -133,9 +142,9 @@
                                     <asp:TextBox ID="TextBox9" runat="server" Text='<%# Bind("MetaDescription") %>'></asp:TextBox>
                                 </EditItemTemplate>--%>
                                 <ItemTemplate>
-                                    <label class="bold"><i class="fa fa-key"></i> Meta Keywords :</label>
+                                    <label class="bold"><i class="fa fa-key"></i>Meta Keywords :</label>
                                     <asp:Label ID="Label8" runat="server" Text='<%# Bind("MetaKeywords") %>'></asp:Label><br />
-                                    <label class="bold"><i class="fa fa-list"></i> Meta Description :</label>
+                                    <label class="bold"><i class="fa fa-list"></i>Meta Description :</label>
                                     <asp:Label ID="Label9" runat="server" Text='<%# Bind("MetaDescription") %>'></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
@@ -187,7 +196,7 @@
                                 <ItemStyle Width="30px" />
                             </asp:TemplateField>
                         </Columns>
-                        
+
                         <HeaderStyle BackColor="#3AC0F2" ForeColor="White"></HeaderStyle>
 
                         <RowStyle BackColor="#A1DCF2"></RowStyle>
