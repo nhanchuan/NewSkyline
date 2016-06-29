@@ -1,8 +1,8 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/GlobalMasterPage.master" AutoEventWireup="true" CodeFile="ImagesCategory.aspx.cs" Inherits="Pages_ImagesCategory" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <!-- BEGIN PAGE HEADER-->
     <h1 class="page-title">Danh Mục Hình Ảnh
     </h1>
@@ -19,24 +19,38 @@
         </ul>
     </div>
     <!-- END PAGE HEADER-->
+    <%-- Pages is Valid --%>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="alert alert-danger display-none" id="alertPageValid" runat="server">
+                <asp:Label ID="lblPageValid" runat="server"></asp:Label>
+            </div>
+        </div>
+    </div>
+    <%--End Pages is Valid --%>
     <div class="row">
         <div class="col-lg-4">
-            <h3>Thêm Danh Mục Hình Ảnh</h3><br />
+            <h3>Thêm Danh Mục Hình Ảnh</h3>
+            <br />
             <div class="form-group">
                 <label class="control-label">Danh mục hình ảnh</label>
                 <asp:TextBox ID="txtImgCategory" CssClass="form-control" runat="server"></asp:TextBox>
                 <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ControlToValidate="txtImgCategory" ValidationGroup="validImgCategory" runat="server" ForeColor="Red" Display="Dynamic" ErrorMessage="Tên danh mục không được để trống !"></asp:RequiredFieldValidator>
             </div>
-            
+
             <div class="form-group">
                 <asp:Button ID="btnAddImgCategory" CssClass="btn btn-primary" ValidationGroup="validImgCategory" OnClick="btnAddImgCategory_Click" runat="server" Text="Thêm Danh Mục" />
             </div>
         </div>
         <div class="col-lg-8">
-            <a class="btn btn-default" id="btnfixImagesCT" href="#modalEditIamgeCategory" data-toggle="modal" runat="server"><i class="fa fa-cog"></i> Chỉnh sửa danh mục</a>
-            <a class="btn green" id="btnuploadImagse" href="#modalUploadIamge" data-toggle="modal" runat="server"><i class="fa fa-upload"></i> Upload Images</a>
-            <asp:Label ID="lblConfirm" runat="server"></asp:Label>
-            <br />
+            <div class="row margin-bottom-25">
+                <div class="col-lg-12">
+                    <a class="btn btn-default" id="btnfixImagesCT" href="#modalEditIamgeCategory" data-toggle="modal" runat="server"><i class="fa fa-cog"></i>Chỉnh sửa danh mục</a>
+                    <a class="btn green" id="btnuploadImagse" href="#modalUploadIamge" data-toggle="modal" runat="server"><i class="fa fa-upload"></i>Upload Images</a>
+                    <asp:Label ID="lblConfirm" runat="server"></asp:Label>
+                </div>
+            </div>
+
             <asp:GridView ID="gwImagesCategory" CssClass="table table-condensed" runat="server" AutoGenerateColumns="False" RowStyle-BackColor="#A1DCF2" Font-Names="Arial" Font-Size="10pt"
                 HeaderStyle-BackColor="#3AC0F2" HeaderStyle-ForeColor="White" OnRowDataBound="gwImagesCategory_RowDataBound" OnRowDeleting="gwImagesCategory_RowDeleting" OnSelectedIndexChanged="gwImagesCategory_SelectedIndexChanged">
                 <Columns>
@@ -80,7 +94,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                    <i class="fa fa-cog"></i> Edit Images Category
+                    <i class="fa fa-cog"></i>Edit Images Category
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
@@ -154,6 +168,6 @@
                 preview.src = "";
             }
         }
-    </script> 
+    </script>
 </asp:Content>
 

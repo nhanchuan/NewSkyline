@@ -29,7 +29,16 @@ public partial class Pages_FileManager :BasePage
                 }
                 else
                 {
-                    
+                    this.AlertPageValid(false, "", alertPageValid, lblPageValid);
+                    if(HasPermission(ac.UserID,FunctionName.FileExplorer,TypeAudit.View))
+                    {
+                        FileExplorer.Attributes.Add("class", "row");
+                    }
+                    else
+                    {
+                        FileExplorer.Attributes.Add("class", "row display-none");
+                        this.AlertPageValid(true, "Bạn không có quyền xem nội dung này !", alertPageValid, lblPageValid);
+                    }
                 }
             }
         }

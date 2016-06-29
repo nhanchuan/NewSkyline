@@ -19,8 +19,10 @@ public class hn_UploadImagesType : IHttpHandler, IReadOnlySessionState
 {
     ImagesBLL images;
     ImagesTypeBLL imagestype;
+
     public void ProcessRequest(HttpContext context)
     {
+
         images = new ImagesBLL();
         imagestype = new ImagesTypeBLL();
         UserAccounts ac = context.Session.GetCurrentUser();
@@ -46,7 +48,7 @@ public class hn_UploadImagesType : IHttpHandler, IReadOnlySessionState
             if (!string.IsNullOrEmpty(fileName))
             {
                 fileExtension = Path.GetExtension(fileName);
-                str_image = "Anh-Van-Hoi-Anh-My-" + dateString + "-" + RandomName + fileExtension;
+                str_image = "Advanced-Skyline-English-Center-" + dateString + "-" + RandomName + fileExtension;
                 File.Delete(dirFullPath + str_image); // DELETE THE FILE BEFORE CREATING A NEW ONE.
 
                 //file.SaveAs(pathToSave);
@@ -75,6 +77,7 @@ public class hn_UploadImagesType : IHttpHandler, IReadOnlySessionState
             }
         }
         context.Response.Write(str_image);
+
     }
 
     public bool IsReusable
@@ -115,6 +118,27 @@ public class hn_UploadImagesType : IHttpHandler, IReadOnlySessionState
     {
         string title_url = "";
         str = str.Replace(" ", "-");
+        str = str.Replace("%", "-");
+        str = str.Replace("~", "-");
+        str = str.Replace("!", "-");
+        str = str.Replace("#", "-");
+        str = str.Replace("$", "-");
+        str = str.Replace("^", "-");
+        str = str.Replace("&", "-");
+        str = str.Replace("*", "-");
+        str = str.Replace("(", "-");
+        str = str.Replace(")", "-");
+        str = str.Replace("|", "-");
+        str = str.Replace("+", "-");
+        str = str.Replace("{", "-");
+        str = str.Replace("}", "-");
+        str = str.Replace("[", "-");
+        str = str.Replace("]", "-");
+        str = str.Replace("<", "-");
+        str = str.Replace(">", "-");
+        str = str.Replace("?", "-");
+        str = str.Replace(",", "-");
+        str = str.Replace(".", "-");
         Regex regex = new Regex("\\p{IsCombiningDiacriticalMarks}+");
         string temp = str.Normalize(System.Text.NormalizationForm.FormD);
         title_url = regex.Replace(temp, String.Empty).Replace('\u0111', 'd').Replace('\u0110', 'D');

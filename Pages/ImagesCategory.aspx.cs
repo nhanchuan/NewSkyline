@@ -34,6 +34,7 @@ public partial class Pages_ImagesCategory : BasePage
                 }
                 else
                 {
+                    this.AlertPageValid(false, "", alertPageValid, lblPageValid);
                     this.load_gwImagesCategory();
                     btnsave.Visible = false;
                     btnfixImagesCT.Visible = false;
@@ -51,14 +52,30 @@ public partial class Pages_ImagesCategory : BasePage
     }
     protected void btnAddImgCategory_Click(object sender, EventArgs e)
     {
-        imagestype = new ImagesTypeBLL();
-        if(this.imagestype.NewImagesCategory(txtImgCategory.Text))
+
+        try
         {
-            Response.Redirect(Request.Url.AbsoluteUri);
+            if (HasPermission(Session.GetCurrentUser().UserID, FunctionName.CategoryImages, TypeAudit.AddNew))
+            {
+                imagestype = new ImagesTypeBLL();
+                if (this.imagestype.NewImagesCategory(txtImgCategory.Text))
+                {
+                    Response.Redirect(Request.Url.AbsoluteUri);
+                }
+                else
+                {
+                    this.AlertPageValid(true, "Thêm Danh Mục thất bại. Lỗi kết nối CSDL !", alertPageValid, lblPageValid);
+                }
+            }
+            else
+            {
+                this.AlertPageValid(true, "Bạn không có quyền thực hiện chức năng này !", alertPageValid, lblPageValid);
+            }
+
         }
-        else
+        catch (Exception ex)
         {
-            Response.Write("<script>alert('Thêm Danh Mục thất bại. Lỗi kết nối CSDL !')</script>");
+            this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
         }
     }
 
@@ -99,88 +116,117 @@ public partial class Pages_ImagesCategory : BasePage
 
     protected void btnsave_Click(object sender, EventArgs e)
     {
-        imagestype = new ImagesTypeBLL();
-        if(gwImagesCategory.SelectedRow==null)
-        {
-            Response.Write("<script>alert('Chưa chọn danh mục hình !')</script>");
-        }
-        else
-        {
-            string ImgTypeID = (gwImagesCategory.SelectedRow.FindControl("lblImagesTypeID") as Label).Text;
-            if (imagestype.Update(txtEditImagesCategory.Text,Convert.ToInt32(ImgTypeID)))
-            {
-                Response.Redirect(Request.Url.AbsoluteUri);
-            }
-            else
-            {
-                Response.Write("<script>alert('Chỉnh sửa Danh Mục thất bại. Lỗi kết nối CSDL !')</script>");
-            }
-        }
-    }
-    
-    protected void btnUploadImages_Click(object sender, EventArgs e)
-    {
-        //ImgEditPC.Src = txtuploadImgTemp.Text;
-        UserAccounts ac = Session.GetCurrentUser();
-        images = new ImagesBLL();
-        imagestype = new ImagesTypeBLL();
-        string ImgTypeID = (gwImagesCategory.SelectedRow.FindControl("lblImagesTypeID") as Label).Text;
-        List<ImagesType> lstImgType = imagestype.getImagesTypeWithID(Convert.ToInt32(ImgTypeID));
-        ImagesType imt = lstImgType.FirstOrDefault();
-
-        string dateString = DateTime.Now.ToString("dd-MM-yyyy");
-        string fileName = Path.GetFileName(fileUploadImg.PostedFile.FileName);
-        ImageCodecInfo jgpEncoder = null;
-        string str_image = "";
-        string fileExtension = "";
         try
         {
-            if (!string.IsNullOrEmpty(fileName))
+            if (HasPermission(Session.GetCurrentUser().UserID, FunctionName.CategoryImages, TypeAudit.Edit))
             {
-                fileExtension = Path.GetExtension(fileName);
-                str_image = "Anh-Van-Hoi-Anh-My-" + dateString + "-" + RandomName + fileExtension;
-                //string pathToSave = Server.MapPath("../images/Upload/ImagesForCustomerProfile/") + str_image;
-
-                string path = Server.MapPath("../images/Upload/" + XoaKyTuDacBiet(imt.ImagesTypeName) + "/");
-                if (!Directory.Exists(path))   // CHECK IF THE FOLDER EXISTS. IF NOT, CREATE A NEW FOLDER.
+                imagestype = new ImagesTypeBLL();
+                if (gwImagesCategory.SelectedRow == null)
                 {
-                    Directory.CreateDirectory(path);
+                    Response.Write("<script>alert('Chưa chọn danh mục hình !')</script>");
                 }
-
-                File.Delete(path + str_image); // DELETE THE FILE BEFORE CREATING A NEW ONE.
-                
-                //file.SaveAs(pathToSave);
-                System.Drawing.Image image = System.Drawing.Image.FromStream(fileUploadImg.FileContent);
-                if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Gif.Guid)
-                    jgpEncoder = GetEncoder(ImageFormat.Gif);
-                else if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Jpeg.Guid)
-                    jgpEncoder = GetEncoder(ImageFormat.Jpeg);
-                else if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Bmp.Guid)
-                    jgpEncoder = GetEncoder(ImageFormat.Bmp);
-                else if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Png.Guid)
-                    jgpEncoder = GetEncoder(ImageFormat.Png);
                 else
-                    throw new System.ArgumentException("Invalid File Type");
-                Bitmap bmp1 = new Bitmap(fileUploadImg.FileContent);
-                Encoder myEncoder = Encoder.Quality;
-                EncoderParameters myEncoderParameters = new EncoderParameters(1);
-                EncoderParameter myEncoderParameter = new EncoderParameter(myEncoder, 10L);
-                myEncoderParameters.Param[0] = myEncoderParameter;
-                bmp1.Save(path + str_image, jgpEncoder, myEncoderParameters);
-                this.images.InsertImages(str_image, "images/Upload/" + XoaKyTuDacBiet(imt.ImagesTypeName) + "/" + str_image, Convert.ToInt32(ImgTypeID), ac.UserID);
-                Response.Redirect(Request.Url.AbsoluteUri);
+                {
+                    string ImgTypeID = (gwImagesCategory.SelectedRow.FindControl("lblImagesTypeID") as Label).Text;
+                    if (imagestype.Update(txtEditImagesCategory.Text, Convert.ToInt32(ImgTypeID)))
+                    {
+                        Response.Redirect(Request.Url.AbsoluteUri);
+                    }
+                    else
+                    {
+                        this.AlertPageValid(true, "Chỉnh sửa Danh Mục thất bại. Lỗi kết nối CSDL !", alertPageValid, lblPageValid);
+                    }
+                }
             }
             else
             {
-                Response.Write("<script>alert('Upload Image False !')</script>");
-                return;
+                this.AlertPageValid(true, "Bạn không có quyền thực hiện chức năng này !", alertPageValid, lblPageValid);
             }
         }
         catch (Exception ex)
         {
-            lblConfirm.Text = ex.Message.ToString();
-            lblConfirm.Attributes.Add("style", "color:red; font: bold 14px/16px Sans-Serif,Arial");
+            this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
         }
-        
+    }
+
+    protected void btnUploadImages_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            if (HasPermission(Session.GetCurrentUser().UserID, FunctionName.NewImages, TypeAudit.AddNew))
+            {
+                //ImgEditPC.Src = txtuploadImgTemp.Text;
+                UserAccounts ac = Session.GetCurrentUser();
+                images = new ImagesBLL();
+                imagestype = new ImagesTypeBLL();
+                string ImgTypeID = (gwImagesCategory.SelectedRow.FindControl("lblImagesTypeID") as Label).Text;
+                List<ImagesType> lstImgType = imagestype.getImagesTypeWithID(Convert.ToInt32(ImgTypeID));
+                ImagesType imt = lstImgType.FirstOrDefault();
+
+                string dateString = DateTime.Now.ToString("dd-MM-yyyy");
+                string fileName = Path.GetFileName(fileUploadImg.PostedFile.FileName);
+                ImageCodecInfo jgpEncoder = null;
+                string str_image = "";
+                string fileExtension = "";
+                try
+                {
+                    if (!string.IsNullOrEmpty(fileName))
+                    {
+                        fileExtension = Path.GetExtension(fileName);
+                        str_image = "Advanced-Skyline-English-Center-" + dateString + "-" + RandomName + fileExtension;
+                        //string pathToSave = Server.MapPath("../images/Upload/ImagesForCustomerProfile/") + str_image;
+
+                        string path = Server.MapPath("../images/Upload/" + XoaKyTuDacBiet(imt.ImagesTypeName) + "/");
+                        if (!Directory.Exists(path))   // CHECK IF THE FOLDER EXISTS. IF NOT, CREATE A NEW FOLDER.
+                        {
+                            Directory.CreateDirectory(path);
+                        }
+
+                        File.Delete(path + str_image); // DELETE THE FILE BEFORE CREATING A NEW ONE.
+
+                        //file.SaveAs(pathToSave);
+                        System.Drawing.Image image = System.Drawing.Image.FromStream(fileUploadImg.FileContent);
+                        if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Gif.Guid)
+                            jgpEncoder = GetEncoder(ImageFormat.Gif);
+                        else if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Jpeg.Guid)
+                            jgpEncoder = GetEncoder(ImageFormat.Jpeg);
+                        else if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Bmp.Guid)
+                            jgpEncoder = GetEncoder(ImageFormat.Bmp);
+                        else if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Png.Guid)
+                            jgpEncoder = GetEncoder(ImageFormat.Png);
+                        else
+                            throw new System.ArgumentException("Invalid File Type");
+                        Bitmap bmp1 = new Bitmap(fileUploadImg.FileContent);
+                        Encoder myEncoder = Encoder.Quality;
+                        EncoderParameters myEncoderParameters = new EncoderParameters(1);
+                        EncoderParameter myEncoderParameter = new EncoderParameter(myEncoder, 50L);
+                        myEncoderParameters.Param[0] = myEncoderParameter;
+                        bmp1.Save(path + str_image, jgpEncoder, myEncoderParameters);
+                        this.images.InsertImages(str_image, "images/Upload/" + XoaKyTuDacBiet(imt.ImagesTypeName) + "/" + str_image, Convert.ToInt32(ImgTypeID), ac.UserID);
+                        Response.Redirect(Request.Url.AbsoluteUri);
+                    }
+                    else
+                    {
+                        Response.Write("<script>alert('Upload Image False !')</script>");
+                        return;
+                    }
+
+
+                }
+                catch (Exception ex)
+                {
+                    lblConfirm.Text = ex.Message.ToString();
+                    lblConfirm.Attributes.Add("style", "color:red; font: bold 14px/16px Sans-Serif,Arial");
+                }
+            }
+            else
+            {
+                this.AlertPageValid(true, "Bạn không có quyền thực hiện chức năng này !", alertPageValid, lblPageValid);
+            }
+        }
+        catch (Exception ex)
+        {
+            this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
+        }
     }
 }

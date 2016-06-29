@@ -132,4 +132,3 @@ D:\ChuanTemp\github\NewSkyline\DAL\bin\Debug\DAL.pdb
 D:\ChuanTemp\github\NewSkyline\DAL\obj\Debug\DAL.csprojResolveAssemblyReference.cache
 D:\ChuanTemp\github\NewSkyline\DAL\obj\Debug\DAL.dll
 D:\ChuanTemp\github\NewSkyline\DAL\obj\Debug\DAL.pdb
-E:\DEVELOPER\Website\GitHub\NewSkyline\DAL\obj\Debug\DAL.csprojResolveAssemblyReference.cache

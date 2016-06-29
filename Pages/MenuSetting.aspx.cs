@@ -188,23 +188,38 @@ public partial class Pages_MenuSetting : BasePage
     }
     protected void btnSubmit_Click(object sender, EventArgs e)
     {
-        mainmenu = new MainMenuBLL();
-        if (gwMenuItems.SelectedRow == null)
+        try
         {
-            lblWaringEdit.Text = "Chưa chọn menu Item !";
-        }
-        else
-        {
-            string strMenuID = (gwMenuItems.SelectedRow.FindControl("lblMenuID") as Label).Text;
-            if (this.mainmenu.UpdateMainMenu(Convert.ToInt32(strMenuID), txtEditItemname.Text, txtEPermalink.Text))
+            bool result = HasPermission(Session.GetCurrentUser().UserID, FunctionName.MenuSetting, TypeAudit.Edit);
+            if (result == false)
             {
-                this.load_gwMenuItems();
-                btnSubmit.Enabled = false;
+                lblWaringEdit.Text = "Bạn không có quyền thực hiện chức năng này !";
             }
             else
             {
-                lblWaringEdit.Text = "Update thất bại. Lỗi kết nối CSDL !";
+                mainmenu = new MainMenuBLL();
+                if (gwMenuItems.SelectedRow == null)
+                {
+                    lblWaringEdit.Text = "Chưa chọn menu Item !";
+                }
+                else
+                {
+                    string strMenuID = (gwMenuItems.SelectedRow.FindControl("lblMenuID") as Label).Text;
+                    if (this.mainmenu.UpdateMainMenu(Convert.ToInt32(strMenuID), txtEditItemname.Text, txtEPermalink.Text))
+                    {
+                        this.load_gwMenuItems();
+                        btnSubmit.Enabled = false;
+                    }
+                    else
+                    {
+                        lblWaringEdit.Text = "Update thất bại. Lỗi kết nối CSDL !";
+                    }
+                }
             }
+        }
+        catch (Exception ex)
+        {
+            lblWaringEdit.Text = ex.ToString();
         }
     }
     protected void gwMenuItems_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -217,24 +232,31 @@ public partial class Pages_MenuSetting : BasePage
                 del.Attributes.Add("onclick", "return confirm('Bạn chắc chắn muốn xóa ?')");
             }
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-
+            lblWaringEdit.Text = ex.ToString();
         }
     }
     protected void gwMenuItems_RowDeleting(object sender, GridViewDeleteEventArgs e)
     {
-        menu_categry = new Menu_CategoryBLL();
-        mainmenu = new MainMenuBLL();
-        int menuid = Convert.ToInt32((gwMenuItems.Rows[e.RowIndex].FindControl("lblMenuID") as Label).Text);
+        try
+        {
+            menu_categry = new Menu_CategoryBLL();
+            mainmenu = new MainMenuBLL();
+            int menuid = Convert.ToInt32((gwMenuItems.Rows[e.RowIndex].FindControl("lblMenuID") as Label).Text);
 
-        if (this.menu_categry.DeleteMenu_CategoryMenuID(menuid) && this.mainmenu.DeleteMainMenuyMenuID(menuid))
-        {
-            this.load_gwMenuItems();
+            if (this.menu_categry.DeleteMenu_CategoryMenuID(menuid) && this.mainmenu.DeleteMainMenuyMenuID(menuid))
+            {
+                this.load_gwMenuItems();
+            }
+            else
+            {
+                Response.Write("<script>alert('Xóa Menu Item thất bại. Lỗi kết nối csdl !')</script>");
+            }
         }
-        else
+        catch (Exception ex)
         {
-            Response.Write("<script>alert('Xóa Menu Item thất bại. Lỗi kết nối csdl !')</script>");
+            lblWaringEdit.Text = ex.ToString();
         }
     }
     private void load_dlSelectCategory()
@@ -254,33 +276,48 @@ public partial class Pages_MenuSetting : BasePage
     }
     protected void btnInsertItemtoMenu_ServerClick(object sender, EventArgs e)
     {
-        menu_categry = new Menu_CategoryBLL();
-        if (gwMenuItems.SelectedRow == null)
+        try
         {
-            lblAddSubItemWaring.Text = "Chưa chọn Menu !";
-        }
-        else
-        {
-            string strMenuID = (gwMenuItems.SelectedRow.FindControl("lblMenuID") as Label).Text;
-            List<Menu_Category> lstMC = menu_categry.ListItemWithMenuAndCT(Convert.ToInt32(strMenuID), Convert.ToInt32(dlSelectCategory.SelectedValue));
-            Menu_Category menuItem = lstMC.FirstOrDefault();
-            if (menuItem != null)
+            bool result = HasPermission(Session.GetCurrentUser().UserID, FunctionName.MenuSetting, TypeAudit.AddNew);
+            if (result == false)
             {
-                lblAddSubItemWaring.Text = "Danh mục đã có. Vui lòng chọn danh mục khác !";
+                lblAddSubItemWaring.Text = "Bạn không có quyền thực hiện chức năng này";
             }
             else
             {
-                //lblAddSubItemWaring.Text = menu_categry.CounkItemWithMenuID(Convert.ToInt32(strMenuID)).ToString();
-                lblAddSubItemWaring.Text = "";
-                if (menu_categry.AddNewMenu_Category(Convert.ToInt32(strMenuID), Convert.ToInt32(dlSelectCategory.SelectedValue), menu_categry.MaxItemindexWithMenuID(Convert.ToInt32(strMenuID)) + 1))
+                menu_categry = new Menu_CategoryBLL();
+                if (gwMenuItems.SelectedRow == null)
                 {
-                    this.load_gwSubMenuItem(Convert.ToInt32(strMenuID));
+                    lblAddSubItemWaring.Text = "Chưa chọn Menu !";
                 }
                 else
                 {
-                    lblAddSubItemWaring.Text = "Thêm thất bại. Lỗi kết nối CSDL !";
+                    string strMenuID = (gwMenuItems.SelectedRow.FindControl("lblMenuID") as Label).Text;
+                    List<Menu_Category> lstMC = menu_categry.ListItemWithMenuAndCT(Convert.ToInt32(strMenuID), Convert.ToInt32(dlSelectCategory.SelectedValue));
+                    Menu_Category menuItem = lstMC.FirstOrDefault();
+                    if (menuItem != null)
+                    {
+                        lblAddSubItemWaring.Text = "Danh mục đã có. Vui lòng chọn danh mục khác !";
+                    }
+                    else
+                    {
+                        //lblAddSubItemWaring.Text = menu_categry.CounkItemWithMenuID(Convert.ToInt32(strMenuID)).ToString();
+                        lblAddSubItemWaring.Text = "";
+                        if (menu_categry.AddNewMenu_Category(Convert.ToInt32(strMenuID), Convert.ToInt32(dlSelectCategory.SelectedValue), menu_categry.MaxItemindexWithMenuID(Convert.ToInt32(strMenuID)) + 1))
+                        {
+                            this.load_gwSubMenuItem(Convert.ToInt32(strMenuID));
+                        }
+                        else
+                        {
+                            lblAddSubItemWaring.Text = "Thêm thất bại. Lỗi kết nối CSDL !";
+                        }
+                    }
                 }
             }
+        }
+        catch (Exception ex)
+        {
+            lblAddSubItemWaring.Text = ex.ToString();
         }
     }
     protected void lkbtnSubUp_Click(object sender, EventArgs e)

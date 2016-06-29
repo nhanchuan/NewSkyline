@@ -242,6 +242,14 @@ public class BasePage : System.Web.UI.Page
         return year;
     }
     //============================================================================================================
+
+    /// <summary>
+    /// Hiện thông báo
+    /// </summary>
+    /// <param name="isvalid">Bật/Tắt thông báo</param>
+    /// <param name="validString">Chuỗi thông báo</param>
+    /// <param name="divValid">Điều khiển html thông báo</param>
+    /// <param name="lblvalid">Label nhận chuỗi thông báo</param>
     public void AlertPageValid(bool isvalid, string validString, System.Web.UI.HtmlControls.HtmlGenericControl divValid, Label lblvalid)
     {
         if (isvalid)

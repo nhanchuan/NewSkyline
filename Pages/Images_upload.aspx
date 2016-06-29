@@ -1,8 +1,8 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/GlobalMasterPage.master" AutoEventWireup="true" CodeFile="Images_upload.aspx.cs" Inherits="Pages_Images_upload" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <!-- BEGIN PAGE HEADER-->
     <h3 class="page-title">Upload Hình ảnh <small>Images upload</small>
     </h3>
@@ -23,26 +23,35 @@
         </ul>
     </div>
     <!-- END PAGE HEADER-->
+    <%-- Pages is Valid --%>
     <div class="row">
+        <div class="col-lg-12">
+            <div class="alert alert-danger display-none" id="alertPageValid" runat="server">
+                <asp:Label ID="lblPageValid" runat="server"></asp:Label>
+            </div>
+        </div>
+    </div>
+    <%--End Pages is Valid --%>
+    <div id="NewImages" runat="server">
         <%--<asp:UpdatePanel runat="server">
             <ContentTemplate>--%>
-                <div class="col-lg-4">
-                    <div class="form-group">
-                        <label class="control-label">Chọn danh mục hình</label>
-                        <asp:DropDownList ID="dlImagesCategory" CssClass="form-control" AutoPostBack="true" OnSelectedIndexChanged="dlImagesCategory_SelectedIndexChanged" runat="server"></asp:DropDownList>
-                    </div>
+        <div class="col-lg-4">
+            <div class="form-group">
+                <label class="control-label">Chọn danh mục hình</label>
+                <asp:DropDownList ID="dlImagesCategory" CssClass="form-control" AutoPostBack="true" OnSelectedIndexChanged="dlImagesCategory_SelectedIndexChanged" runat="server"></asp:DropDownList>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="col-lg-12" id="panelUpoadImages" style="display: none;" runat="server">
+            <div id="dZUpload" class="dropzone">
+                <div class="dz-default dz-message">
+                    <img src="../libs/DropzoneJs_scripts/spritemap@2x.png" style="width: 50%; height: 50%;" />
                 </div>
-                <div class="clearfix"></div>
-                <div class="col-lg-12" id="panelUpoadImages" style="display:none;" runat="server">
-                    <div id="dZUpload" class="dropzone">
-                        <div class="dz-default dz-message">
-                            <img src="../libs/DropzoneJs_scripts/spritemap@2x.png" style="width: 50%; height: 50%;" />
-                        </div>
-                    </div>
-                    <div class="clearfix"></div>
-                    <i>Bạn đang sử dụng ứng dụng tải lên hỗ trợ nhiều tập tin cùng lúc<strong> Tối đa 10 tập tin</strong>(F5 để làm mới Upload). Có lỗi? Hãy thử chuyển sang tải lên bằng trình duyệt. </i><a href="#modalUploadImages" class="btn green" data-toggle="modal"><i class="fa fa-upload"></i>Upload</a>
-                </div>
-            <%--</ContentTemplate>
+            </div>
+            <div class="clearfix"></div>
+            <i>Bạn đang sử dụng ứng dụng tải lên hỗ trợ nhiều tập tin cùng lúc<strong> Tối đa 10 tập tin</strong>(F5 để làm mới Upload). Có lỗi? Hãy thử chuyển sang tải lên bằng trình duyệt. </i><a href="#modalUploadImages" class="btn green" data-toggle="modal"><i class="fa fa-upload"></i>Upload</a>
+        </div>
+        <%--</ContentTemplate>
             <Triggers>
                 <asp:AsyncPostBackTrigger ControlID="dlImagesCategory" EventName="SelectedIndexChanged" />
             </Triggers>

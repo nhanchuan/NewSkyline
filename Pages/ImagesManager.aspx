@@ -23,19 +23,18 @@
                 <a href="../Pages/ImagesManager.aspx">Images Manager</a>
             </li>
         </ul>
-        <div class="page-toolbar">
-            <div id="dashboard-report-range" class="pull-right tooltips btn btn-fit-height grey-salt" data-placement="top" data-original-title="Change dashboard date range">
-                <i class="icon-calendar"></i>&nbsp;
-					
-                <span class="thin uppercase visible-lg-inline-block">&nbsp;</span>&nbsp;
-					
-                <i class="fa fa-angle-down"></i>
+    </div>
+    <!-- END PAGE HEADER-->
+    <%-- Pages is Valid --%>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="alert alert-danger display-none" id="alertPageValid" runat="server">
+                <asp:Label ID="lblPageValid" runat="server"></asp:Label>
             </div>
         </div>
     </div>
-    <!-- END PAGE HEADER-->
-
-    <a class="btn green" data-toggle="collapse" data-parent="#accordion2" href="#panelupload">Thêm hình ảnh</a>
+    <%--End Pages is Valid --%>
+    <a data-toggle="collapse" data-parent="#accordion2" href="#panelupload" id="btnNewImages" runat="server">Thêm hình ảnh</a>
     <hr />
     <div class="clearfix"></div>
     <div id="panelupload" class="col-lg-12 panel-collapse collapse">
@@ -47,7 +46,7 @@
         </div>
 
     </div>
-    <div class="row">
+    <div class="" id="ImageslibraryPanel" runat="server">
         <div class="col-lg-12">
             <!-- BEGIN USERS TABLE PORTLET-->
             <asp:UpdatePanel runat="server">

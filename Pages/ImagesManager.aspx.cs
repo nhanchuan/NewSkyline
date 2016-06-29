@@ -32,15 +32,29 @@ public partial class Pages_ImagesManager : BasePage
                 }
                 else
                 {
+                    this.AlertPageValid(false, "", alertPageValid, lblPageValid);
+                    if (HasPermission(user.UserID, FunctionName.ImagesManager, TypeAudit.View))
+                    {
+                        ImageslibraryPanel.Attributes.Add("class", "row");
+                    }
+                    else
+                    {
+                        ImageslibraryPanel.Attributes.Add("class", "row display-none");
+                        this.AlertPageValid(true, "Bạn không có quyền xem nội dung này !", alertPageValid, lblPageValid);
+                    }
                     this.load_dlImagestype();
                     dlImagestype.Items.Insert(0, new ListItem("-- Hiển thị tất cả --", "0"));
                     this.GetImagesTypePageWise(1, 0);
                     rptPager.Visible = true;
-                    //divrownumber.Visible = true;
-                    //lblstartindex.Text = ((1 - 1) * PageSize + 1).ToString();
-                    //lblendindex.Text = ((((1 - 1) * PageSize + 1) + PageSize) - 1).ToString();
                     Repeatersearch.Visible = false;
-                    //divsearch.Visible = false;
+                    if (HasPermission(user.UserID, FunctionName.ImagesManager, TypeAudit.AddNew))
+                    {
+                        btnNewImages.Attributes.Add("class", "btn green");
+                    }
+                    else
+                    {
+                        btnNewImages.Attributes.Add("class", "btn green disabled");
+                    }
                 }
             }
         }
@@ -55,32 +69,47 @@ public partial class Pages_ImagesManager : BasePage
     }
     protected void btnsearchimg_ServerClick(object sender, EventArgs e)
     {
-        this.GetImagesSearchPageWise(1, txtsearchImages.Value);
-        rptPager.Visible = false;
-        //divrownumber.Visible = false;
-        Repeatersearch.Visible = true;
-        //divsearch.Visible = true;
-        //lblsearchstart.Text = ((1 - 1) * PageSize + 1).ToString();
-        //lblsearchend.Text = ((((1 - 1) * PageSize + 1) + PageSize) - 1).ToString();
+        try
+        {
+            this.GetImagesSearchPageWise(1, txtsearchImages.Value);
+            rptPager.Visible = false;
+            //divrownumber.Visible = false;
+            Repeatersearch.Visible = true;
+            //divsearch.Visible = true;
+            //lblsearchstart.Text = ((1 - 1) * PageSize + 1).ToString();
+            //lblsearchend.Text = ((((1 - 1) * PageSize + 1) + PageSize) - 1).ToString();
+        }
+        catch (Exception ex)
+        {
+            this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
+        }
     }
     private void GetImagesTypePageWise(int pageIndex, int ImgType)
     {
-        images = new ImagesBLL();
-        rpLstImg.DataSource = new ObjectDataSource();
-        int recordCount = 0;
-        if (ImgType <= 0)
+
+        try
         {
-            rpLstImg.DataSource = images.GetImagesPageWise(pageIndex, PageSize);
-            recordCount = images.RecordCountImages();
+            images = new ImagesBLL();
+            rpLstImg.DataSource = new ObjectDataSource();
+            int recordCount = 0;
+            if (ImgType <= 0)
+            {
+                rpLstImg.DataSource = images.GetImagesPageWise(pageIndex, PageSize);
+                recordCount = images.RecordCountImages();
+            }
+            else
+            {
+                rpLstImg.DataSource = images.GetImagesTypePageWise(pageIndex, PageSize, ImgType);
+                recordCount = images.RecordCountImagesType(ImgType);
+            }
+            rpLstImg.DataBind();
+            this.PopulatePager(recordCount, pageIndex);
+            //lbltotalProduct.Text = recordCount.ToString();
         }
-        else
+        catch (Exception ex)
         {
-            rpLstImg.DataSource = images.GetImagesTypePageWise(pageIndex, PageSize, ImgType);
-            recordCount = images.RecordCountImagesType(ImgType);
+            this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
         }
-        rpLstImg.DataBind();
-        this.PopulatePager(recordCount, pageIndex);
-        //lbltotalProduct.Text = recordCount.ToString();
     }
     private void PopulatePager(int recordCount, int currentPage)
     {
@@ -161,7 +190,7 @@ public partial class Pages_ImagesManager : BasePage
     private void GetImagesSearchPageWise(int pageIndex, string keysearch)
     {
         images = new ImagesBLL();
-        
+
         rpLstImg.DataSource = new ObjectDataSource();
         int recordCount = 0;
         if (string.IsNullOrEmpty(keysearch) || string.IsNullOrWhiteSpace(keysearch))
@@ -256,7 +285,7 @@ public partial class Pages_ImagesManager : BasePage
         //lblsearchend.Text = ((((pageIndex - 1) * PageSize + 1) + PageSize) - 1).ToString();
     }
 
-    
+
 
     protected void dlImagestype_SelectedIndexChanged(object sender, EventArgs e)
     {
@@ -272,18 +301,27 @@ public partial class Pages_ImagesManager : BasePage
     {
         Response.Redirect(Request.Url.AbsoluteUri);
     }
-    
+
     protected void btndelete_ServerClick(object sender, EventArgs e)
     {
-        images = new ImagesBLL();
-        try
+        bool result = HasPermission(Session.GetCurrentUser().UserID, FunctionName.ImagesManager, TypeAudit.Delete);
+        if (result == false)
         {
-            this.images.DeleteImages(HiddenImages.Value);
-            Response.Redirect(Request.Url.AbsoluteUri);
+            Response.Write("<script>alert('Bạn không có quyền thực hiện chức năng này !')</script>");
         }
-        catch (Exception ex)
+        else
         {
-            Response.Write("<script>alert('" + ex.ToString() + "')</script>");
+            images = new ImagesBLL();
+
+            try
+            {
+                this.images.DeleteImages(HiddenImages.Value);
+                Response.Redirect(Request.Url.AbsoluteUri);
+            }
+            catch (Exception ex)
+            {
+                Response.Write("<script>alert('" + ex.ToString() + "')</script>");
+            }
         }
     }
 }

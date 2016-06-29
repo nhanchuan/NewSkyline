@@ -34,8 +34,18 @@ public partial class Pages_Images_upload : BasePage
                 }
                 else
                 {
+                    this.AlertPageValid(false, "", alertPageValid, lblPageValid);
                     //do something
                     this.load_dlImagesCategory();
+                    if(HasPermission(Session.GetCurrentUser().UserID,FunctionName.NewImages,TypeAudit.AddNew))
+                    {
+                        NewImages.Attributes.Add("class", "row");
+                    }
+                    else
+                    {
+                        NewImages.Attributes.Add("class", "row display-none");
+                        this.AlertPageValid(true, "Bạn không có quyền thực hiện chức năng này !", alertPageValid, lblPageValid);
+                    }
                 }
             }
         }
