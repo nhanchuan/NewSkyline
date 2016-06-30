@@ -31,7 +31,16 @@
         </div>
     </div>
     <!-- END PAGE HEADER-->
+    <%-- Pages is Valid --%>
     <div class="row">
+        <div class="col-lg-12">
+            <div class="alert alert-danger display-none" id="alertPageValid" runat="server">
+                <asp:Label ID="lblPageValid" runat="server"></asp:Label>
+            </div>
+        </div>
+    </div>
+    <%--End Pages is Valid --%>
+    <div id="CategoryManager" runat="server">
             <div class="col-lg-5">
                 <h2>Thêm chuyên mục</h2>
                 <div class="form-group">
@@ -414,8 +423,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <a class="btn pink" data-dismiss="modal">Cancel</a>
-                    <asp:Button ID="btnUpdatePCInfo" CssClass="btn btn-primary" ValidationGroup="validtxtEditName" OnClick="btnUpdatePCInfo_Click" runat="server" Text="Update Info" />
+                    <a class="btn pink" data-dismiss="modal">Hủy bỏ</a>
+                    <asp:Button ID="btnUpdatePCInfo" CssClass="btn btn-primary" ValidationGroup="validtxtEditName" OnClick="btnUpdatePCInfo_Click" runat="server" Text="Cập nhật" />
                 </div>
             </div>
         </div>

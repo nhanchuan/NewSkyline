@@ -41,10 +41,21 @@ public partial class Pages_Post_New : BasePage
                 }
                 else
                 {
-                    this.PopulateRootLevel();
-                    this.load_cbltags();
-                    this.load_rpLstImg(admin.UserID);
-                    this.AlertPageValid(false, "");
+                    this.AlertPageValid(false, "", alertPageValid, lblPageValid);
+                    
+                    if (HasPermission(admin.UserID, FunctionName.NewPost, TypeAudit.AddNew))
+                    {
+                        PostNewContent.Attributes.Add("class", "row");
+                        this.PopulateRootLevel();
+                        this.load_cbltags();
+                        this.load_rpLstImg(admin.UserID);
+                        //this.AlertPageValid(false, "");
+                    }
+                    else
+                    {
+                        PostNewContent.Attributes.Add("class", "row display-none");
+                        this.AlertPageValid(true, "Bạn không có quyền thực hiện chức năng này !", alertPageValid, lblPageValid);
+                    }
                 }
             }
         }
@@ -397,33 +408,18 @@ public partial class Pages_Post_New : BasePage
     {
         try
         {
-            posts = new PostBLL();
-            string contentVN = EditorPostContentVN.Text;
-            string contentEN = EditorPostContentEN.Text;
-            string dateString = DateTime.Now.ToString("MM-dd-yyyy");
-            string postcode = RandomName + "-" + dateString;
-            int timepost = (timePost.Value == "") ? 1 : 2;
-            switch (timepost)
+            if (HasPermission(Session.GetCurrentUser().UserID, FunctionName.NewPost, TypeAudit.AddNew))
             {
-                case 1:
-                    if (NewPost(postcode))
-                    {
-                        this.New_Post_Category_relationships(postcode);
-                        this.New_Tags_relationships(postcode);
-                        Response.Redirect("http://" + Request.Url.Authority + "/Pages/Post-Update.aspx?PostCode=" + posts.PostIdWithPostCode(postcode));
-                    }
-                    else
-                    {
-                        return;
-                    }
-                    break;
-                case 2:
-                    string time = timePost.Value.ToString();
-                    DateTime modified;
-                    try
-                    {
-                        modified = Convert.ToDateTime(getmonth(time) + "/" + getday(time) + "/" + getyear(time) + " " + gethours(time) + ":" + getminutes(time) + ":00" + " " + gettimeRefix(time));
-                        if (NewPostWithModified(postcode, modified))
+                posts = new PostBLL();
+                string contentVN = EditorPostContentVN.Text;
+                string contentEN = EditorPostContentEN.Text;
+                string dateString = DateTime.Now.ToString("MM-dd-yyyy");
+                string postcode = RandomName + "-" + dateString;
+                int timepost = (timePost.Value == "") ? 1 : 2;
+                switch (timepost)
+                {
+                    case 1:
+                        if (NewPost(postcode))
                         {
                             this.New_Post_Category_relationships(postcode);
                             this.New_Tags_relationships(postcode);
@@ -433,37 +429,44 @@ public partial class Pages_Post_New : BasePage
                         {
                             return;
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        lblTimePost.Attributes.Add("style", "color:red;");
-                        lblTimePost.Text = "Fales to Datetime format !";
-                        string script = "window.onload = function() { calldropdownTimepostClickEvent(); };";
-                        ClientScript.RegisterStartupScript(this.GetType(), "calldropdownTimepostClickEvent", script, true);
-                        timePost.Value = "";
-                        timePost.Focus();
-                    }
-                    break;
+                        break;
+                    case 2:
+                        string time = timePost.Value.ToString();
+                        DateTime modified;
+                        try
+                        {
+                            modified = Convert.ToDateTime(getmonth(time) + "/" + getday(time) + "/" + getyear(time) + " " + gethours(time) + ":" + getminutes(time) + ":00" + " " + gettimeRefix(time));
+                            if (NewPostWithModified(postcode, modified))
+                            {
+                                this.New_Post_Category_relationships(postcode);
+                                this.New_Tags_relationships(postcode);
+                                Response.Redirect("http://" + Request.Url.Authority + "/Pages/Post-Update.aspx?PostCode=" + posts.PostIdWithPostCode(postcode));
+                            }
+                            else
+                            {
+                                return;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            lblTimePost.Attributes.Add("style", "color:red;");
+                            lblTimePost.Text = "Fales to Datetime format !";
+                            string script = "window.onload = function() { calldropdownTimepostClickEvent(); };";
+                            ClientScript.RegisterStartupScript(this.GetType(), "calldropdownTimepostClickEvent", script, true);
+                            timePost.Value = "";
+                            timePost.Focus();
+                        }
+                        break;
+                }
+            }
+            else
+            {
+                this.AlertPageValid(true, "Bạn không có quyền thực hiện chức năng này !", alertPageValid, lblPageValid);
             }
         }
         catch (Exception ex)
         {
-            this.AlertPageValid(true, ex.ToString());
-        }
-        
-
-    }
-    private void AlertPageValid(bool isvalid, string validString)
-    {
-        if (isvalid)
-        {
-            alertPageValid.Attributes.Add("class", "alert alert-danger");
-            lblPageValid.Text = "<strong>Error!</strong>" + " " + validString.ToString();
-        }
-        else
-        {
-            alertPageValid.Attributes.Add("class", "alert alert-danger display-none");
-            lblPageValid.Text = "";
+            this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
         }
     }
 }

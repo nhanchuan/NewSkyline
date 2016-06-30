@@ -33,7 +33,9 @@
             </div>
         </div>
     </div>
+
     <!-- END PAGE HEADER-->
+    <%-- Pages is Valid --%>
     <div class="row">
         <div class="col-lg-12">
             <div class="alert alert-danger display-none" id="alertPageValid" runat="server">
@@ -41,7 +43,8 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <%--End Pages is Valid --%>
+    <div id="PostNewContent" runat="server">
         <div class="col-lg-9">
             <div class="form-group">
                 <label class="control-label"><strong>Tiêu đề bài viết</strong></label>

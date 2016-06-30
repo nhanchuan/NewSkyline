@@ -37,39 +37,50 @@ public partial class Pages_Category : BasePage
                 }
                 else
                 {
-                    btnshowPanelfix.Attributes.Add("class", "btn yellow disabled");
-                    this.load_dlPCategory();
-                    this.load_dlDanhMucCha();
+                    this.AlertPageValid(false, "", alertPageValid, lblPageValid);
 
-                    if (Session["pageIndexadmin_Category"] == null)
+                    if (HasPermission(user.UserID, FunctionName.CategoryManager, TypeAudit.View))
                     {
-                        this.GetPostCategoryPageWise(1);
-                    }
-                    else
-                    {
-                        int pageIndex = Convert.ToInt32(Session["pageIndexadmin_Category"].ToString());
-                        this.GetPostCategoryPageWise(pageIndex);
-                        if(Session["SelectedIndex_Category"] == null)
+                        CategoryManager.Attributes.Add("class", "row");
+                        btnshowPanelfix.Attributes.Add("class", "btn yellow disabled");
+                        this.load_dlPCategory();
+                        this.load_dlDanhMucCha();
+
+                        if (Session["pageIndexadmin_Category"] == null)
                         {
-                            gwCategory.SelectedIndex = -1;
+                            this.GetPostCategoryPageWise(1);
                         }
                         else
                         {
-                            gwCategory.SelectedIndex = Convert.ToInt32(Session["SelectedIndex_Category"].ToString());
+                            int pageIndex = Convert.ToInt32(Session["pageIndexadmin_Category"].ToString());
+                            this.GetPostCategoryPageWise(pageIndex);
+                            if (Session["SelectedIndex_Category"] == null)
+                            {
+                                gwCategory.SelectedIndex = -1;
+                            }
+                            else
+                            {
+                                gwCategory.SelectedIndex = Convert.ToInt32(Session["SelectedIndex_Category"].ToString());
+                            }
                         }
-                    }
-                    
-                    lblstartindex.Text = ((1 - 1) * PageSize + 1).ToString();
-                    lblendindex.Text = ((((1 - 1) * PageSize + 1) + PageSize) - 1).ToString();
-                    this.load_rpLstImg();
-                    this.load_rpSelectEditImg();
-                    btnUpdatePCInfo.Visible = false;
-                    dlEditParent.Visible = false;
-                    this.PopulateRootLevel();
 
-                    rptPager.Visible = true;
-                    rptSearchPage.Visible = false;
-                    
+                        lblstartindex.Text = ((1 - 1) * PageSize + 1).ToString();
+                        lblendindex.Text = ((((1 - 1) * PageSize + 1) + PageSize) - 1).ToString();
+                        this.load_rpLstImg();
+                        this.load_rpSelectEditImg();
+                        btnUpdatePCInfo.Visible = false;
+                        dlEditParent.Visible = false;
+                        this.PopulateRootLevel();
+
+                        rptPager.Visible = true;
+                        rptSearchPage.Visible = false;
+
+                    }
+                    else
+                    {
+                        CategoryManager.Attributes.Add("class", "row display-none");
+                        this.AlertPageValid(true, "Bạn không có quyền xem nội dung này !", alertPageValid, lblPageValid);
+                    }
                 }
             }
         }
@@ -270,14 +281,28 @@ public partial class Pages_Category : BasePage
 
     protected void btnnewPostCategory_Click(object sender, EventArgs e)
     {
-        if (newPostCategory())
+        try
         {
-            Response.Redirect(Request.Url.AbsoluteUri);
+            if (HasPermission(Session.GetCurrentUser().UserID, FunctionName.CategoryManager, TypeAudit.AddNew))
+            {
+                if (newPostCategory())
+                {
+                    Response.Redirect(Request.Url.AbsoluteUri);
+                }
+                else
+                {
+                    Response.Write("<script>alert('New Post Category False !')</script>");
+                    return;
+                }
+            }
+            else
+            {
+                this.AlertPageValid(true, "Bạn không có quyền thực hiện chức năng này !", alertPageValid, lblPageValid);
+            }
         }
-        else
+        catch (Exception ex)
         {
-            Response.Write("<script>alert('New Post Category False !')</script>");
-            return;
+            this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
         }
     }
 
@@ -388,18 +413,31 @@ public partial class Pages_Category : BasePage
     }
     protected void btnUpdatePCInfo_Click(object sender, EventArgs e)
     {
-        UserAccounts ac = Session.GetCurrentUser();
-        category = new CategoryBLL();
-        if (Update())
+        try
         {
-            Response.Redirect(Request.Url.AbsoluteUri);
+            if (HasPermission(Session.GetCurrentUser().UserID, FunctionName.CategoryManager, TypeAudit.Edit))
+            {
+                UserAccounts ac = Session.GetCurrentUser();
+                category = new CategoryBLL();
+                if (Update())
+                {
+                    Response.Redirect(Request.Url.AbsoluteUri);
+                }
+                else
+                {
+                    Response.Write("<script>alert('Upload Image False !')</script>");
+                    return;
+                }
+            }
+            else
+            {
+                this.AlertPageValid(true, "Bạn không có quyền thực hiện chức năng này !", alertPageValid, lblPageValid);
+            }
         }
-        else
+        catch (Exception ex)
         {
-            Response.Write("<script>alert('Upload Image False !')</script>");
-            return;
+            this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
         }
-        //Response.Write("<script>alert('"+ int.Parse(ctId)+" - "+txtEditName.Text+" - "+ txtEditDescription.Text+" - "+ txtEditPermalink.Text+" - "+ int.Parse(dlEditParent.SelectedValue)+" - "+ ImagesID(txtuploadImgTemp.Text) + "')</script>");
     }
     public void load_rpSelectEditImg()
     {
@@ -464,20 +502,33 @@ public partial class Pages_Category : BasePage
     }
     protected void gwCategory_RowDeleting(object sender, GridViewDeleteEventArgs e)
     {
-        category = new CategoryBLL();
-        post_category_relationships = new Post_Category_relationshipsBLL();
-        int categoryID = Convert.ToInt32((gwCategory.Rows[e.RowIndex].FindControl("lblCategoryID") as Label).Text);
-        bool ctrltion = this.post_category_relationships.DeleteWithCategoryID(categoryID);
-        bool delCT = this.category.DeleteCategory(categoryID);
-        if (!ctrltion || !delCT)
+        try
         {
-            Response.Write("<script>alert('Xóa Danh mục thất bại. Lỗi kết nối csdl !')</script>");
+            if (HasPermission(Session.GetCurrentUser().UserID, FunctionName.CategoryManager, TypeAudit.AddNew))
+            {
+                category = new CategoryBLL();
+                post_category_relationships = new Post_Category_relationshipsBLL();
+                int categoryID = Convert.ToInt32((gwCategory.Rows[e.RowIndex].FindControl("lblCategoryID") as Label).Text);
+                bool ctrltion = this.post_category_relationships.DeleteWithCategoryID(categoryID);
+                bool delCT = this.category.DeleteCategory(categoryID);
+                if (!ctrltion || !delCT)
+                {
+                    Response.Write("<script>alert('Xóa Danh mục thất bại. Lỗi kết nối csdl !')</script>");
+                }
+                else
+                {
+                    Response.Redirect(Request.Url.AbsoluteUri);
+                }
+            }
+            else
+            {
+                this.AlertPageValid(true, "Bạn không có quyền thực hiện chức năng này !", alertPageValid, lblPageValid);
+            }
         }
-        else
+        catch (Exception ex)
         {
-            Response.Redirect(Request.Url.AbsoluteUri);
+            this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
         }
-        //Response.Write("<script>alert('Tò te tí te. Bị dụ rồi. Đâu có xóa được. hehe !')</script>");
     }
 
     //==SEARCH==========================================================================================================
