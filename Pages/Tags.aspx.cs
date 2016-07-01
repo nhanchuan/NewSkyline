@@ -32,10 +32,20 @@ public partial class Pages_Tags : BasePage
                 }
                 else
                 {
-                    this.GetTagsPageWise(1);
-                    lblstartindex.Text = ((1 - 1) * PageSize + 1).ToString();
-                    lblendindex.Text = ((((1 - 1) * PageSize + 1) + PageSize) - 1).ToString();
-                    btnupdate.Visible = false;
+                    this.AlertPageValid(false, "", alertPageValid, lblPageValid);
+                    if (HasPermission(admin.UserID, FunctionName.TagManager, TypeAudit.View))
+                    {
+                        TagManager.Attributes.Add("class", "row");
+                        this.GetTagsPageWise(1);
+                        lblstartindex.Text = ((1 - 1) * PageSize + 1).ToString();
+                        lblendindex.Text = ((((1 - 1) * PageSize + 1) + PageSize) - 1).ToString();
+                        btnupdate.Visible = false;
+                    }
+                    else
+                    {
+                        TagManager.Attributes.Add("class", "row display-none");
+                        this.AlertPageValid(true, "Bạn không có quyền xem nội dung này !", alertPageValid, lblPageValid);
+                    }
                 }
             }
         }
@@ -130,15 +140,30 @@ public partial class Pages_Tags : BasePage
 
     protected void btnaddTags_Click(object sender, EventArgs e)
     {
-        tags = new TagsBLL();
-        if (this.tags.newTags(txtTagName.Text, txtDescription.Text, txtTagsPermalink.Text))
+        try
         {
-            Response.Redirect(Request.Url.AbsoluteUri);
+            if (HasPermission(Session.GetCurrentUser().UserID, FunctionName.TagManager, TypeAudit.AddNew))
+            {
+                tags = new TagsBLL();
+                if (this.tags.newTags(txtTagName.Text, txtDescription.Text, txtTagsPermalink.Text))
+                {
+                    Response.Redirect(Request.Url.AbsoluteUri);
+                }
+                else
+                {
+                    Response.Write("<script>alert('New Tags False ! Conect database Error...')</script>");
+                    return;
+                }
+            }
+            else
+            {
+                this.AlertPageValid(true, "Bạn không có quyền thực hiện chức năng này !", alertPageValid, lblPageValid);
+            }
+            
         }
-        else
+        catch (Exception ex)
         {
-            Response.Write("<script>alert('New Tags False ! Conect database Error...')</script>");
-            return;
+            this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
         }
     }
 
@@ -156,16 +181,31 @@ public partial class Pages_Tags : BasePage
 
     protected void btnupdate_Click(object sender, EventArgs e)
     {
-        string tagsid = (gwTagsList.SelectedRow.FindControl("lblTagsID") as Label).Text;
-        tags = new TagsBLL();
-        if (this.tags.UpdateTags(int.Parse(tagsid), txtEditname.Text, txtEditDescription.Text, txtEditPermalink.Text))
+        try
         {
-            Response.Redirect(Request.Url.AbsoluteUri);
+            if (HasPermission(Session.GetCurrentUser().UserID, FunctionName.TagManager, TypeAudit.Edit))
+            {
+                string tagsid = (gwTagsList.SelectedRow.FindControl("lblTagsID") as Label).Text;
+                tags = new TagsBLL();
+                if (this.tags.UpdateTags(int.Parse(tagsid), txtEditname.Text, txtEditDescription.Text, txtEditPermalink.Text))
+                {
+                    Response.Redirect(Request.Url.AbsoluteUri);
+                }
+                else
+                {
+                    Response.Write("<script>alert('Update Tags False ! Conect database Error...')</script>");
+                    return;
+                }
+            }
+            else
+            {
+                this.AlertPageValid(true, "Bạn không có quyền thực hiện chức năng này !", alertPageValid, lblPageValid);
+            }
+            
         }
-        else
+        catch (Exception ex)
         {
-            Response.Write("<script>alert('Update Tags False ! Conect database Error...')</script>");
-            return;
+            this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
         }
     }
 
@@ -187,19 +227,32 @@ public partial class Pages_Tags : BasePage
 
     protected void gwTagsList_RowDeleting(object sender, GridViewDeleteEventArgs e)
     {
-        tags = new TagsBLL();
-        tag_relationships = new Tags_relationshipsBLL();
-        int tagID = Convert.ToInt32((gwTagsList.Rows[e.RowIndex].FindControl("lblTagsID") as Label).Text);
-        bool deltagre = this.tag_relationships.DeleteWithTagsID(tagID);
-        bool deltag = this.tags.DeleteTagID(tagID);
-        if (!deltagre || !deltag)
+        try
         {
-            Response.Write("<script>alert('Xóa Tag thất bại. Lỗi kết nối csdl !')</script>");
+            if (HasPermission(Session.GetCurrentUser().UserID, FunctionName.TagManager, TypeAudit.Delete))
+            {
+                tags = new TagsBLL();
+                tag_relationships = new Tags_relationshipsBLL();
+                int tagID = Convert.ToInt32((gwTagsList.Rows[e.RowIndex].FindControl("lblTagsID") as Label).Text);
+                bool deltagre = this.tag_relationships.DeleteWithTagsID(tagID);
+                bool deltag = this.tags.DeleteTagID(tagID);
+                if (!deltagre || !deltag)
+                {
+                    Response.Write("<script>alert('Xóa Tag thất bại. Lỗi kết nối csdl !')</script>");
+                }
+                else
+                {
+                    Response.Redirect(Request.Url.AbsoluteUri);
+                }
+            }
+            else
+            {
+                Response.Write("<script>alert('Bạn không có quyền thực hiện chức năng này !')</script>");
+            }
         }
-        else
+        catch (Exception ex)
         {
-            Response.Redirect(Request.Url.AbsoluteUri);
+            this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
         }
-        //Response.Write("<script>alert('Tò te tí te. Bị dụ rồi. Đâu có xóa được. hehe !')</script>");
     }
 }

@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/GlobalMasterPage.master" AutoEventWireup="true" CodeFile="Tags.aspx.cs" Inherits="Pages_Tags" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <style>
@@ -62,9 +62,16 @@
         </div>
     </div>
     <!-- END PAGE HEADER-->
+    <%-- Pages is Valid --%>
     <div class="row">
-
-
+        <div class="col-lg-12">
+            <div class="alert alert-danger display-none" id="alertPageValid" runat="server">
+                <asp:Label ID="lblPageValid" runat="server"></asp:Label>
+            </div>
+        </div>
+    </div>
+    <%--End Pages is Valid --%>
+    <div id="TagManager" runat="server">
         <div class="col-lg-5">
             <h2>Thêm thẻ</h2>
             <div class="form-group">
@@ -112,8 +119,8 @@
                     <br />
                     <div class="clearfix"></div>
                     <asp:GridView ID="gwTagsList" CssClass="table table-condensed table-responsive" runat="server" AutoGenerateColumns="False" RowStyle-BackColor="#A1DCF2" Font-Names="Arial" Font-Size="10pt"
-                        HeaderStyle-BackColor="#3AC0F2" 
-                        HeaderStyle-ForeColor="White" 
+                        HeaderStyle-BackColor="#3AC0F2"
+                        HeaderStyle-ForeColor="White"
                         OnSelectedIndexChanged="gwTagsList_SelectedIndexChanged" OnRowDataBound="gwTagsList_RowDataBound" OnRowDeleting="gwTagsList_RowDeleting">
                         <Columns>
                             <asp:TemplateField HeaderText="Tags Name">
@@ -183,12 +190,12 @@
                     <div class="col-md-8 col-sm-8">
                         <div class="pagination_lst pull-right">
                             <asp:Repeater ID="rptPager" runat="server">
-                                    <ItemTemplate>
-                                        <asp:LinkButton ID="lnkPage" runat="server" Text='<%#Eval("Text") %>' CommandArgument='<%# Eval("Value") %>'
-                                            CssClass='<%# Convert.ToBoolean(Eval("Enabled")) ? "page_enabled" : "page_disabled" %>'
-                                            OnClick="Page_Changed" OnClientClick='<%# !Convert.ToBoolean(Eval("Enabled")) ? "return false;" : "" %>'></asp:LinkButton>
-                                    </ItemTemplate>
-                                </asp:Repeater>
+                                <ItemTemplate>
+                                    <asp:LinkButton ID="lnkPage" runat="server" Text='<%#Eval("Text") %>' CommandArgument='<%# Eval("Value") %>'
+                                        CssClass='<%# Convert.ToBoolean(Eval("Enabled")) ? "page_enabled" : "page_disabled" %>'
+                                        OnClick="Page_Changed" OnClientClick='<%# !Convert.ToBoolean(Eval("Enabled")) ? "return false;" : "" %>'></asp:LinkButton>
+                                </ItemTemplate>
+                            </asp:Repeater>
                             <div class="clearfix"></div>
                         </div>
                     </div>
