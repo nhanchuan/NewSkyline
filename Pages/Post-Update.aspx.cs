@@ -43,11 +43,20 @@ public partial class Pages_Post_Update : BasePage
                     string postid = Request.QueryString["PostCode"];
                     if (postid != null && check_QueryString(postid))
                     {
-                        this.load_TreeBox();
-                        this.load_cbltags();
-                        this.load_rpLstImg();
-                        this.Load_PostUpdateInfo();
-                        this.AlertPageValid(false, "");
+                        this.AlertPageValid(false, "", alertPageValid, lblPageValid);
+                        if (HasPermission(admin.UserID, FunctionName.PostEdit, TypeAudit.Edit))
+                        {
+                            PostEdit.Attributes.Add("class", "row");
+                            this.load_TreeBox();
+                            this.load_cbltags();
+                            this.load_rpLstImg();
+                            this.Load_PostUpdateInfo();
+                        }
+                        else
+                        {
+                            PostEdit.Attributes.Add("class", "row display-none");
+                            this.AlertPageValid(true, "Bạn không có quyền thực hiện chức năng này !", alertPageValid, lblPageValid);
+                        }
                     }
                     else
                     {
@@ -518,29 +527,14 @@ public partial class Pages_Post_Update : BasePage
     {
         try
         {
-            posts = new PostBLL();
-            int timepost = (timePost.Value == "") ? 1 : 2;
-            switch (timepost)
+            if (HasPermission(Session.GetCurrentUser().UserID, FunctionName.PostEdit, TypeAudit.Edit))
             {
-                case 1:
-                    if (UpdatePost())
-                    {
-                        this.New_Post_Category_relationships();
-                        this.New_Tags_relationships();
-                        Response.Redirect(Request.Url.AbsoluteUri);
-                    }
-                    else
-                    {
-                        return;
-                    }
-                    break;
-                case 2:
-                    string time = timePost.Value.ToString();
-                    DateTime modified;
-                    try
-                    {
-                        modified = Convert.ToDateTime(getmonth(time) + "/" + getday(time) + "/" + getyear(time) + " " + gethours(time) + ":" + getminutes(time) + ":00" + " " + gettimeRefix(time));
-                        if (UpdatePostWithModified(modified))
+                posts = new PostBLL();
+                int timepost = (timePost.Value == "") ? 1 : 2;
+                switch (timepost)
+                {
+                    case 1:
+                        if (UpdatePost())
                         {
                             this.New_Post_Category_relationships();
                             this.New_Tags_relationships();
@@ -550,35 +544,44 @@ public partial class Pages_Post_Update : BasePage
                         {
                             return;
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        lblTimePost.Attributes.Add("style", "color:red;");
-                        lblTimePost.Text = "Fales to Datetime format !";
-                        string script = "window.onload = function() { calldropdownTimepostClickEvent(); };";
-                        ClientScript.RegisterStartupScript(this.GetType(), "calldropdownTimepostClickEvent", script, true);
-                        timePost.Value = "";
-                        timePost.Focus();
-                    }
-                    break;
+                        break;
+                    case 2:
+                        string time = timePost.Value.ToString();
+                        DateTime modified;
+                        try
+                        {
+                            modified = Convert.ToDateTime(getmonth(time) + "/" + getday(time) + "/" + getyear(time) + " " + gethours(time) + ":" + getminutes(time) + ":00" + " " + gettimeRefix(time));
+                            if (UpdatePostWithModified(modified))
+                            {
+                                this.New_Post_Category_relationships();
+                                this.New_Tags_relationships();
+                                Response.Redirect(Request.Url.AbsoluteUri);
+                            }
+                            else
+                            {
+                                return;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            lblTimePost.Attributes.Add("style", "color:red;");
+                            lblTimePost.Text = "Fales to Datetime format !";
+                            string script = "window.onload = function() { calldropdownTimepostClickEvent(); };";
+                            ClientScript.RegisterStartupScript(this.GetType(), "calldropdownTimepostClickEvent", script, true);
+                            timePost.Value = "";
+                            timePost.Focus();
+                        }
+                        break;
+                }
+            }
+            else
+            {
+                this.AlertPageValid(true, "Bạn không có quyền thực hiện chức năng này !", alertPageValid, lblPageValid);
             }
         }
         catch (Exception ex)
         {
-            this.AlertPageValid(true, ex.ToString());
-        }
-    }
-    private void AlertPageValid(bool isvalid, string validString)
-    {
-        if (isvalid)
-        {
-            alertPageValid.Attributes.Add("class", "alert alert-danger");
-            lblPageValid.Text = "<strong>Error!</strong>" + " " + validString.ToString();
-        }
-        else
-        {
-            alertPageValid.Attributes.Add("class", "alert alert-danger display-none");
-            lblPageValid.Text = "";
+            this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
         }
     }
 }

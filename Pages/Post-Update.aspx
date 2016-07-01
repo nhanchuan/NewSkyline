@@ -41,7 +41,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div id="PostEdit" runat="server">
         <div class="col-lg-9">
             <div class="form-group">
                 <label class="control-label"><strong>Tiêu đề bài viết</strong></label>
