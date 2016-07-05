@@ -37,16 +37,26 @@ public partial class QuanLyHoSo_PhieuDangKyTuVan : BasePage
                 }
                 else
                 {
-                    //do something
-                    this.load_dlCountrys();
-                    dlCountrys.Items.Insert(0, new ListItem("-- Select Country --", "0"));
-                    dlProvinces.Items.Insert(0, new ListItem("-- Select Province --", "0"));
-                    dlDistrict.Items.Insert(0, new ListItem("-- Select District --", "0"));
-                    this.load_dlRegistration_Type();
-                    dlRegistration_Type.Items.Insert(0, new ListItem("-- Chọn loại tư vấn --", "0"));
-                    this.load_dlEducationLV();
-                    dlEducationLV.Items.Insert(0, new ListItem("-- Chọn Trình độ học vấn --", "0"));
-                    this.load_dlCountryAdvisory();
+                    this.AlertPageValid(false, "", alertPageValid, lblPageValid);
+                    if (HasPermission(ac.UserID, FunctionName.PhieuDKTuVan, TypeAudit.View))
+                    {
+                        PhieuDKTuVan.Attributes.Add("class", "row");
+                        //do something
+                        this.load_dlCountrys();
+                        dlCountrys.Items.Insert(0, new ListItem("-- Select Country --", "0"));
+                        dlProvinces.Items.Insert(0, new ListItem("-- Select Province --", "0"));
+                        dlDistrict.Items.Insert(0, new ListItem("-- Select District --", "0"));
+                        this.load_dlRegistration_Type();
+                        dlRegistration_Type.Items.Insert(0, new ListItem("-- Chọn loại tư vấn --", "0"));
+                        this.load_dlEducationLV();
+                        dlEducationLV.Items.Insert(0, new ListItem("-- Chọn Trình độ học vấn --", "0"));
+                        this.load_dlCountryAdvisory();
+                    }
+                    else
+                    {
+                        PhieuDKTuVan.Attributes.Add("class", "row display-none");
+                        this.AlertPageValid(true, "Bạn không có quyền truy cập nội dung này !", alertPageValid, lblPageValid);
+                    }
                 }
             }
         }
@@ -106,46 +116,59 @@ public partial class QuanLyHoSo_PhieuDangKyTuVan : BasePage
     }
     protected void btnSunmit_Click(object sender, EventArgs e)
     {
-        registrationForm = new REGISTRATION_FORM_ADVISORY_BLL();
-        int countryid = int.Parse(dlCountrys.SelectedValue);
-        int provinceid = int.Parse(dlProvinces.SelectedValue);
-        int districtid = int.Parse(dlDistrict.SelectedValue);
-        int sex;
-        if (!rdnam.Checked && !rdnu.Checked)
+        try
         {
-            sex = 0;
-        }
-        else
-        {
-            sex = (rdnam.Checked) ? 1 : (rdnu.Checked) ? 2 : 0;
-        }
-        string bitrhday = txtbirthday.Value;
-        DateTime Bitrhday;
-        string[] formats = { "dd/MM/yyyy", "d/M/yyyy", "dd/M/yyyy", "d/MM/yyyy" };
-        if (string.IsNullOrWhiteSpace(bitrhday) || DateTime.TryParseExact(bitrhday, formats, new CultureInfo("vi-VN"), DateTimeStyles.None, out Bitrhday) || getday(bitrhday) == "" || getmonth(bitrhday) == "" || getyear(bitrhday) == "")
-        {
-            Bitrhday = Convert.ToDateTime("01/01/1900");
-        }
-        else
-        {
-            Bitrhday = DateTime.ParseExact(getday(bitrhday) + "/" + getmonth(bitrhday) + "/" + getyear(bitrhday), "dd/MM/yyyy", null);
-        }
-        int typeAdvisory =int.Parse(dlRegistration_Type.SelectedValue);
-        int studylv = int.Parse(dlEducationLV.SelectedValue);
-        int countryadv = int.Parse(dlCountryAdvisory.SelectedValue);
-        string contentAdv = CKContentAdvisory.Text;
-        if (registrationForm.NewCustomerAdvisory(txtFullName.Text, countryid, provinceid, districtid, txtAddress.Text, Bitrhday, sex, txtPhone.Text, txtEmail.Text, typeAdvisory, studylv, countryadv, contentAdv, 0,0,0))
-        {
-            //Response.Redirect("http://" + Request.Url.Authority + "/QuanLyHoSo/QLDangKyTuVan.aspx");
-            this.Clear_Form();
-            Response.Write("<script>alert('Nhập Phiếu Đăng Ký Tư Vấn Thành Công !')</script>");
+            if (HasPermission(Session.GetCurrentUser().UserID, FunctionName.PhieuDKTuVan, TypeAudit.AddNew))
+            {
+                registrationForm = new REGISTRATION_FORM_ADVISORY_BLL();
+                int countryid = int.Parse(dlCountrys.SelectedValue);
+                int provinceid = int.Parse(dlProvinces.SelectedValue);
+                int districtid = int.Parse(dlDistrict.SelectedValue);
+                int sex;
+                if (!rdnam.Checked && !rdnu.Checked)
+                {
+                    sex = 0;
+                }
+                else
+                {
+                    sex = (rdnam.Checked) ? 1 : (rdnu.Checked) ? 2 : 0;
+                }
+                string bitrhday = txtbirthday.Value;
+                DateTime Bitrhday;
+                string[] formats = { "dd/MM/yyyy", "d/M/yyyy", "dd/M/yyyy", "d/MM/yyyy" };
+                if (string.IsNullOrWhiteSpace(bitrhday) || DateTime.TryParseExact(bitrhday, formats, new CultureInfo("vi-VN"), DateTimeStyles.None, out Bitrhday) || getday(bitrhday) == "" || getmonth(bitrhday) == "" || getyear(bitrhday) == "")
+                {
+                    Bitrhday = Convert.ToDateTime("01/01/1900");
+                }
+                else
+                {
+                    Bitrhday = DateTime.ParseExact(getday(bitrhday) + "/" + getmonth(bitrhday) + "/" + getyear(bitrhday), "dd/MM/yyyy", null);
+                }
+                int typeAdvisory = int.Parse(dlRegistration_Type.SelectedValue);
+                int studylv = int.Parse(dlEducationLV.SelectedValue);
+                int countryadv = int.Parse(dlCountryAdvisory.SelectedValue);
+                string contentAdv = CKContentAdvisory.Text;
+                if (registrationForm.NewCustomerAdvisory(txtFullName.Text, countryid, provinceid, districtid, txtAddress.Text, Bitrhday, sex, txtPhone.Text, txtEmail.Text, typeAdvisory, studylv, countryadv, contentAdv, 0, 0, 0))
+                {
+                    this.Clear_Form();
+                    Response.Write("<script>alert('Nhập Phiếu Đăng Ký Tư Vấn Thành Công !')</script>");
 
+                }
+                else
+                {
+                    Response.Write("<script>alert('False to input !')</script>");
+                }
+            }
+            else
+            {
+                this.AlertPageValid(true, "Bạn không có quyền thực hiện chức năng này !", alertPageValid, lblPageValid);
+            }
         }
-        else
+        catch (Exception ex)
         {
-            Response.Write("<script>alert('False to input !')</script>");
+            this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
         }
-        //Response.Write("<script>alert('" + countryadv.ToString() + "')</script>");
+
     }
     private void Clear_Form()
     {

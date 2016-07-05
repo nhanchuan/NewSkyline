@@ -557,6 +557,12 @@
                                     </a>
                                 </li>
                                 <li>
+                                    <a href="#">
+                                        <i class="fa fa-file-text-o"></i>
+                                        Ghi danh tiềm năng
+                                    </a>
+                                </li>
+                                <li>
                                     <a href="../kus_admin/QLGhiDanh.aspx">
                                         Quản lý Ghi danh
                                     </a>

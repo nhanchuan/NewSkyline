@@ -23,7 +23,7 @@ public static class FunctionName
     public static string NewPost= "FC013";
     public static string CategoryManager= "FC014";
     public static string TagManager= "FC015";
-    public static string Advisory= "FC016";
+    //public static string Advisory= "FC016";
     public static string AdvisoryManager= "FC017";
     public static string TuVanVien= "FC018";
     public static string HoSoTongHop= "FC019";
