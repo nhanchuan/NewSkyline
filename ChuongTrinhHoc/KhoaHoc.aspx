@@ -91,6 +91,14 @@
                                                 <button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
                                             </span>
                                         </div>
+                                        <asp:CompareValidator ID="cvtxtStartDate" runat="server"
+                                            ControlToCompare="txtNgayKG" CultureInvariantValues="true"
+                                            Display="Dynamic" EnableClientScript="true"
+                                            ControlToValidate="txtNgayKT"
+                                            ForeColor="Red"
+                                            ErrorMessage="Start date must be earlier than finish date"
+                                            Type="Date" SetFocusOnError="true" Operator="GreaterThanEqual"
+                                            Text="Ngày khai giảng phải trước ngày kết thúc"></asp:CompareValidator>
                                         <%-- Date picker --%>
                                     </div>
                                 </div>
@@ -192,8 +200,8 @@
                     </div>
                 </div>
                 <div class="actions">
-                    <a id="btnLenlichhoc" onserverclick="btnLenlichhoc_ServerClick" runat="server"><i class="glyphicon glyphicon-calendar"></i> Lên lịch học</a>
-                    <a id="btnAddBooks" href="#modalGiaoTrinhHoc" runat="server" data-toggle="modal"><i class="fa fa-book"></i> Sách - Giáo trình học</a>
+                    <a id="btnLenlichhoc" onserverclick="btnLenlichhoc_ServerClick" runat="server"><i class="glyphicon glyphicon-calendar"></i>Lên lịch học</a>
+                    <a id="btnAddBooks" href="#modalGiaoTrinhHoc" runat="server" data-toggle="modal"><i class="fa fa-book"></i>Sách - Giáo trình học</a>
                     <a id="btnXemLichHoc" href="#modalXemLichHoc" title="Xem lịch học" data-toggle="modal" runat="server"><i class="fa fa-calendar"></i></a>
                     <a class="btn btn-circle btn-icon-only btn-default" title="Xuất danh sách Excel" href="#">
                         <i class="fa fa-file-excel-o"></i>

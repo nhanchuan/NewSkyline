@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/GlobalMasterPage.master" AutoEventWireup="true" CodeFile="QLDangKyTuVan.aspx.cs" Inherits="QuanLyHoSo_QLDangKyTuVan" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <link href="../App_Themes/admin/StylePortlet.css" rel="stylesheet" />
@@ -61,7 +61,7 @@
                                             <asp:DropDownList ID="dlEmployeesAdvisory" CssClass="form-control" runat="server"></asp:DropDownList>
                                         </div>
                                         <span class="input-group-btn">
-                                            <button id="btnSendAdv" class="btn btn-warning" type="button" onserverclick="btnSendAdv_ServerClick" runat="server"><i class="fa fa-send"></i> Chuyển Phiếu</button>
+                                            <button id="btnSendAdv" class="btn btn-warning" type="button" onserverclick="btnSendAdv_ServerClick" runat="server"><i class="fa fa-send"></i>Chuyển Phiếu</button>
                                         </span>
                                     </div>
                                 </div>
@@ -73,7 +73,8 @@
                                         </div>
                                         <span class="input-group-btn">
                                             <button id="btnsearchAdv" class="btn btn-success" type="button" onserverclick="btnsearchAdv_ServerClick" runat="server"><i class="fa fa-arrow-left fa-fw"></i>Search</button>
-                                            <a class="btn btn-info" style="margin-left:5px;" data-toggle="modal" href="#modalSeaarch">Search more</a>
+                                            <a class="btn btn-info" style="margin-left: 5px;" data-toggle="modal" href="#modalSeaarch">Search more</a>
+                                            <a class="btn btn-success" style="margin-left: 5px;" data-toggle="modal" href="#modalExport2Excel"><i class="fa fa-file-excel-o"></i>&nbsp Export to Excel</a>
                                         </span>
                                     </div>
                                 </div>
@@ -228,16 +229,20 @@
                         </div>
                         <!-- END PAGINATOR -->
                     </div>
-                    
+
                 </ContentTemplate>
             </asp:UpdatePanel>
             <%--<asp:Timer ID="timerReloadGrw" OnTick="timerReloadGrw_Tick" runat="server"></asp:Timer>--%>
-            <span class="label label-primary"><strong><i class="fa fa-pencil-square-o"></i> <label>Tư Vấn Du Học</label></strong></span>
-            <span class="label label-default"><strong><i class="fa fa-pencil-square-o"></i> <label>Tư Vấn Thực Tập</label></strong></span>
-            <span class="label label-success"><strong><i class="fa fa-pencil-square-o"></i> <label>Tư Vấn Du Lịch</label></strong></span>
-            <span class="label label-warning"><strong><i class="fa fa-pencil-square-o"></i> <label>Tư Vấn Định Cư</label></strong></span>
+            <span class="label label-primary"><strong><i class="fa fa-pencil-square-o"></i>
+                <label>Tư Vấn Du Học</label></strong></span>
+            <span class="label label-default"><strong><i class="fa fa-pencil-square-o"></i>
+                <label>Tư Vấn Thực Tập</label></strong></span>
+            <span class="label label-success"><strong><i class="fa fa-pencil-square-o"></i>
+                <label>Tư Vấn Du Lịch</label></strong></span>
+            <span class="label label-warning"><strong><i class="fa fa-pencil-square-o"></i>
+                <label>Tư Vấn Định Cư</label></strong></span>
         </div>
-        
+
     </div>
 
     <%-- Modal Search --%>
@@ -288,6 +293,83 @@
         </div>
     </div>
     <%--End Modal Delete --%>
-   
+
+    <%-- Modal Export to Excel --%>
+    <div class="modal fade" id="modalExport2Excel" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title"><i class="fa fa-file-excel-o"></i>&nbsp Export to Excel</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-horizontal">
+                                <div class="form-body">
+                                    <%-- /Row --%>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="control-label bold col-md-3">Loại ĐK Tư Vấn</label>
+                                                <div class="col-md-8">
+                                                    <asp:DropDownList ID="DropDownList1" CssClass="form-control" runat="server"></asp:DropDownList>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <%-- /Row --%>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="control-label bold col-md-3">Từ ngày</label>
+                                                <div class="col-md-8">
+                                                    <%-- Date picker --%>
+                                                    <div class="input-group date date-picker" data-date-format="dd-mm-yyyy">
+                                                        <asp:TextBox ID="txtStartDate" CssClass="form-control" runat="server"></asp:TextBox>
+                                                        <span class="input-group-btn">
+                                                            <button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
+                                                        </span>
+                                                    </div>
+                                                    <%-- Date picker --%>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <%-- /Row --%>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="control-label bold col-md-3">Đến ngày</label>
+                                                <div class="col-md-8">
+                                                    <%-- Date picker --%>
+                                                    <div class="input-group date date-picker" data-date-format="dd-mm-yyyy">
+                                                        <asp:TextBox ID="txtFinishDate" CssClass="form-control" runat="server"></asp:TextBox>
+                                                        <span class="input-group-btn">
+                                                            <button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
+                                                        </span>
+                                                    </div>
+                                                    <asp:CompareValidator ID="cvtxtStartDate" runat="server"
+                                                        ControlToCompare="txtStartDate" CultureInvariantValues="true"
+                                                        Display="Dynamic" EnableClientScript="true"
+                                                        ControlToValidate="txtFinishDate"
+                                                        ForeColor="Red"
+                                                        ErrorMessage="Start date must be earlier than finish date"
+                                                        Type="Date" SetFocusOnError="true" Operator="GreaterThanEqual"
+                                                        Text="Start date must be earlier than finish date"></asp:CompareValidator>
+                                                    <%-- Date picker --%>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%-- End Modal Export to Excel --%>
 </asp:Content>
 
