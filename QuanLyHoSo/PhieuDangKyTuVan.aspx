@@ -173,6 +173,7 @@
                                     </span>
                                 </div>
                                 <%-- Date picker --%>
+                                <asp:RequiredFieldValidator ID="RequiredFieldValidator7" ControlToValidate="txtbirthday" ValidationGroup="validFormAdvisory" runat="server" ForeColor="Red" Display="Dynamic" ErrorMessage="Chưa nhập Ngày sinh !"></asp:RequiredFieldValidator>
                                 <%-- <asp:RegularExpressionValidator ID="RegularExpressionValidator2" 
                                     runat="server" ControlToValidate="txtbirthday" ValidationGroup="validFormAdvisory" 
                                     ValidationExpression="/^\d{1,2}[\/-]\d{1,2}[\/-]\d{4}$/" ForeColor="Red" Display="Dynamic"

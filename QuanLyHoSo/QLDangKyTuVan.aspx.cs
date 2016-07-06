@@ -22,7 +22,7 @@ public partial class QuanLyHoSo_QLDangKyTuVan : BasePage
     {
         this.setcurenturl();
         UserAccounts ac = Session.GetCurrentUser();
-        if(!IsPostBack)
+        if (!IsPostBack)
         {
             if (ac == null)
             {
@@ -52,10 +52,12 @@ public partial class QuanLyHoSo_QLDangKyTuVan : BasePage
                     RepeaterKeySearch.Visible = false;
                     load_dlEmployeesAdvisory();
                     dlEmployeesAdvisory.Items.Insert(0, new ListItem("-- Chọn Nhân Viên Tư Vấn --", "0"));
+                    this.load_dlExNhanVien();
+                    this.load_dlExLoaiDK();
                 }
             }
         }
-        
+
     }
     private void load_dlRegistration_Type()
     {
@@ -80,6 +82,18 @@ public partial class QuanLyHoSo_QLDangKyTuVan : BasePage
         dlCountryAdvisory.DataValueField = "CountryAdvisoryID";
         dlCountryAdvisory.DataTextField = "CountryName";
         dlCountryAdvisory.DataBind();
+    }
+    private void load_dlExNhanVien()
+    {
+        employees = new EmployeesBLL();
+        this.load_DropdownList(dlExNhanVien, employees.DropdownEmployeesWithDepartments(2), "Name", "EmployeesID");
+        dlExNhanVien.Items.Insert(0, new ListItem("-- Chọn Nhân Viên Tư Vấn --", "0"));
+    }
+    private void load_dlExLoaiDK()
+    {
+        registrationType = new Registration_TypeBLL();
+        this.load_DropdownList(dlExLoaiDK, registrationType.getAllRegistration_Type(), "TypeName", "TypeID");
+        dlExLoaiDK.Items.Insert(0, new ListItem("-- Chọn Loại Tư Vấn --", "0"));
     }
     private void GetForm_AdvisoryPageWise(int pageIndex)
     {

@@ -311,9 +311,20 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
+                                                <label class="control-label bold col-md-3">Nhân viên Tư Vấn</label>
+                                                <div class="col-md-8">
+                                                    <asp:DropDownList ID="dlExNhanVien" CssClass="form-control" runat="server"></asp:DropDownList>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <%-- /Row --%>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
                                                 <label class="control-label bold col-md-3">Loại ĐK Tư Vấn</label>
                                                 <div class="col-md-8">
-                                                    <asp:DropDownList ID="DropDownList1" CssClass="form-control" runat="server"></asp:DropDownList>
+                                                    <asp:DropDownList ID="dlExLoaiDK" CssClass="form-control" runat="server"></asp:DropDownList>
                                                 </div>
                                             </div>
                                         </div>
@@ -366,6 +377,10 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-warning" data-dismiss="modal">Hủy</a>
+                    <asp:Button ID="Button1" CssClass="btn btn-primary" runat="server" Text="Export to Excel" />
                 </div>
             </div>
         </div>

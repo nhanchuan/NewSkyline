@@ -114,3 +114,15 @@ string path = Server.MapPath("../images/Upload/" + RemoveSpecialCharacters(imt.I
             }
 
             File.Delete(path + str_image); // DELETE THE FILE BEFORE CREATING A NEW ONE.
+
+
+
+//Try this approach, First Enter the Start Date and Check the Compare Validator with the End Date textbox:
+
+<asp:CompareValidator id="cvtxtStartDate" runat="server" 
+     ControlToCompare="txtStartDate" cultureinvariantvalues="true" 
+     display="Dynamic" enableclientscript="true"  
+     ControlToValidate="txtFinishDate" 
+     ErrorMessage="Start date must be earlier than finish date"
+     type="Date" setfocusonerror="true" Operator="GreaterThanEqual" 
+     text="Start date must be earlier than finish date"></asp:CompareValidator>
