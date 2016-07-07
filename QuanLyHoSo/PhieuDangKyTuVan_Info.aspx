@@ -1,8 +1,8 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/GlobalMasterPage.master" AutoEventWireup="true" CodeFile="PhieuDangKyTuVan_Info.aspx.cs" Inherits="QuanLyHoSo_PhieuDangKyTuVan_Info" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <!-- BEGIN PAGE HEADER-->
     <h1 class="page-title">Thông tin Phiếu đăng ký tư vấn <small>Registration Form Advisory</small>
     </h1>
@@ -66,7 +66,7 @@
                     <div id="map-canvas" style="width: 100%; height: 450px;"></div>
                 </div>
             </div>
-		<!-- END GEOCODING PORTLET-->
+            <!-- END GEOCODING PORTLET-->
 
         </div>
         <%-- Info --%>
@@ -78,7 +78,7 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="form-group">
-                                <label class="control-label">Họ và tên </label><i class="required">*</i>
+                                <label class="control-label">Họ và tên <span class="required">*</span></label>
                                 <asp:TextBox ID="txtFullName" CssClass="form-control" runat="server"></asp:TextBox>
                                 <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ControlToValidate="txtFullName" ValidationGroup="validFormAdvisory" runat="server" ForeColor="Red" Display="Dynamic" ErrorMessage="Required"></asp:RequiredFieldValidator>
                                 <asp:RegularExpressionValidator ID="RegularExpressionValidator1" ControlToValidate="txtFullName" Display="Dynamic" ValidationGroup="validFormAdvisory" ValidationExpression="(.){1,200}" runat="server" ErrorMessage="Full Name from 1-200 characters" ForeColor="Red"></asp:RegularExpressionValidator>
@@ -92,20 +92,44 @@
                             <ContentTemplate>
                                 <div class="col-lg-4">
                                     <div class="form-group">
-                                        <label class="control-label">Quốc Gia</label>
+                                        <label class="control-label">Quốc Gia <span class="required">*</span></label>
                                         <asp:DropDownList ID="dlCountrys" CssClass="form-control" AutoPostBack="true" OnSelectedIndexChanged="dlCountrys_SelectedIndexChanged" runat="server"></asp:DropDownList>
+                                        <asp:RequiredFieldValidator ID="valWeekday" runat="server"
+                                            ControlToValidate="dlCountrys"
+                                            ValidationGroup="validFormAdvisory"
+                                            Display="Dynamic"
+                                            ForeColor="Red"
+                                            ErrorMessage="Chưa chọn Quốc Gia !"
+                                            InitialValue="0">
+                                        </asp:RequiredFieldValidator>
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="form-group">
-                                        <label class="control-label">Tỉnh - Thành Phố</label>
+                                        <label class="control-label">Tỉnh - Thành Phố <span class="required">*</span></label>
                                         <asp:DropDownList ID="dlProvinces" CssClass="form-control" AutoPostBack="true" OnSelectedIndexChanged="dlProvince_SelectedIndexChanged" runat="server"></asp:DropDownList>
+                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server"
+                                            ControlToValidate="dlProvinces"
+                                            ValidationGroup="validFormAdvisory"
+                                            Display="Dynamic"
+                                            ForeColor="Red"
+                                            ErrorMessage="Chưa chọn Tỉnh - Thành Phố !"
+                                            InitialValue="0">
+                                        </asp:RequiredFieldValidator>
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="form-group">
-                                        <label class="control-label">Quận / Huyện</label>
+                                        <label class="control-label">Quận / Huyện <span class="required">*</span></label>
                                         <asp:DropDownList ID="dlDistrict" CssClass="form-control" runat="server"></asp:DropDownList>
+                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server"
+                                            ControlToValidate="dlDistrict"
+                                            ValidationGroup="validFormAdvisory"
+                                            Display="Dynamic"
+                                            ForeColor="Red"
+                                            ErrorMessage="Chưa chọn Quận / Huyện !"
+                                            InitialValue="0">
+                                        </asp:RequiredFieldValidator>
                                     </div>
                                 </div>
                             </ContentTemplate>
@@ -119,8 +143,9 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="form-group">
-                                <label class="control-label">Phường - Xã / Số nhà - Tên đường</label>
+                                <label class="control-label">Phường - Xã / Số nhà - Tên đường <span class="required">*</span></label>
                                 <asp:TextBox ID="txtAddress" CssClass="form-control" runat="server"></asp:TextBox>
+                                <asp:RequiredFieldValidator ID="RequiredFieldValidator5" ControlToValidate="txtAddress" ValidationGroup="validFormAdvisory" runat="server" ForeColor="Red" Display="Dynamic" ErrorMessage="Chưa nhập Phường - Xã / Số nhà - Tên đường !"></asp:RequiredFieldValidator>
                             </div>
                         </div>
                     </div>
@@ -129,16 +154,17 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label class="control-label">Ngày sinh</label>
+                                <label class="control-label">Ngày sinh <span class="required">*</span></label>
                                 <%-- Date picker --%>
                                 <div class="input-group date date-picker" data-date-format="dd-mm-yyyy">
-                                    <input type="text" class="form-control" id="txtbirthday" runat="server"/>
+                                    <input type="text" class="form-control" id="txtbirthday" runat="server" />
                                     <span class="input-group-btn">
                                         <button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
                                     </span>
                                 </div>
                                 <%-- Date picker --%>
-                               <%-- <asp:RegularExpressionValidator ID="RegularExpressionValidator2" 
+                                <asp:RequiredFieldValidator ID="RequiredFieldValidator7" ControlToValidate="txtbirthday" ValidationGroup="validFormAdvisory" runat="server" ForeColor="Red" Display="Dynamic" ErrorMessage="Chưa nhập Ngày sinh !"></asp:RequiredFieldValidator>
+                                <%-- <asp:RegularExpressionValidator ID="RegularExpressionValidator2" 
                                     runat="server" ControlToValidate="txtbirthday" ValidationGroup="validFormAdvisory" 
                                     ValidationExpression="/^\d{1,2}[\/-]\d{1,2}[\/-]\d{4}$/" ForeColor="Red" Display="Dynamic"
                                     ErrorMessage="Birthday incorect!">
@@ -166,8 +192,9 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="form-group">
-                                <label class="control-label">Số điện thoại</label>
+                                <label class="control-label">Số điện thoại <span class="required">*</span></label>
                                 <asp:TextBox ID="txtPhone" CssClass="form-control" runat="server"></asp:TextBox>
+                                <asp:RequiredFieldValidator ID="RequiredFieldValidator4" ControlToValidate="txtPhone" ValidationGroup="validFormAdvisory" runat="server" ForeColor="Red" Display="Dynamic" ErrorMessage="Chưa nhập số điện thoại !"></asp:RequiredFieldValidator>
                                 <asp:RegularExpressionValidator ID="RegularExpressionValidator3" runat="server"
                                     ControlToValidate="txtPhone"
                                     ValidationGroup="validFormAdvisory"
@@ -197,12 +224,30 @@
                         </div>
                     </div>
                     <%-- End row 6 --%>
+                    <%-- /Row more --%>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label class="control-label">Người liên hệ (Phụ huynh - Người thân)</label>
+                                <asp:TextBox ID="txtPhuHuynh" CssClass="form-control" runat="server"></asp:TextBox>
+                            </div>
+                        </div>
+                    </div>
+                    <%-- End Row more --%>
                     <%-- Row 7--%>
                     <div class="row">
                         <div class="col-lg-4">
                             <div class="form-group">
-                                <label class="control-label">Phiếu Đăng Ký</label>
+                                <label class="control-label">Phiếu Đăng Ký <span class="required">*</span></label>
                                 <asp:DropDownList ID="dlRegistration_Type" CssClass="form-control" runat="server"></asp:DropDownList>
+                                <asp:RequiredFieldValidator ID="RequiredFieldValidator6" runat="server"
+                                    ControlToValidate="dlRegistration_Type"
+                                    ValidationGroup="validFormAdvisory"
+                                    Display="Dynamic"
+                                    ForeColor="Red"
+                                    ErrorMessage="Chưa chọn loại tư vấn !"
+                                    InitialValue="0">
+                                </asp:RequiredFieldValidator>
                             </div>
                         </div>
                     </div>
@@ -233,56 +278,56 @@
                         </div>
                     </div>
                     <%-- End row 9 --%>
-                     <div class="clearfix"></div>
+                    <div class="clearfix"></div>
                     <asp:Button ID="btnSunmitUpdate" CssClass="btn btn-primary pull-right" ValidationGroup="validFormAdvisory" OnClick="btnSunmitUpdate_Click" runat="server" Text="Cập Nhật Phiếu Đăng Ký Tư Vấn" />
                 </div>
             </div>
         </div>
         <%-- End Info --%>
     </div>
-<script src="../assets/global/plugins/amcharts/amcharts/amcharts.js" type="text/javascript"></script>
-<script src="../assets/global/plugins/amcharts/amcharts/serial.js" type="text/javascript"></script>
-<script src="../assets/global/plugins/amcharts/amcharts/pie.js" type="text/javascript"></script>
-<script src="../assets/global/plugins/amcharts/amcharts/radar.js" type="text/javascript"></script>
-<script src="../assets/global/plugins/amcharts/amcharts/themes/light.js" type="text/javascript"></script>
-<script src="../assets/global/plugins/amcharts/amcharts/themes/patterns.js" type="text/javascript"></script>
-<script src="../assets/global/plugins/amcharts/amcharts/themes/chalk.js" type="text/javascript"></script>
-<script src="../assets/global/plugins/amcharts/ammap/ammap.js" type="text/javascript"></script>
-<script src="../assets/global/plugins/amcharts/ammap/maps/js/worldLow.js" type="text/javascript"></script>
-<script src="../assets/global/plugins/amcharts/amstockcharts/amstock.js" type="text/javascript"></script>
+    <script src="../assets/global/plugins/amcharts/amcharts/amcharts.js" type="text/javascript"></script>
+    <script src="../assets/global/plugins/amcharts/amcharts/serial.js" type="text/javascript"></script>
+    <script src="../assets/global/plugins/amcharts/amcharts/pie.js" type="text/javascript"></script>
+    <script src="../assets/global/plugins/amcharts/amcharts/radar.js" type="text/javascript"></script>
+    <script src="../assets/global/plugins/amcharts/amcharts/themes/light.js" type="text/javascript"></script>
+    <script src="../assets/global/plugins/amcharts/amcharts/themes/patterns.js" type="text/javascript"></script>
+    <script src="../assets/global/plugins/amcharts/amcharts/themes/chalk.js" type="text/javascript"></script>
+    <script src="../assets/global/plugins/amcharts/ammap/ammap.js" type="text/javascript"></script>
+    <script src="../assets/global/plugins/amcharts/ammap/maps/js/worldLow.js" type="text/javascript"></script>
+    <script src="../assets/global/plugins/amcharts/amstockcharts/amstock.js" type="text/javascript"></script>
 
     <script>
-       function initialize() {
-           var map = new google.maps.Map(document.getElementById('map-canvas'), {
-               mapTypeId: google.maps.MapTypeId.ROADMAP
-           });
-           var input = document.getElementById('searchbox');
-           map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-           var searchBox = new google.maps.places.SearchBox(input);
-           google.maps.event.addListener(searchBox, 'places_changed', function () {
-               var places = searchBox.getPlaces();
-               if (places.length == 0) {
-                   return;
-               }
-               //get first place
-               var place = places[0];
-               var marker = new google.maps.Marker({
-                   map: map,
-                   title: place.name,
-                   position: place.geometry.location
-               });
-               //var bounds = new google.maps.LatLngBounds();
-               //bounds.extend(place.geometry.location);
-               //map.fitBounds(bounds);
-               map.fitBounds(place.geometry.viewport);
-               //save location goes here...
-               var lat = place.geometry.location.lat();
-               var lng = place.geometry.location.lng();
-               document.getElementById('latbox').value = (lat);
-               document.getElementById('lngbox').value = (lng);
-           });
-       }
-       initialize();
-   </script>
+        function initialize() {
+            var map = new google.maps.Map(document.getElementById('map-canvas'), {
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            });
+            var input = document.getElementById('searchbox');
+            map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+            var searchBox = new google.maps.places.SearchBox(input);
+            google.maps.event.addListener(searchBox, 'places_changed', function () {
+                var places = searchBox.getPlaces();
+                if (places.length == 0) {
+                    return;
+                }
+                //get first place
+                var place = places[0];
+                var marker = new google.maps.Marker({
+                    map: map,
+                    title: place.name,
+                    position: place.geometry.location
+                });
+                //var bounds = new google.maps.LatLngBounds();
+                //bounds.extend(place.geometry.location);
+                //map.fitBounds(bounds);
+                map.fitBounds(place.geometry.viewport);
+                //save location goes here...
+                var lat = place.geometry.location.lat();
+                var lng = place.geometry.location.lng();
+                document.getElementById('latbox').value = (lat);
+                document.getElementById('lngbox').value = (lng);
+            });
+        }
+        initialize();
+    </script>
 </asp:Content>
 

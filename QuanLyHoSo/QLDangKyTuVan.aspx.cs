@@ -17,8 +17,8 @@ public partial class QuanLyHoSo_QLDangKyTuVan : BasePage
     CountryAdvisoryBLL countryAdvisory;
     REGISTRATION_FORM_ADVISORY_BLL registrationForm;
     EmployeesBLL employees;
-    private int PageSize = 10;
-    protected void Page_Load(object sender, EventArgs e)
+    private int PageSize = 30;
+    protected void Page_Load (object sender, EventArgs e)
     {
         this.setcurenturl();
         UserAccounts ac = Session.GetCurrentUser();
@@ -30,7 +30,7 @@ public partial class QuanLyHoSo_QLDangKyTuVan : BasePage
             }
             else
             {
-                if (!check_permiss(ac.UserID, FunctionName.NewUser))
+                if (!check_permiss(ac.UserID, FunctionName.QLDangKyTuVan))
                 {
                     Response.Redirect("http://" + Request.Url.Authority + "/Extra/access_denied.aspx");
                 }

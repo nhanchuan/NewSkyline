@@ -45,14 +45,15 @@ namespace BLL
                 rf.UserAdvisory = (string.IsNullOrEmpty(r[16].ToString())) ? 0 : (int)r[16];
                 rf.FF = (int)r[17];
                 rf.ProgressForm = (string.IsNullOrEmpty(r[18].ToString())) ? 0 : (int)r[18];
+                rf.TenPhuHuynh = (string.IsNullOrEmpty(r["TenPhuHuynh"].ToString())) ? "" : (string)r["TenPhuHuynh"];
                 lst.Add(rf);
             }
             this.DB.CloseConnection();
             return lst;
         }
-        public Boolean NewCustomerAdvisory (string fullname, int countryID, int provinceId, int districtId, string address, DateTime bitrhday, int sex, string phone, string email, int typeId, int studyLv, int countryAdsId, string content, int status, int FF, int ProgressForm)
+        public Boolean NewCustomerAdvisory (string fullname, int countryID, int provinceId, int districtId, string address, DateTime bitrhday, int sex, string phone, string email, int typeId, int studyLv, int countryAdsId, string content, int status, int FF, int ProgressForm, string TenPhuHuynh)
         {
-            string sql = "Exec NewCustomerAdvisory @fullname,@countryID,@provinceId,@districtId,@address,@bitrhday,@sex,@phone,@email,@typeId,@studyLv,@countryAdsId,@content,@status, @FF, @ProgressForm";
+            string sql = "Exec NewCustomerAdvisory @fullname,@countryID,@provinceId,@districtId,@address,@bitrhday,@sex,@phone,@email,@typeId,@studyLv,@countryAdsId,@content,@status,@FF,@ProgressForm,@TenPhuHuynh";
             if(!this.DB.OpenConnection())
             {
                 return false;
@@ -74,7 +75,8 @@ namespace BLL
             SqlParameter pstatus = new SqlParameter("status", status);
             SqlParameter pFF = new SqlParameter("FF", FF);
             SqlParameter pProgressForm = new SqlParameter("ProgressForm", ProgressForm);
-            this.DB.Updatedata(sql, pfullname, pcountryID, pprovinceId, pdistrictId, paddress, pbitrhday, psex, pphone, pemail, ptypeId, pstudyLv, pcountryAdsId, pcontent, pstatus , pFF, pProgressForm);
+            SqlParameter pTenPhuHuynh = (TenPhuHuynh == "") ? new SqlParameter("@TenPhuHuynh", DBNull.Value) : new SqlParameter("@TenPhuHuynh", TenPhuHuynh);
+            this.DB.Updatedata(sql, pfullname, pcountryID, pprovinceId, pdistrictId, paddress, pbitrhday, psex, pphone, pemail, ptypeId, pstudyLv, pcountryAdsId, pcontent, pstatus , pFF, pProgressForm, pTenPhuHuynh);
             this.DB.CloseConnection();
             return true;
         }

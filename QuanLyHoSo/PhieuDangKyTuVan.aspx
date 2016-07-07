@@ -153,7 +153,7 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="form-group">
-                                <label class="control-label">Phường - Xã / Số nhà - Tên đường</label>
+                                <label class="control-label">Phường - Xã / Số nhà - Tên đường <span class="required">*</span></label>
                                 <asp:TextBox ID="txtAddress" CssClass="form-control" runat="server"></asp:TextBox>
                                 <asp:RequiredFieldValidator ID="RequiredFieldValidator5" ControlToValidate="txtAddress" ValidationGroup="validFormAdvisory" runat="server" ForeColor="Red" Display="Dynamic" ErrorMessage="Chưa nhập Phường - Xã / Số nhà - Tên đường !"></asp:RequiredFieldValidator>
                             </div>
@@ -164,7 +164,7 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label class="control-label">Ngày sinh</label>
+                                <label class="control-label">Ngày sinh <span class="required">*</span></label>
                                 <%-- Date picker --%>
                                 <div class="input-group date date-picker" data-date-format="dd-mm-yyyy">
                                     <input type="text" class="form-control" id="txtbirthday" runat="server" />
@@ -234,6 +234,16 @@
                         </div>
                     </div>
                     <%-- End row 6 --%>
+                    <%-- /Row more --%>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label class="control-label">Người liên hệ (Phụ huynh - Người thân)</label>
+                                <asp:TextBox ID="txtPhuHuynh" CssClass="form-control" runat="server"></asp:TextBox>
+                            </div>
+                        </div>
+                    </div>
+                    <%-- End Row more --%>
                     <%-- Row 7--%>
                     <div class="row">
                         <div class="col-lg-4">

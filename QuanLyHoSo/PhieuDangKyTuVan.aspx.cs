@@ -148,7 +148,7 @@ public partial class QuanLyHoSo_PhieuDangKyTuVan : BasePage
                 int studylv = int.Parse(dlEducationLV.SelectedValue);
                 int countryadv = int.Parse(dlCountryAdvisory.SelectedValue);
                 string contentAdv = CKContentAdvisory.Text;
-                if (registrationForm.NewCustomerAdvisory(txtFullName.Text, countryid, provinceid, districtid, txtAddress.Text, Bitrhday, sex, txtPhone.Text, txtEmail.Text, typeAdvisory, studylv, countryadv, contentAdv, 0, 0, 0))
+                if (registrationForm.NewCustomerAdvisory(txtFullName.Text, countryid, provinceid, districtid, txtAddress.Text, Bitrhday, sex, txtPhone.Text, txtEmail.Text, typeAdvisory, studylv, countryadv, contentAdv, 0, 0, 0, txtPhuHuynh.Text))
                 {
                     this.Clear_Form();
                     Response.Write("<script>alert('Nhập Phiếu Đăng Ký Tư Vấn Thành Công !')</script>");

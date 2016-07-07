@@ -28,7 +28,7 @@ public partial class QuanLyHoSo_KiemTraHoSoChuyen : BasePage
             }
             else
             {
-                if (!check_permiss(ac.UserID, FunctionName.NewUser))
+                if (!check_permiss(ac.UserID, FunctionName.KiemTraPhieuChuyen))
                 {
                     Response.Redirect("http://" + Request.Url.Authority + "/Extra/access_denied.aspx");
                 }

@@ -23,7 +23,7 @@
     <div class="row">
         <div class="col-lg-12">
             <a class="btn green" href="../QuanLyHoSo/PhieuDangKyTuVan.aspx">Phiếu Đăng ký Tư Vấn</a>
-            <a class="btn btn-primary" href="../QuanLyHoSo/CheckFormAdvisory.aspx">Kiểm tra phiếu chuyển</a>
+            <a class="btn btn-primary" href="../QuanLyHoSo/CheckFormAdvisory.aspx">Quản lý phiếu</a>
         </div>
         <hr />
         <div class="clearfix"></div>

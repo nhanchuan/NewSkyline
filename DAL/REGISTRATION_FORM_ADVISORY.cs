@@ -27,6 +27,7 @@ namespace DAL
         private int userAdvisory;
         private int fF;
         private int progressForm;
+        private string tenPhuHuynh;
         public int RegistrationID
         {
             get
@@ -269,6 +270,19 @@ namespace DAL
             set
             {
                 progressForm = value;
+            }
+        }
+
+        public string TenPhuHuynh
+        {
+            get
+            {
+                return tenPhuHuynh;
+            }
+
+            set
+            {
+                tenPhuHuynh = value;
             }
         }
     }

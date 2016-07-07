@@ -32,7 +32,7 @@ public partial class QuanLyHoSo_PhieuDangKyTuVan_Info : BasePage
             }
             else
             {
-                if (!check_permiss(ac.UserID, FunctionName.NewUser))
+                if (!check_permiss(ac.UserID, FunctionName.ThongtinPhieuDKTuVan))
                 {
                     Response.Redirect("http://" + Request.Url.Authority + "/Extra/access_denied.aspx");
                 }
@@ -185,6 +185,7 @@ public partial class QuanLyHoSo_PhieuDangKyTuVan_Info : BasePage
         rdnu.Checked = (rfa.Sex == 2) ? true : false;
         txtPhone.Text = rfa.Phone;
         txtEmail.Text = rfa.Email;
+        txtPhuHuynh.Text = rfa.TenPhuHuynh;
         dlRegistration_Type.Items.FindByValue(rfa.TypeID.ToString()).Selected = true;
         dlEducationLV.Items.FindByValue(rfa.StudyLV.ToString()).Selected = true;
         dlCountryAdvisory.Items.FindByValue(rfa.CountryAdvisoryID.ToString()).Selected = true;
