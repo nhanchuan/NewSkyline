@@ -180,7 +180,7 @@ public partial class QuanLyHoSo_PhieuDangKyTuVan_Info : BasePage
         dlProvinces.Items.FindByValue(rfa.ProvinceID.ToString()).Selected = true;
         dlDistrict.Items.FindByValue(rfa.DistrictID.ToString()).Selected = true;
         txtAddress.Text = rfa.Address_form;
-        txtbirthday.Value = (rfa.Birthday.Year <= 1900) ? "" : rfa.Birthday.ToString("dd/MM/yyyy");
+        txtbirthday.Value = (rfa.Birthday.Year <= 1900) ? "" : rfa.Birthday.ToString("dd-MM-yyyy");
         rdnam.Checked = (rfa.Sex == 1) ? true : false;
         rdnu.Checked = (rfa.Sex == 2) ? true : false;
         txtPhone.Text = rfa.Phone;
@@ -222,7 +222,7 @@ public partial class QuanLyHoSo_PhieuDangKyTuVan_Info : BasePage
         int studylv = int.Parse(dlEducationLV.SelectedValue);
         int countryadv = int.Parse(dlCountryAdvisory.SelectedValue);
         string contentAdv = CKContentAdvisory.Text;
-        if (registrationForm.Update_Form_Advisory(int.Parse(fID), txtFullName.Text, countryid, provinceid, districtid, txtAddress.Text, Bitrhday, sex, txtPhone.Text, txtEmail.Text, typeAdvisory, studylv, countryadv, contentAdv))
+        if (registrationForm.Update_Form_Advisory(int.Parse(fID), txtFullName.Text, countryid, provinceid, districtid, txtAddress.Text, Bitrhday, sex, txtPhone.Text, txtEmail.Text, typeAdvisory, studylv, countryadv, contentAdv, txtPhuHuynh.Text))
         {
             //Response.Redirect("http://" + Request.Url.Authority + "/QuanLyHoSo/QLDangKyTuVan.aspx");
             //Response.Write("<script>alert('Nhập Phiếu Đăng Ký Tư Vấn Thành Công !')</script>");

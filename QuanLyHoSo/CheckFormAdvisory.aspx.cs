@@ -17,7 +17,7 @@ public partial class QuanLyHoSo_CheckFormAdvisory : BasePage
     CountryAdvisoryBLL countryAdvisory;
     REGISTRATION_FORM_ADVISORY_BLL registrationForm;
     EmployeesBLL employees;
-    private int PageSize = 10;
+    private int PageSize = 50;
     protected void Page_Load(object sender, EventArgs e)
     {
         this.setcurenturl();
@@ -54,13 +54,11 @@ public partial class QuanLyHoSo_CheckFormAdvisory : BasePage
                     RepeaterKeySearch.Visible = false;
                     RepeaterUserAdv.Visible = false;
                     RepeaterFilterProgress.Visible = false;
+                    this.load_dlExNhanVien();
+                    this.load_dlExLoaiDK();
                 }
             }
         }
-    }
-    protected void btnreload_ServerClick(object sender, EventArgs e)
-    {
-        Response.Redirect(Request.Url.AbsoluteUri);
     }
     private void load_dlEmployeesAdvisory()
     {
@@ -101,6 +99,18 @@ public partial class QuanLyHoSo_CheckFormAdvisory : BasePage
         dlCountryAdvisory.DataValueField = "CountryAdvisoryID";
         dlCountryAdvisory.DataTextField = "CountryName";
         dlCountryAdvisory.DataBind();
+    }
+    private void load_dlExNhanVien()
+    {
+        employees = new EmployeesBLL();
+        this.load_DropdownList(dlExNhanVien, employees.DropdownEmployeesWithDepartments(2), "Name", "EmployeesID");
+        dlExNhanVien.Items.Insert(0, new ListItem("-- Chọn Nhân Viên Tư Vấn --", "0"));
+    }
+    private void load_dlExLoaiDK()
+    {
+        registrationType = new Registration_TypeBLL();
+        this.load_DropdownList(dlExLoaiDK, registrationType.getAllRegistration_Type(), "TypeName", "TypeID");
+        dlExLoaiDK.Items.Insert(0, new ListItem("-- Chọn Loại Tư Vấn --", "0"));
     }
     private void GetForm_AdvisoryPageWise(int pageIndex)
     {

@@ -17,6 +17,7 @@ public partial class QuanLyHoSo_QLDangKyTuVan : BasePage
     CountryAdvisoryBLL countryAdvisory;
     REGISTRATION_FORM_ADVISORY_BLL registrationForm;
     EmployeesBLL employees;
+    UserProfileBLL userprofile;
     private int PageSize = 30;
     protected void Page_Load (object sender, EventArgs e)
     {
@@ -37,6 +38,10 @@ public partial class QuanLyHoSo_QLDangKyTuVan : BasePage
                 else
                 {
                     //do somthing
+                    this.load_dlEmployeesAdvisory();
+                    dlEmployeesAdvisory.Items.Insert(0, new ListItem("-- Chọn Nhân Viên Tư Vấn --", "0"));
+                    this.load_dlChangeEmpAdvisory();
+                    dlChangeEmpAdvisory.Items.Insert(0, new ListItem("-- Chọn Nhân Viên Tư Vấn --", "0"));
                     this.load_dlRegistration_Type();
                     dlRegistration_Type.Items.Insert(0, new ListItem("-- Loại tư vấn --", "0"));
                     this.load_dlEducationLV();
@@ -44,20 +49,36 @@ public partial class QuanLyHoSo_QLDangKyTuVan : BasePage
                     this.load_dlCountryAdvisory();
                     dlCountryAdvisory.Items.Insert(0, new ListItem("-- Quốc Gia du học --", "0"));
                     this.GetForm_AdvisoryPageWise(1);
-                    //lblstartindex.Text = ((1 - 1) * PageSize + 1).ToString();
-                    //lblendindex.Text = ((((1 - 1) * PageSize + 1) + PageSize) - 1).ToString();
                     btnUncheckAll.Visible = false;
                     rptPager.Visible = true;
                     Repeatersearch.Visible = false;
                     RepeaterKeySearch.Visible = false;
-                    load_dlEmployeesAdvisory();
-                    dlEmployeesAdvisory.Items.Insert(0, new ListItem("-- Chọn Nhân Viên Tư Vấn --", "0"));
+                    RepeaterUserAdv.Visible = false;
+                    RepeaterFilterProgress.Visible = false;
                     this.load_dlExNhanVien();
                     this.load_dlExLoaiDK();
+                    this.load_userprofile(ac.UserID);
+                    this.Summary();
                 }
             }
         }
 
+    }
+    private void load_dlEmployeesAdvisory()
+    {
+        employees = new EmployeesBLL();
+        dlEmployeesAdvisory.DataSource = employees.DropdownEmployeesWithDepartments(2);
+        dlEmployeesAdvisory.DataTextField = "Name";
+        dlEmployeesAdvisory.DataValueField = "EmployeesID";
+        dlEmployeesAdvisory.DataBind();
+    }
+    private void load_dlChangeEmpAdvisory()
+    {
+        employees = new EmployeesBLL();
+        dlChangeEmpAdvisory.DataSource = employees.DropdownEmployeesWithDepartments(2);
+        dlChangeEmpAdvisory.DataTextField = "Name";
+        dlChangeEmpAdvisory.DataValueField = "EmployeesID";
+        dlChangeEmpAdvisory.DataBind();
     }
     private void load_dlRegistration_Type()
     {
@@ -99,8 +120,8 @@ public partial class QuanLyHoSo_QLDangKyTuVan : BasePage
     {
         registrationForm = new REGISTRATION_FORM_ADVISORY_BLL();
         int recordCount = 0;
-        gwAdvisoryManager.DataSource = registrationForm.GetForm_AdvisoryPageWise(pageIndex, PageSize);
-        recordCount = registrationForm.CountRecordForm_Advisory();
+        gwAdvisoryManager.DataSource = registrationForm.GetCheckForm_AdvisoryPageWise(pageIndex, PageSize);
+        recordCount = registrationForm.CountCheckRecordForm_Advisory();
         gwAdvisoryManager.DataBind();
         this.PopulatePager(recordCount, pageIndex);
         //lbltotalRecord.Text = recordCount.ToString();
@@ -205,8 +226,8 @@ public partial class QuanLyHoSo_QLDangKyTuVan : BasePage
     {
         registrationForm = new REGISTRATION_FORM_ADVISORY_BLL();
         int recordCount = 0;
-        gwAdvisoryManager.DataSource = registrationForm.SearchDLForm_AdvisoryPageWise(pageIndex, PageSize, type, edulv, country);
-        recordCount = registrationForm.Count_SearchDLForm_AdvisoryPageWise(type, edulv, country);
+        gwAdvisoryManager.DataSource = registrationForm.SearchCheckDLForm_AdvisoryPageWise(pageIndex, PageSize, type, edulv, country);
+        recordCount = registrationForm.Count_SearchCheckDLForm_AdvisoryPageWise(type, edulv, country);
         gwAdvisoryManager.DataBind();
         this.PopulateDLPager(recordCount, pageIndex);
         //lbltotalSearchDl.Text = recordCount.ToString();
@@ -295,18 +316,15 @@ public partial class QuanLyHoSo_QLDangKyTuVan : BasePage
         rptPager.Visible = false;
         Repeatersearch.Visible = true;
         RepeaterKeySearch.Visible = false;
-    }
-    protected void btnreload_ServerClick(object sender, EventArgs e)
-    {
-        //Response.Redirect(Request.Url.AbsoluteUri);
-        this.GetForm_AdvisoryPageWise(1);
+        RepeaterUserAdv.Visible = false;
+        RepeaterFilterProgress.Visible = false;
     }
     private void GetKeySearchForm_AdvisoryPageWise(int pageIndex, string keysearch)
     {
         registrationForm = new REGISTRATION_FORM_ADVISORY_BLL();
         int recordCount = 0;
-        gwAdvisoryManager.DataSource = registrationForm.SearchKey_DL_Form_AdvisoryPageWise(pageIndex, PageSize, keysearch);
-        recordCount = registrationForm.Count_SearchKey_DL_Form_AdvisoryPageWise(keysearch);
+        gwAdvisoryManager.DataSource = registrationForm.SearchKey_CheckDL_Form_AdvisoryPageWise(pageIndex, PageSize, keysearch);
+        recordCount = registrationForm.Count_SearchCheckKey_DL_Form_AdvisoryPageWise(keysearch);
         gwAdvisoryManager.DataBind();
         this.PopulateKeySearchPager(recordCount, pageIndex);
         //lbltotalSearchDl.Text = recordCount.ToString();
@@ -393,34 +411,108 @@ public partial class QuanLyHoSo_QLDangKyTuVan : BasePage
         rptPager.Visible = false;
         Repeatersearch.Visible = false;
         RepeaterKeySearch.Visible = true;
+        RepeaterUserAdv.Visible = false;
+        RepeaterFilterProgress.Visible = false;
     }
-    //protected void btnSendAdvisory_Click(object sender, EventArgs e)
-    //{
-       
-    //    string ctId = "";
-    //    foreach (GridViewRow r in gwAdvisoryManager.Rows)
-    //    {
-    //        CheckBox ch = (CheckBox)r.FindControl("chkrow");
-    //        if (ch.Checked)
-    //        {
-    //            ctId += (r.FindControl("lblRegistrationID") as Label).Text;
-    //            Response.Write("<script>alert('" + ctId + "')</script>");
-    //        }
-    //    }
-    //}
-   private void load_dlEmployeesAdvisory()
-    {
-        employees = new EmployeesBLL();
-        dlEmployeesAdvisory.DataSource = employees.DropdownEmployeesWithDepartments(2);
-        dlEmployeesAdvisory.DataTextField = "Name";
-        dlEmployeesAdvisory.DataValueField = "EmployeesID";
-        dlEmployeesAdvisory.DataBind();
-    }
-
-    protected void btnSendAdv_ServerClick(object sender, EventArgs e)
+    private void GetUserAdv_AdvisoryPageWise(int pageIndex, int UserAdv)
     {
         registrationForm = new REGISTRATION_FORM_ADVISORY_BLL();
-        if (dlEmployeesAdvisory.SelectedValue == "0")
+        int recordCount = 0;
+        gwAdvisoryManager.DataSource = registrationForm.DLUserAdv_Form_AdvisoryPageWise(pageIndex, PageSize, UserAdv);
+        recordCount = registrationForm.Count_DLUserAdv_Form_AdvisoryPageWise(UserAdv);
+        gwAdvisoryManager.DataBind();
+        this.PopulateUserAdvPager(recordCount, pageIndex);
+        //lbltotalSearchDl.Text = recordCount.ToString();
+    }
+    private void PopulateUserAdvPager(int recordCount, int currentPage)
+    {
+        List<ListItem> pages = new List<ListItem>();
+        int startIndex, endIndex;
+        int pagerSpan = 5;
+
+        //Calculate the Start and End Index of pages to be displayed.
+        double dblPageCount = (double)((decimal)recordCount / Convert.ToDecimal(PageSize));
+        int pageCount = (int)Math.Ceiling(dblPageCount);
+        startIndex = currentPage > 1 && currentPage + pagerSpan - 1 < pagerSpan ? currentPage : 1;
+        endIndex = pageCount > pagerSpan ? pagerSpan : pageCount;
+        if (currentPage > pagerSpan % 2)
+        {
+            if (currentPage == 2)
+            {
+                endIndex = 5;
+            }
+            else
+            {
+                endIndex = currentPage + 2;
+            }
+        }
+        else
+        {
+            endIndex = (pagerSpan - currentPage) + 1;
+        }
+
+        if (endIndex - (pagerSpan - 1) > startIndex)
+        {
+            startIndex = endIndex - (pagerSpan - 1);
+        }
+
+        if (endIndex > pageCount)
+        {
+            endIndex = pageCount;
+            startIndex = ((endIndex - pagerSpan) + 1) > 0 ? (endIndex - pagerSpan) + 1 : 1;
+        }
+
+        //Add the First Page Button.
+        if (currentPage > 1)
+        {
+            pages.Add(new ListItem("First", "1"));
+        }
+
+        //Add the Previous Button.
+        if (currentPage > 1)
+        {
+            pages.Add(new ListItem("<<", (currentPage - 1).ToString()));
+        }
+
+        for (int i = startIndex; i <= endIndex; i++)
+        {
+            pages.Add(new ListItem(i.ToString(), i.ToString(), i != currentPage));
+        }
+
+        //Add the Next Button.
+        if (currentPage < pageCount)
+        {
+            pages.Add(new ListItem(">>", (currentPage + 1).ToString()));
+        }
+
+        //Add the Last Button.
+        if (currentPage != pageCount)
+        {
+            pages.Add(new ListItem("Last", pageCount.ToString()));
+        }
+        RepeaterUserAdv.DataSource = pages;
+        RepeaterUserAdv.DataBind();
+    }
+    protected void UserAdvPage_Changed(object sender, EventArgs e)
+    {
+        int pageIndex = int.Parse((sender as LinkButton).CommandArgument);
+        this.GetUserAdv_AdvisoryPageWise(pageIndex, Convert.ToInt32(dlEmployeesAdvisory.SelectedValue));
+    }
+
+    protected void dlEmployeesAdvisory_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        registrationForm = new REGISTRATION_FORM_ADVISORY_BLL();
+        this.GetUserAdv_AdvisoryPageWise(1, Convert.ToInt32(dlEmployeesAdvisory.SelectedValue));
+        rptPager.Visible = false;
+        Repeatersearch.Visible = false;
+        RepeaterKeySearch.Visible = false;
+        RepeaterUserAdv.Visible = true;
+        RepeaterFilterProgress.Visible = false;
+    }
+    protected void btnChangeEmpAdvisory_Click(object sender, EventArgs e)
+    {
+        registrationForm = new REGISTRATION_FORM_ADVISORY_BLL();
+        if (dlChangeEmpAdvisory.SelectedValue == "0")
         {
             Response.Write("<script>alert('Chưa chọn Nhân Viên Tư Vấn !')</script>");
         }
@@ -431,25 +523,134 @@ public partial class QuanLyHoSo_QLDangKyTuVan : BasePage
                 CheckBox ch = (CheckBox)r.FindControl("chkrow");
                 if (ch.Checked)
                 {
-                    //ctId += (r.FindControl("lblRegistrationID") as Label).Text;
-                    registrationForm.UpdateUserAdvisory(Convert.ToInt32(dlEmployeesAdvisory.SelectedValue), Convert.ToInt32((r.FindControl("lblRegistrationID") as Label).Text));
-                    this.registrationForm.updateProgress(1, Convert.ToInt32((r.FindControl("lblRegistrationID") as Label).Text));
+                    registrationForm.UpdateUserAdvisory(Convert.ToInt32(dlChangeEmpAdvisory.SelectedValue), Convert.ToInt32((r.FindControl("lblRegistrationID") as Label).Text));
                 }
             }
             Response.Redirect(Request.Url.AbsoluteUri);
         }
     }
-    protected void btnRemove_Click(object sender, EventArgs e)
+    private void GetFilterProgress_AdvisoryPageWise(int pageIndex, int ProgressForm)
     {
         registrationForm = new REGISTRATION_FORM_ADVISORY_BLL();
-        foreach (GridViewRow r in gwAdvisoryManager.Rows)
+        int recordCount = 0;
+        gwAdvisoryManager.DataSource = registrationForm.CheckFilterProgress_Form_AdvisoryPageWise(pageIndex, PageSize, ProgressForm);
+        recordCount = registrationForm.CountCheckFilterProgress_AdvisoryPageWise(ProgressForm);
+        gwAdvisoryManager.DataBind();
+        this.PopulateFilterProgressPager(recordCount, pageIndex);
+        //lbltotalSearchDl.Text = recordCount.ToString();
+    }
+    private void PopulateFilterProgressPager(int recordCount, int currentPage)
+    {
+        List<ListItem> pages = new List<ListItem>();
+        int startIndex, endIndex;
+        int pagerSpan = 5;
+
+        //Calculate the Start and End Index of pages to be displayed.
+        double dblPageCount = (double)((decimal)recordCount / Convert.ToDecimal(PageSize));
+        int pageCount = (int)Math.Ceiling(dblPageCount);
+        startIndex = currentPage > 1 && currentPage + pagerSpan - 1 < pagerSpan ? currentPage : 1;
+        endIndex = pageCount > pagerSpan ? pagerSpan : pageCount;
+        if (currentPage > pagerSpan % 2)
         {
-            CheckBox ch = (CheckBox)r.FindControl("chkrow");
-            if (ch.Checked)
+            if (currentPage == 2)
             {
-                registrationForm.DeleteAdvisory(Convert.ToInt32((r.FindControl("lblRegistrationID") as Label).Text));
+                endIndex = 5;
+            }
+            else
+            {
+                endIndex = currentPage + 2;
             }
         }
-        Response.Redirect(Request.Url.AbsoluteUri);
+        else
+        {
+            endIndex = (pagerSpan - currentPage) + 1;
+        }
+
+        if (endIndex - (pagerSpan - 1) > startIndex)
+        {
+            startIndex = endIndex - (pagerSpan - 1);
+        }
+
+        if (endIndex > pageCount)
+        {
+            endIndex = pageCount;
+            startIndex = ((endIndex - pagerSpan) + 1) > 0 ? (endIndex - pagerSpan) + 1 : 1;
+        }
+
+        //Add the First Page Button.
+        if (currentPage > 1)
+        {
+            pages.Add(new ListItem("First", "1"));
+        }
+
+        //Add the Previous Button.
+        if (currentPage > 1)
+        {
+            pages.Add(new ListItem("<<", (currentPage - 1).ToString()));
+        }
+
+        for (int i = startIndex; i <= endIndex; i++)
+        {
+            pages.Add(new ListItem(i.ToString(), i.ToString(), i != currentPage));
+        }
+
+        //Add the Next Button.
+        if (currentPage < pageCount)
+        {
+            pages.Add(new ListItem(">>", (currentPage + 1).ToString()));
+        }
+
+        //Add the Last Button.
+        if (currentPage != pageCount)
+        {
+            pages.Add(new ListItem("Last", pageCount.ToString()));
+        }
+        RepeaterFilterProgress.DataSource = pages;
+        RepeaterFilterProgress.DataBind();
+    }
+    protected void FilterProgessPage_Changed(object sender, EventArgs e)
+    {
+        int pageIndex = int.Parse((sender as LinkButton).CommandArgument);
+        this.GetFilterProgress_AdvisoryPageWise(pageIndex, Convert.ToInt32(dlProgressForm.SelectedValue));
+    }
+    protected void dlProgressForm_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        this.GetFilterProgress_AdvisoryPageWise(1, Convert.ToInt32(dlProgressForm.SelectedValue));
+        rptPager.Visible = false;
+        Repeatersearch.Visible = false;
+        RepeaterUserAdv.Visible = false;
+        RepeaterKeySearch.Visible = false;
+        RepeaterFilterProgress.Visible = true;
+    }
+    protected void load_userprofile(int userId)
+    {
+        userprofile = new UserProfileBLL();
+        employees = new EmployeesBLL();
+        List<UserProfile> lstPR = userprofile.getUserProfileWithID(userId);
+        UserProfile pr = lstPR.FirstOrDefault();
+        lblUserFullName.Text = pr.LastName + " " + pr.FirstName;
+        lblmywebsite.Text = pr.WebsiteUrl;
+        lblOccupation.Text = pr.Occupation;
+        lbladdress.Text = pr.Address_ui;
+        lblBirthday.Text = pr.Birthday.ToString("dd/MM/yyyy");
+        List<Employees> lstemp = employees.getEmpWithProfileId(pr.ProfileID);
+        Employees emp = lstemp.FirstOrDefault();
+        lblMaNV.Text = (emp == null) ? "Mã NV: " + "#" : "Mã NV: " + emp.EmployeesCode.ToString();
+        lblregency.Text = emp.Regency;
+        this.GetUserAdv_AdvisoryPageWise(1, emp.EmployeesID);
+    }
+    private void Summary()
+    {
+        userprofile = new UserProfileBLL();
+        employees = new EmployeesBLL();
+        registrationForm = new REGISTRATION_FORM_ADVISORY_BLL();
+        List<UserProfile> lstPR = userprofile.getUserProfileWithID(Session.GetCurrentUser().UserID);
+        UserProfile pr = lstPR.FirstOrDefault();
+        List<Employees> lstemp = employees.getEmpWithProfileId(pr.ProfileID);
+        Employees emp = lstemp.FirstOrDefault();
+        lblTotalSum.Text = registrationForm.SumAdv().ToString();
+        string date = DateTime.Now.ToString("dd/MM/yyyy");
+        lblDaySum.Text = registrationForm.SumAdvAsDAY(getday(date)).ToString();
+        lblMonthSum.Text = registrationForm.SumAdvAsMONTH(getmonth(date)).ToString();
     }
 }

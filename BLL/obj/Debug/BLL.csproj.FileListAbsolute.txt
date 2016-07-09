@@ -194,3 +194,10 @@ D:\ChuanTemp\github\NewSkyline\BLL\bin\Debug\DAL.pdb
 D:\ChuanTemp\github\NewSkyline\BLL\obj\Debug\BLL.csprojResolveAssemblyReference.cache
 D:\ChuanTemp\github\NewSkyline\BLL\obj\Debug\BLL.dll
 D:\ChuanTemp\github\NewSkyline\BLL\obj\Debug\BLL.pdb
+C:\Users\NhanChuan\Developer\NewSkyline\BLL\bin\Debug\BLL.dll
+C:\Users\NhanChuan\Developer\NewSkyline\BLL\bin\Debug\BLL.pdb
+C:\Users\NhanChuan\Developer\NewSkyline\BLL\bin\Debug\DAL.dll
+C:\Users\NhanChuan\Developer\NewSkyline\BLL\bin\Debug\DAL.pdb
+C:\Users\NhanChuan\Developer\NewSkyline\BLL\obj\Debug\BLL.csprojResolveAssemblyReference.cache
+C:\Users\NhanChuan\Developer\NewSkyline\BLL\obj\Debug\BLL.dll
+C:\Users\NhanChuan\Developer\NewSkyline\BLL\obj\Debug\BLL.pdb

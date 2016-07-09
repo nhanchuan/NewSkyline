@@ -51,9 +51,9 @@ namespace BLL
             this.DB.CloseConnection();
             return lst;
         }
-        public Boolean NewCustomerAdvisory (string fullname, int countryID, int provinceId, int districtId, string address, DateTime bitrhday, int sex, string phone, string email, int typeId, int studyLv, int countryAdsId, string content, int status, int FF, int ProgressForm, string TenPhuHuynh)
+        public Boolean NewCustomerAdvisory (string fullname, int countryID, int provinceId, int districtId, string address, DateTime bitrhday, int sex, string phone, string email, int typeId, int studyLv, int countryAdsId, string content, int status, int UserAdvisory, int FF, int ProgressForm, string TenPhuHuynh)
         {
-            string sql = "Exec NewCustomerAdvisory @fullname,@countryID,@provinceId,@districtId,@address,@bitrhday,@sex,@phone,@email,@typeId,@studyLv,@countryAdsId,@content,@status,@FF,@ProgressForm,@TenPhuHuynh";
+            string sql = "Exec NewCustomerAdvisory @fullname,@countryID,@provinceId,@districtId,@address,@bitrhday,@sex,@phone,@email,@typeId,@studyLv,@countryAdsId,@content,@status,@FF,@ProgressForm,@TenPhuHuynh,@UserAdvisory";
             if(!this.DB.OpenConnection())
             {
                 return false;
@@ -73,10 +73,11 @@ namespace BLL
             SqlParameter pcountryAdsId = (countryAdsId == 0) ? new SqlParameter("countryAdsId", DBNull.Value) : new SqlParameter("countryAdsId", countryAdsId);
             SqlParameter pcontent = new SqlParameter("content", content);
             SqlParameter pstatus = new SqlParameter("status", status);
+            SqlParameter pUserAdvisory = new SqlParameter("@UserAdvisory", UserAdvisory);
             SqlParameter pFF = new SqlParameter("FF", FF);
             SqlParameter pProgressForm = new SqlParameter("ProgressForm", ProgressForm);
             SqlParameter pTenPhuHuynh = (TenPhuHuynh == "") ? new SqlParameter("@TenPhuHuynh", DBNull.Value) : new SqlParameter("@TenPhuHuynh", TenPhuHuynh);
-            this.DB.Updatedata(sql, pfullname, pcountryID, pprovinceId, pdistrictId, paddress, pbitrhday, psex, pphone, pemail, ptypeId, pstudyLv, pcountryAdsId, pcontent, pstatus , pFF, pProgressForm, pTenPhuHuynh);
+            this.DB.Updatedata(sql, pfullname, pcountryID, pprovinceId, pdistrictId, paddress, pbitrhday, psex, pphone, pemail, ptypeId, pstudyLv, pcountryAdsId, pcontent, pstatus , pUserAdvisory, pFF, pProgressForm, pTenPhuHuynh);
             this.DB.CloseConnection();
             return true;
         }
@@ -180,9 +181,9 @@ namespace BLL
         //=======Update Form_Advisory==================================================================================================
 
 
-        public Boolean Update_Form_Advisory(int AdvisoryID, string fullname, int countryID, int provinceId, int districtId, string address, DateTime bitrhday, int sex, string phone, string email, int typeId, int studyLv, int countryAdsId, string content)
+        public Boolean Update_Form_Advisory(int AdvisoryID, string fullname, int countryID, int provinceId, int districtId, string address, DateTime bitrhday, int sex, string phone, string email, int typeId, int studyLv, int countryAdsId, string content, string TenPhuHuynh)
         {
-            string sql = "Exec Update_Form_Advisory @AdvisoryID, @fullname,@countryID,@provinceId,@districtId,@address,@bitrhday,@sex,@phone,@email,@typeId,@studyLv,@countryAdsId,@content";
+            string sql = "Exec Update_Form_Advisory @AdvisoryID, @fullname,@countryID,@provinceId,@districtId,@address,@bitrhday,@sex,@phone,@email,@typeId,@studyLv,@countryAdsId,@content,@TenPhuHuynh";
             if (!this.DB.OpenConnection())
             {
                 return false;
@@ -202,7 +203,8 @@ namespace BLL
             SqlParameter pstudyLv = (studyLv == 0) ? new SqlParameter("studyLv", DBNull.Value) : new SqlParameter("studyLv", studyLv);
             SqlParameter pcountryAdsId = (countryAdsId == 0) ? new SqlParameter("countryAdsId", DBNull.Value) : new SqlParameter("countryAdsId", countryAdsId);
             SqlParameter pcontent = new SqlParameter("content", content);
-            this.DB.Updatedata(sql, pAdvisoryID, pfullname, pcountryID, pprovinceId, pdistrictId, paddress, pbitrhday, psex, pphone, pemail, ptypeId, pstudyLv, pcountryAdsId, pcontent);
+            SqlParameter pTenPhuHuynh = (TenPhuHuynh == "") ? new SqlParameter("@TenPhuHuynh", DBNull.Value) : new SqlParameter("@TenPhuHuynh", TenPhuHuynh);
+            this.DB.Updatedata(sql, pAdvisoryID, pfullname, pcountryID, pprovinceId, pdistrictId, paddress, pbitrhday, psex, pphone, pemail, ptypeId, pstudyLv, pcountryAdsId, pcontent, pTenPhuHuynh);
             this.DB.CloseConnection();
             return true;
         }
@@ -481,44 +483,82 @@ namespace BLL
             return true;
         }
         //=======SUM ===========================================================================================================================
-        public int SumAdv(int UserAdv)
+        //public int SumAdv(int UserAdv)
+        //{
+        //    int RC = 0;
+        //    string sql = "select COUNT(*) from REGISTRATION_FORM_ADVISORY where UserAdvisory=@UserAdv";
+        //    if (!this.DB.OpenConnection())
+        //    {
+        //        return 0;
+        //    }
+        //    SqlParameter pUserAdv = new SqlParameter("UserAdv", UserAdv);
+        //    RC = DB.GetValues(sql, pUserAdv);
+        //    this.DB.CloseConnection();
+        //    return RC;
+        //}
+        //public int SumAdvAsDAY(int UserAdv, string day)
+        //{
+        //    int RC = 0;
+        //    string sql = "select COUNT(*) from REGISTRATION_FORM_ADVISORY where UserAdvisory=@UserAdv and SUBSTRING(CONVERT(nvarchar(9),DateOfCreate, 112),7,2)=@day";
+        //    if (!this.DB.OpenConnection())
+        //    {
+        //        return 0;
+        //    }
+        //    SqlParameter pUserAdv = new SqlParameter("UserAdv", UserAdv);
+        //    SqlParameter pday = new SqlParameter("day", day);
+        //    RC = DB.GetValues(sql, pUserAdv, pday);
+        //    this.DB.CloseConnection();
+        //    return RC;
+        //}
+        //public int SumAdvAsMONTH(int UserAdv, string month)
+        //{
+        //    int RC = 0;
+        //    string sql = "select COUNT(*) from REGISTRATION_FORM_ADVISORY where UserAdvisory=@UserAdv  and SUBSTRING(CONVERT(nvarchar(6),DateOfCreate, 112),5,2)=@month";
+        //    if (!this.DB.OpenConnection())
+        //    {
+        //        return 0;
+        //    }
+        //    SqlParameter pUserAdv = new SqlParameter("UserAdv", UserAdv);
+        //    SqlParameter pmonth = new SqlParameter("month", month);
+        //    RC = DB.GetValues(sql, pUserAdv, pmonth);
+        //    this.DB.CloseConnection();
+        //    return RC;
+        //}
+        public int SumAdv()
         {
             int RC = 0;
-            string sql = "select COUNT(*) from REGISTRATION_FORM_ADVISORY where UserAdvisory=@UserAdv";
+            string sql = "select COUNT(*) from REGISTRATION_FORM_ADVISORY";
             if (!this.DB.OpenConnection())
             {
                 return 0;
             }
-            SqlParameter pUserAdv = new SqlParameter("UserAdv", UserAdv);
-            RC = DB.GetValues(sql, pUserAdv);
+            RC = DB.GetValues(sql);
             this.DB.CloseConnection();
             return RC;
         }
-        public int SumAdvAsDAY(int UserAdv, string day)
+        public int SumAdvAsDAY(string day)
         {
             int RC = 0;
-            string sql = "select COUNT(*) from REGISTRATION_FORM_ADVISORY where UserAdvisory=@UserAdv and SUBSTRING(CONVERT(nvarchar(9),DateOfCreate, 112),7,2)=@day";
+            string sql = "select COUNT(*) from REGISTRATION_FORM_ADVISORY where SUBSTRING(CONVERT(nvarchar(9),DateOfCreate, 112),7,2)=@day";
             if (!this.DB.OpenConnection())
             {
                 return 0;
             }
-            SqlParameter pUserAdv = new SqlParameter("UserAdv", UserAdv);
             SqlParameter pday = new SqlParameter("day", day);
-            RC = DB.GetValues(sql, pUserAdv, pday);
+            RC = DB.GetValues(sql, pday);
             this.DB.CloseConnection();
             return RC;
         }
-        public int SumAdvAsMONTH(int UserAdv, string month)
+        public int SumAdvAsMONTH(string month)
         {
             int RC = 0;
-            string sql = "select COUNT(*) from REGISTRATION_FORM_ADVISORY where UserAdvisory=@UserAdv  and SUBSTRING(CONVERT(nvarchar(6),DateOfCreate, 112),5,2)=@month";
+            string sql = "select COUNT(*) from REGISTRATION_FORM_ADVISORY where SUBSTRING(CONVERT(nvarchar(6),DateOfCreate, 112),5,2)=@month";
             if (!this.DB.OpenConnection())
             {
                 return 0;
             }
-            SqlParameter pUserAdv = new SqlParameter("UserAdv", UserAdv);
             SqlParameter pmonth = new SqlParameter("month", month);
-            RC = DB.GetValues(sql, pUserAdv, pmonth);
+            RC = DB.GetValues(sql, pmonth);
             this.DB.CloseConnection();
             return RC;
         }
