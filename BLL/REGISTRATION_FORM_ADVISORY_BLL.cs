@@ -241,8 +241,8 @@ namespace BLL
             {
                 return null;
             }
-            SqlParameter pPageIndex = new SqlParameter("PageIndex", PageIndex);
-            SqlParameter pPageSize = new SqlParameter("PageSize", PageSize);
+            SqlParameter pPageIndex = new SqlParameter("@PageIndex", PageIndex);
+            SqlParameter pPageSize = new SqlParameter("@PageSize", PageSize);
             DataTable tb = DB.DAtable(sql, pPageIndex, pPageSize);
             this.DB.CloseConnection();
             return tb;
