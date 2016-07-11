@@ -30,7 +30,7 @@
     <%--End Pages is Valid --%>
     <div id="PhieuDKTuVan" runat="server">
         <div class="col-lg-4">
-            <div class="panel panel-info">
+            <%--<div class="panel panel-info">
                 <div class="panel-body">
                     <div id="chart_7" class="chart"></div>
                     <div class="well margin-top-20">
@@ -46,13 +46,13 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>--%>
 
             <!-- BEGIN GEOCODING PORTLET-->
             <div class="portlet box red">
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="icon-globe"></i>Google map
+                        <i class="icon-globe"></i>&nbsp Fast address lookups on the map
                     </div>
                     <div class="tools">
                         <a href="javascript:;" class="collapse"></a>

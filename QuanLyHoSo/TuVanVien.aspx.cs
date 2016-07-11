@@ -604,10 +604,10 @@ public partial class QuanLyHoSo_TuVanVien : BasePage
         UserProfile pr = lstPR.FirstOrDefault();
         List<Employees> lstemp = employees.getEmpWithProfileId(pr.ProfileID);
         Employees emp = lstemp.FirstOrDefault();
-        //lblTotalSum.Text = registrationForm.SumAdv(emp.EmployeesID).ToString();
-        //string date = DateTime.Now.ToString("dd/MM/yyyy");
-        //lblDaySum.Text = registrationForm.SumAdvAsDAY(emp.EmployeesID,getday(date)).ToString();
-        //lblMonthSum.Text = registrationForm.SumAdvAsMONTH(emp.EmployeesID,getmonth(date)).ToString();
+        lblTotalSum.Text = registrationForm.SumEAdv(emp.EmployeesID).ToString();
+        string date = DateTime.Now.ToString("dd/MM/yyyy");
+        lblDaySum.Text = registrationForm.SumEAdvAsDAY(emp.EmployeesID, getday(date)).ToString();
+        lblMonthSum.Text = registrationForm.SumEAdvAsMONTH(emp.EmployeesID, getmonth(date)).ToString();
     }
     protected void btnreloadsum_ServerClick(object sender, EventArgs e)
     {
