@@ -21,6 +21,15 @@
         </ul>
     </div>
     <!-- END PAGE HEADER-->
+    <%-- Pages is Valid --%>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="alert alert-danger display-none" id="alertPageValid" runat="server">
+                <asp:Label ID="lblPageValid" runat="server"></asp:Label>
+            </div>
+        </div>
+    </div>
+    <%--End Pages is Valid --%>
     <div class="row">
         <div class="col-md-8 profile-info">
             <h1>
@@ -97,11 +106,18 @@
                     </div>
                 </ContentTemplate>
             </asp:UpdatePanel>
+            <div class="row">
+                <div class="col-lg-12">
+                    <asp:Label ID="lblConfirm" runat="server"></asp:Label>
+                    <a id="btDownLoadFile" onserverclick="DownLoadFile" style="display: none;" runat="server">Click here to download file => <i class="fa fa-download"></i>Download</a>
+                </div>
+            </div>
         </div>
         <!--end col-md-4-->
     </div>
     <%-- END ROW --%>
     <div class="clearfix"></div>
+
     <div class="row">
         <div class="col-lg-12 margin-bottom-20">
             <a class="btn green" href="../QuanLyHoSo/PhieuDangKyTuVan.aspx"><i class="fa fa-arrow-left fa-fw"></i>Phiếu Đăng Ký Tư Vấn</a>
@@ -414,6 +430,14 @@
                                                             <button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
                                                         </span>
                                                     </div>
+                                                    <asp:CompareValidator ID="CompareValidator1" runat="server"
+                                                        ControlToCompare="txtFinishDate" CultureInvariantValues="true"
+                                                        Display="Dynamic" EnableClientScript="true"
+                                                        ControlToValidate="txtStartDate"
+                                                        ForeColor="Red"
+                                                        ErrorMessage="Start date must be earlier than finish date"
+                                                        Type="Date" SetFocusOnError="true" Operator="LessThanEqual"
+                                                        Text="Start date must be earlier than finish date"></asp:CompareValidator>
                                                     <%-- Date picker --%>
                                                 </div>
                                             </div>
@@ -452,7 +476,7 @@
                 </div>
                 <div class="modal-footer">
                     <a class="btn btn-warning" data-dismiss="modal">Hủy</a>
-                    <asp:Button ID="Button1" CssClass="btn btn-primary" runat="server" Text="Export to Excel" />
+                    <asp:Button ID="btnExport2Excel_PhieuTuVan" CssClass="btn btn-primary" OnClick="btnExport2Excel_PhieuTuVan_Click" runat="server" Text="Export to Excel" />
                 </div>
             </div>
         </div>

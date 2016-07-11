@@ -9,6 +9,9 @@ using System.Data.SqlClient;
 using DAL;
 using BLL;
 using System.Collections;
+using System.IO;
+using ClosedXML.Excel;
+using System.Globalization;
 
 public partial class QuanLyHoSo_QLDangKyTuVan : BasePage
 {
@@ -37,6 +40,7 @@ public partial class QuanLyHoSo_QLDangKyTuVan : BasePage
                 }
                 else
                 {
+                    this.AlertPageValid(false, "", alertPageValid, lblPageValid);
                     //do somthing
                     this.load_dlEmployeesAdvisory();
                     dlEmployeesAdvisory.Items.Insert(0, new ListItem("-- Chọn Nhân Viên Tư Vấn --", "0"));
@@ -55,6 +59,7 @@ public partial class QuanLyHoSo_QLDangKyTuVan : BasePage
                     RepeaterKeySearch.Visible = false;
                     RepeaterUserAdv.Visible = false;
                     RepeaterFilterProgress.Visible = false;
+                    
                     this.load_dlExNhanVien();
                     this.load_dlExLoaiDK();
                     this.load_userprofile(ac.UserID);
@@ -652,5 +657,104 @@ public partial class QuanLyHoSo_QLDangKyTuVan : BasePage
         string date = DateTime.Now.ToString("dd/MM/yyyy");
         lblDaySum.Text = registrationForm.SumAdvAsDAY(getday(date)).ToString();
         lblMonthSum.Text = registrationForm.SumAdvAsMONTH(getmonth(date)).ToString();
+    }
+
+    protected void btnExport2Excel_PhieuTuVan_Click(object sender, EventArgs e)
+    {
+        registrationForm = new REGISTRATION_FORM_ADVISORY_BLL();
+        try
+        {
+            int empid = Convert.ToInt32(dlExNhanVien.SelectedValue);
+            int typeid = Convert.ToInt32(dlExLoaiDK.SelectedValue);
+
+            string startdate = txtStartDate.Text;
+            string finishdate = txtFinishDate.Text;
+            DateTime StartDate;
+            string[] formats = { "dd/MM/yyyy", "d/M/yyyy", "dd/M/yyyy", "d/MM/yyyy" };
+            if (string.IsNullOrWhiteSpace(startdate) || DateTime.TryParseExact(startdate, formats, new CultureInfo("vi-VN"), DateTimeStyles.None, out StartDate) || getday(startdate) == "" || getmonth(startdate) == "" || getyear(startdate) == "")
+            {
+                StartDate = Convert.ToDateTime("12/12/1900");
+            }
+            else
+            {
+                StartDate = DateTime.ParseExact(getday(startdate) + "/" + getmonth(startdate) + "/" + getyear(startdate), "dd/MM/yyyy", null);
+            }
+            DateTime FinishDate;
+            if (string.IsNullOrWhiteSpace(finishdate) || DateTime.TryParseExact(finishdate, formats, new CultureInfo("vi-VN"), DateTimeStyles.None, out FinishDate) || getday(finishdate) == "" || getmonth(finishdate) == "" || getyear(finishdate) == "")
+            {
+                FinishDate = Convert.ToDateTime("12/12/1900");
+            }
+            else
+            {
+                FinishDate = DateTime.ParseExact(getday(finishdate) + "/" + getmonth(finishdate) + "/" + getyear(finishdate), "dd/MM/yyyy", null);
+            }
+
+
+            using (DataTable dt = registrationForm.Export2Excel_PhieuTuVan(empid, typeid, StartDate, FinishDate))
+            {
+                using (XLWorkbook wb = new XLWorkbook())
+                {
+                    wb.Worksheets.Add(dt, "DanhSachPhieuTuVan");
+
+                    //Response.Clear();
+                    //Response.Buffer = true;
+                    //Response.Charset = "";
+                    //Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                    //Response.AddHeader("content-disposition", "attachment;filename=SqlExport.xlsx");
+
+
+                    string path = Server.MapPath("../FileManager/Excel/");
+
+                    if (!Directory.Exists(path))   // CHECK IF THE FOLDER EXISTS. IF NOT, CREATE A NEW FOLDER.
+                    {
+                        Directory.CreateDirectory(path);
+                    }
+
+                    File.Delete(path + "DanhSachPhieuTuVan.xlsx"); // DELETE THE FILE BEFORE CREATING A NEW ONE.
+
+
+                    //SAVE THE FILE IN A FOLDER.
+                    wb.SaveAs(path + "DanhSachPhieuTuVan.xlsx");
+
+
+
+                    lblConfirm.Text = "Data Exported Successfully.";
+                    lblConfirm.Attributes.Add("style", "color:green; font: normal 14px Verdana;");
+                    btDownLoadFile.Attributes.Add("style", "display:block; font: normal 18px Verdana;");
+                    //using (MemoryStream MyMemoryStream = new MemoryStream())
+                    //{
+                    //    wb.SaveAs(MyMemoryStream);
+                    //    MyMemoryStream.WriteTo(Response.OutputStream);
+                    //    Response.Flush();
+                    //    Response.End();
+                    //}
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
+        }
+    }
+    protected void DownLoadFile(object sender, EventArgs e)
+    {
+        string sPath = Server.MapPath("../FileManager/Excel/DanhSachPhieuTuVan.xlsx");
+        FileInfo file = new FileInfo(sPath);
+        try
+        {
+            Response.Clear();
+            Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            Response.AddHeader("Content-Disposition", "attachment; filename=" + Path.GetFileName(sPath));
+            Response.AddHeader("Content-Length", file.Length.ToString());
+            Response.TransmitFile(sPath);
+            Response.Flush();
+            Response.End();
+
+            Response.Redirect(Request.Url.AbsoluteUri);
+        }
+        catch (Exception ex)
+        {
+            Response.Write("<scipt>alert('" + ex + "')</scipt>");
+        }
     }
 }
