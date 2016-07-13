@@ -703,7 +703,7 @@ public partial class QuanLyHoSo_QLDangKyTuVan : BasePage
                     //Response.AddHeader("content-disposition", "attachment;filename=SqlExport.xlsx");
 
 
-                    string path = Server.MapPath("../FileManager/Excel/");
+                    string path = Server.MapPath("../FileManager/Excel/" + Session.GetCurrentUser().UserName+"/");
 
                     if (!Directory.Exists(path))   // CHECK IF THE FOLDER EXISTS. IF NOT, CREATE A NEW FOLDER.
                     {
@@ -738,7 +738,7 @@ public partial class QuanLyHoSo_QLDangKyTuVan : BasePage
     }
     protected void DownLoadFile(object sender, EventArgs e)
     {
-        string sPath = Server.MapPath("../FileManager/Excel/DanhSachPhieuTuVan.xlsx");
+        string sPath = Server.MapPath("../FileManager/Excel/" + Session.GetCurrentUser().UserName + "/DanhSachPhieuTuVan.xlsx");
         FileInfo file = new FileInfo(sPath);
         try
         {

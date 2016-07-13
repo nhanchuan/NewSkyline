@@ -423,6 +423,7 @@ public partial class Pages_Post_New : BasePage
                         {
                             this.New_Post_Category_relationships(postcode);
                             this.New_Tags_relationships(postcode);
+                            this.InteractiveHistory(Session.GetCurrentUser().UserID, "Thêm mới bài viết " + txtPostTitle.Value, "http://" + Request.Url.Authority + "/Pages/Post-Update.aspx?PostCode=" + posts.PostIdWithPostCode(postcode));
                             Response.Redirect("http://" + Request.Url.Authority + "/Pages/Post-Update.aspx?PostCode=" + posts.PostIdWithPostCode(postcode));
                         }
                         else
@@ -440,6 +441,7 @@ public partial class Pages_Post_New : BasePage
                             {
                                 this.New_Post_Category_relationships(postcode);
                                 this.New_Tags_relationships(postcode);
+                                this.InteractiveHistory(Session.GetCurrentUser().UserID, "Thêm mới bài viết " + txtPostTitle.Value, "http://" + Request.Url.Authority + "/Pages/Post-Update.aspx?PostCode=" + posts.PostIdWithPostCode(postcode));
                                 Response.Redirect("http://" + Request.Url.Authority + "/Pages/Post-Update.aspx?PostCode=" + posts.PostIdWithPostCode(postcode));
                             }
                             else

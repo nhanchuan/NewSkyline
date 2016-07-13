@@ -201,6 +201,9 @@
                             <div class="form-group">
                                 <asp:CheckBox ID="chkLoginHistory" Text="Lịch sử đăng nhập" runat="server" />
                             </div>
+                            <div class="form-group">
+                                <asp:CheckBox ID="chkInteractiveHistory" Text="Lịch sử tương tác" runat="server" />
+                            </div>
                         </div>
                     </div>
                 </div>

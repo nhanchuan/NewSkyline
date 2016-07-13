@@ -21,7 +21,7 @@ namespace BLL
             }
             string sql = "select ith.ID,ith.UserID,(pro.LastName+' '+pro.FirstName+' - Mã: '+emp.EmployeesCode) as UserInt, ith.InteractiveContent, ith.Createdate, ith.InteractiveLink";
             sql += " ";
-            sql += "from InteractiveHistory ith full outer join UserProfile pro on ith.UserID=pro.UserID full outer join Employees emp on pro.ProfileID=emp.ProfileID where ith.ID is not null";
+            sql += "from InteractiveHistory ith full outer join UserProfile pro on ith.UserID=pro.UserID full outer join Employees emp on pro.ProfileID=emp.ProfileID where ith.ID is not null order by ith.Createdate desc";
             DataTable tb = dt.DAtable(sql);
             this.dt.CloseConnection();
             return tb;
