@@ -12,6 +12,7 @@ namespace DAL
         private int userID;
         private string interactiveContent;
         private DateTime createdate;
+        private string interactiveLink;
         public int ID
         {
             get
@@ -61,6 +62,19 @@ namespace DAL
             set
             {
                 createdate = value;
+            }
+        }
+
+        public string InteractiveLink
+        {
+            get
+            {
+                return interactiveLink;
+            }
+
+            set
+            {
+                interactiveLink = value;
             }
         }
     }

@@ -538,7 +538,7 @@ public partial class Pages_Post_Update : BasePage
                         {
                             this.New_Post_Category_relationships();
                             this.New_Tags_relationships();
-                            this.InteractiveHistory(Session.GetCurrentUser().UserID, "Cập nhật bài viết " + txtPostTitle.Value);
+                            this.InteractiveHistory(Session.GetCurrentUser().UserID, "Cập nhật bài viết " + txtPostTitle.Value, Request.Url.AbsoluteUri);
                             Response.Redirect(Request.Url.AbsoluteUri);
                         }
                         else
@@ -556,7 +556,7 @@ public partial class Pages_Post_Update : BasePage
                             {
                                 this.New_Post_Category_relationships();
                                 this.New_Tags_relationships();
-                                this.InteractiveHistory(Session.GetCurrentUser().UserID, "Cập nhật bài viết " + txtPostTitle.Value);
+                                this.InteractiveHistory(Session.GetCurrentUser().UserID, "Cập nhật bài viết " + txtPostTitle.Value, Request.Url.AbsoluteUri);
                                 Response.Redirect(Request.Url.AbsoluteUri);
                             }
                             else

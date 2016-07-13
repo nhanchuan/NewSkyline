@@ -118,108 +118,42 @@
                     <!--tab-pane-->
                     <div class="tab-pane" id="tab_1_22">
                         <div class="portlet-body">
-                            <table class="table table-striped table-bordered table-advance table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>
-                                            <i class="fa fa-briefcase"></i>Company
-                                        </th>
-                                        <th class="hidden-xs">
-                                            <i class="fa fa-question"></i>Descrition
-                                        </th>
-                                        <th>
-                                            <i class="fa fa-bookmark"></i>Amount
-                                        </th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <a href="#">Pixel Ltd </a>
-                                        </td>
-                                        <td class="hidden-xs">Server hardware purchase
-                                        </td>
-                                        <td>52560.10$ <span class="label label-success label-sm">Paid </span>
-                                        </td>
-                                        <td>
-                                            <a class="btn default btn-xs green-stripe" href="#">View </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <a href="#">Smart House </a>
-                                        </td>
-                                        <td class="hidden-xs">Office furniture purchase
-                                        </td>
-                                        <td>5760.00$ <span class="label label-warning label-sm">Pending </span>
-                                        </td>
-                                        <td>
-                                            <a class="btn default btn-xs blue-stripe" href="#">View </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <a href="#">FoodMaster Ltd </a>
-                                        </td>
-                                        <td class="hidden-xs">Company Anual Dinner Catering
-                                        </td>
-                                        <td>12400.00$ <span class="label label-success label-sm">Paid </span>
-                                        </td>
-                                        <td>
-                                            <a class="btn default btn-xs blue-stripe" href="#">View </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <a href="#">WaterPure Ltd </a>
-                                        </td>
-                                        <td class="hidden-xs">Payment for Jan 2013
-                                        </td>
-                                        <td>610.50$ <span class="label label-danger label-sm">Overdue </span>
-                                        </td>
-                                        <td>
-                                            <a class="btn default btn-xs red-stripe" href="#">View </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <a href="#">Pixel Ltd </a>
-                                        </td>
-                                        <td class="hidden-xs">Server hardware purchase
-                                        </td>
-                                        <td>52560.10$ <span class="label label-success label-sm">Paid </span>
-                                        </td>
-                                        <td>
-                                            <a class="btn default btn-xs green-stripe" href="#">View </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <a href="#">Smart House </a>
-                                        </td>
-                                        <td class="hidden-xs">Office furniture purchase
-                                        </td>
-                                        <td>5760.00$ <span class="label label-warning label-sm">Pending </span>
-                                        </td>
-                                        <td>
-                                            <a class="btn default btn-xs blue-stripe" href="#">View </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <a href="#">FoodMaster Ltd </a>
-                                        </td>
-                                        <td class="hidden-xs">Company Anual Dinner Catering
-                                        </td>
-                                        <td>12400.00$ <span class="label label-success label-sm">Paid </span>
-                                        </td>
-                                        <td>
-                                            <a class="btn default btn-xs blue-stripe" href="#">View </a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <div class="scroller" data-height="850px" data-always-visible="1" data-rail-visible1="1">
+                                <table class="table table-striped table-bordered table-advance table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                <i class="fa fa-briefcase"></i>&nbsp Users
+                                            </th>
+                                            <th class="hidden-xs">
+                                                <i class="fa fa-question"></i>&nbsp Interactive content
+                                            </th>
+                                            <th>
+                                                <i class="fa fa-clock-o"></i>&nbsp Time
+                                            </th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <asp:Repeater ID="rpInteractiveHistory" runat="server">
+                                            <ItemTemplate>
+                                                <tr>
+                                                    <td>
+                                                        <a href="#"><%# Eval("UserInt") %> </a>
+                                                    </td>
+                                                    <td class="hidden-xs"><%# Eval("InteractiveContent") %>
+                                                    </td>
+                                                    <td><%# Eval("Createdate") %>
+                                                    </td>
+                                                    <td>
+                                                        <a class="btn default btn-xs green-stripe" href='<%# Eval("InteractiveLink") %>'>View </a>
+                                                    </td>
+                                                </tr>
+                                            </ItemTemplate>
+                                        </asp:Repeater>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                     <!--tab-pane-->

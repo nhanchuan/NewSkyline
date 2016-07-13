@@ -287,11 +287,17 @@ public class BasePage : System.Web.UI.Page
         string serectkey = "RBlpsQq68lgl2a7Rc8Fe0lgl7MWrmrH3XkYdTtOLiPhnZCrKzbmyXkZ7DFmpBZrPASpBFcEDmemD0i3Cn0hPfQ==";
         return serectkey;
     }
-    //Interactive History
-    public void InteractiveHistory(int userid, string content)
+
+    /// <summary>
+    /// Save thi Interactive History
+    /// </summary>
+    /// <param name="userid">User ID</param>
+    /// <param name="content">Interactive Content </param>
+    /// <param name="link">Interactive Link</param>
+    public void InteractiveHistory(int userid, string content, string link)
     {
         interactiveHistory = new InteractiveHistoryBLL();
-        this.interactiveHistory.NewInteractiveHistory(userid, content);
+        this.interactiveHistory.NewInteractiveHistory(userid, content, link);
     }
 }
 

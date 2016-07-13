@@ -12,6 +12,7 @@ using BLL;
 public partial class Pages_History : BasePage
 {
     HistoryLoginBLL historylogin;
+    InteractiveHistoryBLL interactiveHistory;
     protected void Page_Load(object sender, EventArgs e)
     {
         this.setcurenturl();
@@ -31,6 +32,7 @@ public partial class Pages_History : BasePage
                 {
                     this.AlertPageValid(false, "", alertPageValid, lblPageValid);
                     this.load_gwHistoryLogin();
+                    this.load_rpInteractiveHistory();
                 }
             }
         }
@@ -48,5 +50,12 @@ public partial class Pages_History : BasePage
 
             this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
         }
+    }
+    //rpInteractiveHistory
+    private void load_rpInteractiveHistory()
+    {
+        interactiveHistory = new InteractiveHistoryBLL();
+        rpInteractiveHistory.DataSource = interactiveHistory.DataTableInteractiveHistory();
+        rpInteractiveHistory.DataBind();
     }
 }
