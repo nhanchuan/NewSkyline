@@ -64,6 +64,7 @@
     <Compile Include="HistoryLoginBLL.cs" />
     <Compile Include="ImagesBLL.cs" />
     <Compile Include="ImagesTypeBLL.cs" />
+    <Compile Include="InteractiveHistoryBLL.cs" />
     <Compile Include="InternationalSchoolBLL.cs" />
     <Compile Include="kus_BienLaiBLL.cs" />
     <Compile Include="kus_BooksBLL.cs" />

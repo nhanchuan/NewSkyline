@@ -64,6 +64,7 @@
     <Compile Include="HistoryLogin.cs" />
     <Compile Include="Images.cs" />
     <Compile Include="ImagesType.cs" />
+    <Compile Include="InteractiveHistory.cs" />
     <Compile Include="InternationalSchool.cs" />
     <Compile Include="kus_BienLai.cs" />
     <Compile Include="kus_Books.cs" />

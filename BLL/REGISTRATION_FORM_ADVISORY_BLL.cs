@@ -605,7 +605,7 @@ namespace BLL
             else if ((EmployeesID != 0) && (TypeID != 0) && (StartDate.Year >= 1900 && EndDate.Year >= 1900))
                 sql = sql_abc;
             //tb = DB.DAtable(sql_abc, pEmployeesID, pTypeID, pStartDate, pEndDate);
-            DataTable tb = DB.DAtable(sql, pEmployeesID, pTypeID, pStartDate, pEndDate);
+            DataTable tb = DB.DAtable(sql_a, pEmployeesID, pTypeID, pStartDate, pEndDate);
             this.DB.CloseConnection();
             return tb;
         }

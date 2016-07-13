@@ -19,6 +19,7 @@ public class BasePage : System.Web.UI.Page
 {
     SecuriryServices services;
     UserPermissBLL userpermiss;
+    InteractiveHistoryBLL interactiveHistory;
     public BasePage()
     {
         //
@@ -90,7 +91,7 @@ public class BasePage : System.Web.UI.Page
         }
         return null;
     }
-    
+
     public bool check_permiss(int uid, string FCode)
     {
         services = new SecuriryServices();
@@ -285,6 +286,12 @@ public class BasePage : System.Web.UI.Page
     {
         string serectkey = "RBlpsQq68lgl2a7Rc8Fe0lgl7MWrmrH3XkYdTtOLiPhnZCrKzbmyXkZ7DFmpBZrPASpBFcEDmemD0i3Cn0hPfQ==";
         return serectkey;
+    }
+    //Interactive History
+    public void InteractiveHistory(int userid, string content)
+    {
+        interactiveHistory = new InteractiveHistoryBLL();
+        this.interactiveHistory.NewInteractiveHistory(userid, content);
     }
 }
 
