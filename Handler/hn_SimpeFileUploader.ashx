@@ -36,7 +36,7 @@ public class hn_SimpeFileUploader : IHttpHandler, IReadOnlySessionState {
             if (!string.IsNullOrEmpty(fileName))
             {
                 fileExtension = Path.GetExtension(fileName);
-                str_image = "Anh-Van-Hoi-Anh-My-" + dateString + "-" + RandomName + numFiles.ToString() + fileExtension;
+                str_image = "Asec-English-" + dateString + "-" + RandomName + numFiles.ToString() + fileExtension;
                 string pathToSave = HttpContext.Current.Server.MapPath("../images/Upload/ImageGallery/") + str_image;
                 //file.SaveAs(pathToSave);
                 System.Drawing.Image image = System.Drawing.Image.FromStream(file.InputStream);
