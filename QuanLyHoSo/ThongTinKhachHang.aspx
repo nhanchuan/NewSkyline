@@ -141,7 +141,6 @@
                                         <div class="row">
                                             <%-- Collapse Upload Images --%>
                                             <div id="coluploadEditImges" class="panel-collapse collapse">
-
                                                 <div class="form-group">
                                                     <div class="input-group">
                                                         <div class="input-icon">
