@@ -1553,7 +1553,7 @@ Maximum file size is 4MB.
                             <asp:RequiredFieldValidator ErrorMessage="Required" 
                                 ControlToValidate="FileImgUpload" ValidationGroup="validFileImgUpload"
                                 runat="server" Display="Dynamic" ForeColor="Red" />
-                            <asp:RegularExpressionValidator ID="RegularExpressionValidator5" ValidationExpression="([a-zA-Z0-9\s_\\.\-:])+(.jpg|.gif|.png)$"
+                            <asp:RegularExpressionValidator ID="RegularExpressionValidator5" ValidationExpression="([a-zA-Z0-9\s_\\.\-:])+(.jpg|.gif|.png|.JPG|.GIF|.PNG)$"
                                 ControlToValidate="FileImgUpload" 
                                 ValidationGroup="validFileImgUpload"
                                 runat="server" ForeColor="Red" 

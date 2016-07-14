@@ -846,10 +846,13 @@
                             </a>
                             <ul class="sub-menu">
                                 <li>
-                                    <a href="../Pages/MenuSetting.aspx"><i class="icon-directions"></i>Menu setting</a>
+                                    <a href="../Pages/MenuSetting.aspx"><i class="icon-directions"></i>&nbsp Menu setting</a>
                                 </li>
                                 <li>
-                                    <a href="../Pages/History.aspx"><i class="fa fa-history"></i> History</a>
+                                    <a href="../Pages/History.aspx"><i class="fa fa-history"></i>&nbsp History</a>
+                                </li>
+                                <li>
+                                    <a href="../Pages/Popups.aspx"><i class="glyphicon glyphicon-comment"></i>&nbsp Popups</a>
                                 </li>
                             </ul>
                         </li>

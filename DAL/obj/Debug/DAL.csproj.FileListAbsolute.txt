@@ -136,3 +136,4 @@ C:\Users\NhanChuan\Developer\NewSkyline\DAL\bin\Debug\DAL.dll
 C:\Users\NhanChuan\Developer\NewSkyline\DAL\bin\Debug\DAL.pdb
 C:\Users\NhanChuan\Developer\NewSkyline\DAL\obj\Debug\DAL.dll
 C:\Users\NhanChuan\Developer\NewSkyline\DAL\obj\Debug\DAL.pdb
+C:\Users\NhanChuan\Developer\NewSkyline\DAL\obj\Debug\DAL.csprojResolveAssemblyReference.cache

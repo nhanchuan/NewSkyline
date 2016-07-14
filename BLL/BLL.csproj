@@ -93,6 +93,7 @@
     <Compile Include="nc_LoaiHinhDaoTaoBLL.cs" />
     <Compile Include="nc_LopHocBLL.cs" />
     <Compile Include="PermissFuncBLL.cs" />
+    <Compile Include="PopupsBLL.cs" />
     <Compile Include="PostBLL.cs" />
     <Compile Include="Post_Category_relationshipsBLL.cs" />
     <Compile Include="ProfileProcessTypeBLL.cs" />

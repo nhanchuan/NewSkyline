@@ -94,6 +94,7 @@
     <Compile Include="nc_LoaiHinhDaoTao.cs" />
     <Compile Include="nc_LopHoc.cs" />
     <Compile Include="PermissFunc.cs" />
+    <Compile Include="Popups.cs" />
     <Compile Include="POST.cs" />
     <Compile Include="Post_Category_relationships.cs" />
     <Compile Include="ProfileProcessType.cs" />
