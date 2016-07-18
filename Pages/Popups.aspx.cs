@@ -47,11 +47,7 @@ public partial class Pages_Popups : BasePage
         try
         {
             popups = new PopupsBLL();
-
-
             UserAccounts ac = Session.GetCurrentUser();
-
-
             string dateString = DateTime.Now.ToString("MM-dd-yyyy");
             string dirFullPath = HttpContext.Current.Server.MapPath("../images/Popups/" + dateString + "/");
 
@@ -59,9 +55,6 @@ public partial class Pages_Popups : BasePage
             {
                 Directory.CreateDirectory(dirFullPath);
             }
-
-
-
             string fileName = Path.GetFileName(FileImgUpload.PostedFile.FileName);
             ImageCodecInfo jgpEncoder = null;
             string str_image = "";
@@ -90,9 +83,8 @@ public partial class Pages_Popups : BasePage
                 myEncoderParameters.Param[0] = myEncoderParameter;
                 bmp1.Save(pathToSave, jgpEncoder, myEncoderParameters);
 
-                this.popups.NewPopup(txtPermalink.Text, txtShortDescription.Text, "images/Popups/" + dateString + "/" + str_image, txtViewOnPage.Text, false, Session.GetCurrentUser().UserID);
-
-
+                this.popups.NewPopup(txtPermalink.Text, txtShortDescription.Text, "images/Popups/" + dateString + "/" + str_image, txtViewOnPage.Text, false, Session.GetCurrentUser().UserID, txtRedirectLink.Text);
+                
                 Response.Redirect(Request.Url.AbsoluteUri);
             }
             else

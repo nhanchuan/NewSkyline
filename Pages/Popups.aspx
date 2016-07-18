@@ -47,6 +47,10 @@
             <asp:TextBox ID="txtViewOnPage" CssClass="form-control" runat="server"></asp:TextBox>
         </div>
         <div class="form-group">
+            <label>Redirect Link</label>
+            <asp:TextBox ID="txtRedirectLink" CssClass="form-control" runat="server"></asp:TextBox>
+        </div>
+        <div class="form-group">
             <label>Upload File</label>
             <p>
                 You can upload JPG, GIF, or PNG file. 
@@ -109,6 +113,11 @@ Maximum file size is 4MB.
                 <asp:TemplateField HeaderText="Upload by">
                     <ItemTemplate>
                         <asp:Label ID="lblUploadBy" runat="server" Text='<%# Eval("LastName")+" "+Eval("FirstName") %>'></asp:Label>
+                    </ItemTemplate>
+                </asp:TemplateField>
+                <asp:TemplateField HeaderText="Redirect Link">
+                    <ItemTemplate>
+                        <asp:Label ID="lblRedirectLink" runat="server" Text='<%# Eval("RedirectLink") %>'></asp:Label>
                     </ItemTemplate>
                 </asp:TemplateField>
                 <asp:TemplateField>

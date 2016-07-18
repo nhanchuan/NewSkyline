@@ -12,20 +12,22 @@ namespace BLL
     public class PopupsBLL
     {
         DataServices dt = new DataServices();
-        public Boolean NewPopup(string Permalink, string ShortDescription, string PopupUrl, string ViewOnPage, Boolean PopupStatus, int UserUpload)
+        public Boolean NewPopup(string Permalink, string ShortDescription, string PopupUrl, string ViewOnPage, Boolean PopupStatus, int UserUpload, string RedirectLink)
         {
             if (!this.dt.OpenConnection())
             {
                 return false;
             }
-            string sqlquery = "Exec NewPopup @Permalink,@ShortDescription,@PopupUrl,@ViewOnPage,@PopupStatus,@UserUpload";
+            string sqlquery = "Exec NewPopup @Permalink,@ShortDescription,@PopupUrl,@ViewOnPage,@PopupStatus,@UserUpload,@RedirectLink";
             SqlParameter pPermalink = (Permalink == "") ? new SqlParameter("@Permalink", DBNull.Value) : new SqlParameter("@Permalink", Permalink);
             SqlParameter pShortDescription = (ShortDescription == "") ? new SqlParameter("@ShortDescription", DBNull.Value) : new SqlParameter("@ShortDescription", ShortDescription);
             SqlParameter pPopupUrl = (PopupUrl == "") ? new SqlParameter("@PopupUrl", DBNull.Value) : new SqlParameter("@PopupUrl", PopupUrl);
             SqlParameter pViewOnPage = (ViewOnPage == "") ? new SqlParameter("@ViewOnPage", DBNull.Value) : new SqlParameter("@ViewOnPage", ViewOnPage);
             SqlParameter pPopupStatus = new SqlParameter("@PopupStatus", PopupStatus);
             SqlParameter pUserUpload = new SqlParameter("@UserUpload", UserUpload);
-            this.dt.Updatedata(sqlquery, pPermalink, pShortDescription, pPopupUrl, pViewOnPage, pPopupStatus, pUserUpload);
+            SqlParameter pRedirectLink = (RedirectLink == "") ? new SqlParameter("@RedirectLink", DBNull.Value) : new SqlParameter("@RedirectLink", RedirectLink);
+
+            this.dt.Updatedata(sqlquery, pPermalink, pShortDescription, pPopupUrl, pViewOnPage, pPopupStatus, pUserUpload, pRedirectLink);
             this.dt.CloseConnection();
             return true;
         }

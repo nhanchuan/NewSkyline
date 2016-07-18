@@ -16,6 +16,7 @@ namespace DAL
         public bool PopupStatus;
         private int userUpload;
         private DateTime createDate;
+        private string redirectLink;
         public int ID
         {
             get
@@ -104,6 +105,19 @@ namespace DAL
             set
             {
                 createDate = value;
+            }
+        }
+
+        public string RedirectLink
+        {
+            get
+            {
+                return redirectLink;
+            }
+
+            set
+            {
+                redirectLink = value;
             }
         }
     }
