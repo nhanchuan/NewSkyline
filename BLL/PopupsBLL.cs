@@ -86,6 +86,26 @@ namespace BLL
             this.dt.CloseConnection();
             return true;
         }
+        //Update
+        public Boolean UpdatePopup(int ID, string Permalink, string ShortDescription, string PopupUrl, string ViewOnPage, Boolean PopupStatus, string RedirectLink, int PostID)
+        {
+            if (!this.dt.OpenConnection())
+            {
+                return false;
+            }
+            string sqlquery = "Exec UpdatePopup @ID,@Permalink,@ShortDescription,@PopupUrl,@ViewOnPage,@PopupStatus,@RedirectLink,@PostID";
+            SqlParameter pID = new SqlParameter("@ID", ID);
+            SqlParameter pPermalink = (Permalink == "") ? new SqlParameter("@Permalink", DBNull.Value) : new SqlParameter("@Permalink", Permalink);
+            SqlParameter pShortDescription = (ShortDescription == "") ? new SqlParameter("@ShortDescription", DBNull.Value) : new SqlParameter("@ShortDescription", ShortDescription);
+            SqlParameter pPopupUrl = (PopupUrl == "") ? new SqlParameter("@PopupUrl", DBNull.Value) : new SqlParameter("@PopupUrl", PopupUrl);
+            SqlParameter pViewOnPage = (ViewOnPage == "") ? new SqlParameter("@ViewOnPage", DBNull.Value) : new SqlParameter("@ViewOnPage", ViewOnPage);
+            SqlParameter pPopupStatus = new SqlParameter("@PopupStatus", PopupStatus);
+            SqlParameter pRedirectLink = (RedirectLink == "") ? new SqlParameter("@RedirectLink", DBNull.Value) : new SqlParameter("@RedirectLink", RedirectLink);
+            SqlParameter pPostID = (PostID == 0) ? new SqlParameter("@PostID", DBNull.Value) : new SqlParameter("@PostID", PostID);
+            this.dt.Updatedata(sqlquery, pID, pPermalink, pShortDescription, pPopupUrl, pViewOnPage, pPopupStatus, pRedirectLink, pPostID);
+            this.dt.CloseConnection();
+            return true;
+        }
         public DataTable GetPopupsPageWise(int PageIndex, int PageSize)
         {
             if (!this.dt.OpenConnection())

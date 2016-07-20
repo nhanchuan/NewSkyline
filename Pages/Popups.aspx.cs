@@ -40,6 +40,7 @@ public partial class Pages_Popups : BasePage
                     this.GetPopupsPageWise(1);
                     btnfixPopupInfor.Attributes.Add("class", "btn btn-default disabled");
                     this.load_dlforPost();
+                    
                 }
             }
         }
@@ -49,6 +50,12 @@ public partial class Pages_Popups : BasePage
         posts = new PostBLL();
         this.load_DropdownList(dlforPost, posts.ListAllPosts(), "PostTitle", "PostID");
         dlforPost.Items.Insert(0, new ListItem("-- Chọn Bài Viết --", "0"));
+    }
+    private void load_dlEForPost()
+    {
+        posts = new PostBLL();
+        this.load_DropdownList(dlEForPost, posts.ListAllPosts(), "PostTitle", "PostID");
+        dlEForPost.Items.Insert(0, new ListItem("-- Chọn Bài Viết --", "0"));
     }
     protected void btnNewPopup_Click(object sender, EventArgs e)
     {
@@ -239,6 +246,7 @@ public partial class Pages_Popups : BasePage
         try
         {
             popups = new PopupsBLL();
+            this.load_dlEForPost();
             btnfixPopupInfor.Attributes.Add("class", "btn btn-default");
             int ID = Convert.ToInt32((gwPopups.SelectedRow.FindControl("lblID") as Label).Text);
             Popups popup = popups.ListPopupsWithID(ID).FirstOrDefault();
@@ -246,14 +254,15 @@ public partial class Pages_Popups : BasePage
             txtEShortDescription.Text = popup.ShortDescription;
             txtEVireOnPage.Text = popup.ViewOnPage;
             txtERedirectLink.Text = popup.RedirectLink;
-            
+            dlEForPost.Items.FindByValue(popup.PostID.ToString()).Selected = true;
+            ImageUpdate.ImageUrl = "../" + popup.PopupUrl;
+            chkStatus.Checked = popup.PopupStatus;
         }
         catch (Exception ex)
         {
             this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
         }
     }
-
     protected void chkShow_CheckedChanged(object sender, EventArgs e)
     {
         try
@@ -268,6 +277,71 @@ public partial class Pages_Popups : BasePage
             }
             this.GetPopupsPageWise(1);
 
+        }
+        catch (Exception ex)
+        {
+            this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
+        }
+    }
+    private string UrluploadPopup()
+    {
+        popups = new PopupsBLL();
+        string dateString = DateTime.Now.ToString("MM-dd-yyyy");
+        string dirFullPath = HttpContext.Current.Server.MapPath("../images/Popups/" + dateString + "/");
+
+        if (!Directory.Exists(dirFullPath))   // CHECK IF THE FOLDER EXISTS. IF NOT, CREATE A NEW FOLDER.
+        {
+            Directory.CreateDirectory(dirFullPath);
+        }
+        string fileName = Path.GetFileName(FileImgUpload.PostedFile.FileName);
+        ImageCodecInfo jgpEncoder = null;
+        string str_image = "";
+        string fileExtension = "";
+        if (!string.IsNullOrEmpty(fileName))
+        {
+            fileExtension = Path.GetExtension(fileName);
+            str_image = dateString + "-" + RandomName + fileExtension;
+            string pathToSave = HttpContext.Current.Server.MapPath("../images/Popups/" + dateString + "/") + str_image;
+            //file.SaveAs(pathToSave);
+            System.Drawing.Image image = System.Drawing.Image.FromStream(FileImgUpload.FileContent);
+            if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Gif.Guid)
+                jgpEncoder = GetEncoder(ImageFormat.Gif);
+            else if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Jpeg.Guid)
+                jgpEncoder = GetEncoder(ImageFormat.Jpeg);
+            else if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Bmp.Guid)
+                jgpEncoder = GetEncoder(ImageFormat.Bmp);
+            else if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Png.Guid)
+                jgpEncoder = GetEncoder(ImageFormat.Png);
+            else
+                throw new System.ArgumentException("Invalid File Type");
+            Bitmap bmp1 = new Bitmap(FileImgUpload.FileContent);
+            Encoder myEncoder = Encoder.Quality;
+            EncoderParameters myEncoderParameters = new EncoderParameters(1);
+            EncoderParameter myEncoderParameter = new EncoderParameter(myEncoder, 30L);
+            myEncoderParameters.Param[0] = myEncoderParameter;
+            bmp1.Save(pathToSave, jgpEncoder, myEncoderParameters);
+        }
+        return (str_image == "") ? "" : "images/Popups/" + dateString + "/" + str_image;
+    }
+    protected void btnUpdatePop_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            popups = new PopupsBLL();
+            int PopID = Convert.ToInt32((gwPopups.SelectedRow.FindControl("lblID") as Label).Text);
+            Popups pop = popups.ListPopupsWithID(PopID).FirstOrDefault();
+            if (popups.UpdatePopup(PopID, txtEPermalink.Text, txtEShortDescription.Text, (UrluploadPopup() == "") ? pop.PopupUrl : UrluploadPopup(), txtEVireOnPage.Text, chkStatus.Checked, txtERedirectLink.Text, Convert.ToInt32(dlEForPost.SelectedValue)))
+            {
+                if (chkStatus.Checked)
+                {
+                    this.popups.UpdateStatusInPostID(PopID, false, txtEVireOnPage.Text);
+                }
+                this.GetPopupsPageWise(1);
+            }
+            else
+            {
+                this.AlertPageValid(true, "False to Connect server !", alertPageValid, lblPageValid);
+            }
         }
         catch (Exception ex)
         {

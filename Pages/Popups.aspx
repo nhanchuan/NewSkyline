@@ -158,7 +158,7 @@
                         <asp:RequiredFieldValidator ErrorMessage="Required"
                             ControlToValidate="FileImgUpload" ValidationGroup="validFileImgUpload"
                             runat="server" Display="Dynamic" ForeColor="Red" />
-                        <asp:RegularExpressionValidator ID="RegularExpressionValidator5" ValidationExpression="([a-zA-Z0-9\s_\\.\-:])+(.jpg|.gif|.png|.JPG|.GIF|.PNG)$"
+                        <asp:RegularExpressionValidator ID="RegularExpressionValidator5" ValidationExpression="([a-zA-Z0-9\s_\\.\-:])+(.jpg|.jpeg|.gif|.png|.JPG|.JPEG|.GIF|.PNG)$"
                             ControlToValidate="FileImgUpload"
                             ValidationGroup="validFileImgUpload"
                             runat="server" ForeColor="Red"
@@ -220,10 +220,7 @@
                                     You can upload JPG, GIF, or PNG file. Maximum file size is 4MB.
                                 </p>
                                 <asp:FileUpload ID="FileUploadUpdateImg" CssClass="form-control margin-bottom-25" onchange="previewFileUpdate()" runat="server" />
-                                <asp:RequiredFieldValidator ErrorMessage="Required"
-                                    ControlToValidate="FileUploadUpdateImg" ValidationGroup="validUploadFileImgUpload"
-                                    runat="server" Display="Dynamic" ForeColor="Red" />
-                                <asp:RegularExpressionValidator ID="RegularExpressionValidator1" ValidationExpression="([a-zA-Z0-9\s_\\.\-:])+(.jpg|.gif|.png|.JPG|.GIF|.PNG)$"
+                                <asp:RegularExpressionValidator ID="RegularExpressionValidator1" ValidationExpression="([a-zA-Z0-9\s_\\.\-:])+(.jpg|.jpeg|.gif|.png|.JPG|.JPEG|.GIF|.PNG)$"
                                     ControlToValidate="FileUploadUpdateImg"
                                     ValidationGroup="validUploadFileImgUpload"
                                     runat="server" ForeColor="Red"
@@ -236,11 +233,18 @@
                                 </div>
                                 <div class="col-lg-2"></div>
                             </div>
+                            <div class="clearfix"></div>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <asp:CheckBox ID="chkStatus" Text="Show" runat="server" />
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <asp:Button ID="btnUpdatePop" CssClass="btn btn-primary" ValidationGroup="validUploadFileImgUpload" runat="server" Text="Update Popups" />
+                    <a class="btn btn-warning" data-dismiss="modal" aria-hidden="true">Cancel</a>
+                    <asp:Button ID="btnUpdatePop" CssClass="btn btn-primary" OnClick="btnUpdatePop_Click" ValidationGroup="validUploadFileImgUpload" runat="server" Text="Update Popups" />
                 </div>
             </div>
         </div>
