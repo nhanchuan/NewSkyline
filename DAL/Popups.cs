@@ -17,6 +17,7 @@ namespace DAL
         private int userUpload;
         private DateTime createDate;
         private string redirectLink;
+        private int postID;
         public int ID
         {
             get
@@ -118,6 +119,19 @@ namespace DAL
             set
             {
                 redirectLink = value;
+            }
+        }
+
+        public int PostID
+        {
+            get
+            {
+                return postID;
+            }
+
+            set
+            {
+                postID = value;
             }
         }
     }

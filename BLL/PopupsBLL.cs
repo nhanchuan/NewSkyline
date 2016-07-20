@@ -12,13 +12,68 @@ namespace BLL
     public class PopupsBLL
     {
         DataServices dt = new DataServices();
-        public Boolean NewPopup(string Permalink, string ShortDescription, string PopupUrl, string ViewOnPage, Boolean PopupStatus, int UserUpload, string RedirectLink)
+        public List<Popups> ListAllPopups()
+        {
+            if (!this.dt.OpenConnection())
+            {
+                return null;
+            }
+            string sqlquery = "select * from Popups";
+            DataTable tb = dt.DAtable(sqlquery);
+            List<Popups> lst = new List<Popups>();
+            foreach(DataRow r in tb.Rows)
+            {
+                Popups pop = new Popups();
+                pop.ID = (int)r["ID"];
+                pop.Permalink = (string.IsNullOrEmpty(r["Permalink"].ToString())) ? "" : (string)r["Permalink"];
+                pop.ShortDescription = (string.IsNullOrEmpty(r["ShortDescription"].ToString())) ? "" : (string)r["ShortDescription"];
+                pop.PopupUrl = (string.IsNullOrEmpty(r["PopupUrl"].ToString())) ? "" : (string)r["PopupUrl"];
+                pop.ViewOnPage = (string.IsNullOrEmpty(r["ViewOnPage"].ToString())) ? "" : (string)r["ViewOnPage"];
+                pop.PopupStatus = (Boolean)r["PopupStatus"];
+                pop.UserUpload = (string.IsNullOrEmpty(r["UserUpload"].ToString())) ? 0 : (int)r["UserUpload"];
+                pop.CreateDate = (DateTime)r["CreateDate"];
+                pop.RedirectLink = (string.IsNullOrEmpty(r["RedirectLink"].ToString())) ? "" : (string)r["RedirectLink"];
+                pop.PostID = (string.IsNullOrEmpty(r["PostID"].ToString())) ? 0 : (int)r["PostID"];
+                lst.Add(pop);
+            }
+            this.dt.CloseConnection();
+            return lst;
+        }
+        public List<Popups> ListPopupsWithID(int ID)
+        {
+            if (!this.dt.OpenConnection())
+            {
+                return null;
+            }
+            string sqlquery = "select * from Popups where ID=@ID";
+            SqlParameter pID = new SqlParameter("@ID", ID);
+            DataTable tb = dt.DAtable(sqlquery, pID);
+            List<Popups> lst = new List<Popups>();
+            foreach (DataRow r in tb.Rows)
+            {
+                Popups pop = new Popups();
+                pop.ID = (int)r["ID"];
+                pop.Permalink = (string.IsNullOrEmpty(r["Permalink"].ToString())) ? "" : (string)r["Permalink"];
+                pop.ShortDescription = (string.IsNullOrEmpty(r["ShortDescription"].ToString())) ? "" : (string)r["ShortDescription"];
+                pop.PopupUrl = (string.IsNullOrEmpty(r["PopupUrl"].ToString())) ? "" : (string)r["PopupUrl"];
+                pop.ViewOnPage = (string.IsNullOrEmpty(r["ViewOnPage"].ToString())) ? "" : (string)r["ViewOnPage"];
+                pop.PopupStatus = (Boolean)r["PopupStatus"];
+                pop.UserUpload = (string.IsNullOrEmpty(r["UserUpload"].ToString())) ? 0 : (int)r["UserUpload"];
+                pop.CreateDate = (DateTime)r["CreateDate"];
+                pop.RedirectLink = (string.IsNullOrEmpty(r["RedirectLink"].ToString())) ? "" : (string)r["RedirectLink"];
+                pop.PostID = (string.IsNullOrEmpty(r["PostID"].ToString())) ? 0 : (int)r["PostID"];
+                lst.Add(pop);
+            }
+            this.dt.CloseConnection();
+            return lst;
+        }
+        public Boolean NewPopup(string Permalink, string ShortDescription, string PopupUrl, string ViewOnPage, Boolean PopupStatus, int UserUpload, string RedirectLink, int PostID)
         {
             if (!this.dt.OpenConnection())
             {
                 return false;
             }
-            string sqlquery = "Exec NewPopup @Permalink,@ShortDescription,@PopupUrl,@ViewOnPage,@PopupStatus,@UserUpload,@RedirectLink";
+            string sqlquery = "Exec NewPopup @Permalink,@ShortDescription,@PopupUrl,@ViewOnPage,@PopupStatus,@UserUpload,@RedirectLink,@PostID";
             SqlParameter pPermalink = (Permalink == "") ? new SqlParameter("@Permalink", DBNull.Value) : new SqlParameter("@Permalink", Permalink);
             SqlParameter pShortDescription = (ShortDescription == "") ? new SqlParameter("@ShortDescription", DBNull.Value) : new SqlParameter("@ShortDescription", ShortDescription);
             SqlParameter pPopupUrl = (PopupUrl == "") ? new SqlParameter("@PopupUrl", DBNull.Value) : new SqlParameter("@PopupUrl", PopupUrl);
@@ -26,8 +81,8 @@ namespace BLL
             SqlParameter pPopupStatus = new SqlParameter("@PopupStatus", PopupStatus);
             SqlParameter pUserUpload = new SqlParameter("@UserUpload", UserUpload);
             SqlParameter pRedirectLink = (RedirectLink == "") ? new SqlParameter("@RedirectLink", DBNull.Value) : new SqlParameter("@RedirectLink", RedirectLink);
-
-            this.dt.Updatedata(sqlquery, pPermalink, pShortDescription, pPopupUrl, pViewOnPage, pPopupStatus, pUserUpload, pRedirectLink);
+            SqlParameter pPostID = (PostID == 0) ? new SqlParameter("@PostID", DBNull.Value) : new SqlParameter("@PostID", PostID);
+            this.dt.Updatedata(sqlquery, pPermalink, pShortDescription, pPopupUrl, pViewOnPage, pPopupStatus, pUserUpload, pRedirectLink, pPostID);
             this.dt.CloseConnection();
             return true;
         }
@@ -57,5 +112,48 @@ namespace BLL
             this.dt.CloseConnection();
             return RC;
         }
+        //Update popupsatatus
+        public Boolean UpdateStatus(int ID, Boolean PopupStatus)
+        {
+            if (!this.dt.OpenConnection())
+            {
+                return false;
+            }
+            string sql = "update Popups set PopupStatus=@PopupStatus where ID=@ID";
+            SqlParameter pID = new SqlParameter("@ID", ID);
+            SqlParameter pPopupStatus = new SqlParameter("@PopupStatus", PopupStatus);
+            this.dt.Updatedata(sql, pID, pPopupStatus);
+            this.dt.CloseConnection();
+            return true;
+        }
+        public Boolean UpdateStatusInPostID(int ID, Boolean PopupStatus, string ViewOnPage)
+        {
+            if (!this.dt.OpenConnection())
+            {
+                return false;
+            }
+            string sql = "update Popups set PopupStatus=@PopupStatus where ID<>@ID and ViewOnPage=@ViewOnPage";
+            SqlParameter pID = new SqlParameter("@ID", ID);
+            SqlParameter pPopupStatus = new SqlParameter("@PopupStatus", PopupStatus);
+            SqlParameter pViewOnPage = new SqlParameter("@ViewOnPage", ViewOnPage);
+
+            this.dt.Updatedata(sql, pID, pPopupStatus, pViewOnPage);
+            this.dt.CloseConnection();
+            return true;
+        }
+        //Delete 
+        public Boolean DeletePopup(int ID)
+        {
+            if (!this.dt.OpenConnection())
+            {
+                return false;
+            }
+            string sql = "delete from Popups where ID=@ID";
+            SqlParameter pID = new SqlParameter("@ID", ID);
+            this.dt.Updatedata(sql, pID);
+            this.dt.CloseConnection();
+            return true;
+        }
+
     }
 }

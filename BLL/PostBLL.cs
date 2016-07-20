@@ -28,19 +28,51 @@ namespace BLL
             foreach (DataRow r in tb.Rows)
             {
                 POST p = new POST();
-                p.PostID = (int)r[0];
-                p.PostTitle = (string.IsNullOrEmpty(r[1].ToString())) ? "" : (string)r[1];
-                p.MetaKeywords= (string.IsNullOrEmpty(r[2].ToString())) ? "" : (string)r[2];
-                p.MetaDescription= (string.IsNullOrEmpty(r[3].ToString())) ? "" : (string)r[3];
-                p.PostContentVN = (string.IsNullOrEmpty(r[4].ToString())) ? "" : (string)r[4];
-                p.PostContentEN= (string.IsNullOrEmpty(r[5].ToString())) ? "" : (string)r[5];
-                p.PostModified = (string.IsNullOrEmpty(r[6].ToString())) ? Convert.ToDateTime(defaultdate) : (DateTime)r[6];
-                p.DateOfCreate = (DateTime)r[7];
-                p.PostAuthor = (string.IsNullOrEmpty(r[8].ToString())) ? 0 : (int)r[8];
-                p.PostStatus = (string.IsNullOrEmpty(r[9].ToString())) ? 0 : (int)r[9];
-                p.ViewCount = (string.IsNullOrEmpty(r[10].ToString())) ? 0 : (int)r[10];
-                p.PostImage = (string.IsNullOrEmpty(r[11].ToString())) ? 0 : (int)r[11];
-                p.PostCode = (string.IsNullOrEmpty(r[12].ToString())) ? "" : (string)r[12];
+                p.PostID = (int)r["PostID"];
+                p.PostTitle = (string.IsNullOrEmpty(r["PostTitle"].ToString())) ? "" : (string)r["PostTitle"];
+                p.MetaKeywords= (string.IsNullOrEmpty(r["MetaKeywords"].ToString())) ? "" : (string)r["MetaKeywords"];
+                p.MetaDescription= (string.IsNullOrEmpty(r["MetaDescription"].ToString())) ? "" : (string)r["MetaDescription"];
+                p.PostContentVN = (string.IsNullOrEmpty(r["PostContentVN"].ToString())) ? "" : (string)r["PostContentVN"];
+                p.PostContentEN= (string.IsNullOrEmpty(r["PostContentEN"].ToString())) ? "" : (string)r["PostContentEN"];
+                p.PostModified = (string.IsNullOrEmpty(r["PostModified"].ToString())) ? Convert.ToDateTime(defaultdate) : (DateTime)r["PostModified"];
+                p.DateOfCreate = (DateTime)r["DateOfCreate"];
+                p.PostAuthor = (string.IsNullOrEmpty(r["PostAuthor"].ToString())) ? 0 : (int)r["PostAuthor"];
+                p.PostStatus = (string.IsNullOrEmpty(r["PostStatus"].ToString())) ? 0 : (int)r["PostStatus"];
+                p.ViewCount = (string.IsNullOrEmpty(r["ViewCount"].ToString())) ? 0 : (int)r["ViewCount"];
+                p.PostImage = (string.IsNullOrEmpty(r["PostImage"].ToString())) ? 0 : (int)r["PostImage"];
+                p.PostCode = (string.IsNullOrEmpty(r["PostCode"].ToString())) ? "" : (string)r["PostCode"];
+                lst.Add(p);
+            }
+            this.DB.CloseConnection();
+            return lst;
+        }
+        public List<POST> ListAllPosts()
+        {
+            
+            if (!this.DB.OpenConnection())
+            {
+                return null;
+            }
+            string sql = "select * from POST";
+            DataTable tb = DB.DAtable(sql);
+            List<POST> lst = new List<POST>();
+
+            foreach (DataRow r in tb.Rows)
+            {
+                POST p = new POST();
+                p.PostID = (int)r["PostID"];
+                p.PostTitle = (string.IsNullOrEmpty(r["PostTitle"].ToString())) ? "" : (string)r["PostTitle"];
+                p.MetaKeywords = (string.IsNullOrEmpty(r["MetaKeywords"].ToString())) ? "" : (string)r["MetaKeywords"];
+                p.MetaDescription = (string.IsNullOrEmpty(r["MetaDescription"].ToString())) ? "" : (string)r["MetaDescription"];
+                p.PostContentVN = (string.IsNullOrEmpty(r["PostContentVN"].ToString())) ? "" : (string)r["PostContentVN"];
+                p.PostContentEN = (string.IsNullOrEmpty(r["PostContentEN"].ToString())) ? "" : (string)r["PostContentEN"];
+                p.PostModified = (string.IsNullOrEmpty(r["PostModified"].ToString())) ? Convert.ToDateTime(defaultdate) : (DateTime)r["PostModified"];
+                p.DateOfCreate = (DateTime)r["DateOfCreate"];
+                p.PostAuthor = (string.IsNullOrEmpty(r["PostAuthor"].ToString())) ? 0 : (int)r["PostAuthor"];
+                p.PostStatus = (string.IsNullOrEmpty(r["PostStatus"].ToString())) ? 0 : (int)r["PostStatus"];
+                p.ViewCount = (string.IsNullOrEmpty(r["ViewCount"].ToString())) ? 0 : (int)r["ViewCount"];
+                p.PostImage = (string.IsNullOrEmpty(r["PostImage"].ToString())) ? 0 : (int)r["PostImage"];
+                p.PostCode = (string.IsNullOrEmpty(r["PostCode"].ToString())) ? "" : (string)r["PostCode"];
                 lst.Add(p);
             }
             this.DB.CloseConnection();

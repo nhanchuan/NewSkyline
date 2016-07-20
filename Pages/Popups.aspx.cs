@@ -15,6 +15,8 @@ using System.Drawing;
 public partial class Pages_Popups : BasePage
 {
     PopupsBLL popups;
+    PostBLL posts;
+    ImagesBLL images;
     public int PageSize = 10;
 
     protected void Page_Load(object sender, EventArgs e)
@@ -37,11 +39,17 @@ public partial class Pages_Popups : BasePage
                     this.AlertPageValid(false, "", alertPageValid, lblPageValid);
                     this.GetPopupsPageWise(1);
                     btnfixPopupInfor.Attributes.Add("class", "btn btn-default disabled");
+                    this.load_dlforPost();
                 }
             }
         }
     }
-
+    private void load_dlforPost()
+    {
+        posts = new PostBLL();
+        this.load_DropdownList(dlforPost, posts.ListAllPosts(), "PostTitle", "PostID");
+        dlforPost.Items.Insert(0, new ListItem("-- Chọn Bài Viết --", "0"));
+    }
     protected void btnNewPopup_Click(object sender, EventArgs e)
     {
         try
@@ -83,8 +91,8 @@ public partial class Pages_Popups : BasePage
                 myEncoderParameters.Param[0] = myEncoderParameter;
                 bmp1.Save(pathToSave, jgpEncoder, myEncoderParameters);
 
-                this.popups.NewPopup(txtPermalink.Text, txtShortDescription.Text, "images/Popups/" + dateString + "/" + str_image, txtViewOnPage.Text, false, Session.GetCurrentUser().UserID, txtRedirectLink.Text);
-                
+                this.popups.NewPopup(txtPermalink.Text, txtShortDescription.Text, "images/Popups/" + dateString + "/" + str_image, txtViewOnPage.Text, false, Session.GetCurrentUser().UserID, txtRedirectLink.Text, Convert.ToInt32(dlforPost.SelectedValue));
+
                 Response.Redirect(Request.Url.AbsoluteUri);
             }
             else
@@ -199,14 +207,67 @@ public partial class Pages_Popups : BasePage
 
     protected void gwPopups_RowDeleting(object sender, GridViewDeleteEventArgs e)
     {
-
+        try
+        {
+            popups = new PopupsBLL();
+            int pID = Convert.ToInt32((gwPopups.Rows[e.RowIndex].FindControl("lblID") as Label).Text);
+            string filename = Server.MapPath("../" + popups.ListPopupsWithID(pID).FirstOrDefault().PopupUrl);
+            if (popups.DeletePopup(pID))
+            {
+                if (!string.IsNullOrWhiteSpace(filename))
+                {
+                    if ((System.IO.File.Exists(filename)))
+                    {
+                        System.IO.File.Delete(filename);
+                        this.GetPopupsPageWise(1);
+                    }
+                }
+            }
+            else
+            {
+                this.AlertPageValid(true, "False to connect server !", alertPageValid, lblPageValid);
+            }
+        }
+        catch (IOException ex)
+        {
+            this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
+        }
     }
 
     protected void gwPopups_SelectedIndexChanged(object sender, EventArgs e)
     {
         try
         {
+            popups = new PopupsBLL();
             btnfixPopupInfor.Attributes.Add("class", "btn btn-default");
+            int ID = Convert.ToInt32((gwPopups.SelectedRow.FindControl("lblID") as Label).Text);
+            Popups popup = popups.ListPopupsWithID(ID).FirstOrDefault();
+            txtEPermalink.Text = popup.Permalink;
+            txtEShortDescription.Text = popup.ShortDescription;
+            txtEVireOnPage.Text = popup.ViewOnPage;
+            txtERedirectLink.Text = popup.RedirectLink;
+            
+        }
+        catch (Exception ex)
+        {
+            this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
+        }
+    }
+
+    protected void chkShow_CheckedChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            CheckBox chk = (sender as CheckBox);
+            GridViewRow row = (GridViewRow)(((CheckBox)sender).NamingContainer);
+            HiddenField hdnCheck = (HiddenField)row.Cells[4].FindControl("hiddenField1");
+            popups = new PopupsBLL();
+            if (popups.UpdateStatus(Convert.ToInt32(hdnCheck.Value), chk.Checked))
+            {
+                this.popups.UpdateStatusInPostID(Convert.ToInt32(hdnCheck.Value), false, popups.ListPopupsWithID(Convert.ToInt32(hdnCheck.Value)).FirstOrDefault().ViewOnPage);
+            }
+            this.GetPopupsPageWise(1);
+
         }
         catch (Exception ex)
         {
