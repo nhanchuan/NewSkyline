@@ -16,7 +16,7 @@
                 <i class="fa fa-angle-right"></i>
             </li>
             <li>
-                <a href="#">QUẢN LÝ HỒ SƠ</a>
+                <a href="../QuanLyHoSo/ThuLyHoSo.aspx">QUẢN LÝ HỒ SƠ</a>
                 <i class="fa fa-angle-right"></i>
             </li>
             <li>
@@ -373,7 +373,7 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label class="control-label bold col-md-4">Nới cấp : </label>
+                                                                <label class="control-label bold col-md-4">Nơi cấp : </label>
                                                                 <div class="col-md-8">
                                                                     <asp:TextBox ID="txtpNoiCap_Dad" CssClass="form-control" runat="server"></asp:TextBox>
                                                                 </div>

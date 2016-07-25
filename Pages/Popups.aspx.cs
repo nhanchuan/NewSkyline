@@ -211,7 +211,6 @@ public partial class Pages_Popups : BasePage
             Response.Write("<script>alert('" + ex.ToString() + "')</script>");
         }
     }
-
     protected void gwPopups_RowDeleting(object sender, GridViewDeleteEventArgs e)
     {
         try
@@ -240,7 +239,6 @@ public partial class Pages_Popups : BasePage
             this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
         }
     }
-
     protected void gwPopups_SelectedIndexChanged(object sender, EventArgs e)
     {
         try
@@ -293,7 +291,7 @@ public partial class Pages_Popups : BasePage
         {
             Directory.CreateDirectory(dirFullPath);
         }
-        string fileName = Path.GetFileName(FileImgUpload.PostedFile.FileName);
+        string fileName = Path.GetFileName(FileUploadUpdateImg.PostedFile.FileName);
         ImageCodecInfo jgpEncoder = null;
         string str_image = "";
         string fileExtension = "";
@@ -303,7 +301,7 @@ public partial class Pages_Popups : BasePage
             str_image = dateString + "-" + RandomName + fileExtension;
             string pathToSave = HttpContext.Current.Server.MapPath("../images/Popups/" + dateString + "/") + str_image;
             //file.SaveAs(pathToSave);
-            System.Drawing.Image image = System.Drawing.Image.FromStream(FileImgUpload.FileContent);
+            System.Drawing.Image image = System.Drawing.Image.FromStream(FileUploadUpdateImg.FileContent);
             if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Gif.Guid)
                 jgpEncoder = GetEncoder(ImageFormat.Gif);
             else if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Jpeg.Guid)
@@ -314,7 +312,7 @@ public partial class Pages_Popups : BasePage
                 jgpEncoder = GetEncoder(ImageFormat.Png);
             else
                 throw new System.ArgumentException("Invalid File Type");
-            Bitmap bmp1 = new Bitmap(FileImgUpload.FileContent);
+            Bitmap bmp1 = new Bitmap(FileUploadUpdateImg.FileContent);
             Encoder myEncoder = Encoder.Quality;
             EncoderParameters myEncoderParameters = new EncoderParameters(1);
             EncoderParameter myEncoderParameter = new EncoderParameter(myEncoder, 30L);
