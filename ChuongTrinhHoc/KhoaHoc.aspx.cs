@@ -46,7 +46,7 @@ public partial class ChuongTrinhHoc_KhoaHoc : BasePage
                     dlChuongTrinh.Items.Insert(0, new ListItem("-- Chọn chương trình --", "0"));
                     dlLopHoc.Items.Insert(0, new ListItem("-- Chọn lớp học --", "0"));
                     dlCoSo.Items.Insert(0, new ListItem("------ Chọn Cơ Sở thuộc Hệ Thống Chi Nhánh -------", "0"));
-                    if(Session["pageIndexnc_lophoc"]==null)
+                    if (Session["pageIndexnc_lophoc"] == null)
                     {
                         this.Getnc_KhoaHocPageWise(1);
                     }
@@ -265,7 +265,7 @@ public partial class ChuongTrinhHoc_KhoaHoc : BasePage
                 Response.Write("<script>alert('Thêm thất bại. Lỗi kết nối cơ sở dữ liệu !')</script>");
             }
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             Response.Write("<script>alert('" + ex.ToString() + "')</script>");
         }
@@ -291,51 +291,59 @@ public partial class ChuongTrinhHoc_KhoaHoc : BasePage
     }
     protected void gwKhoaHoc_SelectedIndexChanged(object sender, EventArgs e)
     {
-        nc_khoahoc = new nc_KhoaHocBLL();
-        kus_coso = new kus_CoSoBLL();
-        btnAddBooks.Attributes.Add("class", "btn btn-default");
-        btnEditKhoaHoc.Attributes.Add("class", "btn btn-circle btn-icon-only btn-default");
-        btnLenlichhoc.Attributes.Add("class", "btn btn-default");
-        btnXemLichHoc.Attributes.Add("class", "btn btn-circle btn-icon-only btn btn-default");
-        this.load_dlELoaiChuongTrinh();
-        this.load_dlEHTChiNhanh();
-        this.load_dlECoSo();
-        int khoahocID = Convert.ToInt32((gwKhoaHoc.SelectedRow.FindControl("lblID") as Label).Text);
-        List<nc_KhoaHoc> lst = nc_khoahoc.getListKhoaHocWithID(khoahocID);
-        nc_KhoaHoc khoahoc = lst.FirstOrDefault();
-        if (khoahoc != null)
+
+        try
         {
-            this.load_dlEChuongTrinh(khoahoc.LoaiChuongTrinh);
-            this.load_dlELopHoc(khoahoc.ChuongTrinh);
-            txtETenKhoaHoc.Text = khoahoc.TenKhoaHoc;
-            txtESoLuong.Text = khoahoc.SoLuong.ToString();
-            txtENgayKhaiGiang.Text = (khoahoc.NgayKhaiGiang.Year <= 1900) ? "" : khoahoc.NgayKhaiGiang.ToString("dd-MM-yyyy");
-            txtENgayKetThuc.Text = (khoahoc.NgayKetThuc.Year <= 1900) ? "" : khoahoc.NgayKetThuc.ToString("dd-MM-yyyy");
-            txtEThoiLuong.Text = khoahoc.ThoiLuong.ToString();
-            dlELoaiChuongTrinh.Items.FindByValue((khoahoc.LoaiChuongTrinh == 0) ? "0" : khoahoc.LoaiChuongTrinh.ToString()).Selected = true;
-            dlEChuongTrinh.Items.FindByValue((khoahoc.ChuongTrinh == 0) ? "0" : khoahoc.ChuongTrinh.ToString()).Selected = true;
-            dlELopHoc.Items.FindByValue((khoahoc.LopHoc == 0) ? "0" : khoahoc.LopHoc.ToString()).Selected = true;
-            dlECoSo.Items.FindByValue((khoahoc.CoSoID == 0) ? "0" : khoahoc.CoSoID.ToString()).Selected = true;
+            nc_khoahoc = new nc_KhoaHocBLL();
+            kus_coso = new kus_CoSoBLL();
+            btnAddBooks.Attributes.Add("class", "btn btn-default");
+            btnEditKhoaHoc.Attributes.Add("class", "btn btn-circle btn-icon-only btn-default");
+            btnLenlichhoc.Attributes.Add("class", "btn btn-default");
+            btnXemLichHoc.Attributes.Add("class", "btn btn-circle btn-icon-only btn btn-default");
+            this.load_dlELoaiChuongTrinh();
+            this.load_dlEHTChiNhanh();
+            this.load_dlECoSo();
+            int khoahocID = Convert.ToInt32((gwKhoaHoc.SelectedRow.FindControl("lblID") as Label).Text);
+            List<nc_KhoaHoc> lst = nc_khoahoc.getListKhoaHocWithID(khoahocID);
+            nc_KhoaHoc khoahoc = lst.FirstOrDefault();
+            if (khoahoc != null)
+            {
+                this.load_dlEChuongTrinh(khoahoc.LoaiChuongTrinh);
+                this.load_dlELopHoc(khoahoc.ChuongTrinh);
+                txtETenKhoaHoc.Text = khoahoc.TenKhoaHoc;
+                txtESoLuong.Text = khoahoc.SoLuong.ToString();
+                txtENgayKhaiGiang.Text = (khoahoc.NgayKhaiGiang.Year <= 1900) ? "" : khoahoc.NgayKhaiGiang.ToString("dd-MM-yyyy");
+                txtENgayKetThuc.Text = (khoahoc.NgayKetThuc.Year <= 1900) ? "" : khoahoc.NgayKetThuc.ToString("dd-MM-yyyy");
+                txtEThoiLuong.Text = khoahoc.ThoiLuong.ToString();
+                dlELoaiChuongTrinh.Items.FindByValue((khoahoc.LoaiChuongTrinh == 0) ? "0" : khoahoc.LoaiChuongTrinh.ToString()).Selected = true;
+                dlEChuongTrinh.Items.FindByValue((khoahoc.ChuongTrinh == 0) ? "0" : khoahoc.ChuongTrinh.ToString()).Selected = true;
+                dlELopHoc.Items.FindByValue((khoahoc.LopHoc == 0) ? "0" : khoahoc.LopHoc.ToString()).Selected = true;
+                dlECoSo.Items.FindByValue((khoahoc.CoSoID == 0) ? "0" : khoahoc.CoSoID.ToString()).Selected = true;
 
-            List<kus_CoSo> lstCoSo = kus_coso.getLSTCoSoWithID(khoahoc.CoSoID);
-            kus_CoSo coso = lstCoSo.FirstOrDefault();
-            dlEHTChiNhanh.Items.FindByValue((coso == null) ? 0.ToString() : coso.HTChiNhanhID.ToString()).Selected = true;
+                List<kus_CoSo> lstCoSo = kus_coso.getLSTCoSoWithID(khoahoc.CoSoID);
+                kus_CoSo coso = lstCoSo.FirstOrDefault();
+                dlEHTChiNhanh.Items.FindByValue((coso == null) ? 0.ToString() : coso.HTChiNhanhID.ToString()).Selected = true;
 
-            //books
-            this.load_dlAddBooks();
-            this.load_gwkus_KhoaHoc_Books(khoahocID);
-            //modal lich hoc
-            lblchoseMaKhoa.Text = khoahoc.MaKhoaHoc;
-            lblchoseTenKhoa.Text = khoahoc.TenKhoaHoc;
-            lblchoseNgayKG.Text= (khoahoc.NgayKhaiGiang.Year <= 1900) ? "" : khoahoc.NgayKhaiGiang.ToString("dd-MM-yyyy");
-            lblchoseNgayKT.Text= (khoahoc.NgayKetThuc.Year <= 1900) ? "" : khoahoc.NgayKetThuc.ToString("dd-MM-yyyy");
-            this.load_LichHoc(khoahocID);
-            //click create lich hoc 
-            Session.SetCurrentCoSoID(khoahoc.CoSoID.ToString());
+                //books
+                this.load_dlAddBooks();
+                this.load_gwkus_KhoaHoc_Books(khoahocID);
+                //modal lich hoc
+                lblchoseMaKhoa.Text = khoahoc.MaKhoaHoc;
+                lblchoseTenKhoa.Text = khoahoc.TenKhoaHoc;
+                lblchoseNgayKG.Text = (khoahoc.NgayKhaiGiang.Year <= 1900) ? "" : khoahoc.NgayKhaiGiang.ToString("dd-MM-yyyy");
+                lblchoseNgayKT.Text = (khoahoc.NgayKetThuc.Year <= 1900) ? "" : khoahoc.NgayKetThuc.ToString("dd-MM-yyyy");
+                this.load_LichHoc(khoahocID);
+                //click create lich hoc 
+                Session.SetCurrentCoSoID(khoahoc.CoSoID.ToString());
+            }
+            else
+            {
+                return;
+            }
         }
-        else
+        catch (Exception ex)
         {
-            return;
+            this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
         }
     }
     protected void btnSaveEditKhoaHoc_Click(object sender, EventArgs e)
@@ -381,9 +389,9 @@ public partial class ChuongTrinhHoc_KhoaHoc : BasePage
                 Response.Write("<script>alert('Cập nhật thất bại. Lỗi kết nối cơ sở dữ liệu !')</script>");
             }
             //------------------------------------------------------------------------
-            
+
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             Response.Write("<script>alert('" + ex.ToString() + "')</script>");
         }

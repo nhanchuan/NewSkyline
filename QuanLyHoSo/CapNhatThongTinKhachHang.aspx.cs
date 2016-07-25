@@ -61,7 +61,7 @@ public partial class QuanLyHoSo_CapNhatThongTinKhachHang : BasePage
 
                     if (string.IsNullOrEmpty(BaseCode) || !CheckQueryStr(BaseCode))
                     {
-                        Response.Redirect("http://" + Request.Url.Authority + "/QuanLyHoSo/TuVanVien.aspx");
+                        Response.Redirect("http://" + Request.Url.Authority + "/QuanLyHoSo/ThuLyHoSo.aspx");
                     }
                     else
                     {
