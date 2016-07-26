@@ -1,5 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/GlobalMasterPage.master" AutoEventWireup="true" CodeFile="GhiDanhTiemNang.aspx.cs" Inherits="kus_admin_GhiDanhTiemNang" %>
 
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
@@ -18,6 +19,15 @@
         </ul>
     </div>
     <!-- BEGIN PAGE HEADER-->
+    <%-- Pages is Valid --%>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="alert alert-danger display-none" id="alertPageValid" runat="server">
+                <asp:Label ID="lblPageValid" runat="server"></asp:Label>
+            </div>
+        </div>
+    </div>
+    <%--End Pages is Valid --%>
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-info background">
@@ -25,9 +35,29 @@
                     <h2>THÔNG TIN GHI DANH </h2>
                     <div class="row">
                         <div class="col-lg-12">
-                            <label class="btn default btn-xs red-stripe margin-bottom-20"><a href="#modalselectPhieuTuVan" data-toggle="modal">Lấy thông tin phiếu tư vấn</a></label>
+                            <label class="btn default btn-xs red-stripe margin-bottom-20"><a href="#collapPhieuTV" data-toggle="collapse">Lấy thông tin phiếu tư vấn</a></label>
                         </div>
-
+                        <div class="col-lg-4">
+                            <div class="form-group panel-collapse collapse" id="collapPhieuTV">
+                                <label class="control-label">Tên Phiếu</label>
+                                <div class="input-group">
+                                    <asp:TextBox ID="txtPhieuTvInfor" AutoPostBack="true" OnTextChanged="txtPhieuTvInfor_TextChanged" CssClass="form-control" runat="server"></asp:TextBox>
+                                    <span class="input-group-btn">
+                                        <button id="btnSearchKhoaHoc" class="btn btn-circle-right btn-default" type="submit" runat="server">Go!</button>
+                                    </span>
+                                </div>
+                                <asp:AutoCompleteExtender ID="AutoCompleteExtender1"
+                                    TargetControlID="txtPhieuTvInfor"
+                                    MinimumPrefixLength="2"
+                                    CompletionInterval="10"
+                                    EnableCaching="false"
+                                    CompletionSetCount="10"
+                                    FirstRowSelected="false"
+                                    ServiceMethod="SearchHocVienCode"
+                                    runat="server">
+                                </asp:AutoCompleteExtender>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="row">
@@ -315,29 +345,6 @@
             </div>
         </div>
     </div>
-    <%-- Modal Select Phieu Tu Van Infor --%>
-    <div class="modal fade" id="modalselectPhieuTuVan" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-hidden="true">
-        <div class="modal-dialog modal-full">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                    <h2 class="modal-title">Thông tin phiều tư vấn</h2>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="form-horizontal">
-                                <div class="form-body">
-                                    <%-- /Row --%>
 
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <%-- End Modal Select Phieu Tu Van Infor --%>
 </asp:Content>
 

@@ -51,6 +51,44 @@ namespace BLL
             this.DB.CloseConnection();
             return lst;
         }
+        public List<REGISTRATION_FORM_ADVISORY> GET_REGISTRATION_FORM_ADVISORY_ByFullName(string FullName)
+        {
+            if (!this.DB.OpenConnection())
+            {
+                return null;
+            }
+            string sql = "select * from REGISTRATION_FORM_ADVISORY where FullName=@FullName";
+            SqlParameter pFullName = new SqlParameter("@FullName", FullName);
+            DataTable tb = DB.DAtable(sql, pFullName);
+            List<REGISTRATION_FORM_ADVISORY> lst = new List<REGISTRATION_FORM_ADVISORY>();
+            foreach (DataRow r in tb.Rows)
+            {
+                REGISTRATION_FORM_ADVISORY rf = new REGISTRATION_FORM_ADVISORY();
+                rf.CountryAdvisoryID = (int)r[0];
+                rf.FullName = (string.IsNullOrEmpty(r[1].ToString())) ? "" : (string)r[1];
+                rf.CountryID = (string.IsNullOrEmpty(r[2].ToString())) ? 0 : (int)r[2];
+                rf.ProvinceID = (string.IsNullOrEmpty(r[3].ToString())) ? 0 : (int)r[3];
+                rf.DistrictID = (string.IsNullOrEmpty(r[4].ToString())) ? 0 : (int)r[4];
+                rf.Address_form = (string.IsNullOrEmpty(r[5].ToString())) ? "" : (string)r[5];
+                rf.Birthday = (string.IsNullOrEmpty(r[6].ToString())) ? DefaultBirthday : (DateTime)r[6];
+                rf.Sex = (string.IsNullOrEmpty(r[7].ToString())) ? 0 : (int)r[7];
+                rf.Phone = (string.IsNullOrEmpty(r[8].ToString())) ? "" : (string)r[8];
+                rf.Email = (string.IsNullOrEmpty(r[9].ToString())) ? "" : (string)r[9];
+                rf.TypeID = (string.IsNullOrEmpty(r[10].ToString())) ? 0 : (int)r[10];
+                rf.StudyLV = (string.IsNullOrEmpty(r[11].ToString())) ? 0 : (int)r[11];
+                rf.CountryAdvisoryID = (string.IsNullOrEmpty(r[12].ToString())) ? 0 : (int)r[12];
+                rf.ContentAdvisory = (string.IsNullOrEmpty(r[13].ToString())) ? "" : (string)r[13];
+                rf.DateOfCreate = (DateTime)r[14];
+                rf.Status_form = (int)r[15];
+                rf.UserAdvisory = (string.IsNullOrEmpty(r[16].ToString())) ? 0 : (int)r[16];
+                rf.FF = (int)r[17];
+                rf.ProgressForm = (string.IsNullOrEmpty(r[18].ToString())) ? 0 : (int)r[18];
+                rf.TenPhuHuynh = (string.IsNullOrEmpty(r["TenPhuHuynh"].ToString())) ? "" : (string)r["TenPhuHuynh"];
+                lst.Add(rf);
+            }
+            this.DB.CloseConnection();
+            return lst;
+        }
         public Boolean NewCustomerAdvisory(string fullname, int countryID, int provinceId, int districtId, string address, DateTime bitrhday, int sex, string phone, string email, int typeId, int studyLv, int countryAdsId, string content, int status, int UserAdvisory, int FF, int ProgressForm, string TenPhuHuynh)
         {
             string sql = "Exec NewCustomerAdvisory @fullname,@countryID,@provinceId,@districtId,@address,@bitrhday,@sex,@phone,@email,@typeId,@studyLv,@countryAdsId,@content,@status,@FF,@ProgressForm,@TenPhuHuynh,@UserAdvisory";

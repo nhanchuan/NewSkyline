@@ -201,3 +201,10 @@ C:\Users\NhanChuan\Developer\NewSkyline\BLL\bin\Debug\DAL.pdb
 C:\Users\NhanChuan\Developer\NewSkyline\BLL\obj\Debug\BLL.csprojResolveAssemblyReference.cache
 C:\Users\NhanChuan\Developer\NewSkyline\BLL\obj\Debug\BLL.dll
 C:\Users\NhanChuan\Developer\NewSkyline\BLL\obj\Debug\BLL.pdb
+E:\DEVELOPER\Website\GitHub\Asec_Admin\BLL\bin\Debug\BLL.dll
+E:\DEVELOPER\Website\GitHub\Asec_Admin\BLL\bin\Debug\BLL.pdb
+E:\DEVELOPER\Website\GitHub\Asec_Admin\BLL\bin\Debug\DAL.dll
+E:\DEVELOPER\Website\GitHub\Asec_Admin\BLL\bin\Debug\DAL.pdb
+E:\DEVELOPER\Website\GitHub\Asec_Admin\BLL\obj\Debug\BLL.csprojResolveAssemblyReference.cache
+E:\DEVELOPER\Website\GitHub\Asec_Admin\BLL\obj\Debug\BLL.dll
+E:\DEVELOPER\Website\GitHub\Asec_Admin\BLL\obj\Debug\BLL.pdb
