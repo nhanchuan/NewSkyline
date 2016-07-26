@@ -670,14 +670,14 @@ public partial class QuanLyHoSo_QLDangKyTuVan : BasePage
             string startdate = txtStartDate.Text;
             string finishdate = txtFinishDate.Text;
             DateTime StartDate;
-            string[] formats = { "dd/MM/yyyy", "d/M/yyyy", "dd/M/yyyy", "d/MM/yyyy" };
+            string[] formats = { "MM/dd/yyyy", "M/d/yyyy", "M/dd/yyyy", "MM/d/yyyy" };
             if (string.IsNullOrWhiteSpace(startdate) || DateTime.TryParseExact(startdate, formats, new CultureInfo("vi-VN"), DateTimeStyles.None, out StartDate) || getday(startdate) == "" || getmonth(startdate) == "" || getyear(startdate) == "")
             {
                 StartDate = Convert.ToDateTime("12/12/1900");
             }
             else
             {
-                StartDate = DateTime.ParseExact(getday(startdate) + "/" + getmonth(startdate) + "/" + getyear(startdate), "dd/MM/yyyy", null);
+                StartDate = DateTime.ParseExact(getday(startdate) + "/" + getmonth(startdate) + "/" + getyear(startdate), "MM/dd/yyyy", null);
             }
             DateTime FinishDate;
             if (string.IsNullOrWhiteSpace(finishdate) || DateTime.TryParseExact(finishdate, formats, new CultureInfo("vi-VN"), DateTimeStyles.None, out FinishDate) || getday(finishdate) == "" || getmonth(finishdate) == "" || getyear(finishdate) == "")
@@ -686,7 +686,7 @@ public partial class QuanLyHoSo_QLDangKyTuVan : BasePage
             }
             else
             {
-                FinishDate = DateTime.ParseExact(getday(finishdate) + "/" + getmonth(finishdate) + "/" + getyear(finishdate), "dd/MM/yyyy", null);
+                FinishDate = DateTime.ParseExact(getday(finishdate) + "/" + getmonth(finishdate) + "/" + getyear(finishdate), "MM/dd/yyyy", null);
             }
 
 

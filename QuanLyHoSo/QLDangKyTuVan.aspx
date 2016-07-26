@@ -424,20 +424,24 @@
                                                 <label class="control-label bold col-md-3">Từ ngày</label>
                                                 <div class="col-md-8">
                                                     <%-- Date picker --%>
-                                                    <div class="input-group date date-picker" data-date-format="dd-mm-yyyy">
+                                                    <div class="input-group date date-picker" data-date-format="mm-dd-yyyy">
                                                         <asp:TextBox ID="txtStartDate" CssClass="form-control" runat="server"></asp:TextBox>
                                                         <span class="input-group-btn">
                                                             <button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
                                                         </span>
                                                     </div>
-                                                    <asp:CompareValidator ID="CompareValidator1" runat="server"
-                                                        ControlToCompare="txtFinishDate" CultureInvariantValues="true"
-                                                        Display="Dynamic" EnableClientScript="true"
+                                                    <%--<asp:CompareValidator ID="CompareValidator1" runat="server"
+                                                        ControlToCompare="txtFinishDate" 
+                                                        CultureInvariantValues="true"
+                                                        Display="Dynamic" 
+                                                        EnableClientScript="true"
                                                         ControlToValidate="txtStartDate"
                                                         ForeColor="Red"
                                                         ErrorMessage="Start date must be earlier than finish date"
-                                                        Type="Date" SetFocusOnError="true" Operator="LessThanEqual"
-                                                        Text="Start date must be earlier than finish date"></asp:CompareValidator>
+                                                        Type="Date" 
+                                                        SetFocusOnError="true" 
+                                                        Operator="LessThanEqual"
+                                                        Text="Start date must be earlier than finish date"></asp:CompareValidator>--%>
                                                     <%-- Date picker --%>
                                                 </div>
                                             </div>
@@ -450,19 +454,23 @@
                                                 <label class="control-label bold col-md-3">Đến ngày</label>
                                                 <div class="col-md-8">
                                                     <%-- Date picker --%>
-                                                    <div class="input-group date date-picker" data-date-format="dd-mm-yyyy">
+                                                    <div class="input-group date date-picker" data-date-format="mm-dd-yyyy">
                                                         <asp:TextBox ID="txtFinishDate" CssClass="form-control" runat="server"></asp:TextBox>
                                                         <span class="input-group-btn">
                                                             <button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
                                                         </span>
                                                     </div>
                                                     <asp:CompareValidator ID="cvtxtStartDate" runat="server"
-                                                        ControlToCompare="txtStartDate" CultureInvariantValues="true"
-                                                        Display="Dynamic" EnableClientScript="true"
+                                                        ControlToCompare="txtStartDate" 
+                                                        CultureInvariantValues="true"
+                                                        Display="Dynamic" 
+                                                        EnableClientScript="true"
                                                         ControlToValidate="txtFinishDate"
                                                         ForeColor="Red"
                                                         ErrorMessage="Start date must be earlier than finish date"
-                                                        Type="Date" SetFocusOnError="true" Operator="GreaterThanEqual"
+                                                        Type="Date" 
+                                                        SetFocusOnError="true" 
+                                                        Operator="GreaterThanEqual"
                                                         Text="Start date must be earlier than finish date"></asp:CompareValidator>
                                                     <%-- Date picker --%>
                                                 </div>

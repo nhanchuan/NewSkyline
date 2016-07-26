@@ -150,6 +150,7 @@ public partial class QuanLyHoSo_PhieuDangKyTuVan : BasePage
                 string contentAdv = CKContentAdvisory.Text;
                 if (registrationForm.NewCustomerAdvisory(txtFullName.Text, countryid, provinceid, districtid, txtAddress.Text, Bitrhday, sex, txtPhone.Text, txtEmail.Text, typeAdvisory, studylv, countryadv, contentAdv, 1, Session.GetCurrentUser().UserID, 0, 0, txtPhuHuynh.Text))
                 {
+                    this.InteractiveHistory(Session.GetCurrentUser().UserID, "Nhập Phiếu Tư Vấn KH : " + txtFullName.Text, "");
                     this.Clear_Form();
                     Response.Write("<script>alert('Nhập Phiếu Đăng Ký Tư Vấn Thành Công !')</script>");
 
