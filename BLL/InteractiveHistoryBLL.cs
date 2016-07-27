@@ -40,5 +40,29 @@ namespace BLL
             this.dt.CloseConnection();
             return true;
         }
+        //Delete 
+        public Boolean DeleteInteractiveHistoryByCreatedate(DateTime Createdate)
+        {
+            if (!this.dt.OpenConnection())
+            {
+                return false;
+            }
+            string sql = "delete from InteractiveHistory where Createdate >= @Createdate";
+            SqlParameter pCreatedate = new SqlParameter("@Createdate", Createdate);
+            this.dt.Updatedata(sql, pCreatedate);
+            this.dt.CloseConnection();
+            return true;
+        }
+        public Boolean DeleteAll()
+        {
+            if (!this.dt.OpenConnection())
+            {
+                return false;
+            }
+            string sql = "delete from InteractiveHistory";
+            this.dt.Updatedata(sql);
+            this.dt.CloseConnection();
+            return true;
+        }
     }
 }

@@ -182,11 +182,11 @@
                                                 <label class="control-label col-md-8">Obliterate the following items from:</label>
                                                 <div class="col-md-4">
                                                     <asp:DropDownList ID="dlItemsFrom" CssClass="form-control" runat="server">
-                                                        <asp:ListItem>the past hour</asp:ListItem>
-                                                        <asp:ListItem>the past day</asp:ListItem>
-                                                        <asp:ListItem>the past week</asp:ListItem>
-                                                        <asp:ListItem>the last 4 weeks</asp:ListItem>
-                                                        <asp:ListItem>the beginning of time</asp:ListItem>
+                                                        <asp:ListItem Value="1">the past hour</asp:ListItem>
+                                                        <asp:ListItem Value="2">the past day</asp:ListItem>
+                                                        <asp:ListItem Value="3">the past week</asp:ListItem>
+                                                        <asp:ListItem Value="4">the last 4 weeks</asp:ListItem>
+                                                        <asp:ListItem Value="5" Selected="True">the beginning of time</asp:ListItem>
                                                     </asp:DropDownList>
                                                 </div>
                                             </div>
@@ -208,7 +208,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <asp:Button ID="Button1" CssClass="btn btn-warning" runat="server" Text="Clear data" />
+                    <asp:Button ID="btnDeleteHistory" CssClass="btn btn-warning" OnClick="btnDeleteHistory_Click"  runat="server" Text="Clear data" />
                     <a class="btn btn-default" data-dismiss="modal">Cancel</a>
                 </div>
             </div>

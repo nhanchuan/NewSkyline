@@ -93,5 +93,29 @@ namespace BLL
             this.dt.CloseConnection();
             return true;
         }
+        //Delete
+        public Boolean DeleteByDate(DateTime DateOfLogin)
+        {
+            if (!this.dt.OpenConnection())
+            {
+                return false;
+            }
+            string sql = "delete from HistoryLogin where DateOfLogin >= @DateOfLogin";
+            SqlParameter pDateOfLogin = new SqlParameter("@DateOfLogin", DateOfLogin);
+            this.dt.Updatedata(sql, pDateOfLogin);
+            this.dt.CloseConnection();
+            return true;
+        }
+        public Boolean DeleteAll()
+        {
+            if (!this.dt.OpenConnection())
+            {
+                return false;
+            }
+            string sql = "delete from HistoryLogin";
+            this.dt.Updatedata(sql);
+            this.dt.CloseConnection();
+            return true;
+        }
     }
 }

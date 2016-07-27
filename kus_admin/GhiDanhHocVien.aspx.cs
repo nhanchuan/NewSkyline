@@ -68,7 +68,6 @@ public partial class kus_admin_GhiDanhHocVien : BasePage
             }
         }
     }
-
     private Boolean CheckQuerystring(string code)
     {
         nc_khoahoc = new nc_KhoaHocBLL();
