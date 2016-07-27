@@ -41,9 +41,9 @@ namespace BLL
                 rf.CountryAdvisoryID = (string.IsNullOrEmpty(r[12].ToString())) ? 0 : (int)r[12];
                 rf.ContentAdvisory = (string.IsNullOrEmpty(r[13].ToString())) ? "" : (string)r[13];
                 rf.DateOfCreate = (DateTime)r[14];
-                rf.Status_form = (int)r[15];
+                rf.Status_form = (string.IsNullOrEmpty(r["Status_form"].ToString())) ? 0 : (int)r[15];
                 rf.UserAdvisory = (string.IsNullOrEmpty(r[16].ToString())) ? 0 : (int)r[16];
-                rf.FF = (int)r[17];
+                rf.FF = (string.IsNullOrEmpty(r["FF"].ToString())) ? 0 : (int)r[17];
                 rf.ProgressForm = (string.IsNullOrEmpty(r[18].ToString())) ? 0 : (int)r[18];
                 rf.TenPhuHuynh = (string.IsNullOrEmpty(r["TenPhuHuynh"].ToString())) ? "" : (string)r["TenPhuHuynh"];
                 lst.Add(rf);
@@ -79,9 +79,9 @@ namespace BLL
                 rf.CountryAdvisoryID = (string.IsNullOrEmpty(r[12].ToString())) ? 0 : (int)r[12];
                 rf.ContentAdvisory = (string.IsNullOrEmpty(r[13].ToString())) ? "" : (string)r[13];
                 rf.DateOfCreate = (DateTime)r[14];
-                rf.Status_form = (int)r[15];
+                rf.Status_form = (string.IsNullOrEmpty(r["Status_form"].ToString())) ? 0 : (int)r[15];
                 rf.UserAdvisory = (string.IsNullOrEmpty(r[16].ToString())) ? 0 : (int)r[16];
-                rf.FF = (int)r[17];
+                rf.FF = (string.IsNullOrEmpty(r["FF"].ToString())) ? 0 : (int)r[17];
                 rf.ProgressForm = (string.IsNullOrEmpty(r[18].ToString())) ? 0 : (int)r[18];
                 rf.TenPhuHuynh = (string.IsNullOrEmpty(r["TenPhuHuynh"].ToString())) ? "" : (string)r["TenPhuHuynh"];
                 lst.Add(rf);

@@ -23,6 +23,15 @@
         </ul>
     </div>
     <!-- END PAGE HEADER-->
+    <%-- Pages is Valid --%>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="alert alert-danger display-none" id="alertPageValid" runat="server">
+                <asp:Label ID="lblPageValid" runat="server"></asp:Label>
+            </div>
+        </div>
+    </div>
+    <%--End Pages is Valid --%>
     <div class="row">
         <!-- BEGIN Portlet PORTLET-->
         <div class="portlet light">
@@ -187,7 +196,32 @@
         <div class="panel panel-info background">
             <div class="panel-body">
                 <h2>THÔNG TIN GHI DANH</h2>
-
+                <div class="row">
+                    <div class="col-lg-12">
+                        <label class="btn default btn-xs red-stripe margin-bottom-20"><a href="#collapPhieuTV" data-toggle="collapse">Lấy thông tin phiếu tư vấn</a></label>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group panel-collapse collapse" id="collapPhieuTV">
+                            <label class="control-label">Tên Phiếu</label>
+                            <div class="input-group">
+                                <asp:TextBox ID="txtPhieuTvInfor" AutoPostBack="true" OnTextChanged="txtPhieuTvInfor_TextChanged" CssClass="form-control" runat="server"></asp:TextBox>
+                                <span class="input-group-btn">
+                                    <button id="btnSearchKhoaHoc" class="btn btn-circle-right btn-default" type="submit" runat="server">Go!</button>
+                                </span>
+                            </div>
+                            <asp:AutoCompleteExtender ID="AutoCompleteExtender2"
+                                TargetControlID="txtPhieuTvInfor"
+                                MinimumPrefixLength="2"
+                                CompletionInterval="10"
+                                EnableCaching="false"
+                                CompletionSetCount="10"
+                                FirstRowSelected="false"
+                                ServiceMethod="SearchPhieuCode"
+                                runat="server">
+                            </asp:AutoCompleteExtender>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-lg-6">
                     <div class="row">
                         <div class="col-lg-6">
@@ -233,11 +267,11 @@
                                 <label class="control-label">Số CMND</label>
                                 <asp:TextBox ID="txtSoCMNDHV" CssClass="form-control" runat="server"></asp:TextBox>
                                 <asp:RegularExpressionValidator ID="RegularExpressionValidator9"
-                                                                        ControlToValidate="txtSoCMNDHV"
-                                                                        ValidationGroup="validGhiDanhHV"
-                                                                        ForeColor="Red" Display="Dynamic"
-                                                                        ValidationExpression="^[0-9]{9,12}"
-                                                                        runat="server" ErrorMessage="CMND chỉ được nhập số  - Tối đa 12 ký tự .(VD: 245156321)"></asp:RegularExpressionValidator>
+                                    ControlToValidate="txtSoCMNDHV"
+                                    ValidationGroup="validGhiDanhHV"
+                                    ForeColor="Red" Display="Dynamic"
+                                    ValidationExpression="^[0-9]{9,12}"
+                                    runat="server" ErrorMessage="CMND chỉ được nhập số  - Tối đa 12 ký tự .(VD: 245156321)"></asp:RegularExpressionValidator>
                             </div>
                         </div>
                         <div class="col-lg-6">
@@ -477,7 +511,7 @@
         <div class="col-lg-4">
             <div class="form-group">
                 <label class="control-label">Mã Học Viên : <span class="required">*</span></label>
-                <asp:TextBox ID="txtHocVienCode" CssClass="form-control" runat="server"></asp:TextBox>
+                <asp:TextBox ID="txtHocVienCode" CssClass="form-control" AutoPostBack="true" OnTextChanged="txtHocVienCode_TextChanged" runat="server"></asp:TextBox>
                 <asp:AutoCompleteExtender ID="AutoCompleteExtender1"
                     TargetControlID="txtHocVienCode"
                     MinimumPrefixLength="2"
@@ -504,6 +538,52 @@
                     Display="Dynamic" runat="server" ErrorMessage="Chỉ được nhập số !"></asp:RegularExpressionValidator>
             </div>
             <asp:Button ID="btnGhiDanhAvailalble" CssClass="btn btn-primary" ValidationGroup="validGDHVAvailable" OnClick="btnGhiDanhAvailalble_Click" runat="server" Text="GHI DANH LỚP HỌC" />
+        </div>
+        <div class="col-lg-8">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    Thông tin học viên
+                </div>
+                <div class="panel-body">
+                    <div class="col-lg-2">
+                        <img src="../images/default_images.jpg" id="imgHocVienB" runat="server" style="width: 100%; height: auto;" />
+                    </div>
+                    <div class="col-lg-10">
+
+                        <table class="table table-bordered" border="1">
+                            <tr>
+                                <td style="width: 15%;" class="bold">Mã Học Viên : </td>
+                                <td>
+                                    <asp:Label ID="lblMaHocVienB" runat="server" Text="Label"></asp:Label></td>
+                                <td style="width: 15%;" class="bold">E-Mail : </td>
+                                <td>
+                                    <asp:Label ID="lblEmailHocVienB" runat="server" Text="Label"></asp:Label></td>
+                            </tr>
+                            <tr>
+                                <td class="bold">Họ và Tên : </td>
+                                <td>
+                                    <asp:Label ID="lblHoTenHocVienB" runat="server" Text="Label"></asp:Label>
+                                </td>
+                                <td class="bold">Điện thoại : </td>
+                                <td>
+                                    <asp:Label ID="lblDienThoaiHocVienB" runat="server" Text="Label"></asp:Label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="bold">Ngày sinh : </td>
+                                <td>
+                                    <asp:Label ID="lblBirthdayHocVienB" runat="server" Text="Label"></asp:Label>
+                                </td>
+                                <td class="bold">Giới tính : </td>
+                                <td>
+                                    <asp:Label ID="lblSexHocVienB" runat="server" Text="Label"></asp:Label>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
     <asp:Label ID="lblPageIsValid" ForeColor="Red" runat="server"></asp:Label>

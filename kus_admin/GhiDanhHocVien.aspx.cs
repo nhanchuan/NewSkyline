@@ -27,6 +27,8 @@ public partial class kus_admin_GhiDanhHocVien : BasePage
     kus_CoSoBLL kus_coso;
     nc_LoaiCTDaoTaoBLL nc_loaictdaotao;
     kus_HTChiNhanhBLL kus_htchinhanh;
+    REGISTRATION_FORM_ADVISORY_BLL registration_form;
+    ImagesBLL images;
     protected void Page_Load(object sender, EventArgs e)
     {
         this.setcurenturl();
@@ -53,6 +55,7 @@ public partial class kus_admin_GhiDanhHocVien : BasePage
                     }
                     else
                     {
+                        this.AlertPageValid(false, "", alertPageValid, lblPageValid);
                         lblKhoaHocChose.Text = KhoaHocDangChon(MaKhoaHoc);
                         this.load_dlELoaiChuongTrinh();
                         this.load_dlEHTChiNhanh();
@@ -69,8 +72,8 @@ public partial class kus_admin_GhiDanhHocVien : BasePage
     private Boolean CheckQuerystring(string code)
     {
         nc_khoahoc = new nc_KhoaHocBLL();
-        
-        if(string.IsNullOrWhiteSpace(code)||string.IsNullOrEmpty(code))
+
+        if (string.IsNullOrWhiteSpace(code) || string.IsNullOrEmpty(code))
         {
             return false;
         }
@@ -78,7 +81,7 @@ public partial class kus_admin_GhiDanhHocVien : BasePage
         {
             List<nc_KhoaHoc> lstkh = nc_khoahoc.getListKhoaHocWithMaKhoaHoc(code);
             nc_KhoaHoc khoahoc = lstkh.FirstOrDefault();
-            if(khoahoc == null)
+            if (khoahoc == null)
             {
                 return false;
             }
@@ -290,13 +293,13 @@ public partial class kus_admin_GhiDanhHocVien : BasePage
         hocvienmoreinfo = new kus_HocVienMoreInFoBLL();
         string HVGioiThieu = txtHVGioiThieu.Text;
         string TDHocVAn = "";
-        if(chkMauGiao.Checked==true)
+        if (chkMauGiao.Checked == true)
             TDHocVAn = "Mẫu giáo";
-        else if(chkTieuHoc.Checked==true)
+        else if (chkTieuHoc.Checked == true)
             TDHocVAn = "Tiểu học";
-        else if(chkTHCS.Checked==true)
+        else if (chkTHCS.Checked == true)
             TDHocVAn = "Trung học cơ sở";
-        else if(chkTHPT.Checked==true)
+        else if (chkTHPT.Checked == true)
             TDHocVAn = "Trung học phổ thông";
         else
             TDHocVAn = "Đại Học - Cao Đẳng";
@@ -305,30 +308,30 @@ public partial class kus_admin_GhiDanhHocVien : BasePage
         string CCTA = txtCCKHac.Text;
         if (chkCC1.Checked == true)
             CCTA += ";" + "Starters";
-         if (chkCC2.Checked == true)
+        if (chkCC2.Checked == true)
             CCTA += ";" + "Movers";
-         if (chkCC3.Checked == true)
+        if (chkCC3.Checked == true)
             CCTA += ";" + "Flyers";
-         if (chkCC4.Checked == true)
+        if (chkCC4.Checked == true)
             CCTA += ";" + "KET";
-         if (chkCC5.Checked == true)
+        if (chkCC5.Checked == true)
             CCTA += ";" + "PET";
-         if (chkCC6.Checked == true)
+        if (chkCC6.Checked == true)
             CCTA += ";" + "FCE";
 
         string BTT = txtBTTKHac.Text;
         if (chkBTT1.Checked == true)
             BTT += ";" + "Báo chí";
-         if (chkBTT2.Checked == true)
+        if (chkBTT2.Checked == true)
             BTT += ";" + "Internet";
-         if (chkBTT3.Checked == true)
+        if (chkBTT3.Checked == true)
             BTT += ";" + "Bạn bè";
-         if (chkBTT4.Checked == true)
+        if (chkBTT4.Checked == true)
             BTT += ";" + "Website";
-         if (chkBTT5.Checked == true)
+        if (chkBTT5.Checked == true)
             BTT += ";" + "Trực tiếp tại trung tâm";
 
-        
+
 
         return this.hocvienmoreinfo.kus_NewHocVienMoreInFo(HocVienID, HVGioiThieu, TDHocVAn, tentruong, CCTA, BTT);
 
@@ -336,7 +339,7 @@ public partial class kus_admin_GhiDanhHocVien : BasePage
 
     protected void dlChoseLoaiGD_SelectedIndexChanged(object sender, EventArgs e)
     {
-        if(dlChoseLoaiGD.SelectedValue=="0")
+        if (dlChoseLoaiGD.SelectedValue == "0")
         {
             panelGhiDanhMoi.Visible = true;
             panelDaGhiDanh.Visible = false;
@@ -390,7 +393,7 @@ public partial class kus_admin_GhiDanhHocVien : BasePage
         nc_KhoaHoc khoahoc = lstkh.FirstOrDefault();
         List<kus_HocVien> lstHV = kus_hocvien.getHocVienWithMaHV(txtHocVienCode.Text);
         kus_HocVien hocvien = lstHV.FirstOrDefault();
-        if(hocvien==null)
+        if (hocvien == null)
         {
             Response.Write("<script>alert('Mã Học Viên " + txtHocVienCode.Text + " không tồn tại. Vui lòng thử lại !')</script>");
         }
@@ -422,6 +425,121 @@ public partial class kus_admin_GhiDanhHocVien : BasePage
                     Response.Write("<script>alert('Ghi danh thất bại ! Lỗi kết nối CSDL !')</script>");
                 }
             }
+        }
+    }
+    [System.Web.Script.Services.ScriptMethod()]
+    [System.Web.Services.WebMethod]
+    public static List<string> SearchPhieuCode(string prefixText, int count)
+    {
+        kus_HocVienBLL kus_hocvien = new kus_HocVienBLL();
+
+        using (SqlConnection conn = new SqlConnection())
+        {
+            conn.ConnectionString = ConfigurationManager
+                    .ConnectionStrings["connectionStrCon"].ConnectionString;
+            using (SqlCommand cmd = new SqlCommand())
+            {
+                cmd.CommandText = "select * from REGISTRATION_FORM_ADVISORY where FullName like @SearchText + '%'";
+                cmd.Parameters.AddWithValue("@SearchText", prefixText);
+                cmd.Connection = conn;
+                conn.Open();
+                List<string> lstHVCode = new List<string>();
+                using (SqlDataReader sdr = cmd.ExecuteReader())
+                {
+                    while (sdr.Read())
+                    {
+                        lstHVCode.Add(sdr["FullName"].ToString());
+                    }
+                }
+                conn.Close();
+                return lstHVCode;
+            }
+        }
+    }
+
+    protected void txtPhieuTvInfor_TextChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            registration_form = new REGISTRATION_FORM_ADVISORY_BLL();
+            REGISTRATION_FORM_ADVISORY phieutv = registration_form.GET_REGISTRATION_FORM_ADVISORY_ByFullName(txtPhieuTvInfor.Text).FirstOrDefault();
+            if (phieutv != null)
+            {
+                txtLastNameHV.Text = phieutv.FullName.Substring(0, phieutv.FullName.LastIndexOf(" "));
+                txtFirstNameHV.Text = phieutv.FullName.Substring(phieutv.FullName.LastIndexOf(" ") + 1);
+                txtNgaySinh.Text = phieutv.Birthday.ToString("dd-MM-yyyy");
+                if (phieutv.Sex == 1)
+                {
+                    rdformnam.Checked = true;
+                }
+                else
+                {
+                    if (phieutv.Sex == 2)
+                    {
+                        rdformnu.Checked = true;
+                    }
+                    else
+                    {
+                        rdformnam.Checked = false;
+                        rdformnu.Checked = false;
+                    }
+                }
+                txtEmail.Text = phieutv.Email;
+                txtPhoneHV.Text = phieutv.Phone;
+                txtDCTamTru.Text = phieutv.Address_form;
+            }
+        }
+        catch (Exception ex)
+        {
+            this.AlertPageValid(true, "Thông tin phiếu tư vấn không tồn tại hoặc không chính xác. Vui lòng nhập lại thông tin chính xác !", alertPageValid, lblPageValid);
+            //this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
+        }
+    }
+
+    private void ClearHocvienInfo()
+    {
+        lblMaHocVienB.Text = "";
+        lblEmailHocVienB.Text = "";
+        lblDienThoaiHocVienB.Text = "";
+        imgHocVienB.Src = "../images/default_images.jpg";
+        lblHoTenHocVienB.Text = "";
+        lblBirthdayHocVienB.Text = "";
+        lblSexHocVienB.Text = "";
+    }
+    protected void txtHocVienCode_TextChanged(object sender, EventArgs e)
+    {
+        try
+        {
+
+            kus_hocvien = new kus_HocVienBLL();
+            images = new ImagesBLL();
+            customerbasicinfo = new CustomerBasicInfoBLL();
+            this.ClearHocvienInfo();
+            kus_HocVien hocvien = kus_hocvien.getHocVienWithMaHV(txtHocVienCode.Text).FirstOrDefault();
+            if (hocvien != null)
+            {
+                lblMaHocVienB.Text = hocvien.HocVienCode;
+                lblEmailHocVienB.Text = hocvien.Email;
+                lblDienThoaiHocVienB.Text = hocvien.DienThoai;
+
+                Images img = images.getImagesWithId(hocvien.ImgID).FirstOrDefault();
+                if(img!=null)
+                {
+                    imgHocVienB.Src = "../" + img.ImagesUrl;
+                }
+                CustomerBasicInfo basicinfo = customerbasicinfo.GetCusBasicInfoWithInfoId(hocvien.InfoID).FirstOrDefault();
+                if(basicinfo != null)
+                {
+                    lblHoTenHocVienB.Text = basicinfo.LastName + " " + basicinfo.FirstName;
+                    lblBirthdayHocVienB.Text = basicinfo.Birthday.ToString("dd-MM-yyyy");
+                    lblSexHocVienB.Text = (basicinfo.Sex == 1) ? "Nam" : (basicinfo.Sex == 2) ? "Nữ" : "null";
+                }
+            }
+
+        }
+        catch (Exception ex)
+        {
+            this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
         }
     }
 }

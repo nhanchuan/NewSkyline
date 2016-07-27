@@ -34,7 +34,7 @@ public partial class kus_admin_GhiDanhTiemNang : BasePage
                 }
                 else
                 {
-
+                    this.AlertPageValid(false, "", alertPageValid, lblPageValid);
                 }
             }
         }
@@ -96,7 +96,7 @@ public partial class kus_admin_GhiDanhTiemNang : BasePage
         }
         catch (Exception ex)
         {
-            this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
+            this.AlertPageValid(true, "Thông tin phiếu tư vấn không tồn tại hoặc không chính xác. Vui lòng nhập lại thông tin chính xác !", alertPageValid, lblPageValid);
         }
     }
 }
