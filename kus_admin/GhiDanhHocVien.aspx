@@ -537,7 +537,7 @@
                     ValidationGroup="validGDHVAvailable" ValidationExpression="^\d+$" ForeColor="Red"
                     Display="Dynamic" runat="server" ErrorMessage="Chỉ được nhập số !"></asp:RegularExpressionValidator>
             </div>
-            <asp:Button ID="btnGhiDanhAvailalble" CssClass="btn btn-primary" ValidationGroup="validGDHVAvailable" OnClick="btnGhiDanhAvailalble_Click" runat="server" Text="GHI DANH LỚP HỌC" />
+            <asp:Button ID="btnGhiDanhAvailalble" CssClass="btn btn-primary" ValidationGroup="validGDHVAvailable" OnClick="btnGhiDanhAvailalble_Click" runat="server" Text="GHI DANH KHÓA HỌC" />
         </div>
         <div class="col-lg-8">
             <div class="panel panel-info">
@@ -549,7 +549,6 @@
                         <img src="../images/default_images.jpg" id="imgHocVienB" runat="server" style="width: 100%; height: auto;" />
                     </div>
                     <div class="col-lg-10">
-
                         <table class="table table-bordered" border="1">
                             <tr>
                                 <td style="width: 15%;" class="bold">Mã Học Viên : </td>
@@ -583,7 +582,50 @@
                     </div>
                 </div>
             </div>
-
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    Các khóa đã ghi danh
+                </div>
+                <div class="panel-body">
+                    <asp:Label ID="lblMessageKhoaHoc" runat="server" Text="Không tìm dữ liệu !"></asp:Label>
+                    <asp:GridView ID="gwKhoaGhiDanh" CssClass="table table-condensed table-responsive" runat="server" AutoGenerateColumns="False" RowStyle-BackColor="#A1DCF2" Font-Names="Arial" Font-Size="10pt"
+                        HeaderStyle-BackColor="#3AC0F2" HeaderStyle-ForeColor="White">
+                        <Columns>
+                            <asp:TemplateField HeaderText="Mã khóa học">
+                                <ItemTemplate>
+                                    <asp:Label ID="lblMaKhoaHoc" runat="server" Text='<%# Eval("MaKhoaHoc") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Tên Khóa">
+                                <ItemTemplate>
+                                    <asp:Label ID="lblTenKhoaHoc" runat="server" Text='<%# Eval("TenKhoaHoc") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Ngày đăng ký">
+                                <ItemTemplate>
+                                    <i class="fa fa-calendar-o"></i>
+                                    <asp:Label ID="lblNgayDangKy" runat="server" Text='<%# Eval("NgayDangKy","{0:dd/MM/yyyy}") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Khai giảng">
+                                <ItemTemplate>
+                                    <i class="fa fa-calendar-o"></i>
+                                    <asp:Label ID="lblNgayKhaiGiang" runat="server" Text='<%# Eval("NgayKhaiGiang","{0:dd/MM/yyyy}") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Kết thúc">
+                                <ItemTemplate>
+                                    <i class="fa fa-calendar-o"></i>
+                                    <asp:Label ID="lblNgayKetThuc" runat="server" Text='<%# Eval("NgayKetThuc","{0:dd/MM/yyyy}") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                        </Columns>
+                        <SelectedRowStyle BackColor="#79B782" ForeColor="Black" />
+                        <HeaderStyle BackColor="#FFB848" ForeColor="White"></HeaderStyle>
+                        <RowStyle BackColor="#FAF3DF"></RowStyle>
+                    </asp:GridView>
+                </div>
+            </div>
         </div>
     </div>
     <asp:Label ID="lblPageIsValid" ForeColor="Red" runat="server"></asp:Label>

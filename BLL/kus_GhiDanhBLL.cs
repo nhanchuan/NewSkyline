@@ -254,7 +254,7 @@ namespace BLL
             this.DB.CloseConnection();
             return true;
         }
-        
+
         /// <summary>
         /// Tính tổng số Học Viên Ghi Danh tại Trung Tâm
         /// </summary>
@@ -271,6 +271,23 @@ namespace BLL
             this.DB.CloseConnection();
             return count;
 
+        }
+        // Get tablr ghi danh 
+        public DataTable TBGhiDanhByHocVienID(int HocVienID)
+        {
+            if (!this.DB.OpenConnection())
+            {
+                return null;
+            }
+            string sql = "select ghidanh.*,khoahoc.MaKhoaHoc,khoahoc.TenKhoaHoc,khoahoc.NgayKhaiGiang,khoahoc.NgayKetThuc,lophoc.LopHocCode,lophoc.TenLopHoc";
+            sql += " ";
+            sql += "from kus_GhiDanh ghidanh full outer join kus_HocVien hocvien on ghidanh.HocVienID=hocvien.HocVienID full outer join nc_KhoaHoc khoahoc on ghidanh.KhoaHoc=khoahoc.ID";
+            sql += " ";
+            sql += "full outer join nc_LopHoc lophoc on khoahoc.LopHoc=lophoc.ID full outer join Employees emp on ghidanh.NVGhiDanh=emp.EmployeesID where ghidanh.GhiDanhID is not null and ghidanh.HocVienID=@HocVienID order by ghidanh.NgayDangKy desc";
+            SqlParameter pHocVienID = new SqlParameter("@HocVienID", HocVienID);
+            DataTable tb = DB.DAtable(sql, pHocVienID);
+            this.DB.CloseConnection();
+            return tb;
         }
     }
 }

@@ -63,6 +63,7 @@ public partial class kus_admin_GhiDanhHocVien : BasePage
                         this.load_KhoaHocInfor(MaKhoaHoc);
                         panelGhiDanhMoi.Visible = true;
                         panelDaGhiDanh.Visible = false;
+                        lblMessageKhoaHoc.CssClass = "label label-warning display-none";
                     }
                 }
             }
@@ -509,7 +510,7 @@ public partial class kus_admin_GhiDanhHocVien : BasePage
     {
         try
         {
-
+            kus_ghidanh = new kus_GhiDanhBLL();
             kus_hocvien = new kus_HocVienBLL();
             images = new ImagesBLL();
             customerbasicinfo = new CustomerBasicInfoBLL();
@@ -532,6 +533,20 @@ public partial class kus_admin_GhiDanhHocVien : BasePage
                     lblHoTenHocVienB.Text = basicinfo.LastName + " " + basicinfo.FirstName;
                     lblBirthdayHocVienB.Text = basicinfo.Birthday.ToString("dd-MM-yyyy");
                     lblSexHocVienB.Text = (basicinfo.Sex == 1) ? "Nam" : (basicinfo.Sex == 2) ? "Nữ" : "null";
+                }
+
+                DataTable tb = kus_ghidanh.TBGhiDanhByHocVienID(hocvien.HocVienID);
+                if(tb.Rows.Count<=0)
+                {
+                    lblMessageKhoaHoc.CssClass = "label label-warning";
+                    gwKhoaGhiDanh.DataSource = tb;
+                    gwKhoaGhiDanh.DataBind();
+                }
+                else
+                {
+                    lblMessageKhoaHoc.CssClass = "label label-warning display-none";
+                    gwKhoaGhiDanh.DataSource = tb;
+                    gwKhoaGhiDanh.DataBind();
                 }
             }
 

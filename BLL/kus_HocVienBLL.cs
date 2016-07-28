@@ -35,20 +35,21 @@ namespace BLL
             foreach (DataRow r in tb.Rows)
             {
                 kus_HocVien hv = new kus_HocVien();
-                hv.HocVienID = (int)r[0];
-                hv.HocVienCode = (string)r[1];
-                hv.InfoID = (string.IsNullOrEmpty(r[2].ToString())) ? 0 : (int)r[2];
-                hv.DCThuongTru = (string.IsNullOrEmpty(r[3].ToString())) ? "" : (string)r[3];
-                hv.DCTamTru = (string.IsNullOrEmpty(r[4].ToString())) ? "" : (string)r[4];
-                hv.Email = (string.IsNullOrEmpty(r[5].ToString())) ? "" : (string)r[5];
-                hv.DienThoai = (string.IsNullOrEmpty(r[6].ToString())) ? "" : (string)r[6];
-                hv.HoTenPH = (string.IsNullOrEmpty(r[7].ToString())) ? "" : (string)r[7];
-                hv.NgheNghiep = (string.IsNullOrEmpty(r[8].ToString())) ? "" : (string)r[8];
-                hv.PhonePhuHuynh = (string.IsNullOrEmpty(r[9].ToString())) ? "" : (string)r[9];
-                hv.HocVienStatus = (string.IsNullOrEmpty(r[10].ToString())) ? 0 : (int)r[10];
-                hv.DateOfCreate = (DateTime)r[11];
-                hv.RandomCode = (string)r[12];
-                hv.ImgID = (string.IsNullOrEmpty(r[13].ToString())) ? 0 : (int)r[13];
+                hv.HocVienID = (int)r["HocVienID"];
+                hv.HocVienCode = (string)r["HocVienCode"];
+                hv.InfoID = (string.IsNullOrEmpty(r["InfoID"].ToString())) ? 0 : (int)r["InfoID"];
+                hv.DCThuongTru = (string.IsNullOrEmpty(r["DCThuongTru"].ToString())) ? "" : (string)r["DCThuongTru"];
+                hv.DCTamTru = (string.IsNullOrEmpty(r["DCTamTru"].ToString())) ? "" : (string)r["DCTamTru"];
+                hv.Email = (string.IsNullOrEmpty(r["Email"].ToString())) ? "" : (string)r["Email"];
+                hv.DienThoai = (string.IsNullOrEmpty(r["DienThoai"].ToString())) ? "" : (string)r["DienThoai"];
+                hv.HoTenPH = (string.IsNullOrEmpty(r["HoTenPH"].ToString())) ? "" : (string)r["HoTenPH"];
+                hv.NgheNghiep = (string.IsNullOrEmpty(r["NgheNghiep"].ToString())) ? "" : (string)r["NgheNghiep"];
+                hv.PhonePhuHuynh = (string.IsNullOrEmpty(r["PhonePhuHuynh"].ToString())) ? "" : (string)r["PhonePhuHuynh"];
+                hv.HocVienStatus = (string.IsNullOrEmpty(r["HocVienStatus"].ToString())) ? 0 : (int)r["HocVienStatus"];
+                hv.DateOfCreate = (DateTime)r["DateOfCreate"];
+                hv.RandomCode = (string)r["RandomCode"];
+                hv.ImgID = (string.IsNullOrEmpty(r["ImgID"].ToString())) ? 0 : (int)r["ImgID"];
+                hv.AvailableBalances = (string.IsNullOrEmpty(r["AvailableBalances"].ToString())) ? 0 : (int)r["AvailableBalances"];
                 lst.Add(hv);
             }
             this.DB.CloseConnection();
@@ -67,20 +68,21 @@ namespace BLL
             foreach (DataRow r in tb.Rows)
             {
                 kus_HocVien hv = new kus_HocVien();
-                hv.HocVienID = (int)r[0];
-                hv.HocVienCode = (string)r[1];
-                hv.InfoID = (string.IsNullOrEmpty(r[2].ToString())) ? 0 : (int)r[2];
-                hv.DCThuongTru = (string.IsNullOrEmpty(r[3].ToString())) ? "" : (string)r[3];
-                hv.DCTamTru = (string.IsNullOrEmpty(r[4].ToString())) ? "" : (string)r[4];
-                hv.Email = (string.IsNullOrEmpty(r[5].ToString())) ? "" : (string)r[5];
-                hv.DienThoai = (string.IsNullOrEmpty(r[6].ToString())) ? "" : (string)r[6];
-                hv.HoTenPH = (string.IsNullOrEmpty(r[7].ToString())) ? "" : (string)r[7];
-                hv.NgheNghiep = (string.IsNullOrEmpty(r[8].ToString())) ? "" : (string)r[8];
-                hv.PhonePhuHuynh = (string.IsNullOrEmpty(r[9].ToString())) ? "" : (string)r[9];
-                hv.HocVienStatus = (string.IsNullOrEmpty(r[10].ToString())) ? 0 : (int)r[10];
-                hv.DateOfCreate = (DateTime)r[11];
-                hv.RandomCode = (string)r[12];
-                hv.ImgID = (string.IsNullOrEmpty(r[13].ToString())) ? 0 : (int)r[13];
+                hv.HocVienID = (int)r["HocVienID"];
+                hv.HocVienCode = (string)r["HocVienCode"];
+                hv.InfoID = (string.IsNullOrEmpty(r["InfoID"].ToString())) ? 0 : (int)r["InfoID"];
+                hv.DCThuongTru = (string.IsNullOrEmpty(r["DCThuongTru"].ToString())) ? "" : (string)r["DCThuongTru"];
+                hv.DCTamTru = (string.IsNullOrEmpty(r["DCTamTru"].ToString())) ? "" : (string)r["DCTamTru"];
+                hv.Email = (string.IsNullOrEmpty(r["Email"].ToString())) ? "" : (string)r["Email"];
+                hv.DienThoai = (string.IsNullOrEmpty(r["DienThoai"].ToString())) ? "" : (string)r["DienThoai"];
+                hv.HoTenPH = (string.IsNullOrEmpty(r["HoTenPH"].ToString())) ? "" : (string)r["HoTenPH"];
+                hv.NgheNghiep = (string.IsNullOrEmpty(r["NgheNghiep"].ToString())) ? "" : (string)r["NgheNghiep"];
+                hv.PhonePhuHuynh = (string.IsNullOrEmpty(r["PhonePhuHuynh"].ToString())) ? "" : (string)r["PhonePhuHuynh"];
+                hv.HocVienStatus = (string.IsNullOrEmpty(r["HocVienStatus"].ToString())) ? 0 : (int)r["HocVienStatus"];
+                hv.DateOfCreate = (DateTime)r["DateOfCreate"];
+                hv.RandomCode = (string)r["RandomCode"];
+                hv.ImgID = (string.IsNullOrEmpty(r["ImgID"].ToString())) ? 0 : (int)r["ImgID"];
+                hv.AvailableBalances = (string.IsNullOrEmpty(r["AvailableBalances"].ToString())) ? 0 : (int)r["AvailableBalances"];
                 lst.Add(hv);
             }
             this.DB.CloseConnection();
@@ -99,20 +101,21 @@ namespace BLL
             foreach (DataRow r in tb.Rows)
             {
                 kus_HocVien hv = new kus_HocVien();
-                hv.HocVienID = (int)r[0];
-                hv.HocVienCode = (string)r[1];
-                hv.InfoID = (string.IsNullOrEmpty(r[2].ToString())) ? 0 : (int)r[2];
-                hv.DCThuongTru = (string.IsNullOrEmpty(r[3].ToString())) ? "" : (string)r[3];
-                hv.DCTamTru = (string.IsNullOrEmpty(r[4].ToString())) ? "" : (string)r[4];
-                hv.Email = (string.IsNullOrEmpty(r[5].ToString())) ? "" : (string)r[5];
-                hv.DienThoai = (string.IsNullOrEmpty(r[6].ToString())) ? "" : (string)r[6];
-                hv.HoTenPH = (string.IsNullOrEmpty(r[7].ToString())) ? "" : (string)r[7];
-                hv.NgheNghiep = (string.IsNullOrEmpty(r[8].ToString())) ? "" : (string)r[8];
-                hv.PhonePhuHuynh = (string.IsNullOrEmpty(r[9].ToString())) ? "" : (string)r[9];
-                hv.HocVienStatus = (string.IsNullOrEmpty(r[10].ToString())) ? 0 : (int)r[10];
-                hv.DateOfCreate = (DateTime)r[11];
-                hv.RandomCode = (string)r[12];
-                hv.ImgID = (string.IsNullOrEmpty(r[13].ToString())) ? 0 : (int)r[13];
+                hv.HocVienID = (int)r["HocVienID"];
+                hv.HocVienCode = (string)r["HocVienCode"];
+                hv.InfoID = (string.IsNullOrEmpty(r["InfoID"].ToString())) ? 0 : (int)r["InfoID"];
+                hv.DCThuongTru = (string.IsNullOrEmpty(r["DCThuongTru"].ToString())) ? "" : (string)r["DCThuongTru"];
+                hv.DCTamTru = (string.IsNullOrEmpty(r["DCTamTru"].ToString())) ? "" : (string)r["DCTamTru"];
+                hv.Email = (string.IsNullOrEmpty(r["Email"].ToString())) ? "" : (string)r["Email"];
+                hv.DienThoai = (string.IsNullOrEmpty(r["DienThoai"].ToString())) ? "" : (string)r["DienThoai"];
+                hv.HoTenPH = (string.IsNullOrEmpty(r["HoTenPH"].ToString())) ? "" : (string)r["HoTenPH"];
+                hv.NgheNghiep = (string.IsNullOrEmpty(r["NgheNghiep"].ToString())) ? "" : (string)r["NgheNghiep"];
+                hv.PhonePhuHuynh = (string.IsNullOrEmpty(r["PhonePhuHuynh"].ToString())) ? "" : (string)r["PhonePhuHuynh"];
+                hv.HocVienStatus = (string.IsNullOrEmpty(r["HocVienStatus"].ToString())) ? 0 : (int)r["HocVienStatus"];
+                hv.DateOfCreate = (DateTime)r["DateOfCreate"];
+                hv.RandomCode = (string)r["RandomCode"];
+                hv.ImgID = (string.IsNullOrEmpty(r["ImgID"].ToString())) ? 0 : (int)r["ImgID"];
+                hv.AvailableBalances = (string.IsNullOrEmpty(r["AvailableBalances"].ToString())) ? 0 : (int)r["AvailableBalances"];
                 lst.Add(hv);
             }
             this.DB.CloseConnection();
@@ -131,20 +134,21 @@ namespace BLL
             foreach (DataRow r in tb.Rows)
             {
                 kus_HocVien hv = new kus_HocVien();
-                hv.HocVienID = (int)r[0];
-                hv.HocVienCode = (string)r[1];
-                hv.InfoID = (string.IsNullOrEmpty(r[2].ToString())) ? 0 : (int)r[2];
-                hv.DCThuongTru = (string.IsNullOrEmpty(r[3].ToString())) ? "" : (string)r[3];
-                hv.DCTamTru = (string.IsNullOrEmpty(r[4].ToString())) ? "" : (string)r[4];
-                hv.Email = (string.IsNullOrEmpty(r[5].ToString())) ? "" : (string)r[5];
-                hv.DienThoai = (string.IsNullOrEmpty(r[6].ToString())) ? "" : (string)r[6];
-                hv.HoTenPH = (string.IsNullOrEmpty(r[7].ToString())) ? "" : (string)r[7];
-                hv.NgheNghiep = (string.IsNullOrEmpty(r[8].ToString())) ? "" : (string)r[8];
-                hv.PhonePhuHuynh = (string.IsNullOrEmpty(r[9].ToString())) ? "" : (string)r[9];
-                hv.HocVienStatus = (string.IsNullOrEmpty(r[10].ToString())) ? 0 : (int)r[10];
-                hv.DateOfCreate = (DateTime)r[11];
-                hv.RandomCode = (string)r[12];
-                hv.ImgID = (string.IsNullOrEmpty(r[13].ToString())) ? 0 : (int)r[13];
+                hv.HocVienID = (int)r["HocVienID"];
+                hv.HocVienCode = (string)r["HocVienCode"];
+                hv.InfoID = (string.IsNullOrEmpty(r["InfoID"].ToString())) ? 0 : (int)r["InfoID"];
+                hv.DCThuongTru = (string.IsNullOrEmpty(r["DCThuongTru"].ToString())) ? "" : (string)r["DCThuongTru"];
+                hv.DCTamTru = (string.IsNullOrEmpty(r["DCTamTru"].ToString())) ? "" : (string)r["DCTamTru"];
+                hv.Email = (string.IsNullOrEmpty(r["Email"].ToString())) ? "" : (string)r["Email"];
+                hv.DienThoai = (string.IsNullOrEmpty(r["DienThoai"].ToString())) ? "" : (string)r["DienThoai"];
+                hv.HoTenPH = (string.IsNullOrEmpty(r["HoTenPH"].ToString())) ? "" : (string)r["HoTenPH"];
+                hv.NgheNghiep = (string.IsNullOrEmpty(r["NgheNghiep"].ToString())) ? "" : (string)r["NgheNghiep"];
+                hv.PhonePhuHuynh = (string.IsNullOrEmpty(r["PhonePhuHuynh"].ToString())) ? "" : (string)r["PhonePhuHuynh"];
+                hv.HocVienStatus = (string.IsNullOrEmpty(r["HocVienStatus"].ToString())) ? 0 : (int)r["HocVienStatus"];
+                hv.DateOfCreate = (DateTime)r["DateOfCreate"];
+                hv.RandomCode = (string)r["RandomCode"];
+                hv.ImgID = (string.IsNullOrEmpty(r["ImgID"].ToString())) ? 0 : (int)r["ImgID"];
+                hv.AvailableBalances = (string.IsNullOrEmpty(r["AvailableBalances"].ToString())) ? 0 : (int)r["AvailableBalances"];
                 lst.Add(hv);
             }
             this.DB.CloseConnection();
@@ -163,20 +167,21 @@ namespace BLL
             foreach (DataRow r in tb.Rows)
             {
                 kus_HocVien hv = new kus_HocVien();
-                hv.HocVienID = (int)r[0];
-                hv.HocVienCode = (string)r[1];
-                hv.InfoID = (string.IsNullOrEmpty(r[2].ToString())) ? 0 : (int)r[2];
-                hv.DCThuongTru = (string.IsNullOrEmpty(r[3].ToString())) ? "" : (string)r[3];
-                hv.DCTamTru= (string.IsNullOrEmpty(r[4].ToString())) ? "" : (string)r[4];
-                hv.Email= (string.IsNullOrEmpty(r[5].ToString())) ? "" : (string)r[5];
-                hv.DienThoai= (string.IsNullOrEmpty(r[6].ToString())) ? "" : (string)r[6];
-                hv.HoTenPH= (string.IsNullOrEmpty(r[7].ToString())) ? "" : (string)r[7];
-                hv.NgheNghiep= (string.IsNullOrEmpty(r[8].ToString())) ? "" : (string)r[8];
-                hv.PhonePhuHuynh= (string.IsNullOrEmpty(r[9].ToString())) ? "" : (string)r[9];
-                hv.HocVienStatus= (string.IsNullOrEmpty(r[10].ToString())) ? 0 : (int)r[10];
-                hv.DateOfCreate = (DateTime)r[11];
-                hv.RandomCode = (string)r[12];
-                hv.ImgID = (string.IsNullOrEmpty(r[13].ToString())) ? 0 : (int)r[13];
+                hv.HocVienID = (int)r["HocVienID"];
+                hv.HocVienCode = (string)r["HocVienCode"];
+                hv.InfoID = (string.IsNullOrEmpty(r["InfoID"].ToString())) ? 0 : (int)r["InfoID"];
+                hv.DCThuongTru = (string.IsNullOrEmpty(r["DCThuongTru"].ToString())) ? "" : (string)r["DCThuongTru"];
+                hv.DCTamTru = (string.IsNullOrEmpty(r["DCTamTru"].ToString())) ? "" : (string)r["DCTamTru"];
+                hv.Email = (string.IsNullOrEmpty(r["Email"].ToString())) ? "" : (string)r["Email"];
+                hv.DienThoai = (string.IsNullOrEmpty(r["DienThoai"].ToString())) ? "" : (string)r["DienThoai"];
+                hv.HoTenPH = (string.IsNullOrEmpty(r["HoTenPH"].ToString())) ? "" : (string)r["HoTenPH"];
+                hv.NgheNghiep = (string.IsNullOrEmpty(r["NgheNghiep"].ToString())) ? "" : (string)r["NgheNghiep"];
+                hv.PhonePhuHuynh = (string.IsNullOrEmpty(r["PhonePhuHuynh"].ToString())) ? "" : (string)r["PhonePhuHuynh"];
+                hv.HocVienStatus = (string.IsNullOrEmpty(r["HocVienStatus"].ToString())) ? 0 : (int)r["HocVienStatus"];
+                hv.DateOfCreate = (DateTime)r["DateOfCreate"];
+                hv.RandomCode = (string)r["RandomCode"];
+                hv.ImgID = (string.IsNullOrEmpty(r["ImgID"].ToString())) ? 0 : (int)r["ImgID"];
+                hv.AvailableBalances = (string.IsNullOrEmpty(r["AvailableBalances"].ToString())) ? 0 : (int)r["AvailableBalances"];
                 lst.Add(hv);
             }
             this.DB.CloseConnection();
@@ -303,5 +308,6 @@ namespace BLL
             this.DB.CloseConnection();
             return countHV;
         }
+        //Get table Ghi Danh
     }
 }

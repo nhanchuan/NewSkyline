@@ -22,6 +22,7 @@ namespace DAL
         private DateTime dateOfCreate;
         private string randomCode;
         private int imgID;
+        private int availableBalances;
         public int HocVienID
         {
             get
@@ -213,6 +214,19 @@ namespace DAL
             set
             {
                 imgID = value;
+            }
+        }
+
+        public int AvailableBalances
+        {
+            get
+            {
+                return availableBalances;
+            }
+
+            set
+            {
+                availableBalances = value;
             }
         }
     }
