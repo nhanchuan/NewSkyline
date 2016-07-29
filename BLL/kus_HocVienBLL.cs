@@ -199,13 +199,13 @@ namespace BLL
             this.DB.CloseConnection();
             return true;
         }
-        public Boolean kus_UpdateHocVen(int HocVienID, int InfoID, string DCThuongTru, string DCTamTru, string Email, string DienThoai, string HoTenPH, string NgheNghiep, string PhonePhuHuynh, int HocVienStatus)
+        public Boolean kus_UpdateHocVen(int HocVienID, int InfoID, string DCThuongTru, string DCTamTru, string Email, string DienThoai, string HoTenPH, string NgheNghiep, string PhonePhuHuynh, int HocVienStatus, int AvailableBalances)
         {
             if (!this.DB.OpenConnection())
             {
                 return false;
             }
-            string sql = "Exec kus_UpdateHocVen @HocVienID, @InfoID,@DCThuongTru,@DCTamTru,@Email,@DienThoai,@HoTenPH,@NgheNghiep,@PhonePhuHuynh,@HocVienStatus";
+            string sql = "Exec kus_UpdateHocVen @HocVienID, @InfoID,@DCThuongTru,@DCTamTru,@Email,@DienThoai,@HoTenPH,@NgheNghiep,@PhonePhuHuynh,@HocVienStatus,@AvailableBalances";
             SqlParameter pHocVienID = new SqlParameter("HocVienID", HocVienID);
             SqlParameter pInfoID = new SqlParameter("InfoID", InfoID);
             SqlParameter pDCThuongTru = new SqlParameter("DCThuongTru", DCThuongTru);
@@ -216,7 +216,8 @@ namespace BLL
             SqlParameter pNgheNghiep = new SqlParameter("NgheNghiep", NgheNghiep);
             SqlParameter pPhonePhuHuynh = new SqlParameter("PhonePhuHuynh", PhonePhuHuynh);
             SqlParameter pHocVienStatus = new SqlParameter("HocVienStatus", HocVienStatus);
-            this.DB.Updatedata(sql, pHocVienID, pInfoID, pDCThuongTru, pDCTamTru, pEmail, pDienThoai, pHoTenPH, pNgheNghiep, pPhonePhuHuynh, pHocVienStatus);
+            SqlParameter pAvailableBalances = new SqlParameter("@AvailableBalances", AvailableBalances);
+            this.DB.Updatedata(sql, pHocVienID, pInfoID, pDCThuongTru, pDCTamTru, pEmail, pDienThoai, pHoTenPH, pNgheNghiep, pPhonePhuHuynh, pHocVienStatus, pAvailableBalances);
             this.DB.CloseConnection();
             return true;
         }
@@ -308,6 +309,20 @@ namespace BLL
             this.DB.CloseConnection();
             return countHV;
         }
-        //Get table Ghi Danh
+        //Update AvailableBalances
+        public Boolean UpdateAvailableBalancesByHocVienID(int HocVienID, int AvailableBalances)
+        {
+            if (!this.DB.OpenConnection())
+            {
+                return true;
+            }
+            string sql = "update kus_HocVien set AvailableBalances=@AvailableBalances where HocVienID=@HocVienID";
+            SqlParameter pHocVienID = new SqlParameter("@HocVienID", HocVienID);
+            SqlParameter pAvailableBalances = new SqlParameter("@AvailableBalances", AvailableBalances);
+            this.DB.Updatedata(sql, pHocVienID, pAvailableBalances);
+            this.DB.CloseConnection();
+            return true;
+        }
+
     }
 }

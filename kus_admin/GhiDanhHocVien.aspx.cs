@@ -190,7 +190,7 @@ public partial class kus_admin_GhiDanhHocVien : BasePage
             string[] formats = { "dd/MM/yyyy", "d/M/yyyy", "dd/M/yyyy", "d/MM/yyyy" };
             if (string.IsNullOrWhiteSpace(ngaysinh) || DateTime.TryParseExact(ngaysinh, formats, new CultureInfo("vi-VN"), DateTimeStyles.None, out birthday) || getday(ngaysinh) == "" || getmonth(ngaysinh) == "" || getyear(ngaysinh) == "")
             {
-                birthday = Convert.ToDateTime("01/01/1900");
+                birthday = Convert.ToDateTime("12/12/1900");
             }
             else
             {
@@ -202,7 +202,7 @@ public partial class kus_admin_GhiDanhHocVien : BasePage
             DateTime NgayCapCMND;
             if (string.IsNullOrWhiteSpace(ngaycapcmnd) || DateTime.TryParseExact(ngaycapcmnd, formats, new CultureInfo("vi-VN"), DateTimeStyles.None, out NgayCapCMND) || getday(ngaycapcmnd) == "" || getmonth(ngaycapcmnd) == "" || getyear(ngaycapcmnd) == "")
             {
-                NgayCapCMND = Convert.ToDateTime("01/01/1900");
+                NgayCapCMND = Convert.ToDateTime("12/12/1900");
             }
             else
             {
@@ -252,7 +252,7 @@ public partial class kus_admin_GhiDanhHocVien : BasePage
             }
             else
             {
-                if (this.kus_hocvien.kus_UpdateHocVen(hocvien.HocVienID, basicinfo.InfoID, diachithuongtru, diachitamtru, email, dienthoai, hotenPH, nghenghiep, phonePH, 1))
+                if (this.kus_hocvien.kus_UpdateHocVen(hocvien.HocVienID, basicinfo.InfoID, diachithuongtru, diachitamtru, email, dienthoai, hotenPH, nghenghiep, phonePH, 1, datcoc))
                 {
                     if (NewHocVienMore(hocvien.HocVienID))
                     {
@@ -270,7 +270,7 @@ public partial class kus_admin_GhiDanhHocVien : BasePage
                         {
                             string ghichu = txtGhiChu.Text;
 
-                            if (this.kus_ghidanh.GhiDanhMoi(hocvien.HocVienID, khoahoc.ID, NVGhiDanh, ghichu, datcoc))
+                            if (this.kus_ghidanh.GhiDanhMoi(hocvien.HocVienID, khoahoc.ID, NVGhiDanh, ghichu, datcoc, lop.MucHocPhi- datcoc))
                             {
                                 Response.Redirect("http://" + Request.Url.Authority + "/kus_admin/QLGhiDanh.aspx");
                             }
@@ -285,7 +285,7 @@ public partial class kus_admin_GhiDanhHocVien : BasePage
         }
         catch (Exception ex)
         {
-            lblPageIsValid.Text = ex.ToString();
+            this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
         }
     }
     private Boolean NewHocVienMore(int HocVienID)
@@ -384,6 +384,7 @@ public partial class kus_admin_GhiDanhHocVien : BasePage
     {
         //kus_lophoc = new kus_LopHocBLL();
         nc_khoahoc = new nc_KhoaHocBLL();
+        nc_lophoc = new nc_LopHocBLL();
         kus_hocvien = new kus_HocVienBLL();
         userprofile = new UserProfileBLL();
         employees = new EmployeesBLL();
@@ -416,7 +417,10 @@ public partial class kus_admin_GhiDanhHocVien : BasePage
                 int NVGhiDanh = emp.EmployeesID;
                 string ghichu = txtGhiChuAvailable.Text;
                 int datcoc = (string.IsNullOrEmpty(txtDatCocAvailable.Text) || string.IsNullOrWhiteSpace(txtDatCocAvailable.Text)) ? 0 : Convert.ToInt32(txtDatCocAvailable.Text);
-                if (this.kus_ghidanh.GhiDanhMoi(hocvien.HocVienID, khoahoc.ID, NVGhiDanh, ghichu, datcoc))
+                nc_LopHoc lop = nc_lophoc.getListLopHocWithMaKhoaHoc(MaKhoaHoc).FirstOrDefault();
+                //Update Hoc vien AvailableBalances
+                this.kus_hocvien.UpdateAvailableBalancesByHocVienID(hocvien.HocVienID, hocvien.AvailableBalances + datcoc);
+                if (this.kus_ghidanh.GhiDanhMoi(hocvien.HocVienID, khoahoc.ID, NVGhiDanh, ghichu, datcoc, lop.MucHocPhi-datcoc))
                 {
                     Response.Redirect("http://" + Request.Url.Authority + "/kus_admin/QLGhiDanh.aspx");
                 }

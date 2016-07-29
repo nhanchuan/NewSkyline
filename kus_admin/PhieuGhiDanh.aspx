@@ -1,12 +1,13 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/GlobalMasterPage.master" AutoEventWireup="true" CodeFile="PhieuGhiDanh.aspx.cs" Inherits="kus_admin_PhieuGhiDanh" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <link href="../App_Themes/admin/StylePortlet.css" rel="stylesheet" />
     <link href="../App_Themes/admin/postnew.css" rel="stylesheet" />
     <!-- BEGIN PAGE HEADER-->
-    <h1 class="page-title">Phiếu Ghi Danh <asp:Label ID="lblPhieuGhiDanh" CssClass="bold" runat="server"></asp:Label>
+    <h1 class="page-title">Phiếu Ghi Danh
+        <asp:Label ID="lblPhieuGhiDanh" CssClass="bold" runat="server"></asp:Label>
     </h1>
     <div class="page-bar">
         <ul class="page-breadcrumb">
@@ -25,9 +26,18 @@
         </ul>
     </div>
     <!-- END PAGE HEADER-->
+    <%-- Pages is Valid --%>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="alert alert-danger display-none" id="alertPageValid" runat="server">
+                <asp:Label ID="lblPageValid" runat="server"></asp:Label>
+            </div>
+        </div>
+    </div>
+    <%--End Pages is Valid --%>
     <div class="row">
         <div class="col-lg-12 text-center">
-            <h1 class="bold" style="color:#0094ff;">THÔNG TIN HỌC VIÊN GHI DANH</h1>
+            <h1 class="bold" style="color: #0094ff;">THÔNG TIN HỌC VIÊN GHI DANH</h1>
         </div>
         <div class="clearfix"></div>
         <div class="col-lg-2">
@@ -41,37 +51,38 @@
                     <a href="#" id="clearImg" class="btn red"><i class="fa fa-remove"></i></a>
                     <a class="btn green" href="#coluploadEditImges" data-toggle="collapse"><i class="fa fa-upload"></i></a>
                     <a class="btn blue" href="#modalPostImages" data-toggle="modal"><i class="fa fa-folder-open"></i></a>
-                    <div class="clearfix"></div><br />
+                    <div class="clearfix"></div>
+                    <br />
                     <div class="row">
                         <div class="col-lg-12">
-                        <%-- Collapse Upload Images --%>
-                        <div id="coluploadEditImges" class="panel-collapse collapse">
+                            <%-- Collapse Upload Images --%>
+                            <div id="coluploadEditImges" class="panel-collapse collapse">
 
-                            <div class="form-group">
-                                <div class="input-group">
-                                    <div class="input-icon">
-                                        <i class="fa fa-file"></i>
-                                        <asp:FileUpload ID="fileUploadImgPost" CssClass="form-control" runat="server" />
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-icon">
+                                            <i class="fa fa-file"></i>
+                                            <asp:FileUpload ID="fileUploadImgPost" CssClass="form-control" runat="server" />
+                                        </div>
+                                        <span class="input-group-btn">
+                                            <button id="btnuploadImg" class="btn btn-success" type="button" validationgroup="validfileUploadImgPost" onserverclick="btnuploadImg_ServerClick" runat="server"><i class="fa fa-arrow-left fa-fw"></i>OK</button>
+                                        </span>
                                     </div>
-                                    <span class="input-group-btn">
-                                        <button id="btnuploadImg" class="btn btn-success" type="button" validationgroup="validfileUploadImgPost" onserverclick="btnuploadImg_ServerClick" runat="server"><i class="fa fa-arrow-left fa-fw"></i>OK</button>
-                                    </span>
+                                    <asp:RequiredFieldValidator ErrorMessage="Required"
+                                        ControlToValidate="fileUploadImgPost" ValidationGroup="validfileUploadImgPost"
+                                        runat="server" Display="Dynamic" ForeColor="Red" />
+                                    <asp:RegularExpressionValidator ID="RegularExpressionValidator2" ValidationExpression="([a-zA-Z0-9\s_\\.\-:])+(.jpg|.gif|.png)$"
+                                        ControlToValidate="fileUploadImgPost"
+                                        ValidationGroup="validfileUploadImgPost"
+                                        runat="server" ForeColor="Red"
+                                        ErrorMessage="Please select a valid Images file !"
+                                        Display="Dynamic" />
                                 </div>
-                                <asp:RequiredFieldValidator ErrorMessage="Required"
-                                    ControlToValidate="fileUploadImgPost" ValidationGroup="validfileUploadImgPost"
-                                    runat="server" Display="Dynamic" ForeColor="Red" />
-                                <asp:RegularExpressionValidator ID="RegularExpressionValidator2" ValidationExpression="([a-zA-Z0-9\s_\\.\-:])+(.jpg|.gif|.png)$"
-                                    ControlToValidate="fileUploadImgPost"
-                                    ValidationGroup="validfileUploadImgPost"
-                                    runat="server" ForeColor="Red"
-                                    ErrorMessage="Please select a valid Images file !"
-                                    Display="Dynamic" />
-                            </div>
-                            <label>You can upload JPG, GIF, or PNG file. Maximum file size is 4MB.</label>
+                                <label>You can upload JPG, GIF, or PNG file. Maximum file size is 4MB.</label>
 
+                            </div>
+                            <%-- End Collapse Upload Images --%>
                         </div>
-                        <%-- End Collapse Upload Images --%>
-                    </div>
                     </div>
                 </div>
             </div>
@@ -79,10 +90,12 @@
         <div class="col-lg-10">
             <table class="table table-bordered" border="1">
                 <tr>
-                    <td style="width:15%;" class="bold">Mã Ghi Danh : </td>
-                    <td><asp:Label ID="lblMaGhiDanh" runat="server" Text="Label"></asp:Label></td>
-                    <td style="width:15%;" class="bold">Lớp Học : </td>
-                    <td><asp:Label ID="lblKhoaHoc" runat="server" Text="Label"></asp:Label></td>
+                    <td style="width: 15%;" class="bold">Mã Ghi Danh : </td>
+                    <td>
+                        <asp:Label ID="lblMaGhiDanh" runat="server" Text="Label"></asp:Label></td>
+                    <td style="width: 15%;" class="bold">Lớp Học : </td>
+                    <td>
+                        <asp:Label ID="lblKhoaHoc" runat="server" Text="Label"></asp:Label></td>
                 </tr>
                 <tr>
                     <td class="bold">Họ và Tên : </td>
@@ -97,7 +110,7 @@
                 <tr>
                     <td class="bold">Học Phí : </td>
                     <td>
-                        <asp:Label ID="lblHocPhi" CssClass="bold" ForeColor="Red" runat="server" Text="Label"></asp:Label>
+                        <asp:Label ID="lblHocPhi" runat="server" Text="Label"></asp:Label>
                     </td>
                     <td class="bold">Thời Lượng : </td>
                     <td>
@@ -105,11 +118,12 @@
                     </td>
                 </tr>
                 <tr>
-                    <td class="bold">Tình trạng học phí : </td>
+                    <td class="bold">Công nợ : </td>
                     <td>
-                        <i><asp:Label ID="lblTinhTrangHP" runat="server" Text="Label"></asp:Label></i>
-                        <a id="btnmodalDongHP" href="#modalThanhToanHP" class="label label-success pull-right" data-toggle="modal" runat="server"><i class="fa fa-credit-card"></i> Đóng học phí</a>
-                        <a id="btnXemBienLai" class="label label-success pull-right" onserverclick="btnXemBienLai_ServerClick" runat="server"><i class="fa fa-credit-card"> Xem biên lai</i></a>
+                        <i>
+                            <asp:Label ID="lblTinhTrangHP" CssClass="bold" ForeColor="Red" runat="server" Text="Label"></asp:Label></i>
+                        <a id="btnmodalDongHP" href="#modalThanhToanHP" class="label label-success pull-right" data-toggle="modal" runat="server"><i class="fa fa-credit-card"></i>Đóng học phí</a>
+                        <a id="btnXemBienLai" class="label label-success pull-right" onserverclick="btnXemBienLai_ServerClick" runat="server"><i class="fa fa-credit-card">Xem biên lai</i></a>
                     </td>
                     <td class="bold">Đặt cọc : </td>
                     <td>
@@ -945,7 +959,8 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
                     <h4 class="modal-title uppercase">
                         <i class="fa fa-credit-card"></i>
-                        <asp:Label ID="lbltitleMaHV" runat="server" Text="Label"></asp:Label> - 
+                        <asp:Label ID="lbltitleMaHV" runat="server" Text="Label"></asp:Label>
+                        - 
                         <asp:Label ID="lbltitleTenHV" CssClass="bold" runat="server" Text="Label"></asp:Label></h4>
                 </div>
                 <div class="modal-body">
@@ -975,7 +990,8 @@
                         <div class="col-lg-12">
                             <div class="form-group">
                                 <label class="control-label">Học phí : </label>
-                            <asp:TextBox ID="txtDongHP" ReadOnly="true" CssClass="form-control" runat="server"></asp:TextBox>
+                                <asp:TextBox ID="txtDongHP" ReadOnly="true" CssClass="form-control" runat="server"></asp:TextBox>
+                                <asp:TextBox ID="txtDongHPTemp" CssClass="display-none" runat="server"></asp:TextBox>
                             </div>
                         </div>
                     </div>
@@ -990,8 +1006,65 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="form-group">
+                                <label class="control-label">Số dư khả dụng :</label>
+                                <asp:TextBox ID="txtAvailableBalances" ReadOnly="true" CssClass="form-control" runat="server"></asp:TextBox>
+                                <asp:TextBox ID="txttempAvailableBalances" TextMode="Number" CssClass="display-none" runat="server"></asp:TextBox>
+                            </div>
+                            <div class="form-group">
+                                <label>Trừ số dư : </label>
+                                <asp:TextBox ID="txtMinus" TextMode="Number" runat="server"></asp:TextBox>&nbsp<span class="bold">₫</span>
+                                <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" 
+                                    ControlToValidate="txtMinus"
+                                    ValidationGroup="validDongHP"
+                                    ForeColor="Red"
+                                    Display="Dynamic"
+                                    ErrorMessage="Enter the value 0 or The value must be integer and greater or equal than 0"></asp:RequiredFieldValidator>
+                                <asp:RangeValidator ID="Range1"
+                                    ControlToValidate="txtMinus"
+                                    MinimumValue="0"
+                                    MaximumValue="2147483647"
+                                    ValidationGroup="validDongHP"
+                                    ForeColor="Red"
+                                    Display="Dynamic"
+                                    Type="Integer"
+                                    Text="The value must be integer and greater or equal than 0"
+                                    runat="server" />
+                                <asp:CompareValidator ID="cvtxtMinus" runat="server"
+                                    ControlToCompare="txttempAvailableBalances"
+                                    CultureInvariantValues="true"
+                                    Display="Dynamic"
+                                    EnableClientScript="true"
+                                    ControlToValidate="txtMinus"
+                                    ValidationGroup="validDongHP"
+                                    ForeColor="Red"
+                                    ErrorMessage="The value not exceed the balance available!"
+                                    Type="Integer"
+                                    SetFocusOnError="true"
+                                    Operator="LessThanEqual"
+                                    Text="The value not exceed the balance available!">
+                                </asp:CompareValidator>
+                                <asp:CompareValidator ID="CompareValidator1" runat="server"
+                                    ControlToCompare="txtDongHPTemp"
+                                    CultureInvariantValues="true"
+                                    Display="Dynamic"
+                                    EnableClientScript="true"
+                                    ControlToValidate="txtMinus"
+                                    ValidationGroup="validDongHP"
+                                    ForeColor="Red"
+                                    ErrorMessage="The value must be greater or equal Tuition!"
+                                    Type="Integer"
+                                    SetFocusOnError="true"
+                                    Operator="LessThanEqual"
+                                    Text="The value must be greater or equal Tuition!">
+                                </asp:CompareValidator>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
                                 <label class="control-label">Lý do : </label>
-                                <asp:TextBox ID="txtHPLyDo" CssClass="form-control" Text="Thu tiền Học phí" runat="server"></asp:TextBox>
+                                <asp:TextBox ID="txtHPLyDo" CssClass="form-control" placeholder="Thu tiền Học phí" Text="Thu tiền Học phí" runat="server"></asp:TextBox>
                             </div>
                         </div>
                     </div>
@@ -1000,13 +1073,19 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <label class="control-label">Giảm giá : </label>
+                                        <label class="control-label">Giảm giá: </label>
                                         <div class="form-group">
-                                            <asp:TextBox ID="txtTLGiamHP" AutoPostBack="true" OnTextChanged="txtTLGiamHP_TextChanged" runat="server"></asp:TextBox>
+                                            <asp:TextBox ID="txtTLGiamHP" TextMode="Number" AutoPostBack="true" OnTextChanged="txtTLGiamHP_TextChanged" runat="server"></asp:TextBox>
                                             % =
                                     <asp:Label ID="lblNumGiamHP" runat="server" Text="Label"></asp:Label><br />
-                                            <asp:RegularExpressionValidator ID="RegularExpressionValidator1" ControlToValidate="txtTLGiamHP" ValidationGroup="validDongHP" ValidationExpression="^\d+$" ForeColor="Red" Display="Static" runat="server" ErrorMessage="Chỉ được nhập số !"></asp:RegularExpressionValidator>
-                                            <asp:Label ID="lblwarning" ForeColor="Red" runat="server"></asp:Label>
+                                            <asp:RegularExpressionValidator ID="RegularExpressionValidator1" ControlToValidate="txtTLGiamHP" ValidationGroup="validDongHP" ValidationExpression="^\d+$" ForeColor="Red" Display="Static" runat="server" ErrorMessage="Chỉ được nhập số >=0!"></asp:RegularExpressionValidator>
+
+                                            <asp:Label ID="lblwarning" ForeColor="Red" runat="server"></asp:Label><br />
+                                            <label>OR</label>
+                                            <div class="form-group">
+                                                <asp:TextBox ID="txtCash" TextMode="Number" runat="server"></asp:TextBox>&nbsp<span class="bold">₫</span>
+                                                
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -1016,7 +1095,7 @@
                                     <div class="form-group">
                                         <label class="control-label">Phải đóng (<span>₫</span>): </label>
                                         <asp:TextBox ID="txtHPPhaiDong" ForeColor="Red" CssClass="form-control" runat="server"></asp:TextBox>
-                                        
+
                                     </div>
                                 </div>
                             </div>
@@ -1036,7 +1115,7 @@
                 </div>
                 <div class="modal-footer">
                     <a class="btn btn-warning" data-dismiss="modal">Trở về</a>
-                    <asp:Button ID="btnSaveBienLai" CssClass="btn btn-primary" ValidationGroup="validDongHP" OnClick="btnSaveBienLai_Click" runat="server" Text="Hoàn Tất" />
+                    <asp:Button ID="btnSaveBienLai" CssClass="btn btn-primary" ValidationGroup="validDongHP"     OnClick="btnSaveBienLai_Click" runat="server" Text="Hoàn Tất" />
                 </div>
             </div>
         </div>
@@ -1120,13 +1199,13 @@
                 $("#ContentPlaceHolder1_txtPostImgTemp").val("");
             });
         });
-         function showanh(url) {
+        function showanh(url) {
             var filename = url.substring(url.lastIndexOf('/') + 1);
             document.querySelector('#<%=ImagesSelect.ClientID %>').src = url;
             document.getElementById('<%=HiddenimgSelect.ClientID %>').value = url;
-            document.getElementById('<%=txtImgUrl.ClientID %>').value = url;
-            return false;
-        }
+             document.getElementById('<%=txtImgUrl.ClientID %>').value = url;
+             return false;
+         }
     </script>
 
 </asp:Content>

@@ -165,8 +165,8 @@
                                     </asp:TemplateField>
                                     <asp:TemplateField HeaderText="Học Phí">
                                         <ItemTemplate>
-                                            <asp:Label ID="Label7" CssClass="bold" ForeColor="Red" runat="server" Text='<%# Eval("MucHocPhi","{0:0,00}") %>'></asp:Label>
-                                            <span class="text-danger">₫</span>
+                                            <asp:Label ID="Label7" CssClass="bold" runat="server" Text='<%# Eval("MucHocPhi","{0:0,00}") %>'></asp:Label>
+                                            <span>₫</span>
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                     <asp:TemplateField HeaderText="Đặt Cọc">
@@ -175,10 +175,10 @@
                                             <span class="bold">₫</span>
                                         </ItemTemplate>
                                     </asp:TemplateField>
-                                    <asp:TemplateField HeaderText="Tình trạng học phí">
+                                    <asp:TemplateField HeaderText="Công Nợ">
                                         <ItemTemplate>
                                             <i>
-                                                <asp:Label ID="Label8" CssClass="bold" runat="server" Text='<%# (Eval("BLNum").ToString()=="0")?"chưa đóng":"đã đóng" %>'></asp:Label></i>
+                                                <asp:Label ID="lblRemainFee" ForeColor="Red" CssClass="bold" runat="server" Text='<%# string.IsNullOrEmpty(Eval("RemainFee").ToString())?"0":Eval("RemainFee") %>'></asp:Label> <span class="text-danger">₫</span></i>
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                     <asp:TemplateField HeaderText="Tư Vấn">

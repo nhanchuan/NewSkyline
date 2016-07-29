@@ -101,27 +101,47 @@ public partial class kus_admin_PhieuGhiDanh : BasePage
 
             this.load_LichHoc(string.IsNullOrEmpty(r["KhoaHoc"].ToString()) ? 0 : (int)r["KhoaHoc"]);
 
+            lblTinhTrangHP.Text = (string.IsNullOrEmpty(r["RemainFee"].ToString())) ? 0.ToString("C", new CultureInfo("vi-VN")) : ((int)r["RemainFee"]).ToString("C", new CultureInfo("vi-VN"));
+            btnmodalDongHP.Visible = true;
+            btnXemBienLai.Visible = false;
+            lbltitleMaHV.Text = (string.IsNullOrEmpty(r["HocVienCode"].ToString())) ? "" : (string)r["HocVienCode"];
+            lbltitleTenHV.Text = (string.IsNullOrEmpty(r["LastName"].ToString())) ? "" : (string)r["LastName"];
+            lbltitleTenHV.Text += (string.IsNullOrEmpty(r["FirstName"].ToString())) ? "" : " " + (string)r["FirstName"];
+            txtHPThoiLuong.Text = (string.IsNullOrEmpty(r["ThoiLuong"].ToString())) ? "" : ((int)r["ThoiLuong"]).ToString();
+            txtHPNgayKG.Text = (string.IsNullOrEmpty(r["NgayKhaiGiang"].ToString())) ? "" : ((DateTime)r["NgayKhaiGiang"]).ToString("dd/MM/yyyy");
+            txtHPNgayKT.Text = (string.IsNullOrEmpty(r["NgayKetThuc"].ToString())) ? "" : ((DateTime)r["NgayKetThuc"]).ToString("dd/MM/yyyy");
+            txtDongHP.Text = (string.IsNullOrEmpty(r["MucHocPhi"].ToString())) ? "0" : ((int)r["MucHocPhi"]).ToString("C", new CultureInfo("vi-VN"));
+            txtHPDatCoc.Text = (string.IsNullOrEmpty(r["DatCoc"].ToString())) ? "0" : ((int)r["DatCoc"]).ToString("C", new CultureInfo("vi-VN"));
 
-            if((int)r["SLBL"] ==0)
-            {
-                lblTinhTrangHP.Text = "chưa đóng";
-                btnmodalDongHP.Visible = true;
-                btnXemBienLai.Visible = false;
-                lbltitleMaHV.Text= (string.IsNullOrEmpty(r["HocVienCode"].ToString())) ? "" : (string)r["HocVienCode"];
-                lbltitleTenHV.Text= (string.IsNullOrEmpty(r["LastName"].ToString())) ? "" : (string)r["LastName"];
-                lbltitleTenHV.Text += (string.IsNullOrEmpty(r["FirstName"].ToString())) ? "" : " " + (string)r["FirstName"];
-                txtHPThoiLuong.Text= (string.IsNullOrEmpty(r["ThoiLuong"].ToString())) ? "" : ((int)r["ThoiLuong"]).ToString();
-                txtHPNgayKG.Text = (string.IsNullOrEmpty(r["NgayKhaiGiang"].ToString())) ? "" : ((DateTime)r["NgayKhaiGiang"]).ToString("dd/MM/yyyy");
-                txtHPNgayKT.Text = (string.IsNullOrEmpty(r["NgayKetThuc"].ToString())) ? "" : ((DateTime)r["NgayKetThuc"]).ToString("dd/MM/yyyy");
-                txtDongHP.Text= (string.IsNullOrEmpty(r["MucHocPhi"].ToString())) ? "" : ((int)r["MucHocPhi"]).ToString("C", new CultureInfo("vi-VN"));
-                txtHPDatCoc.Text= (string.IsNullOrEmpty(r["DatCoc"].ToString())) ? "0" : ((int)r["DatCoc"]).ToString("C", new CultureInfo("vi-VN"));
-            }
-            else
-            {
-                lblTinhTrangHP.Text = "đã đóng";
-                btnmodalDongHP.Visible = false;
-                btnXemBienLai.Visible = true;
-            }
+            txtDongHPTemp.Text= (string.IsNullOrEmpty(r["MucHocPhi"].ToString())) ? "0" : ((int)r["MucHocPhi"]).ToString();
+
+            //AvailableBalances
+            txtAvailableBalances.Text= (string.IsNullOrEmpty(r["AvailableBalances"].ToString())) ? "0" : ((int)r["AvailableBalances"]).ToString("C", new CultureInfo("vi-VN"));
+            txttempAvailableBalances.Text = (string.IsNullOrEmpty(r["AvailableBalances"].ToString())) ? "0" : ((int)r["AvailableBalances"]).ToString();
+            txtMinus.Text = "0";
+            txtMinus.MaxLength = (string.IsNullOrEmpty(r["AvailableBalances"].ToString())) ? 0 : (int)r["AvailableBalances"];
+
+            //if ((int)r["SLBL"] ==0)
+            //{
+
+            //    lblTinhTrangHP.Text = (string.IsNullOrEmpty(r["RemainFee"].ToString()))?0:((int)r["RemainFee"]).ToString();
+            //    btnmodalDongHP.Visible = true;
+            //    btnXemBienLai.Visible = false;
+            //    lbltitleMaHV.Text= (string.IsNullOrEmpty(r["HocVienCode"].ToString())) ? "" : (string)r["HocVienCode"];
+            //    lbltitleTenHV.Text= (string.IsNullOrEmpty(r["LastName"].ToString())) ? "" : (string)r["LastName"];
+            //    lbltitleTenHV.Text += (string.IsNullOrEmpty(r["FirstName"].ToString())) ? "" : " " + (string)r["FirstName"];
+            //    txtHPThoiLuong.Text= (string.IsNullOrEmpty(r["ThoiLuong"].ToString())) ? "" : ((int)r["ThoiLuong"]).ToString();
+            //    txtHPNgayKG.Text = (string.IsNullOrEmpty(r["NgayKhaiGiang"].ToString())) ? "" : ((DateTime)r["NgayKhaiGiang"]).ToString("dd/MM/yyyy");
+            //    txtHPNgayKT.Text = (string.IsNullOrEmpty(r["NgayKetThuc"].ToString())) ? "" : ((DateTime)r["NgayKetThuc"]).ToString("dd/MM/yyyy");
+            //    txtDongHP.Text= (string.IsNullOrEmpty(r["MucHocPhi"].ToString())) ? "" : ((int)r["MucHocPhi"]).ToString("C", new CultureInfo("vi-VN"));
+            //    txtHPDatCoc.Text= (string.IsNullOrEmpty(r["DatCoc"].ToString())) ? "0" : ((int)r["DatCoc"]).ToString("C", new CultureInfo("vi-VN"));
+            //}
+            //else
+            //{
+            //    lblTinhTrangHP.Text = "đã đóng";
+            //    btnmodalDongHP.Visible = false;
+            //    btnXemBienLai.Visible = true;
+            //}
 
             this.CalculatorHP(code);
 
@@ -159,7 +179,7 @@ public partial class kus_admin_PhieuGhiDanh : BasePage
         this.load_LichHoc(LopHocID, 7, 3, gwChuNhatToi);
     }
 
-    private void CalculatorHP(string code)
+    private Boolean CalculatorHP(string code)
     {
         kus_ghidanh = new kus_GhiDanhBLL();
         string MaGD = Request.QueryString["MaGhiDanh"];
@@ -167,64 +187,82 @@ public partial class kus_admin_PhieuGhiDanh : BasePage
 
         int HP = 0;
         int DatCoc = 0;
+        int TruSoDu = Convert.ToInt32(txtMinus.Text);
         int tlg =(txtTLGiamHP.Text=="")? 0: Convert.ToInt32(txtTLGiamHP.Text);
         foreach (DataRow r in tb.Rows)
         {
             HP = (string.IsNullOrEmpty(r["MucHocPhi"].ToString())) ? 0 : ((int)r["MucHocPhi"]);
             DatCoc = (string.IsNullOrEmpty(r["DatCoc"].ToString())) ? 0 : ((int)r["DatCoc"]);
         }
-        if(txtTLGiamHP.Text=="")
+        if (string.IsNullOrWhiteSpace(txtCash.Text) || (Convert.ToInt32(txtCash.Text) == 0))
         {
             txtTLGiamHP.Text = "0";
             lblNumGiamHP.Text = "0";
-            txtHPPhaiDong.Text = (HP - DatCoc).ToString();
-            txtHPBangChu.Text = ReadNumber.ByWords(decimal.Parse(txtHPPhaiDong.Text)) + "đồng";
+
+            txtHPPhaiDong.Text = (HP - TruSoDu).ToString("C", new CultureInfo("vi-VN"));
+            txtHPBangChu.Text = ReadNumber.ByWords(decimal.Parse((HP - DatCoc).ToString())) + "đồng";
         }
         else
         {
-            if (HP - DatCoc - (HP * tlg / 100) < 0 || tlg < 0)
+            if ((HP - DatCoc - (HP * tlg / 100)) < 0 || tlg < 0 || tlg > 100)
             {
-                lblwarning.Text = "Mức giảm sai quy định . Vui lòng nhập lại ! Thanks !";
-                return;
+                lblwarning.Text = "Mức giảm không vượt quá 100% hoặc [...] . Vui lòng nhập lại ! Thanks !";
+                return false;
             }
             else
             {
                 lblwarning.Text = "";
-                lblNumGiamHP.Text= (HP * tlg / 100).ToString("C", new CultureInfo("vi-VN"));
-                txtHPPhaiDong.Text = (HP - DatCoc - (HP * tlg / 100)).ToString();
-                txtHPBangChu.Text = ReadNumber.ByWords(decimal.Parse(txtHPPhaiDong.Text)) + "đồng";
+                lblNumGiamHP.Text = (HP * tlg / 100).ToString("C", new CultureInfo("vi-VN"));
+                txtCash.Text = (HP * tlg / 100).ToString();
+
+                //So tien phai dong
+                txtHPPhaiDong.Text = (HP - DatCoc - (HP * tlg / 100)).ToString("C", new CultureInfo("vi-VN"));
+                txtHPBangChu.Text = ReadNumber.ByWords(decimal.Parse((HP - DatCoc - (HP * tlg / 100)).ToString())) + "đồng";
             }
         }
-        
+        return true;
     }
     protected void txtTLGiamHP_TextChanged(object sender, EventArgs e)
     {
         string MaGD = Request.QueryString["MaGhiDanh"];
-        CalculatorHP(MaGD);
+        this.CalculatorHP(MaGD);
     }
 
     protected void btnSaveBienLai_Click(object sender, EventArgs e)
     {
-        kus_bienlai = new kus_BienLaiBLL();
-        kus_ghidanh = new kus_GhiDanhBLL();
-        string MaGD = Request.QueryString["MaGhiDanh"];
-        string lydo = txtHPLyDo.Text;
-        int TLGiam = Convert.ToInt32(txtTLGiamHP.Text);
-        int HPDong = Convert.ToInt32(txtHPPhaiDong.Text);
-        string HPText = txtHPBangChu.Text;
-        List<kus_GhiDanh> lstGD = kus_ghidanh.getListGDCode(MaGD);
-        kus_GhiDanh ghidanh = lstGD.FirstOrDefault();
-        if(kus_bienlai.CreateBienLai(lydo,TLGiam,HPDong,HPText,ghidanh.GhiDanhID))
+        try
         {
-            //this.kus_ghidanh.ResetDatcoc(ghidanh.GhiDanhID);
-            Response.Redirect(Request.Url.AbsoluteUri);
+            kus_bienlai = new kus_BienLaiBLL();
+            kus_ghidanh = new kus_GhiDanhBLL();
+            string MaGD = Request.QueryString["MaGhiDanh"];
+            string lydo = txtHPLyDo.Text;
+            int TLGiam = Convert.ToInt32(txtTLGiamHP.Text);
+            int HPDong = Convert.ToInt32(txtHPPhaiDong.Text);
+            string HPText = txtHPBangChu.Text;
+            if (CalculatorHP(MaGD))
+            {
+                List<kus_GhiDanh> lstGD = kus_ghidanh.getListGDCode(MaGD);
+                kus_GhiDanh ghidanh = lstGD.FirstOrDefault();
+                if (kus_bienlai.CreateBienLai(lydo, TLGiam, HPDong, HPText, ghidanh.GhiDanhID))
+                {
+                    //this.kus_ghidanh.ResetDatcoc(ghidanh.GhiDanhID);
+                    Response.Redirect(Request.Url.AbsoluteUri);
+                }
+                else
+                {
+                    Response.Write("<script>alert('Thu Học phí không thành công . Lỗi kết nối CSDL !')</script>");
+                    return;
+                }
+            }
+            else
+            {
+                this.AlertPageValid(true, "Phát sinh lỗi trong quá trình thanh toán, vui lòng kiểm tra lại !", alertPageValid, lblPageValid);
+            }
         }
-        else
+        catch (Exception ex)
         {
-            Response.Write("<script>alert('Thu Học phí không thành công . Lỗi kết nối CSDL !')</script>");
-            return;
+            this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
         }
-
     }
     //------Load Images-----------------------------------------------------------------------------
     protected void load_ImgHocVien(string code)

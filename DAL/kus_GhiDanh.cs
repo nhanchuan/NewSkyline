@@ -16,6 +16,7 @@ namespace DAL
         private DateTime ngayDangKy;
         private int datCoc;
         private string ghiDanhCode;
+        private int remainFee;
         public int GhiDanhID
         {
             get
@@ -116,6 +117,18 @@ namespace DAL
                 ghiDanhCode = value;
             }
         }
-        
+
+        public int RemainFee
+        {
+            get
+            {
+                return remainFee;
+            }
+
+            set
+            {
+                remainFee = value;
+            }
+        }
     }
 }

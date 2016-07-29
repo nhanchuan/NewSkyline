@@ -34,6 +34,7 @@ namespace BLL
                 gd.NgayDangKy = (DateTime)r["NgayDangKy"];
                 gd.DatCoc = (string.IsNullOrEmpty(r["DatCoc"].ToString())) ? 0 : (int)r["DatCoc"];
                 gd.GhiDanhCode = (string)r["GhiDanhCode"];
+                gd.RemainFee = (string.IsNullOrEmpty(r["RemainFee"].ToString())) ? 0 : (int)r["RemainFee"];
                 lst.Add(gd);
             }
             this.DB.CloseConnection();
@@ -60,6 +61,7 @@ namespace BLL
                 gd.NgayDangKy = (DateTime)r["NgayDangKy"];
                 gd.DatCoc = (string.IsNullOrEmpty(r["DatCoc"].ToString())) ? 0 : (int)r["DatCoc"];
                 gd.GhiDanhCode = (string)r["GhiDanhCode"];
+                gd.RemainFee = (string.IsNullOrEmpty(r["RemainFee"].ToString())) ? 0 : (int)r["RemainFee"];
                 lst.Add(gd);
             }
             this.DB.CloseConnection();
@@ -86,24 +88,26 @@ namespace BLL
                 gd.NgayDangKy = (DateTime)r["NgayDangKy"];
                 gd.DatCoc = (string.IsNullOrEmpty(r["DatCoc"].ToString())) ? 0 : (int)r["DatCoc"];
                 gd.GhiDanhCode = (string)r["GhiDanhCode"];
+                gd.RemainFee = (string.IsNullOrEmpty(r["RemainFee"].ToString())) ? 0 : (int)r["RemainFee"];
                 lst.Add(gd);
             }
             this.DB.CloseConnection();
             return lst;
         }
-        public Boolean GhiDanhMoi(int HocVienID, int KhoaHoc, int NVGhiDanh, string GhiChu, int DatCoc)
+        public Boolean GhiDanhMoi(int HocVienID, int KhoaHoc, int NVGhiDanh, string GhiChu, int DatCoc, int RemainFee)
         {
             if (!this.DB.OpenConnection())
             {
                 return false;
             }
-            string sql = "Exec kus_GhiDanhMoi @HocVienID,@KhoaHoc,@NVGhiDanh,@GhiChu,@DatCoc";
+            string sql = "Exec kus_GhiDanhMoi @HocVienID,@KhoaHoc,@NVGhiDanh,@GhiChu,@DatCoc,@RemainFee";
             SqlParameter pHocVienID = (HocVienID == 0) ? new SqlParameter("@HocVienID", DBNull.Value) : new SqlParameter("@HocVienID", HocVienID);
             SqlParameter pKhoaHoc = (KhoaHoc == 0) ? new SqlParameter("@KhoaHoc", DBNull.Value) : new SqlParameter("@KhoaHoc", KhoaHoc);
             SqlParameter pNVGhiDanh = (NVGhiDanh == 0) ? new SqlParameter("@NVGhiDanh", DBNull.Value) : new SqlParameter("@NVGhiDanh", NVGhiDanh);
             SqlParameter pGhiChu = new SqlParameter("@GhiChu", GhiChu);
             SqlParameter pDatCoc = (DatCoc == 0) ? new SqlParameter("@DatCoc", DBNull.Value) : new SqlParameter("@DatCoc", DatCoc);
-            this.DB.Updatedata(sql, pHocVienID, pKhoaHoc, pNVGhiDanh, pGhiChu, pDatCoc);
+            SqlParameter pRemainFee = new SqlParameter("@RemainFee", RemainFee);
+            this.DB.Updatedata(sql, pHocVienID, pKhoaHoc, pNVGhiDanh, pGhiChu, pDatCoc, pRemainFee);
             this.DB.CloseConnection();
             return true;
         }
