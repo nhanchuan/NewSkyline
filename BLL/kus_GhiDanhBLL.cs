@@ -293,5 +293,19 @@ namespace BLL
             this.DB.CloseConnection();
             return tb;
         }
+        //Update RemainFee
+        public Boolean UpdateRemainFee(int GhiDanhID, int RemainFee)
+        {
+            if (!this.DB.OpenConnection())
+            {
+                return null;
+            }
+            string sql = "update kus_GhiDanh set RemainFee=@RemainFee where GhiDanhID=@GhiDanhID";
+            SqlParameter pGhiDanhID = new SqlParameter("@GhiDanhID", GhiDanhID);
+            SqlParameter pRemainFee = new SqlParameter("@RemainFee", RemainFee);
+            this.DB.Updatedata(sql, pGhiDanhID, pRemainFee);
+            this.DB.CloseConnection();
+            return true;
+        }
     }
 }

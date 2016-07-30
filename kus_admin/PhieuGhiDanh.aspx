@@ -1003,113 +1003,193 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="form-group">
-                                <label class="control-label">Số dư khả dụng :</label>
-                                <asp:TextBox ID="txtAvailableBalances" ReadOnly="true" CssClass="form-control" runat="server"></asp:TextBox>
-                                <asp:TextBox ID="txttempAvailableBalances" TextMode="Number" CssClass="display-none" runat="server"></asp:TextBox>
-                            </div>
-                            <div class="form-group">
-                                <label>Trừ số dư : </label>
-                                <asp:TextBox ID="txtMinus" TextMode="Number" runat="server"></asp:TextBox>&nbsp<span class="bold">₫</span>
-                                <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" 
-                                    ControlToValidate="txtMinus"
-                                    ValidationGroup="validDongHP"
-                                    ForeColor="Red"
-                                    Display="Dynamic"
-                                    ErrorMessage="Enter the value 0 or The value must be integer and greater or equal than 0"></asp:RequiredFieldValidator>
-                                <asp:RangeValidator ID="Range1"
-                                    ControlToValidate="txtMinus"
-                                    MinimumValue="0"
-                                    MaximumValue="2147483647"
-                                    ValidationGroup="validDongHP"
-                                    ForeColor="Red"
-                                    Display="Dynamic"
-                                    Type="Integer"
-                                    Text="The value must be integer and greater or equal than 0"
-                                    runat="server" />
-                                <asp:CompareValidator ID="cvtxtMinus" runat="server"
-                                    ControlToCompare="txttempAvailableBalances"
-                                    CultureInvariantValues="true"
-                                    Display="Dynamic"
-                                    EnableClientScript="true"
-                                    ControlToValidate="txtMinus"
-                                    ValidationGroup="validDongHP"
-                                    ForeColor="Red"
-                                    ErrorMessage="The value not exceed the balance available!"
-                                    Type="Integer"
-                                    SetFocusOnError="true"
-                                    Operator="LessThanEqual"
-                                    Text="The value not exceed the balance available!">
-                                </asp:CompareValidator>
-                                <asp:CompareValidator ID="CompareValidator1" runat="server"
-                                    ControlToCompare="txtDongHPTemp"
-                                    CultureInvariantValues="true"
-                                    Display="Dynamic"
-                                    EnableClientScript="true"
-                                    ControlToValidate="txtMinus"
-                                    ValidationGroup="validDongHP"
-                                    ForeColor="Red"
-                                    ErrorMessage="The value must be greater or equal Tuition!"
-                                    Type="Integer"
-                                    SetFocusOnError="true"
-                                    Operator="LessThanEqual"
-                                    Text="The value must be greater or equal Tuition!">
-                                </asp:CompareValidator>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="form-group">
-                                <label class="control-label">Lý do : </label>
-                                <asp:TextBox ID="txtHPLyDo" CssClass="form-control" placeholder="Thu tiền Học phí" Text="Thu tiền Học phí" runat="server"></asp:TextBox>
-                            </div>
-                        </div>
-                    </div>
                     <asp:UpdatePanel runat="server">
                         <ContentTemplate>
+                            
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <label class="control-label">Giảm giá: </label>
-                                        <div class="form-group">
-                                            <asp:TextBox ID="txtTLGiamHP" TextMode="Number" AutoPostBack="true" OnTextChanged="txtTLGiamHP_TextChanged" runat="server"></asp:TextBox>
-                                            % =
-                                    <asp:Label ID="lblNumGiamHP" runat="server" Text="Label"></asp:Label><br />
-                                            <asp:RegularExpressionValidator ID="RegularExpressionValidator1" ControlToValidate="txtTLGiamHP" ValidationGroup="validDongHP" ValidationExpression="^\d+$" ForeColor="Red" Display="Static" runat="server" ErrorMessage="Chỉ được nhập số >=0!"></asp:RegularExpressionValidator>
-
-                                            <asp:Label ID="lblwarning" ForeColor="Red" runat="server"></asp:Label><br />
-                                            <label>OR</label>
+                                        <label class="control-label">Lý do : </label>
+                                        <asp:TextBox ID="txtHPLyDo" CssClass="form-control" placeholder="Thu tiền Học phí" Text="Thu tiền Học phí" runat="server"></asp:TextBox>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="row">
+                                        <div class="col-lg-12">
                                             <div class="form-group">
-                                                <asp:TextBox ID="txtCash" TextMode="Number" runat="server"></asp:TextBox>&nbsp<span class="bold">₫</span>
-                                                
+                                                <label class="control-label">Giảm giá: </label>
+                                                <div class="form-group">
+                                                    <asp:TextBox ID="txtTLGiamHP" AutoPostBack="true" OnTextChanged="txtTLGiamHP_TextChanged" runat="server"></asp:TextBox>
+                                                    % =
+                                    <asp:Label ID="lblNumGiamHP" runat="server" Text="Label"></asp:Label><br />
+                                                    <asp:RegularExpressionValidator ID="RegularExpressionValidator1" ControlToValidate="txtTLGiamHP" ValidationGroup="validDongHP" ValidationExpression="^\d+$" ForeColor="Red" Display="Static" runat="server" ErrorMessage="Chỉ được nhập số >=0!"></asp:RegularExpressionValidator>
+
+                                                    <asp:Label ID="lblwarning" ForeColor="Red" runat="server"></asp:Label><br />
+                                                    <label>OR</label>
+                                                    <div class="form-group">
+                                                        <asp:TextBox ID="txtCash" TextMode="Number" AutoPostBack="true" OnTextChanged="txtCash_TextChanged" runat="server"></asp:TextBox>&nbsp<span class="bold">₫</span>
+                                                        <asp:TextBox ID="txtCashTemp" CssClass="display-none" runat="server"></asp:TextBox>
+                                                    </div>
+                                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server"
+                                                            ControlToValidate="txtCash"
+                                                            ValidationGroup="validDongHP"
+                                                            ForeColor="Red"
+                                                            Display="Dynamic"
+                                                            ErrorMessage="Enter the value 0 or The value must be integer and greater or equal than 0">
+                                                        </asp:RequiredFieldValidator>
+                                                        <asp:RangeValidator ID="RangeValidator2"
+                                                            ControlToValidate="txtCash"
+                                                            MinimumValue="50000"
+                                                            MaximumValue="2147483647"
+                                                            ValidationGroup="validDongHP"
+                                                            ForeColor="Red"
+                                                            Display="Dynamic"
+                                                            Type="Integer"
+                                                            Text="The value must be integer and greater or equal than 50000 and value does not exceed 2 billion !"
+                                                            runat="server" />
+                                                    <asp:CompareValidator ID="CompareValidator2" runat="server"
+                                                        ControlToCompare="txtDongHPTemp"
+                                                        CultureInvariantValues="true"
+                                                        Display="Dynamic"
+                                                        EnableClientScript="true"
+                                                        ControlToValidate="txtCash"
+                                                        ValidationGroup="validDongHP"
+                                                        ForeColor="Red"
+                                                        ErrorMessage="The value must be greater or equal Tuition!"
+                                                        Type="Integer"
+                                                        SetFocusOnError="true"
+                                                        Operator="LessThanEqual"
+                                                        Text="The value must be greater or equal Tuition!">
+                                                    </asp:CompareValidator>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="form-group">
+                                                <label class="control-label">Phải đóng (<span>₫</span>): </label>
+                                                <asp:TextBox ID="txtHPPhaiDong" ForeColor="Red" CssClass="form-control" runat="server"></asp:TextBox>
+                                                <asp:TextBox ID="txtHPPhaiDongTemp" CssClass="display-none" runat="server"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="form-group">
+                                                <label class="control-label">Số tiền bằng chữ : </label>
+                                                <asp:TextBox ID="txtHPBangChu" CssClass="form-control" runat="server"></asp:TextBox>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="row">
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <label class="control-label">Phải đóng (<span>₫</span>): </label>
-                                        <asp:TextBox ID="txtHPPhaiDong" ForeColor="Red" CssClass="form-control" runat="server"></asp:TextBox>
-
+                                        <label class="control-label">Số dư khả dụng :</label>
+                                        <asp:TextBox ID="txtAvailableBalances" ReadOnly="true" CssClass="form-control" runat="server"></asp:TextBox>
+                                        <asp:TextBox ID="txttempAvailableBalances" TextMode="Number" CssClass="display-none" runat="server"></asp:TextBox>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Trừ số dư : </label>
+                                        &nbsp(<a id="btnGetAllSoDu" onserverclick="btnGetAllSoDu_ServerClick" runat="server">ALL</a>)
+                                <asp:TextBox ID="txtMinus" TextMode="Number" AutoPostBack="true" OnTextChanged="txtMinus_TextChanged" runat="server"></asp:TextBox>&nbsp<span class="bold">₫</span>
+                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server"
+                                            ControlToValidate="txtMinus"
+                                            ValidationGroup="validDongHP"
+                                            ForeColor="Red"
+                                            Display="Dynamic"
+                                            ErrorMessage="Enter the value 0 or The value must be integer and greater or equal than 0"></asp:RequiredFieldValidator>
+                                        <asp:RangeValidator ID="Range1"
+                                            ControlToValidate="txtMinus"
+                                            MinimumValue="0"
+                                            MaximumValue="2147483647"
+                                            ValidationGroup="validDongHP"
+                                            ForeColor="Red"
+                                            Display="Dynamic"
+                                            Type="Integer"
+                                            Text="The value must be integer and greater or equal than 0"
+                                            runat="server" />
+                                        <asp:CompareValidator ID="cvtxtMinus" runat="server"
+                                            ControlToCompare="txttempAvailableBalances"
+                                            CultureInvariantValues="true"
+                                            Display="Dynamic"
+                                            EnableClientScript="true"
+                                            ControlToValidate="txtMinus"
+                                            ValidationGroup="validDongHP"
+                                            ForeColor="Red"
+                                            ErrorMessage="The value not exceed the balance available!"
+                                            Type="Integer"
+                                            SetFocusOnError="true"
+                                            Operator="LessThanEqual"
+                                            Text="The value not exceed the balance available!">
+                                        </asp:CompareValidator>
+                                        <asp:CompareValidator ID="CompareValidator1" runat="server"
+                                            ControlToCompare="txtDongHPTemp"
+                                            CultureInvariantValues="true"
+                                            Display="Dynamic"
+                                            EnableClientScript="true"
+                                            ControlToValidate="txtMinus"
+                                            ValidationGroup="validDongHP"
+                                            ForeColor="Red"
+                                            ErrorMessage="The value must be greater or equal Tuition!"
+                                            Type="Integer"
+                                            SetFocusOnError="true"
+                                            Operator="LessThanEqual"
+                                            Text="The value must be greater or equal Tuition!">
+                                        </asp:CompareValidator>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label class="control-label">Thu khách hàng : </label>
+                                        <asp:TextBox ID="txtThuKhachHang" CssClass="form-control bold" AutoPostBack="true" OnTextChanged="txtThuKhachHang_TextChanged" TextMode="Number" runat="server"></asp:TextBox>
+                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server"
+                                            ControlToValidate="txtThuKhachHang"
+                                            ValidationGroup="validDongHP"
+                                            ForeColor="Red"
+                                            Display="Dynamic"
+                                            ErrorMessage="Enter the value 0 or The value must be integer and greater or equal than 0">
+                                        </asp:RequiredFieldValidator>
+                                        <asp:RangeValidator ID="RangeValidator1"
+                                            ControlToValidate="txtThuKhachHang"
+                                            MinimumValue="50000"
+                                            MaximumValue="2147483647"
+                                            ValidationGroup="validDongHP"
+                                            ForeColor="Red"
+                                            Display="Dynamic"
+                                            Type="Integer"
+                                            Text="The value must be integer and greater or equal than 50000 and value does not exceed 2 billion !"
+                                            runat="server" />
+                                    </div>
                                     <div class="form-group">
                                         <label class="control-label">Số tiền bằng chữ : </label>
-                                        <asp:TextBox ID="txtHPBangChu" CssClass="form-control" runat="server"></asp:TextBox>
+                                        <asp:TextBox ID="txtThuKHByWords" CssClass="form-control" runat="server"></asp:TextBox>
                                     </div>
+                                    <div class="form-group">
+                                        <label>Số dư : </label>
+                                        <asp:TextBox ID="txtSodu" ReadOnly="true" CssClass="form-control" runat="server"></asp:TextBox>
+                                        <i>(*) Số dư sẽ được cộng vào tài khoản, và sẽ được trừ vào các lần đóng học phí kế tiếp !</i>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <label>Remain Fee</label>
+                                    <asp:TextBox ID="txtRemainFeee" CssClass="form-control bold" ForeColor="Red" ReadOnly="true" runat="server"></asp:TextBox>
+                                    <asp:TextBox ID="txtRemainFeeeTemp" runat="server"></asp:TextBox>
                                 </div>
                             </div>
                         </ContentTemplate>
                         <Triggers>
                             <asp:AsyncPostBackTrigger ControlID="txtTLGiamHP" EventName="TextChanged" />
+                            <asp:AsyncPostBackTrigger ControlID="txtThuKhachHang" EventName="TextChanged" />
+                            <asp:AsyncPostBackTrigger ControlID="txtCash" EventName="TextChanged" />
+                            <asp:AsyncPostBackTrigger ControlID="txtMinus" EventName="TextChanged" />
                         </Triggers>
                     </asp:UpdatePanel>
                 </div>
@@ -1203,9 +1283,9 @@
             var filename = url.substring(url.lastIndexOf('/') + 1);
             document.querySelector('#<%=ImagesSelect.ClientID %>').src = url;
             document.getElementById('<%=HiddenimgSelect.ClientID %>').value = url;
-             document.getElementById('<%=txtImgUrl.ClientID %>').value = url;
-             return false;
-         }
+            document.getElementById('<%=txtImgUrl.ClientID %>').value = url;
+            return false;
+        }
     </script>
 
 </asp:Content>
