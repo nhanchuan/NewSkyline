@@ -303,6 +303,8 @@ public partial class kus_admin_PhieuGhiDanh : BasePage
             Employees emp = emloyees.getEmpWithProfileId(pro.ProfileID).FirstOrDefault();
             this.transactionHistory.NewTransactionHistory(hocvien.InfoID, lydo, SoTienDong + TruSoDu, emp.EmployeesID);
 
+            Response.Redirect(Request.Url.AbsoluteUri);
+
         }
         catch (Exception ex)
         {

@@ -3,6 +3,12 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+    <link href="../App_Themes/admin/pagination.css" rel="stylesheet" />
+    <style type="text/css">
+        .page_disabled {
+            background: #D64635;
+        }
+    </style>
     <!-- BEGIN PAGE HEADER-->
     <h1 class="page-title">Các Khóa học chuẩn bị khai giảng
     </h1>
@@ -88,13 +94,14 @@
                 <asp:GridView ID="gwKhoaHoc" CssClass="table table-condensed" runat="server"
                     AutoGenerateColumns="False" RowStyle-BackColor="#A1DCF2" Font-Names="Arial" Font-Size="10pt"
                     HeaderStyle-BackColor="#3AC0F2" HeaderStyle-ForeColor="White" 
-                    OnRowDataBound="gwKhoaHoc_RowDataBound" OnRowDeleting="gwKhoaHoc_RowDeleting" OnSelectedIndexChanged="gwKhoaHoc_SelectedIndexChanged">
+                    OnRowDataBound="gwKhoaHoc_RowDataBound" OnRowDeleting="gwKhoaHoc_RowDeleting" OnSelectedIndexChanged="gwKhoaHoc_SelectedIndexChanged" PagerSettings-Position="Top">
                     <Columns>
                         <asp:TemplateField HeaderText="No.">
                             <ItemTemplate>
                                 <asp:Label ID="lblRowNumber" runat="server" Text='<%# Eval("RowNumber") %>'></asp:Label>
                                 <asp:Label ID="lblID" CssClass="display-none" runat="server" Text='<%# Eval("ID") %>'></asp:Label>
                             </ItemTemplate>
+                            <ItemStyle BackColor="#F3784B" />
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Mã khóa học">
                             <ItemTemplate>
@@ -119,8 +126,10 @@
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Ngày kết thúc">
                             <ItemTemplate>
-                                <asp:Label ID="lblNgayKetThuc" runat="server" Text='<%# Eval("NgayKetThuc","{0:dd/MM/yyyy}") %>'></asp:Label>
+                                <asp:Label ID="lblNgayKetThuc" CssClass='<%# HasOutdate(Eval("NgayKetThuc").ToString())?"label label-danger":"label label-success" %>' runat="server" Text='<%# Eval("NgayKetThuc","{0:dd/MM/yyyy}") %>'></asp:Label>
                             </ItemTemplate>
+
+                            
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Thời lượng">
                             <ItemTemplate>
@@ -155,13 +164,13 @@
                         </asp:TemplateField>
                         <asp:TemplateField ShowHeader="False">
                             <ItemTemplate>
-                                <asp:LinkButton ID="lkSelect" runat="server" CausesValidation="False" CommandName="Select" Text="Select"></asp:LinkButton>
+                                <asp:LinkButton ID="lkSelect" CssClass="" runat="server" CausesValidation="False" CommandName="Select" Text="Select"></asp:LinkButton>
                             </ItemTemplate>
                             <ItemStyle Width="50px" />
                         </asp:TemplateField>
                     </Columns>
                     <SelectedRowStyle BackColor="#79B782" ForeColor="Black" />
-                    <HeaderStyle BackColor="#FFB848" ForeColor="White"></HeaderStyle>
+                    <HeaderStyle BackColor="#55CAF5" ForeColor="White"></HeaderStyle>
                     <RowStyle BackColor="#FAF3DF"></RowStyle>
                 </asp:GridView>
                 <div class="form-group">
@@ -174,7 +183,7 @@
                                 <asp:Repeater ID="rptPager" runat="server">
                                     <ItemTemplate>
                                         <asp:LinkButton ID="lnkPage" runat="server" Text='<%#Eval("Text") %>' CommandArgument='<%# Eval("Value") %>'
-                                            CssClass='<%# Convert.ToBoolean(Eval("Enabled")) ? "page_enabled" : "page_disabled" %>'
+                                            CssClass='<%# Convert.ToBoolean(Eval("Enabled")) ? "btn btn-default page_enabled" : "btn btn-default page_disabled" %>'
                                             OnClick="Page_Changed" OnClientClick='<%# !Convert.ToBoolean(Eval("Enabled")) ? "return false;" : "" %>'></asp:LinkButton>
                                     </ItemTemplate>
                                 </asp:Repeater>

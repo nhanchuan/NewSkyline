@@ -322,4 +322,13 @@ public partial class kus_admin_GhiDanhKhoaHoc : BasePage
             Response.Redirect("http://" + Request.Url.Authority + "/kus_admin/CreateSchedule.aspx?makhoahoc=" + makhoahoc);
         }
     }
+    public Boolean HasOutdate(string date)
+    {
+        DateTime dtime = Convert.ToDateTime(date);
+        if(dtime<=DateTime.Now)
+        {
+            return true;
+        }
+        return false;
+    }
 }
