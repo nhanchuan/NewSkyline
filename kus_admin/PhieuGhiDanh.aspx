@@ -1023,7 +1023,7 @@
                                                 <div class="form-group">
                                                     <asp:TextBox ID="txtTLGiamHP" AutoPostBack="true" OnTextChanged="txtTLGiamHP_TextChanged" runat="server"></asp:TextBox>
                                                     % =
-                                    <asp:Label ID="lblNumGiamHP" runat="server" Text="Label"></asp:Label><br />
+                                    <asp:Label ID="lblNumGiamHP" runat="server" Text="₫"></asp:Label><br />
                                                     <asp:RegularExpressionValidator ID="RegularExpressionValidator1" ControlToValidate="txtTLGiamHP" ValidationGroup="validDongHP" ValidationExpression="^\d+$" ForeColor="Red" Display="Static" runat="server" ErrorMessage="Chỉ được nhập số >=0!"></asp:RegularExpressionValidator>
 
                                                     <asp:Label ID="lblwarning" ForeColor="Red" runat="server"></asp:Label><br />
@@ -1041,13 +1041,13 @@
                                                         </asp:RequiredFieldValidator>
                                                         <asp:RangeValidator ID="RangeValidator2"
                                                             ControlToValidate="txtCash"
-                                                            MinimumValue="50000"
+                                                            MinimumValue="0"
                                                             MaximumValue="2147483647"
                                                             ValidationGroup="validDongHP"
                                                             ForeColor="Red"
                                                             Display="Dynamic"
                                                             Type="Integer"
-                                                            Text="The value must be integer and greater or equal than 50000 and value does not exceed 2 billion !"
+                                                            Text="The value must be integer and greater or equal than 0 and value does not exceed 2 billion !"
                                                             runat="server" />
                                                     <asp:CompareValidator ID="CompareValidator2" runat="server"
                                                         ControlToCompare="txtDongHPTemp"
@@ -1071,7 +1071,7 @@
                                         <div class="col-lg-12">
                                             <div class="form-group">
                                                 <label class="control-label">Phải đóng (<span>₫</span>): </label>
-                                                <asp:TextBox ID="txtHPPhaiDong" ForeColor="Red" CssClass="form-control" runat="server"></asp:TextBox>
+                                                <asp:TextBox ID="txtHPPhaiDong" ReadOnly="true" ForeColor="Red" CssClass="form-control" runat="server"></asp:TextBox>
                                                 <asp:TextBox ID="txtHPPhaiDongTemp" CssClass="display-none" runat="server"></asp:TextBox>
                                             </div>
                                         </div>
@@ -1156,13 +1156,13 @@
                                         </asp:RequiredFieldValidator>
                                         <asp:RangeValidator ID="RangeValidator1"
                                             ControlToValidate="txtThuKhachHang"
-                                            MinimumValue="50000"
+                                            MinimumValue="1"
                                             MaximumValue="2147483647"
                                             ValidationGroup="validDongHP"
                                             ForeColor="Red"
                                             Display="Dynamic"
                                             Type="Integer"
-                                            Text="The value must be integer and greater or equal than 50000 and value does not exceed 2 billion !"
+                                            Text="The value must be integer and greater than 0.00 vn₫ and value does not exceed 2 billion vn₫ !"
                                             runat="server" />
                                     </div>
                                     <div class="form-group">
@@ -1181,7 +1181,7 @@
                                 <div class="col-lg-12">
                                     <label>Remain Fee</label>
                                     <asp:TextBox ID="txtRemainFeee" CssClass="form-control bold" ForeColor="Red" ReadOnly="true" runat="server"></asp:TextBox>
-                                    <asp:TextBox ID="txtRemainFeeeTemp" runat="server"></asp:TextBox>
+                                    <asp:TextBox ID="txtRemainFeeeTemp" CssClass="display-none" runat="server"></asp:TextBox>
                                 </div>
                             </div>
                         </ContentTemplate>
@@ -1195,7 +1195,7 @@
                 </div>
                 <div class="modal-footer">
                     <a class="btn btn-warning" data-dismiss="modal">Trở về</a>
-                    <asp:Button ID="btnSaveBienLai" CssClass="btn btn-primary" ValidationGroup="validDongHP"     OnClick="btnSaveBienLai_Click" runat="server" Text="Hoàn Tất" />
+                    <asp:Button ID="btnSaveBienLai" CssClass="btn btn-primary" ValidationGroup="validDongHP" OnClick="btnSaveBienLai_Click" runat="server" Text="Hoàn Tất" />
                 </div>
             </div>
         </div>

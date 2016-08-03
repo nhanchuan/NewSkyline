@@ -105,6 +105,7 @@
     <Compile Include="Tags.cs" />
     <Compile Include="Tags_relationships.cs" />
     <Compile Include="ThongTinPhuHuynh.cs" />
+    <Compile Include="TransactionHistory.cs" />
     <Compile Include="UserAccounts.cs" />
     <Compile Include="UserPermiss.cs" />
     <Compile Include="UserProfile.cs" />

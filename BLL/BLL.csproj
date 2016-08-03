@@ -105,6 +105,7 @@
     <Compile Include="TagsBLL.cs" />
     <Compile Include="Tags_relationshipsBLL.cs" />
     <Compile Include="ThongTinPhuHuynhBLL.cs" />
+    <Compile Include="TransactionHistoryBLL.cs" />
     <Compile Include="UserAccountsBLL.cs" />
     <Compile Include="UserPermissBLL.cs" />
     <Compile Include="UserProfileBLL.cs" />

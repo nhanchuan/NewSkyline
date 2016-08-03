@@ -298,7 +298,7 @@ namespace BLL
         {
             if (!this.DB.OpenConnection())
             {
-                return null;
+                return false;
             }
             string sql = "update kus_GhiDanh set RemainFee=@RemainFee where GhiDanhID=@GhiDanhID";
             SqlParameter pGhiDanhID = new SqlParameter("@GhiDanhID", GhiDanhID);
