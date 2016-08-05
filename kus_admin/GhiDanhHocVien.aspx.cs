@@ -492,6 +492,7 @@ public partial class kus_admin_GhiDanhHocVien : BasePage
                 txtPhoneHV.Text = phieutv.Phone;
                 txtDCTamTru.Text = phieutv.Address_form;
             }
+            this.AlertPageValid(false, "", alertPageValid, lblPageValid);
         }
         catch (Exception ex)
         {
