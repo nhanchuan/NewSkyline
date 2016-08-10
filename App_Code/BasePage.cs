@@ -299,5 +299,15 @@ public class BasePage : System.Web.UI.Page
         interactiveHistory = new InteractiveHistoryBLL();
         this.interactiveHistory.NewInteractiveHistory(userid, content, link);
     }
+    ///HasOutdate
+    public Boolean HasOutdate(string date)
+    {
+        DateTime dtime = Convert.ToDateTime(date);
+        if (dtime <= DateTime.Now)
+        {
+            return true;
+        }
+        return false;
+    }
 }
 

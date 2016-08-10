@@ -71,6 +71,7 @@
     <Compile Include="kus_CoSoBLL.cs" />
     <Compile Include="kus_DiemDanhBLL.cs" />
     <Compile Include="kus_GhiDanhBLL.cs" />
+    <Compile Include="kus_GhiDanhTiemNamgBLL.cs" />
     <Compile Include="kus_GioHocBLL.cs" />
     <Compile Include="kus_GioThiBLL.cs" />
     <Compile Include="kus_GVHopDongBLL.cs" />

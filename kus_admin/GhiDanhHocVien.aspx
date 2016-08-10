@@ -58,8 +58,7 @@
                                 <div class="form-group">
                                     <label class="control-label bold col-md-4">Tên khóa học</label>
                                     <div class="col-md-8">
-                                        <asp:TextBox ID="txtETenKhoaHoc" CssClass="form-control" runat="server"></asp:TextBox>
-                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator6" ControlToValidate="txtETenKhoaHoc" ValidationGroup="validUpdateKhoaHoc" Display="Dynamic" ForeColor="Red" runat="server" ErrorMessage="Tên khóa học không được để trống !"></asp:RequiredFieldValidator>
+                                        <asp:TextBox ID="txtETenKhoaHoc" ReadOnly="true" CssClass="form-control" runat="server"></asp:TextBox>
                                     </div>
                                 </div>
                             </div>
@@ -73,7 +72,7 @@
                                     <div class="col-md-8">
                                         <%-- Date picker --%>
                                         <div class="input-group date date-picker" data-date-format="dd-mm-yyyy">
-                                            <asp:TextBox ID="txtENgayKhaiGiang" CssClass="form-control" runat="server"></asp:TextBox>
+                                            <asp:TextBox ID="txtENgayKhaiGiang" ReadOnly="true" CssClass="form-control" runat="server"></asp:TextBox>
                                             <span class="input-group-btn">
                                                 <button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
                                             </span>
@@ -86,7 +85,7 @@
                                 <div class="form-group">
                                     <label class="control-label bold col-md-4">Số lượng học viên</label>
                                     <div class="col-md-8">
-                                        <asp:TextBox ID="txtESoLuong" TextMode="Number" CssClass="form-control" runat="server"></asp:TextBox>
+                                        <asp:TextBox ID="txtESoLuong" ReadOnly="true" TextMode="Number" CssClass="form-control" runat="server"></asp:TextBox>
                                     </div>
                                 </div>
                             </div>
@@ -99,7 +98,7 @@
                                     <div class="col-md-8">
                                         <%-- Date picker --%>
                                         <div class="input-group date date-picker" data-date-format="dd-mm-yyyy">
-                                            <asp:TextBox ID="txtENgayKetThuc" CssClass="form-control" runat="server"></asp:TextBox>
+                                            <asp:TextBox ID="txtENgayKetThuc" ReadOnly="true" CssClass="form-control" runat="server"></asp:TextBox>
                                             <span class="input-group-btn">
                                                 <button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
                                             </span>
@@ -112,7 +111,7 @@
                                 <div class="form-group">
                                     <label class="control-label bold col-md-4">Thời lượng <i>(tiết)</i></label>
                                     <div class="col-md-8">
-                                        <asp:TextBox ID="txtEThoiLuong" TextMode="Number" CssClass="form-control" runat="server"></asp:TextBox>
+                                        <asp:TextBox ID="txtEThoiLuong" ReadOnly="true" TextMode="Number" CssClass="form-control" runat="server"></asp:TextBox>
                                     </div>
                                 </div>
                             </div>
@@ -125,7 +124,7 @@
                                         <div class="form-group">
                                             <label class="control-label bold col-md-4">Thuộc loại chương trình</label>
                                             <div class="col-md-8">
-                                                <asp:DropDownList ID="dlELoaiChuongTrinh" CssClass="form-control" AutoPostBack="true" runat="server"></asp:DropDownList>
+                                                <asp:DropDownList ID="dlELoaiChuongTrinh" Enabled="false" CssClass="form-control disabled" runat="server"></asp:DropDownList>
                                             </div>
                                         </div>
                                     </div>
@@ -133,7 +132,7 @@
                                         <div class="form-group">
                                             <label class="control-label bold col-md-4">Hệ thống chi nhánh</label>
                                             <div class="col-md-8">
-                                                <asp:DropDownList ID="dlEHTChiNhanh" AutoPostBack="true" CssClass="form-control" runat="server"></asp:DropDownList>
+                                                <asp:DropDownList ID="dlEHTChiNhanh" Enabled="false" CssClass="form-control" runat="server"></asp:DropDownList>
                                             </div>
                                         </div>
                                     </div>
@@ -144,7 +143,7 @@
                                         <div class="form-group">
                                             <label class="control-label bold col-md-4">Thuộc chương trình</label>
                                             <div class="col-md-8">
-                                                <asp:DropDownList ID="dlEChuongTrinh" AutoPostBack="true" CssClass="form-control" runat="server"></asp:DropDownList>
+                                                <asp:DropDownList ID="dlEChuongTrinh" Enabled="false" CssClass="form-control" runat="server"></asp:DropDownList>
                                             </div>
                                         </div>
                                     </div>
@@ -152,7 +151,7 @@
                                         <div class="form-group">
                                             <label class="control-label bold col-md-4">Thuộc Cơ Sở</label>
                                             <div class="col-md-8">
-                                                <asp:DropDownList ID="dlECoSo" CssClass="form-control" runat="server"></asp:DropDownList>
+                                                <asp:DropDownList ID="dlECoSo" Enabled="false" CssClass="form-control" runat="server"></asp:DropDownList>
                                             </div>
                                         </div>
                                     </div>
@@ -162,7 +161,7 @@
                                         <div class="form-group">
                                             <label class="control-label bold col-md-4">Thuộc lớp</label>
                                             <div class="col-md-8">
-                                                <asp:DropDownList ID="dlELopHoc" CssClass="form-control" runat="server"></asp:DropDownList>
+                                                <asp:DropDownList ID="dlELopHoc" Enabled="false" CssClass="form-control" runat="server"></asp:DropDownList>
                                             </div>
                                         </div>
                                     </div>
@@ -226,14 +225,14 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label class="control-label">Họ (*)</label>
+                                <label class="control-label">Họ (<span class="required">*</span>)</label>
                                 <asp:TextBox ID="txtLastNameHV" CssClass="form-control" runat="server"></asp:TextBox>
                                 <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ControlToValidate="txtLastNameHV" ValidationGroup="validGhiDanhHV" ForeColor="Red" Display="Dynamic" runat="server" ErrorMessage="Họ không được để trống !"></asp:RequiredFieldValidator>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label class="control-label">Tên (*)</label>
+                                <label class="control-label">Tên (<span class="required">*</span>)</label>
                                 <asp:TextBox ID="txtFirstNameHV" CssClass="form-control" runat="server"></asp:TextBox>
                                 <asp:RequiredFieldValidator ID="RequiredFieldValidator2" ControlToValidate="txtFirstNameHV" ValidationGroup="validGhiDanhHV" ForeColor="Red" Display="Dynamic" runat="server" ErrorMessage="Tên không được để trống !"></asp:RequiredFieldValidator>
                             </div>
@@ -242,7 +241,7 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label class="control-label">Ngày sinh</label>
+                                <label class="control-label">Ngày sinh (<span class="required">*</span>)</label>
                                 <%-- Date picker --%>
                                 <div class="input-group date date-picker" data-date-format="dd-mm-yyyy">
                                     <asp:TextBox ID="txtNgaySinh" CssClass="form-control" runat="server"></asp:TextBox>
@@ -261,43 +260,12 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="row">
+
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label class="control-label">Số CMND</label>
-                                <asp:TextBox ID="txtSoCMNDHV" CssClass="form-control" runat="server"></asp:TextBox>
-                                <asp:RegularExpressionValidator ID="RegularExpressionValidator9"
-                                    ControlToValidate="txtSoCMNDHV"
-                                    ValidationGroup="validGhiDanhHV"
-                                    ForeColor="Red" Display="Dynamic"
-                                    ValidationExpression="^[0-9]{9,12}"
-                                    runat="server" ErrorMessage="CMND chỉ được nhập số  - Tối đa 12 ký tự .(VD: 245156321)"></asp:RegularExpressionValidator>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <label class="control-label">Ngày cấp</label>
-                                <%-- Date picker --%>
-                                <div class="input-group date date-picker" data-date-format="dd-mm-yyyy">
-                                    <asp:TextBox ID="txtNgayCapCMND" CssClass="form-control" runat="server"></asp:TextBox>
-                                    <span class="input-group-btn">
-                                        <button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
-                                    </span>
-                                </div>
-                                <%-- Date picker --%>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <label class="control-label">Nơi cấp</label>
-                                <asp:TextBox ID="txtNoiCapCMND" CssClass="form-control" runat="server"></asp:TextBox>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <label class="control-label">Giới tính (*)</label>
+                                <label class="control-label">Giới tính (<span class="required">*</span>)</label>
                                 <div class="radio-list">
                                     <label class="radio-inline">
                                         <input type="radio" name="optionsRadios" id="rdformnam" value="option1" runat="server" />
@@ -311,15 +279,20 @@
                             </div>
                         </div>
                     </div>
-                    <hr />
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="form-group">
-                                <label class="control-label">Địa chỉ thường trú</label>
+                                <label class="control-label">Địa chỉ thường trú (<span class="required">*</span>)</label>
                                 <asp:TextBox ID="txtDCThuongTru" CssClass="form-control" runat="server"></asp:TextBox>
+                                <asp:RequiredFieldValidator ID="RequiredFieldValidator6" 
+                                    ControlToValidate="txtDCThuongTru"
+                                    ValidationGroup="validGhiDanhHV"
+                                    runat="server" 
+                                    ForeColor="Red"
+                                    Display="Dynamic"
+                                    ErrorMessage="Địa chỉ không được để trống !"></asp:RequiredFieldValidator>
                             </div>
                         </div>
-
                     </div>
                     <div class="row">
                         <div class="col-lg-12">
@@ -345,7 +318,7 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label class="control-label">Điện thoại</label>
+                                <label class="control-label">Điện thoại (<span class="required">*</span>)</label>
                                 <asp:TextBox ID="txtPhoneHV" CssClass="form-control" runat="server"></asp:TextBox>
                                 <asp:RequiredFieldValidator ID="RequiredFieldValidator3" ControlToValidate="txtPhoneHV" ValidationGroup="validGhiDanhHV" ForeColor="Red" Display="Dynamic" runat="server" ErrorMessage="Điện thoại không được để trống !"></asp:RequiredFieldValidator>
                                 <asp:RegularExpressionValidator ID="RegularExpressionValidator4" runat="server"
@@ -363,14 +336,57 @@
                         <label class="control-label">Họ tên phụ huynh</label>
                         <asp:TextBox ID="txtHoTenPH" CssClass="form-control" runat="server"></asp:TextBox>
                     </div>
-                    <div class="form-group">
-                        <label class="control-label">Nghề Nghiệp</label>
-                        <asp:TextBox ID="txtNgheNghiepPH" CssClass="form-control" runat="server"></asp:TextBox>
+                    <hr />
+                    <a href="#collapviewmoreinfor" data-toggle="collapse">Thông tin thêm <i class="glyphicon glyphicon-chevron-down"></i></a>
+                    <hr />
+                    <%-- More Infor --%>
+                    <div class="form-group panel-collapse collapse" id="collapviewmoreinfor">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="control-label">Số CMND</label>
+                                    <asp:TextBox ID="txtSoCMNDHV" CssClass="form-control" runat="server"></asp:TextBox>
+                                    <asp:RegularExpressionValidator ID="RegularExpressionValidator9"
+                                        ControlToValidate="txtSoCMNDHV"
+                                        ValidationGroup="validGhiDanhHV"
+                                        ForeColor="Red" Display="Dynamic"
+                                        ValidationExpression="^[0-9]{9,12}"
+                                        runat="server" ErrorMessage="CMND chỉ được nhập số  - Tối đa 12 ký tự .(VD: 245156321)"></asp:RegularExpressionValidator>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="control-label">Ngày cấp</label>
+                                    <%-- Date picker --%>
+                                    <div class="input-group date date-picker" data-date-format="dd-mm-yyyy">
+                                        <asp:TextBox ID="txtNgayCapCMND" CssClass="form-control" runat="server"></asp:TextBox>
+                                        <span class="input-group-btn">
+                                            <button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
+                                        </span>
+                                    </div>
+                                    <%-- Date picker --%>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="control-label">Nơi cấp</label>
+                                    <asp:TextBox ID="txtNoiCapCMND" CssClass="form-control" runat="server"></asp:TextBox>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Nghề Nghiệp Phụ huynh</label>
+                            <asp:TextBox ID="txtNgheNghiepPH" CssClass="form-control" runat="server"></asp:TextBox>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Điện thoại phụ huynh</label>
+                            <asp:TextBox ID="txtDienThoaiPH" CssClass="form-control" runat="server"></asp:TextBox>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label class="control-label">Điện thoại phụ huynh</label>
-                        <asp:TextBox ID="txtDienThoaiPH" CssClass="form-control" runat="server"></asp:TextBox>
-                    </div>
+
+                    <%-- End More Infor --%>
                 </div>
                 <%-- More Info --%>
                 <div class="col-lg-6">
@@ -616,7 +632,14 @@
                             <asp:TemplateField HeaderText="Kết thúc">
                                 <ItemTemplate>
                                     <i class="fa fa-calendar-o"></i>
-                                    <asp:Label ID="lblNgayKetThuc" runat="server" Text='<%# Eval("NgayKetThuc","{0:dd/MM/yyyy}") %>'></asp:Label>
+                                    <asp:Label ID="lblNgayKetThuc" CssClass='<%# HasOutdate(Eval("NgayKetThuc").ToString())?"label label-danger":"label label-success" %>' runat="server" Text='<%# Eval("NgayKetThuc","{0:dd/MM/yyyy}") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Công Nợ">
+                                <ItemTemplate>
+                                    <i>
+                                        <asp:Label ID="lblRemainFee" ForeColor="Red" CssClass="bold" runat="server" Text='<%# string.IsNullOrEmpty(Eval("RemainFee").ToString())?"0":Eval("RemainFee") %>'></asp:Label>
+                                        <span class="text-danger">₫</span></i>
                                 </ItemTemplate>
                             </asp:TemplateField>
                         </Columns>
@@ -628,6 +651,6 @@
             </div>
         </div>
     </div>
-    <asp:Label ID="lblPageIsValid" ForeColor="Red" runat="server"></asp:Label>
+    
 </asp:Content>
 

@@ -239,5 +239,20 @@ namespace BLL
             this.dt.CloseConnection();
             return true;
         }
+        //Get Lop Hoc By Loai chuong trinh
+        public DataTable GetTBByChuongTtrinh(int ChuongTrinh)
+        {
+            if (!this.dt.OpenConnection())
+            {
+                return null;
+            }
+            string sql = "select lophoc.*,chuongtrinh.MaChuongTrinh as ct_Ma,chuongtrinh.TenChuongTrinh as ct_Ten,chuongtrinh.LoaiChuongTrinh as ct_loai,loaict.MaChuongTrinh as loai_Ma,loaict.TenChuongTrinh as loai_Ten from nc_LopHoc lophoc full outer join nc_ChuongTrinhDaoTao chuongtrinh on lophoc.ChuongTrinh=chuongtrinh.ID";
+            sql += " ";
+            sql += "full outer join nc_LoaiCTDaoTao loaict on chuongtrinh.LoaiChuongTrinh=loaict.ID where lophoc.ID is not null and lophoc.ChuongTrinh=@ChuongTrinh";
+            SqlParameter pChuongTrinh = new SqlParameter("@ChuongTrinh", ChuongTrinh);
+            DataTable tb = dt.DAtable(sql, pChuongTrinh);
+            this.dt.CloseConnection();
+            return tb;
+        }
     }
 }

@@ -139,6 +139,6 @@ C:\Users\NhanChuan\Developer\NewSkyline\DAL\obj\Debug\DAL.pdb
 C:\Users\NhanChuan\Developer\NewSkyline\DAL\obj\Debug\DAL.csprojResolveAssemblyReference.cache
 E:\DEVELOPER\Website\GitHub\Asec_Admin\DAL\bin\Debug\DAL.dll
 E:\DEVELOPER\Website\GitHub\Asec_Admin\DAL\bin\Debug\DAL.pdb
-E:\DEVELOPER\Website\GitHub\Asec_Admin\DAL\obj\Debug\DAL.csprojResolveAssemblyReference.cache
 E:\DEVELOPER\Website\GitHub\Asec_Admin\DAL\obj\Debug\DAL.dll
 E:\DEVELOPER\Website\GitHub\Asec_Admin\DAL\obj\Debug\DAL.pdb
+E:\DEVELOPER\Website\GitHub\Asec_Admin\DAL\obj\Debug\DAL.csprojResolveAssemblyReference.cache

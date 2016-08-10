@@ -38,6 +38,7 @@ public partial class kus_admin_GhiDanhKhoaHoc : BasePage
                 }
                 else
                 {
+                    this.AlertPageValid(false, "", alertPageValid, lblPageValid);
                     this.load_dlHTChiNhanh();
                     dlCoSo.Items.Insert(0, new ListItem("--- Chọn Cơ Sở ---", "0"));
                     btnDangKyKhoaHoc.Attributes.Add("class", "btn btn-default disabled");
@@ -193,26 +194,35 @@ public partial class kus_admin_GhiDanhKhoaHoc : BasePage
 
     protected void btnDangKyKhoaHoc_ServerClick(object sender, EventArgs e)
     {
-        nc_khoahoc = new nc_KhoaHocBLL();
-        if (gwKhoaHoc.SelectedRow == null)
+        try
         {
-            Response.Write("<script>alert('Chưa chọn khóa học ! Vui lòng chọn 1 khóa học trong danh sách !')</script>");
-        }
-        else
-        {
+            nc_khoahoc = new nc_KhoaHocBLL();
+            int khoahocID = Convert.ToInt32((gwKhoaHoc.SelectedRow.FindControl("lblID") as Label).Text);
+            nc_KhoaHoc khoahoc = nc_khoahoc.getListKhoaHocWithID(khoahocID).FirstOrDefault();
+
             int soluong = Convert.ToInt32((gwKhoaHoc.SelectedRow.FindControl("lblSoLuong") as Label).Text);
             int soluongGD = Convert.ToInt32((gwKhoaHoc.SelectedRow.FindControl("lblSLGhiDanh") as Label).Text);
             if (soluongGD >= soluong)
             {
-                //lblWarningDKLop.Text = "Lớp đã đầy, không thể ghi danh lớp này được nữa. Vui lòng chọn lớp khác !";
-                Response.Write("<script>alert('Khóa học đã đủ số lượng học viên, không thể ghi danh khóa học này được nữa. Vui lòng chọn khóa học khác !')</script>");
+                this.AlertPageValid(true, "Khóa học đã đủ số lượng học viên, không thể ghi danh khóa học này được nữa. Vui lòng chọn khóa học khác !", alertPageValid, lblPageValid);
             }
             else
             {
-                string makhoahoc = (gwKhoaHoc.SelectedRow.FindControl("lblMaKhoaHoc") as Label).Text;
-                Response.Redirect("http://" + Request.Url.Authority + "/kus_admin/GhiDanhHocVien.aspx?makhoahoc=" + makhoahoc);
+                if(this.HasOutdate(khoahoc.NgayKetThuc.ToString()))
+                {
+                    this.AlertPageValid(true, "Khóa học này đã kết thúc. Vui lòng chọn khóa học khác !", alertPageValid, lblPageValid);
+                }
+                else
+                {
+                    string makhoahoc = (gwKhoaHoc.SelectedRow.FindControl("lblMaKhoaHoc") as Label).Text;
+                    Response.Redirect("http://" + Request.Url.Authority + "/kus_admin/GhiDanhHocVien.aspx?makhoahoc=" + makhoahoc);
+                }
             }
 
+        }
+        catch (Exception ex)
+        {
+            this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
         }
     }
     //search
@@ -321,14 +331,5 @@ public partial class kus_admin_GhiDanhKhoaHoc : BasePage
             string makhoahoc = (gwKhoaHoc.SelectedRow.FindControl("lblMaKhoaHoc") as Label).Text;
             Response.Redirect("http://" + Request.Url.Authority + "/kus_admin/CreateSchedule.aspx?makhoahoc=" + makhoahoc);
         }
-    }
-    public Boolean HasOutdate(string date)
-    {
-        DateTime dtime = Convert.ToDateTime(date);
-        if(dtime<=DateTime.Now)
-        {
-            return true;
-        }
-        return false;
     }
 }
