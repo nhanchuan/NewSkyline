@@ -16,6 +16,7 @@ public partial class kus_admin_QLGhiDanh : BasePage
     kus_HTChiNhanhBLL kus_htchinhanh;
     kus_CoSoBLL kus_coso;
     kus_GhiDanhBLL kus_ghidanh;
+    kus_GhiDanhTiemNamgBLL ghidanhtiemnang;
     public int PageSize = 20;
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -42,6 +43,7 @@ public partial class kus_admin_QLGhiDanh : BasePage
                     dlCoSo.Items.Insert(0, new ListItem("------ Chọn Cơ Sở thuộc Hệ Thống Chi Nhánh -------", "0"));
                     btnEditKhoaHoc.Attributes.Add("class", "btn btn-circle btn-icon-only btn-default disabled");
                     btnPhieuGD.Attributes.Add("class", "btn btn-default disabled");
+                    this.load_gwListClass();
                 }
             }
         }
@@ -82,76 +84,9 @@ public partial class kus_admin_QLGhiDanh : BasePage
         gwGhiDanhHocVien.DataSource = kus_ghidanh.kus_getHVGhiDanh(pageIndex, PageSize, startdate, enddate);
         recordCount = kus_ghidanh.Countkus_getHVGhiDanh(startdate, enddate);
         gwGhiDanhHocVien.DataBind();
-        this.PopulatePager(recordCount, pageIndex);
+        this.PopulatePager(rptPager,recordCount, pageIndex,PageSize);
     }
-    private void PopulatePager(int recordCount, int currentPage)
-    {
-        List<ListItem> pages = new List<ListItem>();
-        int startIndex, endIndex;
-        int pagerSpan = 5;
-        //Calculate the Start and End Index of pages to be displayed.
-        double dblPageCount = (double)((decimal)recordCount / Convert.ToDecimal(PageSize));
-        int pageCount = (int)Math.Ceiling(dblPageCount);
-        startIndex = currentPage > 1 && currentPage + pagerSpan - 1 < pagerSpan ? currentPage : 1;
-        endIndex = pageCount > pagerSpan ? pagerSpan : pageCount;
-        if (currentPage > pagerSpan % 2)
-        {
-            if (currentPage == 2)
-            {
-                endIndex = 5;
-            }
-            else
-            {
-                endIndex = currentPage + 2;
-            }
-        }
-        else
-        {
-            endIndex = (pagerSpan - currentPage) + 1;
-        }
-
-        if (endIndex - (pagerSpan - 1) > startIndex)
-        {
-            startIndex = endIndex - (pagerSpan - 1);
-        }
-
-        if (endIndex > pageCount)
-        {
-            endIndex = pageCount;
-            startIndex = ((endIndex - pagerSpan) + 1) > 0 ? (endIndex - pagerSpan) + 1 : 1;
-        }
-
-        //Add the First Page Button.
-        if (currentPage > 1)
-        {
-            pages.Add(new ListItem("First", "1"));
-        }
-
-        //Add the Previous Button.
-        if (currentPage > 1)
-        {
-            pages.Add(new ListItem("<<", (currentPage - 1).ToString()));
-        }
-
-        for (int i = startIndex; i <= endIndex; i++)
-        {
-            pages.Add(new ListItem(i.ToString(), i.ToString(), i != currentPage));
-        }
-
-        //Add the Next Button.
-        if (currentPage < pageCount)
-        {
-            pages.Add(new ListItem(">>", (currentPage + 1).ToString()));
-        }
-
-        //Add the Last Button.
-        if (currentPage != pageCount)
-        {
-            pages.Add(new ListItem("Last", pageCount.ToString()));
-        }
-        rptPager.DataSource = pages;
-        rptPager.DataBind();
-    }
+    
     protected void Page_Changed(object sender, EventArgs e)
     {
         string[] formats = { "dd/MM/yyyy", "d/M/yyyy", "dd/M/yyyy", "d/MM/yyyy" };
@@ -189,76 +124,9 @@ public partial class kus_admin_QLGhiDanh : BasePage
         gwGhiDanhHocVien.DataSource = kus_ghidanh.kus_getHVGhiDanhInCoSo(pageIndex, PageSize, startdate, enddate, CoSoID);
         recordCount = kus_ghidanh.CountgetHVGhiDanhInCoSo(startdate, enddate, CoSoID);
         gwGhiDanhHocVien.DataBind();
-        this.PopulateCSPager(recordCount, pageIndex);
+        this.PopulatePager(rptcoso, recordCount, pageIndex, PageSize);
     }
-    private void PopulateCSPager(int recordCount, int currentPage)
-    {
-        List<ListItem> pages = new List<ListItem>();
-        int startIndex, endIndex;
-        int pagerSpan = 5;
-        //Calculate the Start and End Index of pages to be displayed.
-        double dblPageCount = (double)((decimal)recordCount / Convert.ToDecimal(PageSize));
-        int pageCount = (int)Math.Ceiling(dblPageCount);
-        startIndex = currentPage > 1 && currentPage + pagerSpan - 1 < pagerSpan ? currentPage : 1;
-        endIndex = pageCount > pagerSpan ? pagerSpan : pageCount;
-        if (currentPage > pagerSpan % 2)
-        {
-            if (currentPage == 2)
-            {
-                endIndex = 5;
-            }
-            else
-            {
-                endIndex = currentPage + 2;
-            }
-        }
-        else
-        {
-            endIndex = (pagerSpan - currentPage) + 1;
-        }
-
-        if (endIndex - (pagerSpan - 1) > startIndex)
-        {
-            startIndex = endIndex - (pagerSpan - 1);
-        }
-
-        if (endIndex > pageCount)
-        {
-            endIndex = pageCount;
-            startIndex = ((endIndex - pagerSpan) + 1) > 0 ? (endIndex - pagerSpan) + 1 : 1;
-        }
-
-        //Add the First Page Button.
-        if (currentPage > 1)
-        {
-            pages.Add(new ListItem("First", "1"));
-        }
-
-        //Add the Previous Button.
-        if (currentPage > 1)
-        {
-            pages.Add(new ListItem("<<", (currentPage - 1).ToString()));
-        }
-
-        for (int i = startIndex; i <= endIndex; i++)
-        {
-            pages.Add(new ListItem(i.ToString(), i.ToString(), i != currentPage));
-        }
-
-        //Add the Next Button.
-        if (currentPage < pageCount)
-        {
-            pages.Add(new ListItem(">>", (currentPage + 1).ToString()));
-        }
-
-        //Add the Last Button.
-        if (currentPage != pageCount)
-        {
-            pages.Add(new ListItem("Last", pageCount.ToString()));
-        }
-        rptcoso.DataSource = pages;
-        rptcoso.DataBind();
-    }
+    
     protected void CSPage_Changed(object sender, EventArgs e)
     {
         string[] formats = { "dd/MM/yyyy", "d/M/yyyy", "dd/M/yyyy", "d/MM/yyyy" };
@@ -353,11 +221,85 @@ public partial class kus_admin_QLGhiDanh : BasePage
 
         }
     }
-
     protected void gwGhiDanhHocVien_SelectedIndexChanged(object sender, EventArgs e)
     {
         btnEditKhoaHoc.Attributes.Add("class", "btn btn-circle btn-icon-only btn-default");
         btnPhieuGD.Attributes.Add("class", "btn btn-default");
 
+    }
+
+
+    private void Getkus_GhiDanhTiemNamgPageWise(int pageIndex, int LopHoc)
+    {
+        ghidanhtiemnang = new kus_GhiDanhTiemNamgBLL();
+        int recordCount = 0;
+        gwGhiDanhTN.DataSource = ghidanhtiemnang.kus_getHVGhiDanhTiemNang(pageIndex, PageSize, LopHoc);
+        recordCount = ghidanhtiemnang.Countkus_GhiDanhTiemNamg(LopHoc);
+        gwGhiDanhTN.DataBind();
+        this.PopulatePager(rptTN, recordCount, pageIndex, PageSize);
+    }
+    protected void TNPage_Changed(object sender, EventArgs e)
+    {
+        int pageIndex = int.Parse((sender as LinkButton).CommandArgument);
+        int LopID = Convert.ToInt32((gwListClass.SelectedRow.FindControl("lblID") as Label).Text);
+        this.Getkus_GhiDanhTiemNamgPageWise(pageIndex, LopID);
+    }
+    //Load gwListClass
+    private void load_gwListClass()
+    {
+        ghidanhtiemnang = new kus_GhiDanhTiemNamgBLL();
+        gwListClass.DataSource = ghidanhtiemnang.ListGhiDanhTiemNangByLopID();
+        gwListClass.DataBind();
+    }
+
+    protected void gwListClass_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            int LopID = Convert.ToInt32((gwListClass.SelectedRow.FindControl("lblID") as Label).Text);
+            this.Getkus_GhiDanhTiemNamgPageWise(1, LopID);
+        }
+        catch (Exception ex)
+        {
+            this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
+        }
+    }
+
+    protected void gwGhiDanhTN_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        try
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                LinkButton del = e.Row.FindControl("linkBtnDel") as LinkButton;
+                del.Attributes.Add("onclick", "return confirm('Are you sure you want to delete this ?')");
+            }
+        }
+        catch (Exception ex)
+        {
+            this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
+        }
+    }
+
+    protected void gwGhiDanhTN_RowDeleting(object sender, GridViewDeleteEventArgs e)
+    {
+        try
+        {
+            ghidanhtiemnang = new kus_GhiDanhTiemNamgBLL();
+            int GDId = Convert.ToInt32((gwGhiDanhTN.Rows[e.RowIndex].FindControl("lblID") as Label).Text);
+            if (this.ghidanhtiemnang.DeleteByID(GDId))
+            {
+                int LopID = Convert.ToInt32((gwListClass.SelectedRow.FindControl("lblID") as Label).Text);
+                this.Getkus_GhiDanhTiemNamgPageWise(1, LopID);
+            }
+            else
+            {
+                this.AlertPageValid(true, "False to connect server !", alertPageValid, lblPageValid);
+            }
+        }
+        catch (Exception ex)
+        {
+            this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
+        }
     }
 }

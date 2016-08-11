@@ -22,7 +22,7 @@ namespace BLL
             SqlParameter pID = new SqlParameter("@ID", ID);
             DataTable tb = dt.DAtable(sql, pID);
             List<nc_LopHoc> lst = new List<nc_LopHoc>();
-            foreach(DataRow r in tb.Rows)
+            foreach (DataRow r in tb.Rows)
             {
                 nc_LopHoc lh = new nc_LopHoc();
                 lh.ID = (int)r["ID"];
@@ -130,7 +130,7 @@ namespace BLL
         }
         public DataTable getTBLopHoc()
         {
-            if(!this.dt.OpenConnection())
+            if (!this.dt.OpenConnection())
             {
                 return null;
             }
@@ -254,5 +254,7 @@ namespace BLL
             this.dt.CloseConnection();
             return tb;
         }
+
+        
     }
 }
