@@ -35,11 +35,13 @@ public partial class kus_admin_QLGhiDanh : BasePage
                 }
                 else
                 {
+                    this.AlertPageValid(false, "", alertPageValid, lblPageValid);
                     this.load_dlHTChiNhanh();
                     formHT_CoSO.Visible = false;
                     dlLoaiThongKe.Items.FindByValue("0").Selected = true;
                     dlCoSo.Items.Insert(0, new ListItem("------ Chọn Cơ Sở thuộc Hệ Thống Chi Nhánh -------", "0"));
                     btnEditKhoaHoc.Attributes.Add("class", "btn btn-circle btn-icon-only btn-default disabled");
+                    btnPhieuGD.Attributes.Add("class", "btn btn-default disabled");
                 }
             }
         }
@@ -290,47 +292,52 @@ public partial class kus_admin_QLGhiDanh : BasePage
     }
     protected void btnSunmitGhiDanh_Click(object sender, EventArgs e)
     {
-        kus_ghidanh = new kus_GhiDanhBLL();
-        string[] formats = { "dd/MM/yyyy", "d/M/yyyy", "dd/M/yyyy", "d/MM/yyyy" };
-        DateTime startdate;
-        if (DateTime.TryParseExact(txtStartdate.Text, formats, new CultureInfo("vi-VN"), DateTimeStyles.None, out startdate) || getday(txtStartdate.Text) == "" || getmonth(txtStartdate.Text) == "" || getyear(txtStartdate.Text) == "")
+        try
         {
-            lblstartdateFalse.Text = "Ngày bắt đầu không chính xác !";
-            return;
-        }
-        else
-        {
-            lblstartdateFalse.Text = "";
-            startdate = DateTime.ParseExact(getday(txtStartdate.Text) + "/" + getmonth(txtStartdate.Text) + "/" + getyear(txtStartdate.Text), "dd/MM/yyyy", null);
-        }
-        DateTime enddate;
-        if (DateTime.TryParseExact(txtEnddate.Text, formats, new CultureInfo("vi-VN"), DateTimeStyles.None, out enddate) || getday(txtEnddate.Text) == "" || getmonth(txtEnddate.Text) == "" || getyear(txtEnddate.Text) == "")
-        {
-            lblEnddatefalse.Text = "Ngày kết thúc không chính xác !";
-            return;
-        }
-        else
-        {
-            lblEnddatefalse.Text = "";
-            enddate = DateTime.ParseExact(getday(txtEnddate.Text) + "/" + getmonth(txtEnddate.Text) + "/" + getyear(txtEnddate.Text), "dd/MM/yyyy", null);
-        }
+            kus_ghidanh = new kus_GhiDanhBLL();
+            string[] formats = { "dd/MM/yyyy", "d/M/yyyy", "dd/M/yyyy", "d/MM/yyyy" };
+            DateTime startdate;
+            if (DateTime.TryParseExact(txtStartdate.Text, formats, new CultureInfo("vi-VN"), DateTimeStyles.None, out startdate) || getday(txtStartdate.Text) == "" || getmonth(txtStartdate.Text) == "" || getyear(txtStartdate.Text) == "")
+            {
+                lblstartdateFalse.Text = "Ngày bắt đầu không chính xác !";
+                return;
+            }
+            else
+            {
+                lblstartdateFalse.Text = "";
+                startdate = DateTime.ParseExact(getday(txtStartdate.Text) + "/" + getmonth(txtStartdate.Text) + "/" + getyear(txtStartdate.Text), "dd/MM/yyyy", null);
+            }
+            DateTime enddate;
+            if (DateTime.TryParseExact(txtEnddate.Text, formats, new CultureInfo("vi-VN"), DateTimeStyles.None, out enddate) || getday(txtEnddate.Text) == "" || getmonth(txtEnddate.Text) == "" || getyear(txtEnddate.Text) == "")
+            {
+                lblEnddatefalse.Text = "Ngày kết thúc không chính xác !";
+                return;
+            }
+            else
+            {
+                lblEnddatefalse.Text = "";
+                enddate = DateTime.ParseExact(getday(txtEnddate.Text) + "/" + getmonth(txtEnddate.Text) + "/" + getyear(txtEnddate.Text), "dd/MM/yyyy", null);
+            }
 
-        if(dlCoSo.SelectedValue=="0")
-        {
-            this.Getkus_HVGhiDanhPageWise(1, startdate, enddate);
-            lblSumHocVien.Text = kus_ghidanh.Countkus_getHVGhiDanh(startdate, enddate).ToString();
-            rptPager.Visible = true;
-            rptcoso.Visible = false;
+            if (dlCoSo.SelectedValue == "0")
+            {
+                this.Getkus_HVGhiDanhPageWise(1, startdate, enddate);
+                lblSumHocVien.Text = kus_ghidanh.Countkus_getHVGhiDanh(startdate, enddate).ToString();
+                rptPager.Visible = true;
+                rptcoso.Visible = false;
+            }
+            else
+            {
+                this.Getkus_HVGhiDanhCoSoPageWise(1, startdate, enddate, Convert.ToInt32(dlCoSo.SelectedValue));
+                lblSumHocVien.Text = kus_ghidanh.CountgetHVGhiDanhInCoSo(startdate, enddate, Convert.ToInt32(dlCoSo.SelectedValue)).ToString();
+                rptPager.Visible = false;
+                rptcoso.Visible = true;
+            }
         }
-        else
+        catch (Exception ex)
         {
-            this.Getkus_HVGhiDanhCoSoPageWise(1, startdate, enddate, Convert.ToInt32(dlCoSo.SelectedValue));
-            lblSumHocVien.Text = kus_ghidanh.CountgetHVGhiDanhInCoSo(startdate, enddate, Convert.ToInt32(dlCoSo.SelectedValue)).ToString();
-            rptPager.Visible = false;
-            rptcoso.Visible = true;
+            this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
         }
-
-
     }
     protected void btnPhieuGD_ServerClick(object sender, EventArgs e)
     {
@@ -350,5 +357,7 @@ public partial class kus_admin_QLGhiDanh : BasePage
     protected void gwGhiDanhHocVien_SelectedIndexChanged(object sender, EventArgs e)
     {
         btnEditKhoaHoc.Attributes.Add("class", "btn btn-circle btn-icon-only btn-default");
+        btnPhieuGD.Attributes.Add("class", "btn btn-default");
+
     }
 }

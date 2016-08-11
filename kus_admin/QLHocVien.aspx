@@ -4,6 +4,12 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <link href="../App_Themes/admin/StylePortlet.css" rel="stylesheet" />
+    <link href="../App_Themes/admin/pagination.css" rel="stylesheet" />
+    <style type="text/css">
+        .page_disabled {
+            background: #D64635;
+        }
+    </style>
     <!-- BEGIN PAGE HEADER-->
     <h1 class="page-title">Quản Lý Học Viên
     </h1>
@@ -104,8 +110,8 @@
     </div>
     <div class="row">
         <div class="col-lg-3">
-            <asp:Button ID="btnSunmitGhiDanhLop" CssClass="btn btn-primary" OnClick="btnSunmitGhiDanhLop_Click" runat="server" Text="XEM DANH SÁCH" />
-            <asp:Button ID="btnSunmitGhiDanhHV" CssClass="btn btn-primary" ValidationGroup="validViewGhiDanh" OnClick="btnSunmitGhiDanhHV_Click" runat="server" Text="XEM DANH SÁCH" />
+            <asp:Button ID="btnSunmitGhiDanhLop" CssClass="btn btn-primary" OnClick="btnSunmitGhiDanhLop_Click" runat="server" Text="XEM DANH SÁCH(2)" />
+            <asp:Button ID="btnSunmitGhiDanhHV" CssClass="btn btn-primary" ValidationGroup="validViewGhiDanh" OnClick="btnSunmitGhiDanhHV_Click" runat="server" Text="XEM DANH SÁCH(1)" />
         </div>
         <div class="col-lg-3"></div>
         <div class="col-lg-1">
@@ -187,8 +193,8 @@
                                     </asp:TemplateField>
                                     <asp:TemplateField HeaderText="Học Phí">
                                         <ItemTemplate>
-                                            <asp:Label ID="Label7" CssClass="bold" ForeColor="Red" runat="server" Text='<%# Eval("MucHocPhi","{0:0,00}") %>'></asp:Label>
-                                            <span class="text-danger">₫</span>
+                                            <asp:Label ID="Label7" runat="server" Text='<%# Eval("MucHocPhi","{0:0,00}") %>'></asp:Label>
+                                            <span>₫</span>
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                     <asp:TemplateField HeaderText="Đặt Cọc">
@@ -197,14 +203,11 @@
                                             <span class="bold">₫</span>
                                         </ItemTemplate>
                                     </asp:TemplateField>
-                                    <asp:TemplateField HeaderText="Tình trạng học phí">
+                                    <asp:TemplateField HeaderText="Công Nợ">
                                         <ItemTemplate>
                                             <i>
-                                                <asp:Label ID="Label8" CssClass="bold" runat="server" Text='<%# (Eval("BLNum").ToString()=="0")?"chưa đóng":"đã đóng" %>'></asp:Label></i><br />
-                                            <a class="label label-success pull-right <%# Eval("BLNum").ToString() == "0" ? "display-none":"" %>"
-                                                href='<%# "../kus_admin/BienLaiHocPhi.aspx?BienLaiCode="+ Eval("BienLaiCode") %>'>
-                                                <i class="fa fa-credit-card">Xem biên lai</i>
-                                            </a>
+                                                <asp:Label ID="lblRemainFee" ForeColor="Red" CssClass="bold" runat="server" Text='<%# string.IsNullOrEmpty(Eval("RemainFee").ToString())?"0":Eval("RemainFee","{0:0,00}") %>'></asp:Label>
+                                                <span class="text-danger">₫</span></i>
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                     <asp:TemplateField HeaderText="Tư Vấn">
@@ -232,7 +235,7 @@
                             <asp:Repeater ID="rptPager" runat="server">
                                 <ItemTemplate>
                                     <asp:LinkButton ID="lnkPage" runat="server" Text='<%#Eval("Text") %>' CommandArgument='<%# Eval("Value") %>'
-                                        CssClass='<%# Convert.ToBoolean(Eval("Enabled")) ? "page_enabled" : "page_disabled" %>'
+                                        CssClass='<%# Convert.ToBoolean(Eval("Enabled")) ? "btn btn-default page_enabled" : "btn btn-default page_disabled" %>'
                                         OnClick="Page_Changed" OnClientClick='<%# !Convert.ToBoolean(Eval("Enabled")) ? "return false;" : "" %>'></asp:LinkButton>
                                 </ItemTemplate>
                             </asp:Repeater>
@@ -240,7 +243,7 @@
                             <asp:Repeater ID="rptcoso" runat="server">
                                 <ItemTemplate>
                                     <asp:LinkButton ID="lnkPageCS" runat="server" Text='<%#Eval("Text") %>' CommandArgument='<%# Eval("Value") %>'
-                                        CssClass='<%# Convert.ToBoolean(Eval("Enabled")) ? "page_enabled" : "page_disabled" %>'
+                                        CssClass='<%# Convert.ToBoolean(Eval("Enabled")) ? "btn btn-default page_enabled" : "btn btn-default page_disabled" %>'
                                         OnClick="CSPage_Changed" OnClientClick='<%# !Convert.ToBoolean(Eval("Enabled")) ? "return false;" : "" %>'></asp:LinkButton>
                                 </ItemTemplate>
                             </asp:Repeater>

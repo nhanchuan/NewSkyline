@@ -1,12 +1,13 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/GlobalMasterPage.master" AutoEventWireup="true" CodeFile="ChiTietHocVien.aspx.cs" Inherits="kus_admin_ChiTietHocVien" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <link href="../App_Themes/admin/StylePortlet.css" rel="stylesheet" />
     <link href="../App_Themes/admin/postnew.css" rel="stylesheet" />
     <!-- BEGIN PAGE HEADER-->
-    <h1 class="page-title">Thông Tin Học Viên <asp:Label ID="lbltitleHocVien" runat="server" Text="Label"></asp:Label>
+    <h1 class="page-title">Thông Tin Học Viên
+        <asp:Label ID="lbltitleHocVien" runat="server" Text="Label"></asp:Label>
     </h1>
     <div class="page-bar">
         <ul class="page-breadcrumb">
@@ -15,7 +16,7 @@
                 <a href="../Default.aspx">Home</a>
                 <i class="fa fa-angle-right"></i>
             </li>
-            <li>Quản lý Học viên
+            <li><a href="../kus_admin/QLHocVien.aspx">Quản lý Học viên</a>
                 <i class="fa fa-angle-right"></i>
             </li>
             <li>
@@ -24,6 +25,15 @@
         </ul>
     </div>
     <!-- END PAGE HEADER-->
+    <%-- Pages is Valid --%>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="alert alert-danger display-none" id="alertPageValid" runat="server">
+                <asp:Label ID="lblPageValid" runat="server"></asp:Label>
+            </div>
+        </div>
+    </div>
+    <%--End Pages is Valid --%>
     <div class="row">
         <div class="col-lg-12 text-center">
             <h1 class="bold" style="color: #0094ff;">THÔNG TIN CHI TIẾT HỌC VIÊN</h1>
@@ -116,51 +126,25 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="row">
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            <label class="control-label">Số CMND</label>
-                            <asp:TextBox ID="txtSoCMNDHV" CssClass="form-control" runat="server"></asp:TextBox>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            <label class="control-label">Ngày cấp</label>
-                            <%-- Date picker --%>
-                            <div class="input-group date date-picker" data-date-format="dd-mm-yyyy">
-                                <asp:TextBox ID="txtNgayCapCMND" CssClass="form-control" runat="server"></asp:TextBox>
-                                <span class="input-group-btn">
-                                    <button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
-                                </span>
-                            </div>
-                            <%-- Date picker --%>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            <label class="control-label">Nơi cấp</label>
-                            <asp:TextBox ID="txtNoiCapCMND" CssClass="form-control" runat="server"></asp:TextBox>
-                        </div>
-                    </div>
+
                     <div class="col-lg-6">
                         <div class="form-group">
                             <label class="control-label">Giới tính (*)</label>
                             <div class="radio-list">
                                 <label class="radio-inline">
-                                    <input type="radio" name="optionsRadios" id="rdformnam" value="option1" runat="server" />
+                                    <input type="radio" name="optionsRadios" id="rdformnam" runat="server" />
                                     Nam
                                 </label>
                                 <label class="radio-inline">
-                                    <input type="radio" name="optionsRadios" id="rdformnu" value="option2" runat="server" />
+                                    <input type="radio" name="optionsRadios" id="rdformnu" runat="server" />
                                     Nữ
                                 </label>
                             </div>
                         </div>
                     </div>
                 </div>
-                <hr />
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="form-group">
@@ -168,7 +152,6 @@
                             <asp:TextBox ID="txtDCThuongTru" CssClass="form-control" runat="server"></asp:TextBox>
                         </div>
                     </div>
-
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
@@ -208,18 +191,55 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="control-label">Họ tên phụ huynh</label>
-                    <asp:TextBox ID="txtHoTenPH" CssClass="form-control" runat="server"></asp:TextBox>
+
+                <hr />
+                <a href="#collapviewmoreinfor" data-toggle="collapse">Thông tin thêm <i class="glyphicon glyphicon-chevron-down"></i></a>
+                <hr />
+                <%-- More Infor --%>
+                <div class="form-group panel-collapse collapse" id="collapviewmoreinfor">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="control-label">Số CMND</label>
+                                <asp:TextBox ID="txtSoCMNDHV" CssClass="form-control" runat="server"></asp:TextBox>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="control-label">Ngày cấp</label>
+                                <%-- Date picker --%>
+                                <div class="input-group date date-picker" data-date-format="dd-mm-yyyy">
+                                    <asp:TextBox ID="txtNgayCapCMND" CssClass="form-control" runat="server"></asp:TextBox>
+                                    <span class="input-group-btn">
+                                        <button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
+                                    </span>
+                                </div>
+                                <%-- Date picker --%>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Nơi cấp</label>
+                        <asp:TextBox ID="txtNoiCapCMND" CssClass="form-control" runat="server"></asp:TextBox>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Họ tên phụ huynh</label>
+                        <asp:TextBox ID="txtHoTenPH" CssClass="form-control" runat="server"></asp:TextBox>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Nghề Nghiệp</label>
+                        <asp:TextBox ID="txtNgheNghiepPH" CssClass="form-control" runat="server"></asp:TextBox>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Điện thoại phụ huynh</label>
+                        <asp:TextBox ID="txtDienThoaiPH" CssClass="form-control" runat="server"></asp:TextBox>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label class="control-label">Nghề Nghiệp</label>
-                    <asp:TextBox ID="txtNgheNghiepPH" CssClass="form-control" runat="server"></asp:TextBox>
-                </div>
-                <div class="form-group">
-                    <label class="control-label">Điện thoại phụ huynh</label>
-                    <asp:TextBox ID="txtDienThoaiPH" CssClass="form-control" runat="server"></asp:TextBox>
-                </div>
+
+
+
             </div>
             <%-- More Info --%>
             <div class="col-lg-6">
@@ -339,7 +359,7 @@
                     <asp:TextBox ID="txtGhiChu" CssClass="form-control" TextMode="MultiLine" Rows="5" runat="server"></asp:TextBox>
                 </div>
                 <hr />
-                <div class="form-group">
+                <div class="form-group text-right">
                     <label>Tình trạng : </label>
                     <asp:DropDownList ID="dlTinhtrangHocVien" Enabled="false" runat="server">
                         <asp:ListItem Value="1">Đang học</asp:ListItem>
@@ -347,12 +367,13 @@
                     </asp:DropDownList>
                     <a id="btnEnableTT" class="label label-default" title="Enable to edit" onserverclick="btnEnableTT_ServerClick" runat="server"><i class="fa fa-asterisk"></i></a>
                 </div>
+                <hr />
             </div>
             <%-- End More Info --%>
             <div class="clearfix"></div>
             <div class="col-lg-12 text-right">
-                <a class="btn btn-info"><i class="fa fa-print"> In thông tin</i></a>
-                <a id="btnUpdateInfor" class="btn green" onserverclick="btnUpdateInfor_ServerClick" runat="server"><i class="fa fa-save"></i> Lưu thông tin</a>
+                <%--<a class="btn btn-info"><i class="fa fa-print">In thông tin</i></a>--%>
+                <a id="btnUpdateInfor" class="btn green" onserverclick="btnUpdateInfor_ServerClick" runat="server"><i class="fa fa-save"></i>Lưu thông tin</a>
             </div>
         </div>
     </div>
@@ -369,7 +390,7 @@
                     <div class="panel-default">
                         <div class="panel-body">
                             <div class="col-lg-9">
-                        <asp:UpdatePanel runat="server">
+                                <asp:UpdatePanel runat="server">
                                     <ContentTemplate>
                                         <div class="col-lg-4"></div>
                                         <div class="col-lg-4"></div>
@@ -401,7 +422,7 @@
                                         </div>
                                     </ContentTemplate>
                                 </asp:UpdatePanel>
-                        </div>
+                            </div>
                             <div class="col-lg-3">
                                 <%-- info --%>
                                 <asp:ValidationSummary ID="ValidationSummary2" ValidationGroup="vlidSelectImage" DisplayMode="BulletList" ShowSummary="true" ForeColor="Red" runat="server" />
@@ -413,13 +434,13 @@
                                 <asp:RequiredFieldValidator ID="RequiredFieldValidator5" runat="server" ControlToValidate="txtImgUrl" ValidationGroup="vlidSelectImage" ErrorMessage="No Image Selected !" Display="None"></asp:RequiredFieldValidator>
                                 <%-- end info --%>
                             </div>
-                    <div class="clearfix"></div>
+                            <div class="clearfix"></div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <a class="btn btn-warning" data-dismiss="modal">Hủy</a>
-                    <asp:Button ID="btnchangeImgCusPro" CssClass="btn btn-primary pull-right" OnClick="btnchangeImgCusPro_Click" validationgroup="vlidSelectImage" runat="server" Text="Save !" />
+                    <asp:Button ID="btnchangeImgCusPro" CssClass="btn btn-primary pull-right" OnClick="btnchangeImgCusPro_Click" ValidationGroup="vlidSelectImage" runat="server" Text="Save !" />
                 </div>
             </div>
         </div>
@@ -433,7 +454,7 @@
                 $("#ContentPlaceHolder1_txtPostImgTemp").val("");
             });
         });
-         function showanh(url) {
+        function showanh(url) {
             var filename = url.substring(url.lastIndexOf('/') + 1);
             document.querySelector('#<%=ImagesSelect.ClientID %>').src = url;
             document.getElementById('<%=HiddenimgSelect.ClientID %>').value = url;

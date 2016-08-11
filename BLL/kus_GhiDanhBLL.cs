@@ -211,7 +211,7 @@ namespace BLL
             {
                 return 0;
             }
-            string sql = "select COUNT(hocvien.HocVienID) from kus_HocVien hocvien full outer join kus_GhiDanh ghidanh on hocvien.HocVienID=ghidanh.HocVienID full outer join nc_KhoaHoc khoahoc on ghidanh.KhoaHoc=khoahoc.ID where hocvien.HocVienID is not null and khoahoc.ID=@KhoaHoc";
+            string sql = "select COUNT(hocvien.HocVienID) from kus_HocVien hocvien full outer join kus_GhiDanh ghidanh on hocvien.HocVienID=ghidanh.HocVienID full outer join nc_KhoaHoc khoahoc on ghidanh.KhoaHoc=khoahoc.ID full outer join kus_BienLai bienlai on ghidanh.GhiDanhID=bienlai.GhiDanhID where hocvien.HocVienID is not null and khoahoc.ID=@KhoaHoc";
             SqlParameter pKhoaHoc = new SqlParameter("@KhoaHoc", KhoaHoc);
             dem = DB.GetValues(sql, pKhoaHoc);
             this.DB.CloseConnection();

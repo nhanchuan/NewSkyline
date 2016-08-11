@@ -49,6 +49,7 @@ public partial class kus_admin_ChiTietHocVien : BasePage
                     }
                     else
                     {
+                        this.AlertPageValid(false, "", alertPageValid, lblPageValid);
                         this.loadHocVienInfor(MaHV);
                         this.load_dlUserUploadImg();
                         dlimgtype.Items.Insert(0, new ListItem("-- Hình ảnh tải lên bởi thành viên --", "0"));
@@ -88,15 +89,15 @@ public partial class kus_admin_ChiTietHocVien : BasePage
         DataTable tb = kus_hocvien.kus_HocVienInfor(code);
         foreach (DataRow r in tb.Rows)
         {
-            lbltitleHocVien.Text = (string.IsNullOrEmpty(r[1].ToString())) ? "" : (string)r[1];
-            txtLastNameHV.Text = (string.IsNullOrEmpty(r[20].ToString())) ? "" : (string)r[20];
-            txtFirstNameHV.Text = (string.IsNullOrEmpty(r[19].ToString())) ? "" : (string)r[19];
-            txtNgaySinh.Text = (string.IsNullOrEmpty(r[22].ToString())) ? "" : ((DateTime)r[22]).ToString("dd-MM-yyyy");
-            txtNoiSinhHV.Text = (string.IsNullOrEmpty(r[23].ToString())) ? "" : (string)r[23];
-            txtSoCMNDHV.Text = (string.IsNullOrEmpty(r[25].ToString())) ? "" : (string)r[25];
-            txtNgayCapCMND.Text = (string.IsNullOrEmpty(r[26].ToString())) ? "" : ((DateTime)r[26]).ToString("dd-MM-yyyy");
-            txtNoiCapCMND.Text = (string.IsNullOrEmpty(r[27].ToString())) ? "" : (string)r[27];
-            int sex = (string.IsNullOrEmpty(r[25].ToString())) ? 3 : (int)r[24];
+            lbltitleHocVien.Text = (string.IsNullOrEmpty(r["HocVienCode"].ToString())) ? "" : (string)r["HocVienCode"];
+            txtLastNameHV.Text = (string.IsNullOrEmpty(r["LastName"].ToString())) ? "" : (string)r["LastName"];
+            txtFirstNameHV.Text = (string.IsNullOrEmpty(r["FirstName"].ToString())) ? "" : (string)r["FirstName"];
+            txtNgaySinh.Text = (string.IsNullOrEmpty(r["Birthday"].ToString())) ? "" : ((DateTime)r["Birthday"]).ToString("dd-MM-yyyy");
+            txtNoiSinhHV.Text = (string.IsNullOrEmpty(r["BirthPlace"].ToString())) ? "" : (string)r["BirthPlace"];
+            txtSoCMNDHV.Text = (string.IsNullOrEmpty(r["IdentityCard"].ToString())) ? "" : (string)r["IdentityCard"];
+            txtNgayCapCMND.Text = (string.IsNullOrEmpty(r["DateOfIdentityCard"].ToString())) ? "" : ((DateTime)r["DateOfIdentityCard"]).ToString("dd-MM-yyyy");
+            txtNoiCapCMND.Text = (string.IsNullOrEmpty(r["PlaceOfIdentityCard"].ToString())) ? "" : (string)r["PlaceOfIdentityCard"];
+            int sex = (string.IsNullOrEmpty(r["Sex"].ToString())) ? 0 : (int)r["Sex"];
             if (sex == 1)
             {
                 rdformnam.Checked = true;
@@ -113,16 +114,16 @@ public partial class kus_admin_ChiTietHocVien : BasePage
                     rdformnu.Checked = false;
                 }
             }
-            txtDCThuongTru.Text = (string.IsNullOrEmpty(r[3].ToString())) ? "" : (string)r[3];
-            txtDCTamTru.Text = (string.IsNullOrEmpty(r[4].ToString())) ? "" : (string)r[4];
-            txtEmail.Text = (string.IsNullOrEmpty(r[5].ToString())) ? "" : (string)r[5];
-            txtPhoneHV.Text= (string.IsNullOrEmpty(r[6].ToString())) ? "" : (string)r[6];
-            txtHoTenPH.Text = (string.IsNullOrEmpty(r[7].ToString())) ? "" : (string)r[7];
-            txtNgheNghiepPH.Text = (string.IsNullOrEmpty(r[8].ToString())) ? "" : (string)r[8];
-            txtDienThoaiPH.Text = (string.IsNullOrEmpty(r[9].ToString())) ? "" : (string)r[9];
-            txtHVGioiThieu.Text = (string.IsNullOrEmpty(r[14].ToString())) ? "" : (string)r[14];
+            txtDCThuongTru.Text = (string.IsNullOrEmpty(r["DCThuongTru"].ToString())) ? "" : (string)r["DCThuongTru"];
+            txtDCTamTru.Text = (string.IsNullOrEmpty(r["DCTamTru"].ToString())) ? "" : (string)r["DCTamTru"];
+            txtEmail.Text = (string.IsNullOrEmpty(r["Email"].ToString())) ? "" : (string)r["Email"];
+            txtPhoneHV.Text = (string.IsNullOrEmpty(r["DienThoai"].ToString())) ? "" : (string)r["DienThoai"];
+            txtHoTenPH.Text = (string.IsNullOrEmpty(r["HoTenPH"].ToString())) ? "" : (string)r["HoTenPH"];
+            txtNgheNghiepPH.Text = (string.IsNullOrEmpty(r["NgheNghiep"].ToString())) ? "" : (string)r["NgheNghiep"];
+            txtDienThoaiPH.Text = (string.IsNullOrEmpty(r["PhonePhuHuynh"].ToString())) ? "" : (string)r["PhonePhuHuynh"];
+            txtHVGioiThieu.Text = (string.IsNullOrEmpty(r["HVGioiThieu"].ToString())) ? "" : (string)r["HVGioiThieu"];
 
-            string trinhdoHV = (string.IsNullOrEmpty(r[15].ToString())) ? "" : (string)r[15];
+            string trinhdoHV = (string.IsNullOrEmpty(r["TrinhDoHocVan"].ToString())) ? "" : (string)r["TrinhDoHocVan"];
             switch (trinhdoHV)
             {
                 case "Đại Học - Cao Đẳng":
@@ -141,8 +142,8 @@ public partial class kus_admin_ChiTietHocVien : BasePage
                     chkMauGiao.Checked = true;
                     break;
             }
-            txtTenTruong.Text = (string.IsNullOrEmpty(r[16].ToString())) ? "" : (string)r[16];
-            string CCTiengAnh = (string.IsNullOrEmpty(r[17].ToString())) ? "" : (string)r[17];
+            txtTenTruong.Text = (string.IsNullOrEmpty(r["TenTruong"].ToString())) ? "" : (string)r["TenTruong"];
+            string CCTiengAnh = (string.IsNullOrEmpty(r["CCTiengAnh"].ToString())) ? "" : (string)r["CCTiengAnh"];
             if (CCTiengAnh.Contains("Starters"))
                 chkCC1.Checked = true;
             if (CCTiengAnh.Contains("Movers"))
@@ -177,7 +178,7 @@ public partial class kus_admin_ChiTietHocVien : BasePage
                 txtCCKHac.Text = CCKHac;
             }
 
-            string BietTT = (string.IsNullOrEmpty(r[18].ToString())) ? "" : (string)r[18];
+            string BietTT = (string.IsNullOrEmpty(r["BietThongTin"].ToString())) ? "" : (string)r["BietThongTin"];
             if (BietTT.Contains("Báo chí"))
                 chkBTT1.Checked = true;
             if (BietTT.Contains("Internet"))
@@ -205,10 +206,10 @@ public partial class kus_admin_ChiTietHocVien : BasePage
 
                 txtBTTKHac.Text = strBietTT;
             }
-            txtGhiChu.Text = (string.IsNullOrEmpty(r[32].ToString())) ? "" : (string)r[32];
-            imgCusprofile.Src = (string.IsNullOrEmpty(r[30].ToString())) ? "../images/default_images.jpg" : "../" + (string)r[30];
+            txtGhiChu.Text = (string.IsNullOrEmpty(r["GhiChu"].ToString())) ? "" : (string)r["GhiChu"];
+            imgCusprofile.Src = (string.IsNullOrEmpty(r["ImagesUrl"].ToString())) ? "../images/default_images.jpg" : "../" + (string)r["ImagesUrl"];
 
-            if ((int)r[10] == 1)
+            if ((int)r["HocVienStatus"] == 1)
             {
                 dlTinhtrangHocVien.Items.FindByValue("1").Selected = true;
             }
@@ -266,98 +267,107 @@ public partial class kus_admin_ChiTietHocVien : BasePage
     }
     protected void btnUpdateInfor_ServerClick(object sender, EventArgs e)
     {
-        customerbasicinfo = new CustomerBasicInfoBLL();
-        kus_hocvien = new kus_HocVienBLL();
-        userprofile = new UserProfileBLL();
-        employees = new EmployeesBLL();
-        kus_ghidanh = new kus_GhiDanhBLL();
-        //string FileCode = RandomName + DateTime.Now.Day.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Year.ToString();
 
-        string HVCode = Request.QueryString["MaHocVien"];
-        List<kus_HocVien> lstHocVien = kus_hocvien.getHocVienWithMaHV(HVCode);
-        kus_HocVien hocvien = lstHocVien.FirstOrDefault();
 
-        string firstname = txtFirstNameHV.Text;
-        string lastname = txtLastNameHV.Text;
-        string ngaysinh = txtNgaySinh.Text;
-        DateTime birthday;
-        string[] formats = { "dd/MM/yyyy", "d/M/yyyy", "dd/M/yyyy", "d/MM/yyyy" };
-        if (string.IsNullOrWhiteSpace(ngaysinh) || DateTime.TryParseExact(ngaysinh, formats, new CultureInfo("vi-VN"), DateTimeStyles.None, out birthday) || getday(ngaysinh) == "" || getmonth(ngaysinh) == "" || getyear(ngaysinh) == "")
+        try
         {
-            birthday = Convert.ToDateTime("01/01/1900");
-        }
-        else
-        {
-            birthday = DateTime.ParseExact(getday(ngaysinh) + "/" + getmonth(ngaysinh) + "/" + getyear(ngaysinh), "dd/MM/yyyy", null);
-        }
-        string noisinh = txtNoiSinhHV.Text;
-        string socmnd = txtSoCMNDHV.Text;
-        string ngaycapcmnd = txtNgayCapCMND.Text;
-        DateTime NgayCapCMND;
-        if (string.IsNullOrWhiteSpace(ngaycapcmnd) || DateTime.TryParseExact(ngaycapcmnd, formats, new CultureInfo("vi-VN"), DateTimeStyles.None, out NgayCapCMND) || getday(ngaycapcmnd) == "" || getmonth(ngaycapcmnd) == "" || getyear(ngaycapcmnd) == "")
-        {
-            NgayCapCMND = Convert.ToDateTime("01/01/1900");
-        }
-        else
-        {
-            NgayCapCMND = DateTime.ParseExact(getday(ngaycapcmnd) + "/" + getmonth(ngaycapcmnd) + "/" + getyear(ngaycapcmnd), "dd/MM/yyyy", null);
-        }
-        string noicap = txtNoiCapCMND.Text;
-        int sex;
-        if (!rdformnam.Checked && !rdformnu.Checked)
-        {
-            sex = 0;
-        }
-        else
-        {
-            sex = (rdformnam.Checked) ? 1 : (rdformnu.Checked) ? 2 : 0;
-        }
+            customerbasicinfo = new CustomerBasicInfoBLL();
+            kus_hocvien = new kus_HocVienBLL();
+            userprofile = new UserProfileBLL();
+            employees = new EmployeesBLL();
+            kus_ghidanh = new kus_GhiDanhBLL();
+            //string FileCode = RandomName + DateTime.Now.Day.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Year.ToString();
 
-        //this.customerbasicinfo.CreateBasicCodeInfo(FileCode);
-        this.customerbasicinfo.UpdateCustomerBasicInfo(hocvien.InfoID, firstname, lastname, "", birthday, noisinh, sex, socmnd, NgayCapCMND, noicap);
-        //string HocvienCode = RandomName + DateTime.Now.Day.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Year.ToString();
-        //this.kus_hocvien.CreateCodeHocVien(HocvienCode);
+            string HVCode = Request.QueryString["MaHocVien"];
+            List<kus_HocVien> lstHocVien = kus_hocvien.getHocVienWithMaHV(HVCode);
+            kus_HocVien hocvien = lstHocVien.FirstOrDefault();
 
-        string diachithuongtru = txtDCThuongTru.Text;
-        string diachitamtru = txtDCTamTru.Text;
-        string email = txtEmail.Text;
-        string dienthoai = txtPhoneHV.Text;
-        string hotenPH = txtHoTenPH.Text;
-        string nghenghiep = txtNgheNghiepPH.Text;
-        string phonePH = txtDienThoaiPH.Text;
-        //int NVGioiThieu=
-        List<UserProfile> lstprofile = userprofile.getUserProfileWithID(Session.GetCurrentUser().UserID);
-        UserProfile userpro = lstprofile.FirstOrDefault();
-        List<Employees> lstemployee = employees.getEmpWithProfileId(userpro.ProfileID);
-        Employees emp = lstemployee.FirstOrDefault();
-        int NVGoiThieu = emp.EmployeesID;
-        //List<kus_HocVien> lstHV = kus_hocvien.getHVWithCode(HocvienCode);
-        //kus_HocVien hocvien = lstHV.FirstOrDefault();
-        if (this.kus_hocvien.kus_UpdateHocVen(hocvien.HocVienID, hocvien.InfoID, diachithuongtru, diachitamtru, email, dienthoai, hotenPH, nghenghiep, phonePH, Convert.ToInt32(dlTinhtrangHocVien.SelectedValue)))
-        {
-            if (NewHocVienMore(hocvien.HocVienID))
+            string firstname = txtFirstNameHV.Text;
+            string lastname = txtLastNameHV.Text;
+            string ngaysinh = txtNgaySinh.Text;
+            DateTime birthday;
+            string[] formats = { "dd/MM/yyyy", "d/M/yyyy", "dd/M/yyyy", "d/MM/yyyy" };
+            if (string.IsNullOrWhiteSpace(ngaysinh) || DateTime.TryParseExact(ngaysinh, formats, new CultureInfo("vi-VN"), DateTimeStyles.None, out birthday) || getday(ngaysinh) == "" || getmonth(ngaysinh) == "" || getyear(ngaysinh) == "")
             {
-                string ghichu = txtGhiChu.Text;
-                //int datcoc = (string.IsNullOrEmpty(txtDatCoc.Text) || string.IsNullOrWhiteSpace(txtDatCoc.Text)) ? 0 : Convert.ToInt32(txtDatCoc.Text);
-                List<kus_GhiDanh> lstGhiDanh = kus_ghidanh.getListGDWithHocVien(hocvien.HocVienID);
-                kus_GhiDanh ghidanh = lstGhiDanh.FirstOrDefault();
-                if(ghidanh==null)
+                birthday = Convert.ToDateTime("01/01/1900");
+            }
+            else
+            {
+                birthday = DateTime.ParseExact(getday(ngaysinh) + "/" + getmonth(ngaysinh) + "/" + getyear(ngaysinh), "dd/MM/yyyy", null);
+            }
+            string noisinh = txtNoiSinhHV.Text;
+            string socmnd = txtSoCMNDHV.Text;
+            string ngaycapcmnd = txtNgayCapCMND.Text;
+            DateTime NgayCapCMND;
+            if (string.IsNullOrWhiteSpace(ngaycapcmnd) || DateTime.TryParseExact(ngaycapcmnd, formats, new CultureInfo("vi-VN"), DateTimeStyles.None, out NgayCapCMND) || getday(ngaycapcmnd) == "" || getmonth(ngaycapcmnd) == "" || getyear(ngaycapcmnd) == "")
+            {
+                NgayCapCMND = Convert.ToDateTime("01/01/1900");
+            }
+            else
+            {
+                NgayCapCMND = DateTime.ParseExact(getday(ngaycapcmnd) + "/" + getmonth(ngaycapcmnd) + "/" + getyear(ngaycapcmnd), "dd/MM/yyyy", null);
+            }
+            string noicap = txtNoiCapCMND.Text;
+            int sex;
+            if (!rdformnam.Checked && !rdformnu.Checked)
+            {
+                sex = 0;
+            }
+            else
+            {
+                sex = (rdformnam.Checked) ? 1 : (rdformnu.Checked) ? 2 : 0;
+            }
+
+            //this.customerbasicinfo.CreateBasicCodeInfo(FileCode);
+            this.customerbasicinfo.UpdateCustomerBasicInfo(hocvien.InfoID, firstname, lastname, "", birthday, noisinh, sex, socmnd, NgayCapCMND, noicap);
+            //string HocvienCode = RandomName + DateTime.Now.Day.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Year.ToString();
+            //this.kus_hocvien.CreateCodeHocVien(HocvienCode);
+
+            string diachithuongtru = txtDCThuongTru.Text;
+            string diachitamtru = txtDCTamTru.Text;
+            string email = txtEmail.Text;
+            string dienthoai = txtPhoneHV.Text;
+            string hotenPH = txtHoTenPH.Text;
+            string nghenghiep = txtNgheNghiepPH.Text;
+            string phonePH = txtDienThoaiPH.Text;
+            //int NVGioiThieu=
+
+            UserProfile userpro = userprofile.getUserProfileWithID(Session.GetCurrentUser().UserID).FirstOrDefault();
+            Employees emp = employees.getEmpWithProfileId(userpro.ProfileID).FirstOrDefault();
+            int NVGoiThieu = emp.EmployeesID;
+            if (this.kus_hocvien.kus_UpdateHocVen(hocvien.HocVienID, hocvien.InfoID, diachithuongtru, diachitamtru, email, dienthoai, hotenPH, nghenghiep, phonePH, Convert.ToInt32(dlTinhtrangHocVien.SelectedValue), hocvien.AvailableBalances))
+            {
+                if (NewHocVienMore(hocvien.HocVienID))
                 {
-                    Response.Redirect(Request.Url.AbsoluteUri);
-                }
-                else
-                {
-                    if (this.kus_ghidanh.UpdateGhichu(hocvien.HocVienID, ghichu))
+                    string ghichu = txtGhiChu.Text;
+                    //int datcoc = (string.IsNullOrEmpty(txtDatCoc.Text) || string.IsNullOrWhiteSpace(txtDatCoc.Text)) ? 0 : Convert.ToInt32(txtDatCoc.Text);
+                    List<kus_GhiDanh> lstGhiDanh = kus_ghidanh.getListGDWithHocVien(hocvien.HocVienID);
+                    kus_GhiDanh ghidanh = lstGhiDanh.FirstOrDefault();
+                    if (ghidanh == null)
                     {
                         Response.Redirect(Request.Url.AbsoluteUri);
                     }
                     else
                     {
-                        Response.Write("<script>alert('Cập nhật thất bại ! Lỗi kết nối CSDL !')</script>");
+                        if (this.kus_ghidanh.UpdateGhichu(hocvien.HocVienID, ghichu))
+                        {
+                            Response.Redirect(Request.Url.AbsoluteUri);
+                        }
+                        else
+                        {
+                            Response.Write("<script>alert('Cập nhật thất bại ! Lỗi kết nối CSDL !')</script>");
+                        }
                     }
                 }
             }
+
+
         }
+        catch (Exception ex)
+        {
+            this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
+        }
+
     }
     protected void btnEnableTT_ServerClick(object sender, EventArgs e)
     {
