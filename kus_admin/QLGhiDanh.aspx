@@ -48,7 +48,7 @@
                 <a href="#tab_Ghidanh" data-toggle="tab">Học viên ghi danh </a>
             </li>
             <li>
-                <a href="#tab_Ghidanhtiemnang" data-toggle="tab">Ghi danh tiềm năng </a>
+                <a href="#tab_Ghidanhtiemnang" data-toggle="tab" id="btntabGhiDanhTN" runat="server">Ghi danh tiềm năng </a>
             </li>
         </ul>
         <div class="tab-content">
@@ -256,10 +256,6 @@
             <%-- Tab Ghi danh tiềm năng --%>
             <div class="tab-pane" id="tab_Ghidanhtiemnang">
 
-
-
-
-
                 <asp:UpdatePanel runat="server">
                     <ContentTemplate>
                         <div class="row">
@@ -332,6 +328,7 @@
                                             <%--<a href="#modalEditGhiDanh" data-toggle="modal" id="A1" title="Chỉnh sửa thông tin ghi danh" runat="server">
                                     <i class="icon-wrench"></i>
                                 </a>--%>
+                                            <a id="btnghidanhkhoa" href="#modalSelectKhoaAvailable" data-toggle="modal" runat="server"><i class="fa fa-edit"></i>Ghi Danh Khóa</a>
                                             <a id="A2" class="btn btn-circle btn-icon-only btn-default" title="Làm mới danh sách" runat="server" href="#">
                                                 <i class="fa fa-refresh"></i>
                                             </a>
@@ -343,13 +340,16 @@
                                             <div class="col-lg-12">
                                                 <%--<a id="A3" onserverclick="btnPhieuGD_ServerClick" runat="server"><i class="fa fa-ticket"></i>Phiếu Ghi Danh Học Viên</a>--%>
                                                 <asp:GridView ID="gwGhiDanhTN" CssClass="table table-condensed" runat="server" AutoGenerateColumns="False" RowStyle-BackColor="#A1DCF2" Font-Names="Arial" Font-Size="10pt"
-                                                    OnRowDataBound="gwGhiDanhTN_RowDataBound" OnRowDeleting="gwGhiDanhTN_RowDeleting">
+                                                    OnRowDataBound="gwGhiDanhTN_RowDataBound" OnRowDeleting="gwGhiDanhTN_RowDeleting" OnSelectedIndexChanged="gwGhiDanhTN_SelectedIndexChanged">
                                                     <Columns>
                                                         <asp:TemplateField HeaderText="Học viên ghi danh">
                                                             <ItemTemplate>
                                                                 <asp:Label ID="lblHocVienCode" CssClass="display-none" runat="server" Text='<%# Eval("HocVienCode") %>'></asp:Label>
                                                                 <asp:Label ID="lblHNName" CssClass="bold" runat="server" Text='<%# Eval("HocVienCode")+ " - "+ Eval("LastName")+ " "+ Eval("FirstName") %>'></asp:Label>
                                                                 <asp:Label ID="lblID" CssClass="display-none" runat="server" Text='<%# Eval("ID") %>'></asp:Label>
+                                                                <asp:Label ID="lblHocVienID" CssClass="display-none" runat="server" Text='<%# Eval("HocVienID") %>'></asp:Label>
+                                                                <asp:Label ID="lblLopHoc" CssClass="display-none" runat="server" Text='<%# Eval("LopHoc") %>'></asp:Label>
+                                                                <asp:Label ID="lblCoSoID" CssClass="display-none" runat="server" Text='<%# Eval("CoSoID") %>'></asp:Label>
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
                                                         <asp:TemplateField HeaderText="Giới tính">
@@ -377,13 +377,20 @@
                                                         <asp:TemplateField HeaderText="Ngày Đăng Ký">
                                                             <ItemTemplate>
                                                                 <i class="fa fa-calendar"></i>
-                                                    <asp:Label ID="lblNgayGD" runat="server" Text='<%# Eval("NgayGD","{0:dd-MM-yyyy}") %>'></asp:Label>
+                                                                <asp:Label ID="lblNgayGD" runat="server" Text='<%# Eval("NgayGD","{0:dd-MM-yyyy}") %>'></asp:Label>
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
                                                         <asp:TemplateField HeaderText="Mức Học Phí">
                                                             <ItemTemplate>
                                                                 <asp:Label ID="Label7" CssClass="bold" runat="server" Text='<%# Eval("MucHocPhi","{0:0,00}") %>'></asp:Label>
                                                                 <span>₫</span>
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                        <asp:TemplateField>
+                                                            <ItemTemplate>
+                                                                <asp:Label ID="lblNumKhoaHoc" CssClass='<%# Convert.ToInt32(Eval("NumKhoaHoc").ToString())>0?"btn default btn-xs green-stripe":"btn default btn-xs red-stripe" %> '
+                                                                    runat="server" Text='<%# Convert.ToInt32(Eval("NumKhoaHoc").ToString())>0?"Hiện đang có lớp":"Chưa có lớp" %>'></asp:Label>
+                                                                <asp:Label ID="lblNumKhoa" CssClass="display-none" runat="server" Text='<%# Eval("NumKhoaHoc") %>'></asp:Label>
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
                                                         <asp:TemplateField>
@@ -407,9 +414,14 @@
                                                             <div class="pagination_lst pull-right">
                                                                 <asp:Repeater ID="rptTN" runat="server">
                                                                     <ItemTemplate>
-                                                                        <asp:LinkButton ID="lnkPageTN" runat="server" Text='<%#Eval("Text") %>' CommandArgument='<%# Eval("Value") %>'
+                                                                        <%--<asp:LinkButton ID="lnkPageTN" runat="server" Text='<%#Eval("Text") %>' CommandArgument='<%# Eval("Value") %>'
                                                                             CssClass='<%# Convert.ToBoolean(Eval("Enabled")) ? "btn btn-default page_enabled" : "btn btn-default page_disabled" %>'
-                                                                            OnClick="TNPage_Changed" OnClientClick='<%# !Convert.ToBoolean(Eval("Enabled")) ? "return false;" : "" %>'></asp:LinkButton>
+                                                                            OnClick="TNPage_Changed" OnClientClick='<%# !Convert.ToBoolean(Eval("Enabled")) ? "return false;" : "" %>'></asp:LinkButton>--%>
+
+
+                                                                        <asp:Button ID="lnkPageTN" runat="server" Text='<%#Eval("Text") %>' CommandArgument='<%# Eval("Value") %>'
+                                                                            CssClass='<%# Convert.ToBoolean(Eval("Enabled")) ? "btn btn-default page_enabled" : "btn btn-default page_disabled" %>'
+                                                                            OnClick="lnkPageTN_Click" OnClientClick='<%# !Convert.ToBoolean(Eval("Enabled")) ? "return false;" : "" %>' />
                                                                     </ItemTemplate>
                                                                 </asp:Repeater>
                                                                 <%--<div class="clearfix"></div>
@@ -434,29 +446,180 @@
                             </div>
                         </div>
 
+
+
+
+
                     </ContentTemplate>
+                    <Triggers>
+                        <asp:PostBackTrigger ControlID="gwGhiDanhTN" />
+                    </Triggers>
                 </asp:UpdatePanel>
-
-
 
             </div>
         </div>
     </div>
     <%-- END TABS --%>
-
-
-    <%-- Modal Edit ghi danh --%>
-    <div id="modalEditGhiDanh" class="modal fade modal-scroll" tabindex="-1" data-replace="true" role="dialog" data-backdrop="static" data-keyboard="false" aria-hidden="true">
+    <%-- Modal List Khoa Hoc --%>
+    <div id="modalSelectKhoaAvailable" class="modal fade modal-scroll" tabindex="-1" data-replace="true" role="dialog" data-backdrop="static" data-keyboard="false" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                    <i class="fa fa-sliders"></i>Chỉnh sửa thông tin Ghi Danh
+                    <i class="fa fa-edit"></i>Chọn khóa Ghi Danh
                 </div>
                 <div class="modal-body">
+                    <asp:UpdatePanel runat="server">
+                        <ContentTemplate>
+                            <div class="row">
+                                <div class="col-lg-6">
+
+                                    <asp:GridView ID="gwKhoaHocByLop" CssClass="table table-condensed" AutoGenerateColumns="false" RowStyle-BackColor="#A1DCF2" Font-Names="Arial" Font-Size="10pt"
+                                        HeaderStyle-BackColor="#3AC0F2" HeaderStyle-ForeColor="White"
+                                        OnSelectedIndexChanged="gwKhoaHocByLop_SelectedIndexChanged"
+                                        runat="server">
+                                        <Columns>
+                                            <asp:TemplateField>
+                                                <ItemTemplate>
+                                                    <div class="label label-success">
+                                                        <i class="glyphicon glyphicon-star-empty"></i>
+                                                    </div>
+                                                </ItemTemplate>
+                                                <ItemStyle Width="30px" />
+                                            </asp:TemplateField>
+                                            <asp:TemplateField>
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblMaKhoaHoc" runat="server" Text='<%# Eval("MaKhoaHoc") %>'></asp:Label>
+                                                    <asp:Label ID="lblID" CssClass="display-none" runat="server" Text='<%# Eval("ID") %>'></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField>
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblTenKhoaHoc" runat="server" Text='<%# Eval("TenKhoaHoc") %>'></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField>
+                                                <ItemTemplate>
+                                                    <asp:LinkButton ID="lkselect" runat="server" CausesValidation="False" CommandName="Select" Text="Select"><i class="btn btn-circle btn-icon-only btn-default"><i class="glyphicon glyphicon-share-alt"></i></i></asp:LinkButton>
+                                                </ItemTemplate>
+                                                <ItemStyle Width="30px" />
+                                            </asp:TemplateField>
+                                        </Columns>
+                                        <SelectedRowStyle BackColor="#79B782" ForeColor="Black" />
+                                        <HeaderStyle BackColor="#FFB848" ForeColor="White"></HeaderStyle>
+                                        <RowStyle BackColor="#FAF3DF"></RowStyle>
+                                    </asp:GridView>
+
+                                </div>
+                                <div class="col-lg-6">
+
+                                    <div class="portlet light">
+                                        <div class="portlet-title">
+                                            <div class="caption">
+                                                <i class="fa fa-list font-yellow-casablanca"></i>
+                                                <span class="caption-subject bold font-yellow-casablanca uppercase">Thông tin chi tiết </span>
+                                            </div>
+                                            <div class="actions">
+                                                <a id="A3" class="btn btn-circle btn-icon-only btn-default" title="Làm mới danh sách" runat="server" href="#">
+                                                    <i class="fa fa-refresh"></i>
+                                                </a>
+                                                <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="#"></a>
+                                            </div>
+                                        </div>
+                                        <div class="portlet-body">
+                                            <div class="row">
+                                                <div class="form-horizontal">
+                                                    <div class="form-body">
+                                                        <%-- /Row --%>
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    <label class="control-label bold col-md-5">Mã Khóa Học :</label>
+                                                                    <div class="col-md-7">
+                                                                        <asp:Label ID="lblMaKhoaHocDetail" runat="server"></asp:Label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <%-- /Row --%>
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    <label class="control-label bold col-md-5">Tên Khóa Học :</label>
+                                                                    <div class="col-md-7">
+                                                                        <asp:Label ID="lblTenKhoaHocDetail" runat="server"></asp:Label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <%-- /Row --%>
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    <label class="control-label bold col-md-5">Ngày Khai Giảng :</label>
+                                                                    <div class="col-md-7">
+                                                                        <asp:Label ID="lblNgayKhaiGiangDetail" runat="server"></asp:Label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <%-- /Row --%>
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    <label class="control-label bold col-md-5">Thời Lượng :</label>
+                                                                    <div class="col-md-7">
+                                                                        <asp:Label ID="lblThoiLuongDetail" runat="server"></asp:Label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <%-- /Row --%>
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    <label class="control-label bold col-md-5">Ngày Kết Thúc :</label>
+                                                                    <div class="col-md-7">
+                                                                        <asp:Label ID="lblNgayKetThucDetail" runat="server"></asp:Label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <%-- /Row --%>
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    <label class="control-label bold col-md-5">Lịch Học :</label>
+                                                                    <div class="col-md-7">
+                                                                        <asp:Label ID="lblLichHocDetail" runat="server"></asp:Label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ContentTemplate>
+                    </asp:UpdatePanel>
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-warning" data-dismiss="modal">Cancel</a>
+                    <asp:Button ID="btnSaveSelectKhoaHoc" CssClass="btn btn-primary" OnClick="btnSaveSelectKhoaHoc_Click" runat="server" Text="Ghi Danh Khóa Hoc" />
                 </div>
             </div>
         </div>
     </div>
-    <%--End Modal Edit ghi danh --%>
+    <%--End Modal List Khoa Hoc --%>
+
+
+     <script type="text/javascript">
+         function callbtntabGhiDanhTNClickEvent() {
+           document.getElementById('<%=btntabGhiDanhTN.ClientID %>').click();
+       }
+   </script>
+
 </asp:Content>

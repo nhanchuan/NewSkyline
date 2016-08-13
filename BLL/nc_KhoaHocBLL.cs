@@ -73,6 +73,37 @@ namespace BLL
             this.dt.CloseConnection();
             return lst;
         }
+        public List<nc_KhoaHoc> getListKhoaHocIncomingByLopHoc(int LopHoc, int CoSoID)
+        {
+            if (!this.dt.OpenConnection())
+            {
+                return null;
+            }
+            string sql = "select * from nc_KhoaHoc where LopHoc=@LopHoc and CoSoID=@CoSoID and NgayKetThuc>=GETDATE()";
+            SqlParameter pLopHoc = new SqlParameter("@LopHoc", LopHoc);
+            SqlParameter pCoSoID = new SqlParameter("@CoSoID", CoSoID);
+            DataTable tb = dt.DAtable(sql, pLopHoc, pCoSoID);
+            List<nc_KhoaHoc> lst = new List<nc_KhoaHoc>();
+            foreach (DataRow r in tb.Rows)
+            {
+                nc_KhoaHoc kh = new nc_KhoaHoc();
+                kh.ID = (int)r["ID"];
+                kh.MaKhoaHoc = (string)r["MaKhoaHoc"];
+                kh.TenKhoaHoc = (string.IsNullOrEmpty(r["TenKhoaHoc"].ToString())) ? "" : (string)r["TenKhoaHoc"];
+                kh.SoLuong = (string.IsNullOrEmpty(r["SoLuong"].ToString())) ? 0 : (int)r["SoLuong"];
+                kh.NgayKhaiGiang = (string.IsNullOrEmpty(r["NgayKhaiGiang"].ToString())) ? DefaultDate : (DateTime)r["NgayKhaiGiang"];
+                kh.ThoiLuong = (string.IsNullOrEmpty(r["ThoiLuong"].ToString())) ? 0 : (int)r["ThoiLuong"];
+                kh.NgayKetThuc = (string.IsNullOrEmpty(r["NgayKetThuc"].ToString())) ? DefaultDate : (DateTime)r["NgayKetThuc"];
+                kh.LoaiChuongTrinh = (string.IsNullOrEmpty(r["LoaiChuongTrinh"].ToString())) ? 0 : (int)r["LoaiChuongTrinh"];
+                kh.ChuongTrinh = (string.IsNullOrEmpty(r["ChuongTrinh"].ToString())) ? 0 : (int)r["ChuongTrinh"];
+                kh.LopHoc = (string.IsNullOrEmpty(r["LopHoc"].ToString())) ? 0 : (int)r["LopHoc"];
+                kh.CoSoID = (string.IsNullOrEmpty(r["CoSoID"].ToString())) ? 0 : (int)r["CoSoID"];
+                kh.DateOfCreate = (DateTime)r["DateOfCreate"];
+                lst.Add(kh);
+            }
+            this.dt.CloseConnection();
+            return lst;
+        }
         public DataTable get_Tabel_nc_KhoaHoc(int PageIndex, int PageSize)
         {
             if (!this.dt.OpenConnection())

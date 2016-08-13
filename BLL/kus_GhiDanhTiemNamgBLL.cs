@@ -12,6 +12,33 @@ namespace BLL
     public class kus_GhiDanhTiemNamgBLL
     {
         DataServices dt = new DataServices();
+        public List<kus_GhiDanhTiemNamg> ListByID(int ID)
+        {
+            if (!this.dt.OpenConnection())
+            {
+                return null;
+            }
+            string sql = "select * from kus_GhiDanhTiemNamg where ID=@ID";
+            SqlParameter pID = new SqlParameter("@ID", ID);
+
+            DataTable tb = dt.DAtable(sql, pID);
+            List<kus_GhiDanhTiemNamg> lst = new List<kus_GhiDanhTiemNamg>();
+            foreach (DataRow r in tb.Rows)
+            {
+                kus_GhiDanhTiemNamg gh = new kus_GhiDanhTiemNamg();
+                gh.ID = (int)r["ID"];
+                gh.HocVienID = (string.IsNullOrEmpty(r["HocVienID"].ToString())) ? 0 : (int)r["HocVienID"];
+                gh.LopHoc = (string.IsNullOrEmpty(r["LopHoc"].ToString())) ? 0 : (int)r["LopHoc"];
+                gh.NVGhiDanh = (string.IsNullOrEmpty(r["NVGhiDanh"].ToString())) ? 0 : (int)r["NVGhiDanh"];
+                gh.NgayGD = (DateTime)r["NgayGD"];
+                gh.GhiChu = (string.IsNullOrEmpty(r["GhiChu"].ToString())) ? "" : (string)r["GhiChu"];
+                gh.GDStatus = (string.IsNullOrEmpty(r["GDStatus"].ToString())) ? false : (Boolean)r["GDStatus"];
+                gh.CoSoID = (string.IsNullOrEmpty(r["CoSoID"].ToString())) ? 0 : (int)r["CoSoID"];
+                lst.Add(gh);
+            }
+            this.dt.CloseConnection();
+            return lst;
+        }
 
         public List<kus_GhiDanhTiemNamg> ListByHocVienIDandLopHoc(int HocVienID, int LopHoc)
         {
@@ -35,6 +62,7 @@ namespace BLL
                 gh.NgayGD = (DateTime)r["NgayGD"];
                 gh.GhiChu = (string.IsNullOrEmpty(r["GhiChu"].ToString())) ? "" : (string)r["GhiChu"];
                 gh.GDStatus = (string.IsNullOrEmpty(r["GDStatus"].ToString())) ? false : (Boolean)r["GDStatus"];
+                gh.CoSoID = (string.IsNullOrEmpty(r["CoSoID"].ToString())) ? 0 : (int)r["CoSoID"];
                 lst.Add(gh);
             }
             this.dt.CloseConnection();
@@ -42,19 +70,20 @@ namespace BLL
         }
 
 
-        public Boolean Newkus_GhiDanhTiemNamg(int HocVienID, int LopHoc, int NVGhiDanh, string GhiChu, Boolean GDStatus)
+        public Boolean Newkus_GhiDanhTiemNamg(int HocVienID, int LopHoc, int NVGhiDanh, string GhiChu, Boolean GDStatus, int CoSoID)
         {
             if (!this.dt.OpenConnection())
             {
                 return false;
             }
-            string sql = "insert into kus_GhiDanhTiemNamg(HocVienID,LopHoc,NVGhiDanh,GhiChu,GDStatus) values (@HocVienID,@LopHoc,@NVGhiDanh,@GhiChu,@GDStatus)";
+            string sql = "insert into kus_GhiDanhTiemNamg(HocVienID,LopHoc,NVGhiDanh,GhiChu,GDStatus,CoSoID) values (@HocVienID,@LopHoc,@NVGhiDanh,@GhiChu,@GDStatus,@CoSoID)";
             SqlParameter pHocVienID = (HocVienID == 0) ? new SqlParameter("@HocVienID", DBNull.Value) : new SqlParameter("@HocVienID", HocVienID);
             SqlParameter pLopHoc = (LopHoc == 0) ? new SqlParameter("@LopHoc", DBNull.Value) : new SqlParameter("@LopHoc", LopHoc);
             SqlParameter pNVGhiDanh = (NVGhiDanh == 0) ? new SqlParameter("@NVGhiDanh", DBNull.Value) : new SqlParameter("@NVGhiDanh", NVGhiDanh);
             SqlParameter pGhiChu = (GhiChu == "") ? new SqlParameter("@GhiChu", DBNull.Value) : new SqlParameter("@GhiChu", GhiChu);
             SqlParameter pGDStatus = new SqlParameter("@GDStatus", GDStatus);
-            this.dt.Updatedata(sql, pHocVienID, pLopHoc, pNVGhiDanh, pGhiChu, pGDStatus);
+            SqlParameter pCoSoID = (CoSoID == 0) ? new SqlParameter("@CoSoID", DBNull.Value) : new SqlParameter("@CoSoID", CoSoID);
+            this.dt.Updatedata(sql, pHocVienID, pLopHoc, pNVGhiDanh, pGhiChu, pGDStatus, pCoSoID);
             this.dt.CloseConnection();
             return true;
         }
@@ -83,7 +112,7 @@ namespace BLL
             }
             string sql = "select COUNT(*) from kus_GhiDanhTiemNamg where LopHoc=@LopHoc";
             SqlParameter pLopHoc = new SqlParameter("@LopHoc", LopHoc);
-            dem = dt.GetValues(sql);
+            dem = dt.GetValues(sql, pLopHoc);
             this.dt.CloseConnection();
             return dem;
         }

@@ -15,6 +15,7 @@ namespace DAL
         private DateTime ngayGD;
         private string ghiChu;
         public bool GDStatus;
+        private int coSoID;
         public int ID
         {
             get
@@ -90,6 +91,19 @@ namespace DAL
             set
             {
                 ghiChu = value;
+            }
+        }
+
+        public int CoSoID
+        {
+            get
+            {
+                return coSoID;
+            }
+
+            set
+            {
+                coSoID = value;
             }
         }
     }

@@ -44,6 +44,9 @@
                     <li>
                         <a href="#tab_class" data-toggle="tab">Lớp tiềm năng </a>
                     </li>
+                    <li>
+                        <a href="#tab_selectedCoSo" data-toggle="tab">Cơ sở</a>
+                    </li>
                 </ul>
                 <div class="tab-content">
 
@@ -603,6 +606,58 @@
                             </asp:UpdatePanel>
 
 
+                        </div>
+                    </div>
+
+                    <%-- Tab Cơ Sở --%>
+                    <div class="tab-pane" id="tab_selectedCoSo">
+                        <div class="row">
+                            <div class="form-horizontal">
+                                <div class="form-body">
+                                    <%-- /Row --%>
+                                    <div class="row">
+                                        <asp:UpdatePanel runat="server">
+                                            <ContentTemplate>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label bold col-md-4">Thuộc Hệ thống chi nhánh</label>
+                                                        <div class="col-md-8">
+                                                            <asp:DropDownList ID="dlHTChiNhanh" AutoPostBack="true" OnSelectedIndexChanged="dlHTChiNhanh_SelectedIndexChanged" CssClass="form-control" runat="server"></asp:DropDownList>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label bold col-md-4">Thuộc Cơ Sở  (<span class="required">*</span>)</label>
+                                                        <div class="col-md-8">
+                                                            <asp:DropDownList ID="dlCoSo" CssClass="form-control" runat="server"></asp:DropDownList>
+                                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator7" runat="server"
+                                                                ControlToValidate="dlCoSo"
+                                                                ValidationGroup="validGhiDanhHV"
+                                                                Display="Static"
+                                                                ForeColor="Red"
+                                                                ErrorMessage="Chưa chọn Cơ Sở !"
+                                                                InitialValue="0">
+                                                            </asp:RequiredFieldValidator>
+                                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator8" runat="server"
+                                                                ControlToValidate="dlCoSo"
+                                                                ValidationGroup="validGDHVAvailable"
+                                                                Display="Static"
+                                                                ForeColor="Red"
+                                                                ErrorMessage="Chưa chọn Cơ Sở !"
+                                                                InitialValue="0">
+                                                            </asp:RequiredFieldValidator>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </ContentTemplate>
+                                            <Triggers>
+                                                <asp:AsyncPostBackTrigger ControlID="dlHTChiNhanh" EventName="SelectedIndexChanged" />
+                                            </Triggers>
+                                        </asp:UpdatePanel>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -17,6 +17,10 @@ public partial class kus_admin_QLGhiDanh : BasePage
     kus_CoSoBLL kus_coso;
     kus_GhiDanhBLL kus_ghidanh;
     kus_GhiDanhTiemNamgBLL ghidanhtiemnang;
+    nc_KhoaHocBLL khoahoc;
+    nc_LopHocBLL lophoc;
+    kus_LichHocBLL lichhoc;
+    WeekdaysBLL weekdays;
     public int PageSize = 20;
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -43,6 +47,7 @@ public partial class kus_admin_QLGhiDanh : BasePage
                     dlCoSo.Items.Insert(0, new ListItem("------ Chọn Cơ Sở thuộc Hệ Thống Chi Nhánh -------", "0"));
                     btnEditKhoaHoc.Attributes.Add("class", "btn btn-circle btn-icon-only btn-default disabled");
                     btnPhieuGD.Attributes.Add("class", "btn btn-default disabled");
+                    btnghidanhkhoa.Attributes.Add("class", "btn btn-success disabled");
                     this.load_gwListClass();
                 }
             }
@@ -238,12 +243,6 @@ public partial class kus_admin_QLGhiDanh : BasePage
         gwGhiDanhTN.DataBind();
         this.PopulatePager(rptTN, recordCount, pageIndex, PageSize);
     }
-    protected void TNPage_Changed(object sender, EventArgs e)
-    {
-        int pageIndex = int.Parse((sender as LinkButton).CommandArgument);
-        int LopID = Convert.ToInt32((gwListClass.SelectedRow.FindControl("lblID") as Label).Text);
-        this.Getkus_GhiDanhTiemNamgPageWise(pageIndex, LopID);
-    }
     //Load gwListClass
     private void load_gwListClass()
     {
@@ -296,6 +295,99 @@ public partial class kus_admin_QLGhiDanh : BasePage
             {
                 this.AlertPageValid(true, "False to connect server !", alertPageValid, lblPageValid);
             }
+        }
+        catch (Exception ex)
+        {
+            this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
+        }
+    }
+
+    protected void lnkPageTN_Click(object sender, EventArgs e)
+    {
+        int pageIndex = int.Parse((sender as Button).CommandArgument);
+        int LopID = Convert.ToInt32((gwListClass.SelectedRow.FindControl("lblID") as Label).Text);
+        this.Getkus_GhiDanhTiemNamgPageWise(pageIndex, LopID);
+    }
+
+    protected void gwGhiDanhTN_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        khoahoc = new nc_KhoaHocBLL();
+        int numKhoa = Convert.ToInt32((gwGhiDanhTN.SelectedRow.FindControl("lblNumKhoa") as Label).Text);
+        if (numKhoa > 0)
+        {
+            int LopID = Convert.ToInt32((gwListClass.SelectedRow.FindControl("lblID") as Label).Text);
+            int cosoid = Convert.ToInt32((gwGhiDanhTN.SelectedRow.FindControl("lblCoSoID") as Label).Text);
+            btnghidanhkhoa.Attributes.Add("class", "btn btn-success");
+
+            gwKhoaHocByLop.DataSource = khoahoc.getListKhoaHocIncomingByLopHoc(LopID, cosoid);
+            gwKhoaHocByLop.DataBind();
+        }
+        else
+        {
+            btnghidanhkhoa.Attributes.Add("class", "btn btn-success disabled");
+        }
+        string script = "window.onload = function() { callbtntabGhiDanhTNClickEvent(); };";
+        ClientScript.RegisterStartupScript(this.GetType(), "callbtntabGhiDanhTNClickEvent", script, true);
+    }
+
+    protected void gwKhoaHocByLop_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        khoahoc = new nc_KhoaHocBLL();
+        lichhoc = new kus_LichHocBLL();
+        weekdays = new WeekdaysBLL();
+        int khoahocid = Convert.ToInt32((gwKhoaHocByLop.SelectedRow.FindControl("lblID") as Label).Text);
+        nc_KhoaHoc khoc = khoahoc.getListKhoaHocWithID(khoahocid).FirstOrDefault();
+        lblMaKhoaHocDetail.Text = khoc.MaKhoaHoc;
+        lblTenKhoaHocDetail.Text = khoc.TenKhoaHoc;
+        lblNgayKhaiGiangDetail.Text = khoc.NgayKhaiGiang.ToString("dd/MM/yyyy");
+        lblNgayKetThucDetail.Text = khoc.NgayKetThuc.ToString("dd/MM/yyyy");
+        lblThoiLuongDetail.Text = khoc.ThoiLuong.ToString();
+
+        List<kus_LichHoc> lstLichHoc = lichhoc.getListLichHocWithKhoaHoc(khoahocid);
+        foreach (kus_LichHoc itm in lstLichHoc)
+        {
+            lblLichHocDetail.Text += weekdays.ListWeekdaysByID(itm.DayID).FirstOrDefault().WeekdaysNameVN+" | ";
+        }
+
+    }
+
+    protected void btnSaveSelectKhoaHoc_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            kus_ghidanh = new kus_GhiDanhBLL();
+            ghidanhtiemnang = new kus_GhiDanhTiemNamgBLL();
+            lophoc = new nc_LopHocBLL();
+
+            if(gwKhoaHocByLop.SelectedRow==null)
+            {
+                Response.Write("<script>alert('Chưa chọn Khóa Học !')</script>");
+            }
+            else
+            {
+                int HocVienID = Convert.ToInt32((gwGhiDanhTN.SelectedRow.FindControl("lblHocVienID") as Label).Text);
+                int khoahocid = Convert.ToInt32((gwKhoaHocByLop.SelectedRow.FindControl("lblID") as Label).Text);
+                int lophocid = Convert.ToInt32((gwGhiDanhTN.SelectedRow.FindControl("lblLopHoc") as Label).Text);
+                int gdTNID = Convert.ToInt32((gwGhiDanhTN.SelectedRow.FindControl("lblID") as Label).Text);
+
+                kus_GhiDanhTiemNamg gdTN = ghidanhtiemnang.ListByID(gdTNID).FirstOrDefault();
+                nc_LopHoc lop = lophoc.getListLopHocWithID(lophocid).FirstOrDefault();
+
+
+                if (kus_ghidanh.GhiDanhMoi(HocVienID, khoahocid, gdTN.NVGhiDanh, gdTN.GhiChu, 0, lop.MucHocPhi))
+                {
+                    Response.Write("<script>alert('Ghi danh thành công !')</script>");
+                    this.ghidanhtiemnang.DeleteByID(gdTNID);
+                    Response.Redirect(Request.Url.AbsolutePath);
+                }
+                else
+                {
+                    this.AlertPageValid(true, "Thao tác thất bại. Lỗi kết nối server !", alertPageValid, lblPageValid);
+                }
+
+            }
+            
+
         }
         catch (Exception ex)
         {

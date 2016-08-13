@@ -29,6 +29,9 @@ public partial class kus_admin_GhiDanhTiemNang : BasePage
     UserProfileBLL userprofile;
     EmployeesBLL employees;
 
+    kus_HTChiNhanhBLL htchinhanh;
+    kus_CoSoBLL coso;
+
     protected void Page_Load(object sender, EventArgs e)
     {
         this.setcurenturl();
@@ -50,10 +53,12 @@ public partial class kus_admin_GhiDanhTiemNang : BasePage
                 {
                     this.AlertPageValid(false, "", alertPageValid, lblPageValid);
                     this.load_dlThuocLoaiChuongTrinh();
+                    this.load_dlHTChiNhanh();
                     panelGhiDanhMoi.Visible = true;
                     panelDaGhiDanh.Visible = false;
                     btnAddNewHV.CssClass = "btn btn-primary";
                     btnAddOldHV.CssClass = "btn btn-primary display-none";
+                    dlCoSo.Items.Insert(0, new ListItem("-- Chọn Cơ Sở Đào Tạo --", "0"));
                 }
             }
         }
@@ -63,6 +68,12 @@ public partial class kus_admin_GhiDanhTiemNang : BasePage
         nc_loaictdaotao = new nc_LoaiCTDaoTaoBLL();
         this.load_DropdownList(dlThuocLoaiChuongTrinh, nc_loaictdaotao.getListLoaiCTDaoTao(), "TenChuongTrinh", "ID");
         dlThuocLoaiChuongTrinh.Items.Insert(0, new ListItem("-- Chọn loại chương trình --", "0"));
+    }
+    private void load_dlHTChiNhanh()
+    {
+        htchinhanh = new kus_HTChiNhanhBLL();
+        this.load_DropdownList(dlHTChiNhanh, htchinhanh.getlAllHTChiNHanh(), "TenHTChiNhanh", "HTChiNhanhID");
+        dlHTChiNhanh.Items.Insert(0, new ListItem("-- Chọn Hệ thống chi nhánh --", "0"));
     }
     [System.Web.Script.Services.ScriptMethod()]
     [System.Web.Services.WebMethod]
@@ -375,7 +386,7 @@ public partial class kus_admin_GhiDanhTiemNang : BasePage
 
 
                         int LopID = Convert.ToInt32((gwSelectClass.SelectedRow.FindControl("lblID") as Label).Text);
-                        if (this.ghidanhtiemnang.Newkus_GhiDanhTiemNamg(hocvien.HocVienID, LopID, emp.EmployeesID, ghichu, true))
+                        if (this.ghidanhtiemnang.Newkus_GhiDanhTiemNamg(hocvien.HocVienID, LopID, emp.EmployeesID, ghichu, true, Convert.ToInt32(dlCoSo.SelectedValue)))
                         {
                             Response.Redirect("http://" + Request.Url.Authority + "/kus_admin/QLGhiDanh.aspx");
                         }
@@ -441,14 +452,13 @@ public partial class kus_admin_GhiDanhTiemNang : BasePage
                         int NVGhiDanh = emp.EmployeesID;
                         string ghichu = txtGhiChuAvailable.Text;
                         int datcoc = (string.IsNullOrEmpty(txtDatCocAvailable.Text) || string.IsNullOrWhiteSpace(txtDatCocAvailable.Text)) ? 0 : Convert.ToInt32(txtDatCocAvailable.Text);
-
-
+                        
 
                         //Update Hoc vien AvailableBalances
                         this.kus_hocvien.UpdateAvailableBalancesByHocVienID(hocvien.HocVienID, hocvien.AvailableBalances + datcoc);
 
 
-                        if (this.ghidanhtiemnang.Newkus_GhiDanhTiemNamg(hocvien.HocVienID, LopID, NVGhiDanh, ghichu, true))
+                        if (this.ghidanhtiemnang.Newkus_GhiDanhTiemNamg(hocvien.HocVienID, LopID, NVGhiDanh, ghichu, true, Convert.ToInt32(dlCoSo.SelectedValue)))
                         {
                             Response.Redirect("http://" + Request.Url.Authority + "/kus_admin/QLGhiDanh.aspx");
                         }
@@ -466,5 +476,12 @@ public partial class kus_admin_GhiDanhTiemNang : BasePage
         {
             this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
         }
+    }
+
+    protected void dlHTChiNhanh_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        coso = new kus_CoSoBLL();
+        this.load_DropdownList(dlCoSo, coso.getLSTCoSoWithChiNhanhID(Convert.ToInt32(dlHTChiNhanh.SelectedValue)), "TenCoSo", "CoSoID");
+        dlCoSo.Items.Insert(0, new ListItem("-- Chọn Cơ Sở Đào Tạo --", "0"));
     }
 }
