@@ -38,9 +38,6 @@
         </div>
     </div>
     <%--End Pages is Valid --%>
-
-
-
     <!--BEGIN TABS-->
     <div class="tabbable tabbable-custom tabbable-full-width">
         <ul class="nav nav-tabs">
