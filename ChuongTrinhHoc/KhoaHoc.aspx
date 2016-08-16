@@ -258,7 +258,8 @@
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Ngày kết thúc">
                             <ItemTemplate>
-                                <asp:Label ID="lblNgayKetThuc" runat="server" Text='<%# Eval("NgayKetThuc","{0:dd/MM/yyyy}") %>'></asp:Label>
+                                <%--<asp:Label ID="lblNgayKetThuc" runat="server" Text='<%# Eval("NgayKetThuc","{0:dd/MM/yyyy}") %>'></asp:Label>--%>
+                                <asp:Label ID="lblNgayKetThuc" CssClass='<%# HasOutdate(Eval("NgayKetThuc").ToString())?"label label-danger":"label label-success" %>' runat="server" Text='<%# Eval("NgayKetThuc","{0:dd/MM/yyyy}") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Thời lượng">

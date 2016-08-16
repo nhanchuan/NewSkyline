@@ -7,7 +7,8 @@ var Calendar = function() {
             Calendar.initCalendar();
         },
 
-        initCalendar: function() {
+        initCalendar:
+            function () {
 
             if (!jQuery().fullCalendar) {
                 return;
@@ -94,7 +95,6 @@ var Calendar = function() {
             addEvent("My Event 4");
             addEvent("My Event 5");
             addEvent("My Event 6");
-
             $('#calendar').fullCalendar('destroy'); // destroy the calendar
             $('#calendar').fullCalendar({ //re-initialize the calendar
                 header: h,
@@ -124,7 +124,8 @@ var Calendar = function() {
                         $(this).remove();
                     }
                 },
-                events: [{
+                events:
+                    [{
                     title: 'All Day Event',
                     start: new Date(y, m, 1),
                     backgroundColor: Metronic.getBrandColor('yellow')
@@ -160,7 +161,7 @@ var Calendar = function() {
                     backgroundColor: Metronic.getBrandColor('purple'),
                     allDay: false,
                 }, {
-                    title: 'Click for Google',
+                    title: 'Click for Asec >>XX FGJ',
                     start: new Date(y, m, 28),
                     end: new Date(y, m, 29),
                     backgroundColor: Metronic.getBrandColor('yellow'),
@@ -169,7 +170,6 @@ var Calendar = function() {
             });
 
         }
-
     };
 
 }();

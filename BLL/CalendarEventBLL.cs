@@ -12,32 +12,18 @@ namespace BLL
     public class CalendarEventBLL
     {
         DataServices DB = new DataServices();
-        //public List<CalendarEvent> getEvents(int UserId, DateTime start, DateTime end)
-        //{
-        //    string sql = "select * from CalendarEvent where Event_start >= @start and Event_end <= @end and UserID=@UserId";
-        //    if (!this.DB.OpenConnection())
-        //    {
-        //        return null;
-        //    }
-        //    SqlParameter pUserId = new SqlParameter("UserId", UserId);
-        //    SqlParameter pstart = new SqlParameter("start", start);
-        //    SqlParameter pend = new SqlParameter("end", end);
-        //    DataTable tb = DB.DAtable(sql, pUserId, pstart, pend);
-        //    List<CalendarEvent> lst = new List<CalendarEvent>();
-        //    foreach (DataRow r in tb.Rows)
-        //    {
-        //        CalendarEvent ce = new CalendarEvent();
-        //        ce.EventID = (int)r[0];
-        //        ce.CalTitle = (string.IsNullOrEmpty(r[1].ToString())) ? "" : (string)r[1];
-        //        ce.CalDescription = (string.IsNullOrEmpty(r[2].ToString())) ? "" : (string)r[2];
-        //        ce.Event_start = (DateTime)r[3];
-        //        ce.Event_end = (DateTime)r[4];
-        //        ce.UserID = (int)r[5];
-        //        lst.Add(ce);
-        //    }
-        //    this.DB.CloseConnection();
-        //    return lst;
-        //}
+        public DataTable getEventsByUserID(int user_id)
+        {
+            string sql = "select * from CalendarEvent where user_id=@user_id";
+            if (!this.DB.OpenConnection())
+            {
+                return null;
+            }
+            SqlParameter pUserId = new SqlParameter("@user_id", user_id);
+            DataTable tb = DB.DAtable(sql, pUserId);
+            this.DB.CloseConnection();
+            return tb;
+        }
         //public Boolean updateEvent(int UserId, int evenid, String title, String description)
         //{
         //    string sql = "Update CalendarEvent set CalTitle=@title, CalDescription=@description where EventID=@evenid and UserID=@UserId";

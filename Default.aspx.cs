@@ -8,11 +8,13 @@ using System.Data;
 using System.Data.SqlClient;
 using DAL;
 using BLL;
+using System.Web.Services;
 
 public partial class _Default : BasePage
 {
     CustomerProfilePrivateBLL customerProPri;
     kus_GhiDanhBLL kus_ghidanh;
+    InteractiveHistoryBLL interactiveHistory;
     protected void Page_Load(object sender, EventArgs e)
     {
         this.setcurenturl();
@@ -27,6 +29,7 @@ public partial class _Default : BasePage
             {
                 //do something
                 this.load_Number();
+                this.load_rptfeedssystem();
             }
         }
     }
@@ -37,4 +40,12 @@ public partial class _Default : BasePage
         lblSumBoHoSo.Text= customerProPri.CounThuLyHoSoPageWise().ToString();
         lblNumGhiDanh.Text = kus_ghidanh.CountHocVien().ToString();
     }
+
+    private void load_rptfeedssystem()
+    {
+        interactiveHistory = new InteractiveHistoryBLL();
+        rptfeedssystem.DataSource = interactiveHistory.DataTableInteractiveHistory();
+        rptfeedssystem.DataBind();
+    }
+
 }
