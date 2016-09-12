@@ -12,6 +12,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Drawing.Imaging;
 using System.Drawing;
+using System.Globalization;
 
 public partial class Pages_Post_Update : BasePage
 {
@@ -163,19 +164,8 @@ public partial class Pages_Post_Update : BasePage
         imgpost.Src = (img == null) ? "../images/default_images.jpg" : "../" + img.ImagesUrl;
         txtPostImgTemp.Text = (img == null) ? "../images/default_images.jpg" : img.ImagesUrl;
 
-        switch (po.PostStatus)
-        {
-            case 0:
-                lblpost_status.Text = "Bản nháp";
-                break;
-            case 1:
-                lblpost_status.Text = "Chờ xét duyệt";
-                break;
-            case 2:
-                lblpost_status.Text = "Đã đăng";
-                break;
-        }
-        dlpost_status.Items.FindByValue(po.PostStatus.ToString()).Selected = true;
+        lblpost_status.Text = (po.PostStatus) ? " -- Đăng bài --" : "-- Chờ xét duyệt --";
+        dlpost_status.Items.FindByValue((po.PostStatus) ? "1" : "0").Selected = true;
         lblTimePost.Text = (po.PostModified < DateTime.Now) ? ((po.PostModified.Year == 1900) ? "Đã đăng" : po.PostModified.ToString()) : "Được lên lịch vào : " + po.PostModified.ToString();
     }
     protected void checkedTreeBoxCategory(string postid)
@@ -398,10 +388,7 @@ public partial class Pages_Post_Update : BasePage
         string time = timePost.Value.ToString();
         lblTimePost.Text = time;
     }
-    protected void btnChangepost_status_ServerClick(object sender, EventArgs e)
-    {
-        lblpost_status.Text = dlpost_status.SelectedItem.ToString();
-    }
+
     protected int ImagesID(string filename)
     {
         int ImID = 0;
@@ -469,24 +456,27 @@ public partial class Pages_Post_Update : BasePage
         int postid = int.Parse(Request.QueryString["PostCode"]);
         string contentVN = EditorPostContentVN.Text;
         string contentEN = EditorPostContentEN.Text;
-        if (ImagesID(txtPostImgTemp.Text) == 0)
-            newpost = this.posts.UpdatePostWithoutImg(postid, txtPostTitle.Value, txtMetaKeywords.Text, txtMetaDescription.Text, contentVN, contentEN, ac.UserID, 2);
-        else newpost = this.posts.UpdatePost(postid, txtPostTitle.Value, txtMetaKeywords.Text, txtMetaDescription.Text, contentVN, contentEN, ac.UserID, 2, ImagesID(txtPostImgTemp.Text));
-        return newpost;
-    }
-    protected Boolean UpdatePostWithModified(DateTime mod)
-    {
-        bool newpost;
-        posts = new PostBLL();
-        UserAccounts ac = Session.GetCurrentUser();
-        string contentVN = EditorPostContentVN.Text;
-        string contentEN = EditorPostContentEN.Text;
-        int postid = int.Parse(Request.QueryString["PostCode"]);
-        //string modified = getmonth(time) + "/" + getday(time) + "/" + getyear(time) + " " + gethours(time) + ":" + getminutes(time) + ":00"+" "+gettimeRefix(time);
-        if (ImagesID(txtPostImgTemp.Text) == 0)
-            newpost = this.posts.UpdatePostWithPostModifiedWithoutImg(postid, txtPostTitle.Value, txtMetaKeywords.Text, txtMetaDescription.Text, contentVN, contentEN, mod, ac.UserID, 2);
-        else newpost = this.posts.UpdatePostWithPostModified(postid, txtPostTitle.Value, txtMetaKeywords.Text, txtMetaDescription.Text, contentVN, contentEN, mod, ac.UserID, 2, ImagesID(txtPostImgTemp.Text));
-        return newpost;
+
+        //if (ImagesID(txtPostImgTemp.Text) == 0)
+        //    newpost = this.posts.UpdatePostWithoutImg(postid, txtPostTitle.Value, txtMetaKeywords.Text, txtMetaDescription.Text, contentVN, contentEN, ac.UserID, 2);
+        //else newpost = this.posts.UpdatePost(postid, txtPostTitle.Value, txtMetaKeywords.Text, txtMetaDescription.Text, contentVN, contentEN, ac.UserID, 2, ImagesID(txtPostImgTemp.Text));
+        //return newpost;
+
+        //Status
+        bool status = (dlpost_status.SelectedValue == "0") ? false : true;
+
+        //Time Post
+        string time = timePost.Value.ToString();
+        POST pot = posts.getallPostWithPID(postid).FirstOrDefault();
+        DateTime PostTime = pot.PostModified;
+        if (time.Length != 0)
+        {
+            string timeString = (getday(time) + "/" + getmonth(time) + "/" + getyear(time) + " " + gethours(time) + ":" + getminutes(time) + ":00.000");
+            IFormatProvider culture = new CultureInfo("en-US", true);
+            PostTime = DateTime.ParseExact(timeString, "dd/MM/yyyy HH:mm:ss.fff", culture);
+        }
+        //DateTime PostTime = (string.IsNullOrWhiteSpace(time)) ? Convert.ToDateTime(lblTimePost.Text) : Convert.ToDateTime(getmonth(time) + "/" + getday(time) + "/" + getyear(time) + " " + gethours(time) + ":" + getminutes(time) + ":00" + " " + gettimeRefix(time));
+        return posts.UpdatePost(postid, txtPostTitle.Value, txtMetaKeywords.Text, txtMetaDescription.Text, contentVN, contentEN, PostTime, ac.UserID, status, pot.ViewCount, ImagesID(txtPostImgTemp.Text));
     }
     protected void New_Post_Category_relationships()
     {
@@ -531,49 +521,12 @@ public partial class Pages_Post_Update : BasePage
             {
                 posts = new PostBLL();
                 int timepost = (timePost.Value == "") ? 1 : 2;
-                switch (timepost)
+                if (UpdatePost())
                 {
-                    case 1:
-                        if (UpdatePost())
-                        {
-                            this.New_Post_Category_relationships();
-                            this.New_Tags_relationships();
-                            this.InteractiveHistory(Session.GetCurrentUser().UserID, "Cập nhật bài viết " + txtPostTitle.Value, Request.Url.AbsoluteUri);
-                            Response.Redirect(Request.Url.AbsoluteUri);
-                        }
-                        else
-                        {
-                            return;
-                        }
-                        break;
-                    case 2:
-                        string time = timePost.Value.ToString();
-                        DateTime modified;
-                        try
-                        {
-                            modified = Convert.ToDateTime(getmonth(time) + "/" + getday(time) + "/" + getyear(time) + " " + gethours(time) + ":" + getminutes(time) + ":00" + " " + gettimeRefix(time));
-                            if (UpdatePostWithModified(modified))
-                            {
-                                this.New_Post_Category_relationships();
-                                this.New_Tags_relationships();
-                                this.InteractiveHistory(Session.GetCurrentUser().UserID, "Cập nhật bài viết " + txtPostTitle.Value, Request.Url.AbsoluteUri);
-                                Response.Redirect(Request.Url.AbsoluteUri);
-                            }
-                            else
-                            {
-                                return;
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            lblTimePost.Attributes.Add("style", "color:red;");
-                            lblTimePost.Text = "Fales to Datetime format !";
-                            string script = "window.onload = function() { calldropdownTimepostClickEvent(); };";
-                            ClientScript.RegisterStartupScript(this.GetType(), "calldropdownTimepostClickEvent", script, true);
-                            timePost.Value = "";
-                            timePost.Focus();
-                        }
-                        break;
+                    this.New_Post_Category_relationships();
+                    this.New_Tags_relationships();
+                    this.InteractiveHistory(Session.GetCurrentUser().UserID, "Cập nhật bài viết " + txtPostTitle.Value, Request.Url.AbsoluteUri);
+                    Response.Redirect(Request.Url.AbsoluteUri);
                 }
             }
             else
@@ -585,5 +538,10 @@ public partial class Pages_Post_Update : BasePage
         {
             this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
         }
+    }
+
+    protected void dlpost_status_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        lblpost_status.Text = dlpost_status.SelectedItem.ToString();
     }
 }

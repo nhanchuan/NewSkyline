@@ -83,8 +83,6 @@
                     </div>
                     <div class="tools">
                         <a href="javascript:;" class="collapse"></a>
-                        <a href="#portlet-config" data-toggle="modal" class="config"></a>
-                        <button id="btnreload" class="btn green" runat="server"><i class="fa fa-refresh"></i></button>
                         <a href="javascript:;" class="remove"></a>
                     </div>
                 </div>
@@ -122,7 +120,6 @@
                                     <asp:TextBox ID="TextBox1" runat="server" Text='<%# Bind("ImagesUrl") %>'></asp:TextBox>
                                 </EditItemTemplate>
                                 <ItemTemplate>
-                                    <%-- <asp:Label ID="Label1" runat="server" Text='<%# Bind("ImagesUrl") %>'></asp:Label>--%>
                                     <img src='<%# "../" + Eval("ImagesUrl") %>' style="width: 60px; height: auto;" />
                                 </ItemTemplate>
                             </asp:TemplateField>
@@ -138,9 +135,6 @@
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Meta Tag ">
-                                <%--<EditItemTemplate>
-                                    <asp:TextBox ID="TextBox9" runat="server" Text='<%# Bind("MetaDescription") %>'></asp:TextBox>
-                                </EditItemTemplate>--%>
                                 <ItemTemplate>
                                     <label class="bold"><i class="fa fa-key"></i>Meta Keywords :</label>
                                     <asp:Label ID="Label8" runat="server" Text='<%# Bind("MetaKeywords") %>'></asp:Label><br />
@@ -172,12 +166,9 @@
                                     <asp:Label ID="Label5" runat="server" Text='<%# Bind("UserName") %>'></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:TemplateField HeaderText="Trạng Thái">
-                                <EditItemTemplate>
-                                    <asp:TextBox ID="TextBox6" runat="server" Text='<%# Bind("PostStatus") %>'></asp:TextBox>
-                                </EditItemTemplate>
+                            <asp:TemplateField HeaderText="Trạng thái">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label6" runat="server" Text='<%# Bind("PostStatus") %>'></asp:Label>
+                                    <i class='<%# (Eval("PostStatus").ToString().Length==0)?"glyphicon glyphicon-unchecked" : Convert.ToBoolean(Eval("PostStatus"))?"glyphicon glyphicon-check":"glyphicon glyphicon-unchecked" %>'></i>&nbsp Duyệt
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Lượt xem">

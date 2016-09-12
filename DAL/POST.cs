@@ -17,7 +17,7 @@ namespace DAL
         private DateTime postModified;
         private DateTime dateOfCreate;
         private int postAuthor;
-        private int postStatus;
+        public bool PostStatus;
         private int viewCount;
         private int postImage;
         private string postCode;
@@ -127,18 +127,6 @@ namespace DAL
             set
             {
                 postAuthor = value;
-            }
-        }
-        public int PostStatus
-        {
-            get
-            {
-                return postStatus;
-            }
-
-            set
-            {
-                postStatus = value;
             }
         }
         public int ViewCount

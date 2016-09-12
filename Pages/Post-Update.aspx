@@ -103,36 +103,36 @@
                     </div>
                     <div id="collapse_3_1" class="panel-collapse collapse in">
                         <div class="panel-body">
-                            <div class="inline">
+                            <%--<div class="inline">
                                 <asp:Button ID="Button1" CssClass="btn btn-default pull-left" runat="server" Text="Lưu nháp" />
                                 <asp:Button ID="Button2" CssClass="btn btn-default pull-right" runat="server" Text="Xem thử" />
                             </div>
                             <div class="clearfix"></div>
-                            <br />
+                            <br />--%>
                             <div class="form-group">
-                                <i class="fa fa-key"></i>
-                                <label>Trạng thái:</label>&nbsp<strong><asp:Label ID="lblpost_status" runat="server" Text="Bản nháp"></asp:Label></strong><a href="#poststatus" data-toggle="collapse"> Chỉnh sửa</a>
-                                <%--  --%>
-                                <div id="poststatus" class="panel-collapse collapse">
-                                    <div class="panel-body">
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <div class="input-icon">
-                                                    <i class="fa fa-twitch"></i>
-                                                    <asp:DropDownList ID="dlpost_status" CssClass="form-control" runat="server">
-                                                        <asp:ListItem Value="0">Bản nháp</asp:ListItem>
-                                                            <asp:ListItem Value="1">Chờ xét duyệt</asp:ListItem>
-                                                            <asp:ListItem Value="2">Đã đăng</asp:ListItem>
-                                                    </asp:DropDownList>
+                                <asp:UpdatePanel runat="server">
+                                    <ContentTemplate>
+                                        <i class="fa fa-key"></i>
+                                        <label>Trạng thái:</label>&nbsp<strong><asp:Label ID="lblpost_status" runat="server" Text="Bản nháp"></asp:Label></strong><a href="#poststatus" data-toggle="collapse"> Chỉnh sửa</a>
+                                        <%--  --%>
+                                        <div id="poststatus" class="panel-collapse collapse">
+                                            <div class="panel-body">
+                                                <div class="form-group">
+                                                    <div class="input-group">
+                                                        <div class="input-icon">
+                                                            <i class="fa fa-twitch"></i>
+                                                            <asp:DropDownList ID="dlpost_status" AutoPostBack="true" OnSelectedIndexChanged="dlpost_status_SelectedIndexChanged" CssClass="form-control" runat="server">
+                                                                <asp:ListItem Value="0">Chờ xét duyệt</asp:ListItem>
+                                                                <asp:ListItem Value="1">Đăng bài</asp:ListItem>
+                                                            </asp:DropDownList>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <span class="input-group-btn">
-                                                    <button id="btnChangepost_status" class="btn btn-success" type="button" onserverclick="btnChangepost_status_ServerClick" runat="server"><i class="fa fa-arrow-left fa-fw"></i>OK</button>
-                                                </span>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <%--  --%>
+                                        <%--  --%>
+                                    </ContentTemplate>
+                                </asp:UpdatePanel>
                             </div>
                             <div class="form-group">
                                 <i class="fa fa-calendar-o"></i>
@@ -143,7 +143,7 @@
                                     <div class="panel-body">
                                         <asp:RequiredFieldValidator ID="RequiredFieldValidator4" ControlToValidate="timePost" ValidationGroup="validtimepost" runat="server" Display="Dynamic" ForeColor="Red" ErrorMessage="Required Field"></asp:RequiredFieldValidator>
                                         <div class="form-group">
-                                            <div class="input-group date form_meridian_datetime input-large">
+                                            <div class="input-group date form_meridian_datetime">
                                                 <input type="text" size="16" class="form-control" id="timePost" runat="server" />
                                                 <span class="input-group-btn">
                                                     <button class="btn default date-reset" type="button"><i class="fa fa-times"></i></button>
@@ -163,7 +163,7 @@
                         <div class="panel-footer">
                             <div class="panel-body">
                                 <div class="inline">
-                                    <a class="pull-left" style="color: red;">Bỏ vào thùng rác</a>
+                                    <%--<a class="pull-left" style="color: red;">Bỏ vào thùng rác</a>--%>
                                     <asp:Button ID="btnPostUpdate" CssClass="btn btn-primary pull-right" ValidationGroup="validNewPost" OnClick="btnPostUpdate_Click" runat="server" Text="Cập nhật bài viết" />
                                 </div>
                             </div>

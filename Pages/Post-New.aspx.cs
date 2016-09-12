@@ -12,6 +12,7 @@ using System.Drawing;
 using System.IO;
 using System.Drawing.Imaging;
 using System.Security.Cryptography;
+using System.Globalization;
 
 public partial class Pages_Post_New : BasePage
 {
@@ -22,7 +23,7 @@ public partial class Pages_Post_New : BasePage
     ImagesBLL images;
     ImagesTypeBLL imagestype;
     PostBLL posts;
-   
+
     protected void Page_Load(object sender, EventArgs e)
     {
         this.setcurenturl();
@@ -42,7 +43,7 @@ public partial class Pages_Post_New : BasePage
                 else
                 {
                     this.AlertPageValid(false, "", alertPageValid, lblPageValid);
-                    
+
                     if (HasPermission(admin.UserID, FunctionName.NewPost, TypeAudit.AddNew))
                     {
                         PostNewContent.Attributes.Add("class", "row");
@@ -153,7 +154,8 @@ public partial class Pages_Post_New : BasePage
     protected void btnuploadImg_ServerClick(object sender, EventArgs e)
     {
         //ImgEditPC.Src = txtuploadImgTemp.Text;
-        try {
+        try
+        {
             UserAccounts ac = Session.GetCurrentUser();
 
             images = new ImagesBLL();
@@ -261,7 +263,7 @@ public partial class Pages_Post_New : BasePage
             Num = num;
             Strmonth = strmonth;
         }
-    }   
+    }
     private string getyear(string str)
     {
         string year = str.Substring(str.IndexOf("-") - 5, 4);
@@ -283,10 +285,7 @@ public partial class Pages_Post_New : BasePage
         return re;
     }
     //----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    protected void btnChangepost_status_ServerClick(object sender, EventArgs e)
-    {
-        lblpost_status.Text = dlpost_status.SelectedItem.ToString();
-    }
+    
     protected int ImagesID(string filename)
     {
         int ImID = 0;
@@ -304,28 +303,32 @@ public partial class Pages_Post_New : BasePage
     }
     protected Boolean NewPost(string postcode)
     {
-        bool newpost;
         posts = new PostBLL();
         UserAccounts ac = Session.GetCurrentUser();
         string contentVN = EditorPostContentVN.Text;
         string contentEN = EditorPostContentEN.Text;
-        if (ImagesID(txtPostImgTemp.Text) == 0)
-            newpost = this.posts.NewPostWithoutImg(txtPostTitle.Value, txtMetaKeywords.Text, txtMetaDescription.Text, contentVN, contentEN, ac.UserID, 2, postcode);
-        else newpost = this.posts.NewPost(txtPostTitle.Value, txtMetaKeywords.Text, txtMetaDescription.Text, contentVN, contentEN, ac.UserID, 2, ImagesID(txtPostImgTemp.Text), postcode);
-        return newpost;
-    }
-    protected Boolean NewPostWithModified(string postcode, DateTime mod)
-    {
-        bool newpost;
-        posts = new PostBLL();
-        UserAccounts ac = Session.GetCurrentUser();
-        string contentVN = EditorPostContentVN.Text;
-        string contentEN = EditorPostContentEN.Text;
-        //string modified = getmonth(time) + "/" + getday(time) + "/" + getyear(time) + " " + gethours(time) + ":" + getminutes(time) + ":00"+" "+gettimeRefix(time);
-        if (ImagesID(txtPostImgTemp.Text) == 0)
-            newpost = this.posts.NewPostWithPostModifiedWithoutImg(txtPostTitle.Value, txtMetaKeywords.Text, txtMetaDescription.Text, contentVN, contentEN, mod, ac.UserID, 2, postcode);
-        else newpost = this.posts.NewPostWithPostModified(txtPostTitle.Value, txtMetaKeywords.Text, txtMetaDescription.Text, contentVN, contentEN, mod, ac.UserID, 2, ImagesID(txtPostImgTemp.Text), postcode);
-        return newpost;
+
+        //status
+        Boolean poststatus = true;
+        if (dlpost_status.SelectedValue == "1")
+        {
+            poststatus = true;
+        }
+        else
+        {
+            poststatus = false;
+        }
+
+        //Time Post
+        string time = timePost.Value.ToString();
+        DateTime PostTime = DateTime.Now;
+        if (time.Length != 0)
+        {
+            string timeString = (getday(time) + "/" + getmonth(time) + "/" + getyear(time) + " " + gethours(time) + ":" + getminutes(time) + ":00.000");
+            IFormatProvider culture = new CultureInfo("en-US", true);
+            PostTime = DateTime.ParseExact(timeString, "dd/MM/yyyy HH:mm:ss.fff", culture);
+        }
+        return posts.NewPost(txtPostTitle.Value, txtMetaKeywords.Text, txtMetaDescription.Text, contentVN, contentEN, PostTime, ac.UserID, poststatus, 0, ImagesID(txtPostImgTemp.Text), postcode);
     }
     protected class CategoryPost : IEquatable<CategoryPost>, IComparable<CategoryPost>
     {
@@ -415,50 +418,12 @@ public partial class Pages_Post_New : BasePage
                 string contentEN = EditorPostContentEN.Text;
                 string dateString = DateTime.Now.ToString("MM-dd-yyyy");
                 string postcode = RandomName + "-" + dateString;
-                int timepost = (timePost.Value == "") ? 1 : 2;
-                switch (timepost)
+                if (NewPost(postcode))
                 {
-                    case 1:
-                        if (NewPost(postcode))
-                        {
-                            this.New_Post_Category_relationships(postcode);
-                            this.New_Tags_relationships(postcode);
-                            this.InteractiveHistory(Session.GetCurrentUser().UserID, "Thêm mới bài viết " + txtPostTitle.Value, "http://" + Request.Url.Authority + "/Pages/Post-Update.aspx?PostCode=" + posts.PostIdWithPostCode(postcode));
-                            Response.Redirect("http://" + Request.Url.Authority + "/Pages/Post-Update.aspx?PostCode=" + posts.PostIdWithPostCode(postcode));
-                        }
-                        else
-                        {
-                            return;
-                        }
-                        break;
-                    case 2:
-                        string time = timePost.Value.ToString();
-                        DateTime modified;
-                        try
-                        {
-                            modified = Convert.ToDateTime(getmonth(time) + "/" + getday(time) + "/" + getyear(time) + " " + gethours(time) + ":" + getminutes(time) + ":00" + " " + gettimeRefix(time));
-                            if (NewPostWithModified(postcode, modified))
-                            {
-                                this.New_Post_Category_relationships(postcode);
-                                this.New_Tags_relationships(postcode);
-                                this.InteractiveHistory(Session.GetCurrentUser().UserID, "Thêm mới bài viết " + txtPostTitle.Value, "http://" + Request.Url.Authority + "/Pages/Post-Update.aspx?PostCode=" + posts.PostIdWithPostCode(postcode));
-                                Response.Redirect("http://" + Request.Url.Authority + "/Pages/Post-Update.aspx?PostCode=" + posts.PostIdWithPostCode(postcode));
-                            }
-                            else
-                            {
-                                return;
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            lblTimePost.Attributes.Add("style", "color:red;");
-                            lblTimePost.Text = "Fales to Datetime format !";
-                            string script = "window.onload = function() { calldropdownTimepostClickEvent(); };";
-                            ClientScript.RegisterStartupScript(this.GetType(), "calldropdownTimepostClickEvent", script, true);
-                            timePost.Value = "";
-                            timePost.Focus();
-                        }
-                        break;
+                    this.New_Post_Category_relationships(postcode);
+                    this.New_Tags_relationships(postcode);
+                    this.InteractiveHistory(Session.GetCurrentUser().UserID, "Thêm mới bài viết " + txtPostTitle.Value, "http://" + Request.Url.Authority + "/Pages/Post-Update.aspx?PostCode=" + posts.PostIdWithPostCode(postcode));
+                    Response.Redirect("http://" + Request.Url.Authority + "/Pages/Post-Update.aspx?PostCode=" + posts.PostIdWithPostCode(postcode));
                 }
             }
             else
@@ -470,5 +435,10 @@ public partial class Pages_Post_New : BasePage
         {
             this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
         }
+    }
+
+    protected void dlpost_status_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        lblpost_status.Text = dlpost_status.SelectedItem.ToString();
     }
 }
