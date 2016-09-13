@@ -151,6 +151,35 @@ namespace BLL
             return tb;
         }
         //===================================================
+        //============GetPostByStatusPageWise=======================================
+        public int CountPostByPostStatus(Boolean PostStatus) //COUNT ROW IN TABLE Post By PostStatus
+        {
+            int RC = 0;
+            if (!this.DB.OpenConnection())
+            {
+                return 0;
+            }
+            string sql = "select COUNT(*) from POST where PostStatus=@PostStatus";
+            SqlParameter pPostStatus = new SqlParameter("@PostStatus", PostStatus);
+            RC = DB.GetValues(sql, pPostStatus);
+            this.DB.CloseConnection();
+            return RC;
+        }
+        public DataTable GetPostByStatusPageWise(int PageIndex, int PageSize, Boolean PostStatus)
+        {
+            if (!this.DB.OpenConnection())
+            {
+                return null;
+            }
+            string sql = "Exec GetPostByStatusPageWise @PageIndex,@PageSize,@PostStatus";
+            SqlParameter paramPageIndex = new SqlParameter("PageIndex", PageIndex);
+            SqlParameter paramPageSize = new SqlParameter("PageSize", PageSize);
+            SqlParameter pPostStatus = new SqlParameter("@PostStatus", PostStatus);
+            DataTable tb = DB.DAtable(sql, paramPageIndex, paramPageSize, pPostStatus);
+            this.DB.CloseConnection();
+            return tb;
+        }
+        //===================================================
         //======================================================================================================
         public Boolean NewPost(string title, string metaKeywords, string metaDescription, string contentVn, string contentEn, DateTime PostModified, int author, Boolean status, int ViewCount, int img, string postcode)
         {
@@ -332,6 +361,18 @@ namespace BLL
             this.DB.Updatedata(sql, pPostID);
             this.DB.CloseConnection();
             return true;
+        }
+        //
+        public DataTable TBTopNewPost()
+        {
+            if (!this.DB.OpenConnection())
+            {
+                return null;
+            }
+            string sql = "select top 4 p.*,img.ImagesUrl from POST p left outer join Images img on p.PostImage=img.ImagesID where p.PostStatus=1 order by DateOfCreate desc";
+            DataTable tb = DB.DAtable(sql);
+            this.DB.CloseConnection();
+            return tb;
         }
     }
 }

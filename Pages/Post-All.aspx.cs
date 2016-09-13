@@ -41,8 +41,8 @@ public partial class Pages_Post_All : BasePage
                         //do somewthing
                         this.load_dlCategory();
                         this.GetPostPageWise(1, 0);
-                        lblstartindex.Text = ((1 - 1) * PageSize + 1).ToString();
-                        lblendindex.Text = ((((1 - 1) * PageSize + 1) + PageSize) - 1).ToString();
+                        rptStt.Visible = false;
+                        rptPager.Visible = true;
                     }
                     else
                     {
@@ -81,14 +81,13 @@ public partial class Pages_Post_All : BasePage
 
         gwPostmanager.DataBind();
         this.PopulatePager(rptPager, recordCount, pageIndex, PageSize);
-        lbltotalPost.Text = recordCount.ToString();
     }
     protected void Page_Changed(object sender, EventArgs e)
     {
         int pageIndex = int.Parse((sender as LinkButton).CommandArgument);
         this.GetPostPageWise(pageIndex, 0);
-        lblstartindex.Text = ((pageIndex - 1) * PageSize + 1).ToString();
-        lblendindex.Text = ((((pageIndex - 1) * PageSize + 1) + PageSize) - 1).ToString();
+        rptStt.Visible = false;
+        rptPager.Visible = true;
     }
     protected void gwPostmanager_RowDataBound(object sender, GridViewRowEventArgs e)
     {
@@ -142,5 +141,39 @@ public partial class Pages_Post_All : BasePage
     {
         int categoryID = Convert.ToInt32(dlCategory.SelectedValue);
         this.GetPostPageWise(1, categoryID);
+        rptStt.Visible = false;
+        rptPager.Visible = true;
+    }
+
+    protected void dlFilterStatus_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            post = new PostBLL();
+            this.GetPostByStatusPageWise(1, (dlFilterStatus.SelectedValue == "0") ? false : true);
+            rptStt.Visible = true;
+            rptPager.Visible = false;
+        }
+        catch (Exception ex)
+        {
+            this.AlertPageValid(true, ex.ToString(), alertPageValid, lblPageValid);
+        }
+    }
+    //===============================
+    private void GetPostByStatusPageWise(int pageIndex, Boolean stt)
+    {
+        post = new PostBLL();
+        int recordCount = 0;
+        gwPostmanager.DataSource = post.GetPostByStatusPageWise(pageIndex, PageSize, stt);
+        gwPostmanager.DataBind();
+        recordCount = post.CountPostByPostStatus(stt);
+        this.PopulatePager(rptStt, recordCount, pageIndex, PageSize);
+    }
+    protected void Stt_Page_Changed(object sender, EventArgs e)
+    {
+        int pageIndex = int.Parse((sender as LinkButton).CommandArgument);
+        this.GetPostByStatusPageWise(pageIndex, (dlFilterStatus.SelectedValue == "0") ? false : true);
+        rptStt.Visible = true;
+        rptPager.Visible = false;
     }
 }

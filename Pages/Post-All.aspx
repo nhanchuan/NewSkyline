@@ -89,17 +89,17 @@
                 <div class="portlet-body background">
                     <div class="row">
                         <div class="col-lg-2">
-                            <asp:DropDownList ID="DropDownList1" CssClass="form-control input-medium" AutoPostBack="true" runat="server">
-                                <asp:ListItem>Tất cả</asp:ListItem>
-                                <asp:ListItem Value="0">Đã đăng</asp:ListItem>
-                                <asp:ListItem Value="1">Đã lên lịch</asp:ListItem>
-                                <asp:ListItem Value="2">Bản nháp</asp:ListItem>
+                            <asp:DropDownList ID="dlFilterStatus" CssClass="form-control" AutoPostBack="true" OnSelectedIndexChanged="dlFilterStatus_SelectedIndexChanged" runat="server">
+                                <asp:ListItem>-- Trạng thái --</asp:ListItem>
+                                <asp:ListItem Value="0">Chờ Xét Duyệt</asp:ListItem>
+                                <asp:ListItem Value="1">Đăng Bài</asp:ListItem>
                             </asp:DropDownList>
                         </div>
                         <div class="col-lg-2">
-                            <asp:DropDownList ID="dlCategory" Style="margin-left: 100px;" CssClass="form-control input-medium" AutoPostBack="true" OnSelectedIndexChanged="dlCategory_SelectedIndexChanged" runat="server"></asp:DropDownList>
+                            <asp:DropDownList ID="dlCategory" Style="margin-left: 100px;" CssClass="form-control" AutoPostBack="true" OnSelectedIndexChanged="dlCategory_SelectedIndexChanged" runat="server"></asp:DropDownList>
                         </div>
-                        <div class="col-lg-5 pull-right">
+                        <div class="col-lg-3"></div>
+                        <div class="col-lg-5">
                             <div class="input-group">
                                 <div class="input-icon">
                                     <i class="fa fa-search"></i>
@@ -197,18 +197,7 @@
             <div class="form-group">
                 <!-- BEGIN PAGINATOR -->
                 <div class="row">
-                    <div class="col-md-4 col-sm-4 items-info">
-                        <div id="divrownumber" runat="server">
-                            Items
-                                    <asp:Label ID="lblstartindex" runat="server"></asp:Label>
-                            to
-                                    <asp:Label ID="lblendindex" runat="server"></asp:Label>
-                            of
-                            <asp:Label ID="lbltotalPost" runat="server"></asp:Label>
-                            total
-                        </div>
-                    </div>
-                    <div class="col-md-8 col-sm-8">
+                    <div class="col-md-12 col-sm-12">
                         <div class="pagination_lst pull-right">
                             <asp:Repeater ID="rptPager" runat="server">
                                 <ItemTemplate>
@@ -218,13 +207,13 @@
                                 </ItemTemplate>
                             </asp:Repeater>
                             <div class="clearfix"></div>
-                            <%--<asp:Repeater ID="prtCT" runat="server">
+                            <asp:Repeater ID="rptStt" runat="server">
                                 <ItemTemplate>
-                                    <asp:LinkButton ID="lnkCTSearchPage" runat="server" Text='<%#Eval("Text") %>' CommandArgument='<%# Eval("Value") %>'
+                                    <asp:LinkButton ID="lnkSttPage" runat="server" Text='<%#Eval("Text") %>' CommandArgument='<%# Eval("Value") %>'
                                         CssClass='<%# Convert.ToBoolean(Eval("Enabled")) ? "page_enabled" : "page_disabled" %>'
-                                        OnClick="Page_CTChanged" OnClientClick='<%# !Convert.ToBoolean(Eval("Enabled")) ? "return false;" : "" %>'></asp:LinkButton>
+                                        OnClick="Stt_Page_Changed" OnClientClick='<%# !Convert.ToBoolean(Eval("Enabled")) ? "return false;" : "" %>'></asp:LinkButton>
                                 </ItemTemplate>
-                            </asp:Repeater>--%>
+                            </asp:Repeater>
                         </div>
                     </div>
                 </div>

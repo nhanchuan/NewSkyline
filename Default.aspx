@@ -4,7 +4,10 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-
+    <!-- BEGIN PAGE LEVEL STYLES -->
+    <link href="../../assets/admin/pages/css/blog.css" rel="stylesheet" type="text/css" />
+    <link href="../../assets/admin/pages/css/news.css" rel="stylesheet" type="text/css" />
+    <!-- END PAGE LEVEL STYLES -->
     <!-- BEGIN PAGE HEADER-->
     <h3 class="page-title">Dashboard <small>reports & statistics</small>
     </h3>
@@ -29,7 +32,7 @@
     </div>
     <!-- END PAGE HEADER-->
     <!-- BEGIN DASHBOARD STATS -->
-    <div class="row">
+    <%--<div class="row">
         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
             <div class="dashboard-stat blue-madison">
                 <div class="visual">
@@ -98,12 +101,57 @@
                 </a>
             </div>
         </div>
-    </div>
+    </div>--%>
     <!-- END DASHBOARD STATS -->
     <div class="clearfix">
     </div>
 
     <div class="row ">
+
+        <div class="col-md-6 col-sm-6 article-block">
+            <!-- BEGIN PORTLET-->
+            <h1>Bài Viết Mới</h1>
+            <asp:Repeater ID="rptTopNewPost" runat="server">
+                <ItemTemplate>
+                    <div class="row">
+                        <div class="col-md-4 blog-img blog-tag-data">
+                            <img src='<%# "../" + Eval("ImagesUrl") %>' alt="" class="img-responsive">
+                            <ul class="list-inline">
+                                <li>
+                                    <i class="fa fa-calendar"></i>
+                                    <a href="#"><%# Eval("DateOfCreate","{0:dd/MM/yyyy}") %> </a>
+                                </li>
+                                <%--<li>
+                                    <i class="fa fa-comments"></i>
+                                    <a href="#">38 Comments </a>
+                                </li>--%>
+                            </ul>
+                            <%--<ul class="list-inline blog-tags">
+                                <li>
+                                    <i class="fa fa-tags"></i>
+                                    <a href="#">Technology </a>
+                                    <a href="#">Education </a>
+                                    <a href="#">Internet </a>
+                                </li>
+                            </ul>--%>
+                        </div>
+                        <div class="col-md-8 blog-article">
+                            <h3>
+                                <a href='<%#"../Pages/Post-Update.aspx?PostCode="+Eval("PostID") %>'><%# Eval("PostTitle") %> </a>
+                            </h3>
+                            <p>
+                                <%# Eval("MetaDescription") %>
+                            </p>
+                            <a class="btn blue" href='<%#"../Pages/Post-Update.aspx?PostCode="+Eval("PostID") %>'>Chi tiết <i class="m-icon-swapright m-icon-white"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <hr />
+                </ItemTemplate>
+            </asp:Repeater>
+            <!-- END PORTLET-->
+            <a class="btn blue btn-block margin-bottom-30" href="../Pages/Post-All.aspx">Xem danh sách bài viết</a>
+        </div>
         <div class="col-md-6 col-sm-6">
             <!-- BEGIN PORTLET-->
             <div class="portlet paddingless">
@@ -134,7 +182,7 @@
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane active" id="tab_1_1">
-                                <div class="scroller" style="height: 560px;" data-always-visible="1" data-rail-visible="0">
+                                <div class="scroller" style="height: 900px;" data-always-visible="1" data-rail-visible="0">
                                     <ul class="feeds">
                                         <asp:Repeater ID="rptfeedssystem" runat="server">
                                             <ItemTemplate>
@@ -170,7 +218,7 @@
                                 </div>
                             </div>
                             <div class="tab-pane" id="tab_1_2">
-                                <div class="scroller" style="height: 560px;" data-always-visible="1" data-rail-visible1="1">
+                                <div class="scroller" style="height: 900px;" data-always-visible="1" data-rail-visible1="1">
                                     <ul class="feeds">
                                         <li>
                                             <a href="#">
@@ -405,7 +453,7 @@
                                 </div>
                             </div>
                             <div class="tab-pane" id="tab_1_3">
-                                <div class="scroller" style="height: 560px;" data-always-visible="1" data-rail-visible1="1">
+                                <div class="scroller" style="height: 900px;" data-always-visible="1" data-rail-visible1="1">
                                     <div class="row">
                                         <div class="col-md-6 user-info">
                                             <img alt="" src="../../assets/admin/layout/img/avatar.png" class="img-responsive" />
@@ -567,21 +615,6 @@
                         </div>
                     </div>
                     <!--END TABS-->
-                </div>
-            </div>
-            <!-- END PORTLET-->
-        </div>
-        <div class="col-md-6 col-sm-6">
-            <!-- BEGIN PORTLET-->
-            <div class="portlet box blue-madison calendar">
-                <div class="portlet-title">
-                    <div class="caption">
-                        <i class="fa fa-calendar"></i>Calendar
-                    </div>
-                </div>
-                <div class="portlet-body light-grey">
-                    <div id="calendar">
-                    </div>
                 </div>
             </div>
             <!-- END PORTLET-->

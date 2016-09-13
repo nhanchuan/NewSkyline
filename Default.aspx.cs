@@ -15,6 +15,7 @@ public partial class _Default : BasePage
     CustomerProfilePrivateBLL customerProPri;
     kus_GhiDanhBLL kus_ghidanh;
     InteractiveHistoryBLL interactiveHistory;
+    PostBLL posts;
     protected void Page_Load(object sender, EventArgs e)
     {
         this.setcurenturl();
@@ -30,6 +31,7 @@ public partial class _Default : BasePage
                 //do something
                 this.load_Number();
                 this.load_rptfeedssystem();
+                this.load_rptTopNewPost();
             }
         }
     }
@@ -37,8 +39,8 @@ public partial class _Default : BasePage
     {
         customerProPri = new CustomerProfilePrivateBLL();
         kus_ghidanh = new kus_GhiDanhBLL();
-        lblSumBoHoSo.Text= customerProPri.CounThuLyHoSoPageWise().ToString();
-        lblNumGhiDanh.Text = kus_ghidanh.CountHocVien().ToString();
+        //lblSumBoHoSo.Text = customerProPri.CounThuLyHoSoPageWise().ToString();
+        //lblNumGhiDanh.Text = kus_ghidanh.CountHocVien().ToString();
     }
 
     private void load_rptfeedssystem()
@@ -47,5 +49,10 @@ public partial class _Default : BasePage
         rptfeedssystem.DataSource = interactiveHistory.DataTableInteractiveHistory();
         rptfeedssystem.DataBind();
     }
-
+    private void load_rptTopNewPost()
+    {
+        posts = new PostBLL();
+        rptTopNewPost.DataSource = posts.TBTopNewPost();
+        rptTopNewPost.DataBind();
+    }
 }

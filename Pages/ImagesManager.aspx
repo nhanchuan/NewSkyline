@@ -216,7 +216,10 @@
                 'text/plain': document.getElementById('<%=txtImgurl.ClientID %>').value,
                 //'text/html': '<i>here</i> is some <b>rich text</b>'
             }).then(
-            function () { console.log('success'); },
+            function () {
+                //console.log('success');
+                alert('Copy link to Clipboard success !');
+            },
             function (err) {
                 console.log('failure', err);
             });
