@@ -722,7 +722,7 @@
                         </li>
                         <%-- END TRUNG TAM ANH NGU --%>
                         <%-- Quan Ly Ho So --%>
-                        <li class="heading">
+                        <%--<li class="heading">
                             <h3 class="uppercase" style="color: white; font-weight: bold;">Quản Lý Hồ Sơ</h3>
                         </li>
                         <li>
@@ -748,7 +748,7 @@
                                 <i class="fa fa-pencil-square"></i>
                                 <span class="title">Nhập Hồ Sơ</span>
                             </a>
-                        </li>
+                        </li>--%>
                         <%-- End Quan Ly Ho So --%>
                         <%-- End System --%>
                         <li class="heading">

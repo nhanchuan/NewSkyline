@@ -48,7 +48,7 @@
             <label class="control-label">Tên Loại</label>
             <asp:TextBox ID="txtVideotypeName" CssClass="form-control" runat="server"></asp:TextBox>
             <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ControlToValidate="txtVideotypeName" ValidationGroup="validVideoType" runat="server" ErrorMessage="Required" Display="None"></asp:RequiredFieldValidator>
-            <asp:RegularExpressionValidator ID="RegularExpressionValidator1" ControlToValidate="txtVideotypeName" Display="None" ValidationGroup="validVideoType" ValidationExpression="^[\sa-zA-Z0-9_-]{0,100}$" runat="server" ErrorMessage="Tên loại Video từ 0-100 ký tự !{Chi gồm các kí tự a-z,A-Z,0-9,-,_}"></asp:RegularExpressionValidator>
+            <%--<asp:RegularExpressionValidator ID="RegularExpressionValidator1" ControlToValidate="txtVideotypeName" Display="None" ValidationGroup="validVideoType" ValidationExpression="^[\sa-zA-Z0-9_-]{0,100}$" runat="server" ErrorMessage="Tên loại Video từ 0-100 ký tự !{Chi gồm các kí tự a-z,A-Z,0-9,-,_}"></asp:RegularExpressionValidator>--%>
             <i>Tên loại để phân loại Video upload.</i>
         </div>
         <div class="form-group">

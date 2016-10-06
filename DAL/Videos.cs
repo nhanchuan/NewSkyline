@@ -11,7 +11,6 @@ namespace DAL
         private int videoID;
         private string videoName;
         private string videoUrl;
-        private string contentType;
         private int videotypeID;
         private string shortDecsription;
         private DateTime dateOfCreate;
@@ -52,19 +51,6 @@ namespace DAL
             set
             {
                 videoUrl = value;
-            }
-        }
-
-        public string ContentType
-        {
-            get
-            {
-                return contentType;
-            }
-
-            set
-            {
-                contentType = value;
             }
         }
 

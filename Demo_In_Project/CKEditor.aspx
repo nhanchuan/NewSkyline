@@ -17,7 +17,7 @@
                 ResizeDir="Both"
                 ShiftEnterMode="P"
                 StartupMode="Wysiwyg" 
-                ToolbarLocation="Top">
+                ToolbarLocation="Top" Height="600">
             </CKEditor:CKEditorControl>
         </div>
     </div>

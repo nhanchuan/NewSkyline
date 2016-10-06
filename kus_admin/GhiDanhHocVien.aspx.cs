@@ -98,46 +98,31 @@ public partial class kus_admin_GhiDanhHocVien : BasePage
     private void load_dlELoaiChuongTrinh()
     {
         nc_loaictdaotao = new nc_LoaiCTDaoTaoBLL();
-        dlELoaiChuongTrinh.DataSource = nc_loaictdaotao.getListLoaiCTDaoTao();
-        dlELoaiChuongTrinh.DataTextField = "TenChuongTrinh";
-        dlELoaiChuongTrinh.DataValueField = "ID";
-        dlELoaiChuongTrinh.DataBind();
+        this.load_DropdownList(dlELoaiChuongTrinh, nc_loaictdaotao.getListLoaiCTDaoTao(), "TenChuongTrinh", "ID");
         dlELoaiChuongTrinh.Items.Insert(0, new ListItem("-- Chọn loại chương trình --", "0"));
     }
     private void load_dlEChuongTrinh(int loaichuongtrinh)
     {
         nc_chuongtrinhdaotao = new nc_ChuongTrinhDaoTaoBLL();
-        dlEChuongTrinh.DataSource = nc_chuongtrinhdaotao.GetChuongTrinhDaoTaoWithLoai(loaichuongtrinh);
-        dlEChuongTrinh.DataTextField = "TenChuongTrinh";
-        dlEChuongTrinh.DataValueField = "ID";
-        dlEChuongTrinh.DataBind();
+        this.load_DropdownList(dlEChuongTrinh, nc_chuongtrinhdaotao.GetChuongTrinhDaoTaoWithLoai(loaichuongtrinh), "TenChuongTrinh", "ID");
         dlEChuongTrinh.Items.Insert(0, new ListItem("-- Chọn chương trình --", "0"));
     }
     private void load_dlELopHoc(int chuongtrinh)
     {
         nc_lophoc = new nc_LopHocBLL();
-        dlELopHoc.DataSource = nc_lophoc.getListLopHocWithChuongTrinh(chuongtrinh);
-        dlELopHoc.DataTextField = "TenLopHoc";
-        dlELopHoc.DataValueField = "ID";
-        dlELopHoc.DataBind();
+        this.load_DropdownList(dlELopHoc, nc_lophoc.getListLopHocWithChuongTrinh(chuongtrinh), "TenLopHoc", "ID");
         dlELopHoc.Items.Insert(0, new ListItem("-- Chọn lớp học --", "0"));
     }
     private void load_dlEHTChiNhanh()
     {
         kus_htchinhanh = new kus_HTChiNhanhBLL();
-        dlEHTChiNhanh.DataSource = kus_htchinhanh.getAllTBChiNhanh();
-        dlEHTChiNhanh.DataTextField = "tenHTChiNhanh";
-        dlEHTChiNhanh.DataValueField = "hTChiNhanhID";
-        dlEHTChiNhanh.DataBind();
+        this.load_DropdownList(dlEHTChiNhanh, kus_htchinhanh.getAllTBChiNhanh(), "tenHTChiNhanh", "hTChiNhanhID");
         dlEHTChiNhanh.Items.Insert(0, new ListItem("------- Chọn Hệ Thống Chi Nhánh -------", "0"));
     }
     private void load_dlECoSo()
     {
         kus_coso = new kus_CoSoBLL();
-        dlECoSo.DataSource = kus_coso.getAllHTCoSo();
-        dlECoSo.DataTextField = "TenCoSo";
-        dlECoSo.DataValueField = "CoSoID";
-        dlECoSo.DataBind();
+        this.load_DropdownList(dlECoSo, kus_coso.getAllHTCoSo(), "TenCoSo", "CoSoID");
         dlECoSo.Items.Insert(0, new ListItem("------ Chọn Cơ Sở -------", "0"));
     }
     private void load_KhoaHocInfor(string code)

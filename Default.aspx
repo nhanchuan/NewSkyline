@@ -160,10 +160,9 @@
                         <i class="fa fa-bell-o"></i>Feeds
                     </div>
                     <div class="tools">
-                        <a href="" class="collapse"></a>
-                        <a href="#portlet-config" data-toggle="modal" class="config"></a>
-                        <a href="" class="reload"></a>
-                        <a href="" class="remove"></a>
+                        <a href="#" class="collapse"></a>
+                        <a href="#" class="reload"></a>
+                        <a href="#" class="remove"></a>
                     </div>
                 </div>
                 <div class="portlet-body">
@@ -176,9 +175,9 @@
                             <li>
                                 <a href="#tab_1_2" data-toggle="tab">TRUNG TÂM ANH NGỮ </a>
                             </li>
-                            <li>
+                            <%--<li>
                                 <a href="#tab_1_3" data-toggle="tab">QUẢN LÝ HỒ SƠ </a>
-                            </li>
+                            </li>--%>
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane active" id="tab_1_1">
@@ -452,7 +451,7 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div class="tab-pane" id="tab_1_3">
+                            <%--<div class="tab-pane" id="tab_1_3">
                                 <div class="scroller" style="height: 900px;" data-always-visible="1" data-rail-visible1="1">
                                     <div class="row">
                                         <div class="col-md-6 user-info">
@@ -611,7 +610,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div>--%>
                         </div>
                     </div>
                     <!--END TABS-->
