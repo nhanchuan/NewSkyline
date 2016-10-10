@@ -309,5 +309,25 @@ public class BasePage : System.Web.UI.Page
         }
         return false;
     }
+
+    /// <summary>
+    /// SplitString
+    /// </summary>
+    /// <param name="text">Input Text</param>
+    /// <param name="kytu">Input character</param>
+    /// <param name="thutu">Index</param>
+    /// <returns></returns>
+    public string SplitString(string text, char kytu, int thutu)
+    {
+        string[] strArr = null;
+        string strTest = text;
+        char[] splitter = { kytu };
+        strArr = strTest.Split(splitter);
+        string chuoi = "";
+        chuoi = strArr[thutu].ToString();
+        return chuoi;
+    }
+
+
 }
 

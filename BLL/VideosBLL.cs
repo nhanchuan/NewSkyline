@@ -25,12 +25,12 @@ namespace BLL
             {
                 Videos vi = new Videos();
                 vi.VideoID = (int)r["VideoID"];
-                vi.VideoName =(string.IsNullOrEmpty(r["VideoName"].ToString()))?"": (string)r["VideoName"];
+                vi.VideoName = (string.IsNullOrEmpty(r["VideoName"].ToString())) ? "" : (string)r["VideoName"];
                 vi.VideoUrl = (string.IsNullOrEmpty(r["VideoUrl"].ToString())) ? "" : (string)r["VideoUrl"];
                 vi.VideotypeID = (string.IsNullOrEmpty(r["VideotypeID"].ToString())) ? 0 : (int)r["VideotypeID"];
                 vi.ShortDecsription = (string.IsNullOrEmpty(r["ShortDecsription"].ToString())) ? "" : (string)r["ShortDecsription"];
                 vi.DateOfCreate = (DateTime)r["DateOfCreate"];
-                vi.UserUpload = (string.IsNullOrEmpty(r[7].ToString())) ? 0 : (int)r["DateOfCreate"];
+                vi.UserUpload = (string.IsNullOrEmpty(r["UserUpload"].ToString())) ? 0 : (int)r["UserUpload"];
                 lst.Add(vi);
             }
             this.DB.CloseConnection();
@@ -55,7 +55,7 @@ namespace BLL
                 vi.VideotypeID = (string.IsNullOrEmpty(r["VideotypeID"].ToString())) ? 0 : (int)r["VideotypeID"];
                 vi.ShortDecsription = (string.IsNullOrEmpty(r["ShortDecsription"].ToString())) ? "" : (string)r["ShortDecsription"];
                 vi.DateOfCreate = (DateTime)r["DateOfCreate"];
-                vi.UserUpload = (string.IsNullOrEmpty(r[7].ToString())) ? 0 : (int)r["DateOfCreate"];
+                vi.UserUpload = (string.IsNullOrEmpty(r["UserUpload"].ToString())) ? 0 : (int)r["UserUpload"];
                 lst.Add(vi);
             }
             this.DB.CloseConnection();
@@ -80,18 +80,53 @@ namespace BLL
         //    return true;
         //}
 
-        //public int CountRecordVideo()
-        //{
-        //    int count = 0;
-        //    string sql = "select COUNT(*) from Videos";
-        //    if (!this.DB.OpenConnection())
-        //    {
-        //        return 0;
-        //    }
-        //    count = DB.GetValues(sql);
-        //    this.DB.CloseConnection();
-        //    return count;
-        //}
+        //new videso
+        public Boolean NewVideos(string VideoName, string VideoUrl, int VideotypeID, string ShortDecsription, int UserUpload)
+        {
+
+            if (!this.DB.OpenConnection())
+            {
+                return false;
+            }
+            string sql = "insert into Videos(VideoName,VideoUrl,VideotypeID,ShortDecsription,UserUpload) values(@VideoName,@VideoUrl,@VideotypeID,@ShortDecsription,@UserUpload)";
+            SqlParameter pVideoName = new SqlParameter("@VideoName", VideoName);
+            SqlParameter pVideoUrl = new SqlParameter("@VideoUrl", VideoUrl);
+            SqlParameter pVideotypeID = (VideotypeID == 0) ? new SqlParameter("@VideotypeID", DBNull.Value) : new SqlParameter("@VideotypeID", VideotypeID);
+            SqlParameter pShortDecsription = (ShortDecsription == "") ? new SqlParameter("@ShortDecsription", DBNull.Value) : new SqlParameter("@ShortDecsription", ShortDecsription);
+            SqlParameter pUserUpload = new SqlParameter("@UserUpload", UserUpload);
+            this.DB.Updatedata(sql, pVideoName, pVideoUrl, pVideotypeID, pShortDecsription, pUserUpload);
+            this.DB.CloseConnection();
+            return true;
+        }
+        //Update Videos
+        public Boolean UpdateVideos(int VideoID, string VideoName, string VideoUrl, int VideotypeID, string ShortDecsription)
+        {
+            if (!this.DB.OpenConnection())
+            {
+                return false;
+            }
+            string sql = "update Videos set VideoName=@VideoName,VideoUrl=@VideoUrl,VideotypeID=@VideotypeID,ShortDecsription=@ShortDecsription where VideoID=@VideoID";
+            SqlParameter pVideoID = new SqlParameter("@VideoID", VideoID);
+            SqlParameter pVideoName = new SqlParameter("@VideoName", VideoName);
+            SqlParameter pVideoUrl = new SqlParameter("@VideoUrl", VideoUrl);
+            SqlParameter pVideotypeID = (VideotypeID == 0) ? new SqlParameter("@VideotypeID", DBNull.Value) : new SqlParameter("@VideotypeID", VideotypeID);
+            SqlParameter pShortDecsription = (ShortDecsription == "") ? new SqlParameter("@ShortDecsription", DBNull.Value) : new SqlParameter("@ShortDecsription", ShortDecsription);
+            this.DB.Updatedata(sql, pVideoID, pVideoName, pVideoUrl, pVideotypeID, pShortDecsription);
+            this.DB.CloseConnection();
+            return true;
+        }
+        public int CountRecordVideo()
+        {
+            int count = 0;
+            if (!this.DB.OpenConnection())
+            {
+                return 0;
+            }
+            string sql = "select COUNT(*) from Videos";
+            count = DB.GetValues(sql);
+            this.DB.CloseConnection();
+            return count;
+        }
         //public int CountRecordVideoType(int type)
         //{
         //    int count = 0;
@@ -118,19 +153,19 @@ namespace BLL
         //    this.DB.CloseConnection();
         //    return count;
         //}
-        //public DataTable GetVideoPageWise(int PageIndex, int PageSize)
-        //{
-        //    string sql = "Exec GetVideoPageWise @PageIndex,@PageSize";
-        //    if (!this.DB.OpenConnection())
-        //    {
-        //        return null;
-        //    }
-        //    SqlParameter paramPageIndex = new SqlParameter("PageIndex", PageIndex);
-        //    SqlParameter paramPageSize = new SqlParameter("PageSize", PageSize);
-        //    DataTable tb = DB.DAtable(sql, paramPageIndex, paramPageSize);
-        //    this.DB.CloseConnection();
-        //    return tb;
-        //}
+        public DataTable GetVideoPageWise(int PageIndex, int PageSize)
+        {
+            string sql = "Exec GetVideoPageWise @PageIndex,@PageSize";
+            if (!this.DB.OpenConnection())
+            {
+                return null;
+            }
+            SqlParameter paramPageIndex = new SqlParameter("PageIndex", PageIndex);
+            SqlParameter paramPageSize = new SqlParameter("PageSize", PageSize);
+            DataTable tb = DB.DAtable(sql, paramPageIndex, paramPageSize);
+            this.DB.CloseConnection();
+            return tb;
+        }
         //public DataTable GetVideoTypePageWise(int PageIndex, int PageSize, int type)
         //{
         //    string sql = "Exec GetVideoTypePageWise @PageIndex,@PageSize,@type";

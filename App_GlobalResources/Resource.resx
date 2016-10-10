@@ -207,4 +207,7 @@
   <data name="accountinactivity" xml:space="preserve">
     <value>Account inactivity, please contact the Administrator for more details!</value>
   </data>
+  <data name="course" xml:space="preserve">
+    <value>Course</value>
+  </data>
 </root>

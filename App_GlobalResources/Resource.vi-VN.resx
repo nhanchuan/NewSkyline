@@ -207,4 +207,7 @@
   <data name="accountinactivity" xml:space="preserve">
     <value>Tài khoản ngưng hoạt động, vui lòng liên hệ Administrator để biết thêm chi tiết !</value>
   </data>
+  <data name="course" xml:space="preserve">
+    <value>Khóa Học</value>
+  </data>
 </root>

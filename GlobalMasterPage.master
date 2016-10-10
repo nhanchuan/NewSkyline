@@ -613,19 +613,24 @@
                             </a>
                             <ul class="sub-menu">
                                 <li>
-                                    <a href="../ChuongTrinhHoc/LoaiHinhDaoTao.aspx">Loại hình đào tạo</a>
+                                    
+                                    <a href="../ChuongTrinhHoc/LoaiHinhDaoTao.aspx"><i class="fa fa-caret-right"></i>Loại hình đào tạo</a>
                                 </li>
                                 <li>
-                                    <a href="../ChuongTrinhHoc/LoaiChuongTrinhDaoTao.aspx">Loại chương trình đào tạo</a>
+                                    
+                                    <a href="../ChuongTrinhHoc/LoaiChuongTrinhDaoTao.aspx"><i class="fa fa-caret-right"></i>Loại chương trình</a>
                                 </li>
                                 <li>
-                                    <a href="../ChuongTrinhHoc/ChuongTrinhDaoTao.aspx">Chương trình đào tạo</a>
+                                    
+                                    <a href="../ChuongTrinhHoc/ChuongTrinhDaoTao.aspx"><i class="fa fa-caret-right"></i>Chương trình đào tạo</a>
                                 </li>
                                 <li>
-                                    <a href="../ChuongTrinhHoc/LopHoc.aspx">Lớp học</a>
+                                    
+                                    <a href="../ChuongTrinhHoc/LopHoc.aspx"><i class="fa fa-caret-right"></i>Lớp học</a>
                                 </li>
                                 <li>
-                                    <a href="../ChuongTrinhHoc/KhoaHoc.aspx">Khóa học</a>
+                                    
+                                    <a href="../ChuongTrinhHoc/KhoaHoc.aspx"><i class="fa fa-caret-right"></i><%= Resources.Resource.course %></a>
                                 </li>
                                 <li>
                                     <a href="../kus_admin/Books.aspx">
@@ -788,16 +793,16 @@
                                 <span class="arrow "></span>
                             </a>
                             <ul class="sub-menu">
-                                <li>
+                                <%--<li>
                                     <a href="../Pages/VideoManager.aspx">
                                         <i class="fa fa-folder-open-o"></i>
                                         Thư viện
                                     </a>
-                                </li>
+                                </li>--%>
                                 <li>
                                     <a href="../Pages/VideoUpload.aspx">
                                         <i class="fa fa-file-video-o"></i>
-                                        Thêm tập tin
+                                        Thêm Videos
                                     </a>
                                 </li>
                                 <li>
@@ -857,7 +862,7 @@
                                 
                             </ul>
                         </li>
-                        <li>
+                        <%--<li>
                             <a href="#">
                                 <i class="icon-target"></i>
                                 <span class="title">TOOL</span>
@@ -871,7 +876,7 @@
                                     <a href="../Demo_In_Project/AddDistrict.aspx"><i class="fa fa-adn"></i>Add District</a>
                                 </li>
                             </ul>
-                        </li>
+                        </li>--%>
                         <%-- Beta Center --%>
 
                         <%--<li>
