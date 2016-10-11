@@ -45,7 +45,7 @@ public partial class ChuongTrinhHoc_KhoaHoc : BasePage
                     this.load_dlHTChiNhanh();
                     dlChuongTrinh.Items.Insert(0, new ListItem("-- Chọn chương trình --", "0"));
                     dlLopHoc.Items.Insert(0, new ListItem("-- Chọn lớp học --", "0"));
-                    dlCoSo.Items.Insert(0, new ListItem("------ Chọn Cơ Sở thuộc Hệ Thống Chi Nhánh -------", "0"));
+                    dlCoSo.Items.Insert(0, new ListItem("-- Chọn Cơ Sở thuộc Hệ Thống Chi Nhánh --", "0"));
                     if (Session["pageIndexnc_lophoc"] == null)
                     {
                         this.Getnc_KhoaHocPageWise(1);
@@ -68,19 +68,13 @@ public partial class ChuongTrinhHoc_KhoaHoc : BasePage
     private void load_dlLoaiChuongTrinh()
     {
         nc_loaictdaotao = new nc_LoaiCTDaoTaoBLL();
-        dlLoaiChuongTrinh.DataSource = nc_loaictdaotao.getListLoaiCTDaoTao();
-        dlLoaiChuongTrinh.DataTextField = "TenChuongTrinh";
-        dlLoaiChuongTrinh.DataValueField = "ID";
-        dlLoaiChuongTrinh.DataBind();
+        this.load_DropdownList(dlLoaiChuongTrinh, nc_loaictdaotao.getListLoaiCTDaoTao(), "TenChuongTrinh", "ID");
         dlLoaiChuongTrinh.Items.Insert(0, new ListItem("-- Chọn loại chương trình --", "0"));
     }
     private void load_dlELoaiChuongTrinh()
     {
         nc_loaictdaotao = new nc_LoaiCTDaoTaoBLL();
-        dlELoaiChuongTrinh.DataSource = nc_loaictdaotao.getListLoaiCTDaoTao();
-        dlELoaiChuongTrinh.DataTextField = "TenChuongTrinh";
-        dlELoaiChuongTrinh.DataValueField = "ID";
-        dlELoaiChuongTrinh.DataBind();
+        this.load_DropdownList(dlELoaiChuongTrinh, nc_loaictdaotao.getListLoaiCTDaoTao(), "TenChuongTrinh", "ID");
         dlELoaiChuongTrinh.Items.Insert(0, new ListItem("-- Chọn loại chương trình --", "0"));
     }
     protected void dlLoaiChuongTrinh_SelectedIndexChanged(object sender, EventArgs e)
@@ -104,38 +98,26 @@ public partial class ChuongTrinhHoc_KhoaHoc : BasePage
     private void load_dlHTChiNhanh()
     {
         kus_htchinhanh = new kus_HTChiNhanhBLL();
-        dlHTChiNhanh.DataSource = kus_htchinhanh.getAllTBChiNhanh();
-        dlHTChiNhanh.DataTextField = "tenHTChiNhanh";
-        dlHTChiNhanh.DataValueField = "hTChiNhanhID";
-        dlHTChiNhanh.DataBind();
-        dlHTChiNhanh.Items.Insert(0, new ListItem("------- Chọn Hệ Thống Chi Nhánh -------", "0"));
+        this.load_DropdownList(dlHTChiNhanh, kus_htchinhanh.getAllTBChiNhanh(), "tenHTChiNhanh", "hTChiNhanhID");
+        dlHTChiNhanh.Items.Insert(0, new ListItem("-- Chọn Hệ Thống Chi Nhánh --", "0"));
     }
     private void load_dlEHTChiNhanh()
     {
         kus_htchinhanh = new kus_HTChiNhanhBLL();
-        dlEHTChiNhanh.DataSource = kus_htchinhanh.getAllTBChiNhanh();
-        dlEHTChiNhanh.DataTextField = "tenHTChiNhanh";
-        dlEHTChiNhanh.DataValueField = "hTChiNhanhID";
-        dlEHTChiNhanh.DataBind();
-        dlEHTChiNhanh.Items.Insert(0, new ListItem("------- Chọn Hệ Thống Chi Nhánh -------", "0"));
+        this.load_DropdownList(dlEHTChiNhanh, kus_htchinhanh.getAllTBChiNhanh(), "tenHTChiNhanh", "hTChiNhanhID");
+        dlEHTChiNhanh.Items.Insert(0, new ListItem("-- Chọn Hệ Thống Chi Nhánh --", "0"));
     }
     private void load_dlECoSo()
     {
         kus_coso = new kus_CoSoBLL();
-        dlECoSo.DataSource = kus_coso.getAllHTCoSo();
-        dlECoSo.DataTextField = "TenCoSo";
-        dlECoSo.DataValueField = "CoSoID";
-        dlECoSo.DataBind();
-        dlECoSo.Items.Insert(0, new ListItem("------ Chọn Cơ Sở -------", "0"));
+        this.load_DropdownList(dlECoSo, kus_coso.getAllHTCoSo(), "TenCoSo", "CoSoID");
+        dlECoSo.Items.Insert(0, new ListItem("-- Chọn Cơ Sở --", "0"));
     }
     protected void dlHTChiNhanh_SelectedIndexChanged(object sender, EventArgs e)
     {
         kus_coso = new kus_CoSoBLL();
-        dlCoSo.DataSource = kus_coso.getLSTCoSoWithChiNhanhID(Convert.ToInt32(dlHTChiNhanh.SelectedValue));
-        dlCoSo.DataTextField = "TenCoSo";
-        dlCoSo.DataValueField = "CoSoID";
-        dlCoSo.DataBind();
-        dlCoSo.Items.Insert(0, new ListItem("------ Chọn Cơ Sở thuộc Hệ Thống Chi Nhánh -------", "0"));
+        this.load_DropdownList(dlCoSo, kus_coso.getLSTCoSoWithChiNhanhID(Convert.ToInt32(dlHTChiNhanh.SelectedValue)), "TenCoSo", "CoSoID");
+        dlCoSo.Items.Insert(0, new ListItem("-- Chọn Cơ Sở thuộc Hệ Thống Chi Nhánh --", "0"));
     }
     private void Getnc_KhoaHocPageWise(int pageIndex)
     {
@@ -222,54 +204,60 @@ public partial class ChuongTrinhHoc_KhoaHoc : BasePage
     }
     protected void gwKhoaHoc_SelectedIndexChanged(object sender, EventArgs e)
     {
-
         try
         {
-            nc_khoahoc = new nc_KhoaHocBLL();
-            kus_coso = new kus_CoSoBLL();
-            btnAddBooks.Attributes.Add("class", "btn btn-default");
-            btnEditKhoaHoc.Attributes.Add("class", "btn btn-circle btn-icon-only btn-default");
-            btnLenlichhoc.Attributes.Add("class", "btn btn-default");
-            btnXemLichHoc.Attributes.Add("class", "btn btn-circle btn-icon-only btn btn-default");
-            this.load_dlELoaiChuongTrinh();
-            this.load_dlEHTChiNhanh();
-            this.load_dlECoSo();
-            int khoahocID = Convert.ToInt32((gwKhoaHoc.SelectedRow.FindControl("lblID") as Label).Text);
-            List<nc_KhoaHoc> lst = nc_khoahoc.getListKhoaHocWithID(khoahocID);
-            nc_KhoaHoc khoahoc = lst.FirstOrDefault();
-            if (khoahoc != null)
+            if (Session.GetCurrentUser() == null)
             {
-                this.load_dlEChuongTrinh(khoahoc.LoaiChuongTrinh);
-                this.load_dlELopHoc(khoahoc.ChuongTrinh);
-                txtETenKhoaHoc.Text = khoahoc.TenKhoaHoc;
-                txtESoLuong.Text = khoahoc.SoLuong.ToString();
-                txtENgayKhaiGiang.Text = (khoahoc.NgayKhaiGiang.Year <= 1900) ? "" : khoahoc.NgayKhaiGiang.ToString("dd-MM-yyyy");
-                txtENgayKetThuc.Text = (khoahoc.NgayKetThuc.Year <= 1900) ? "" : khoahoc.NgayKetThuc.ToString("dd-MM-yyyy");
-                txtEThoiLuong.Text = khoahoc.ThoiLuong.ToString();
-                dlELoaiChuongTrinh.Items.FindByValue((khoahoc.LoaiChuongTrinh == 0) ? "0" : khoahoc.LoaiChuongTrinh.ToString()).Selected = true;
-                dlEChuongTrinh.Items.FindByValue((khoahoc.ChuongTrinh == 0) ? "0" : khoahoc.ChuongTrinh.ToString()).Selected = true;
-                dlELopHoc.Items.FindByValue((khoahoc.LopHoc == 0) ? "0" : khoahoc.LopHoc.ToString()).Selected = true;
-                dlECoSo.Items.FindByValue((khoahoc.CoSoID == 0) ? "0" : khoahoc.CoSoID.ToString()).Selected = true;
-
-                List<kus_CoSo> lstCoSo = kus_coso.getLSTCoSoWithID(khoahoc.CoSoID);
-                kus_CoSo coso = lstCoSo.FirstOrDefault();
-                dlEHTChiNhanh.Items.FindByValue((coso == null) ? 0.ToString() : coso.HTChiNhanhID.ToString()).Selected = true;
-
-                //books
-                this.load_dlAddBooks();
-                this.load_gwkus_KhoaHoc_Books(khoahocID);
-                //modal lich hoc
-                lblchoseMaKhoa.Text = khoahoc.MaKhoaHoc;
-                lblchoseTenKhoa.Text = khoahoc.TenKhoaHoc;
-                lblchoseNgayKG.Text = (khoahoc.NgayKhaiGiang.Year <= 1900) ? "" : khoahoc.NgayKhaiGiang.ToString("dd-MM-yyyy");
-                lblchoseNgayKT.Text = (khoahoc.NgayKetThuc.Year <= 1900) ? "" : khoahoc.NgayKetThuc.ToString("dd-MM-yyyy");
-                this.load_LichHoc(khoahocID);
-                //click create lich hoc 
-                Session.SetCurrentCoSoID(khoahoc.CoSoID.ToString());
+                Response.Redirect("http://" + Request.Url.Authority + "/Login.aspx");
             }
             else
             {
-                return;
+                nc_khoahoc = new nc_KhoaHocBLL();
+                kus_coso = new kus_CoSoBLL();
+                btnAddBooks.Attributes.Add("class", "btn btn-default");
+                btnEditKhoaHoc.Attributes.Add("class", "btn btn-circle btn-icon-only btn-default");
+                btnLenlichhoc.Attributes.Add("class", "btn btn-default");
+                btnXemLichHoc.Attributes.Add("class", "btn btn-circle btn-icon-only btn btn-default");
+                this.load_dlELoaiChuongTrinh();
+                this.load_dlEHTChiNhanh();
+                this.load_dlECoSo();
+                int khoahocID = Convert.ToInt32((gwKhoaHoc.SelectedRow.FindControl("lblID") as Label).Text);
+                List<nc_KhoaHoc> lst = nc_khoahoc.getListKhoaHocWithID(khoahocID);
+                nc_KhoaHoc khoahoc = lst.FirstOrDefault();
+                if (khoahoc != null)
+                {
+                    this.load_dlEChuongTrinh(khoahoc.LoaiChuongTrinh);
+                    this.load_dlELopHoc(khoahoc.ChuongTrinh);
+                    txtETenKhoaHoc.Text = khoahoc.TenKhoaHoc;
+                    txtESoLuong.Text = khoahoc.SoLuong.ToString();
+                    txtENgayKhaiGiang.Text = (khoahoc.NgayKhaiGiang.Year <= 1900) ? "" : khoahoc.NgayKhaiGiang.ToString("dd-MM-yyyy");
+                    txtENgayKetThuc.Text = (khoahoc.NgayKetThuc.Year <= 1900) ? "" : khoahoc.NgayKetThuc.ToString("dd-MM-yyyy");
+                    txtEThoiLuong.Text = khoahoc.ThoiLuong.ToString();
+                    dlELoaiChuongTrinh.Items.FindByValue((khoahoc.LoaiChuongTrinh == 0) ? "0" : khoahoc.LoaiChuongTrinh.ToString()).Selected = true;
+                    dlEChuongTrinh.Items.FindByValue((khoahoc.ChuongTrinh == 0) ? "0" : khoahoc.ChuongTrinh.ToString()).Selected = true;
+                    dlELopHoc.Items.FindByValue((khoahoc.LopHoc == 0) ? "0" : khoahoc.LopHoc.ToString()).Selected = true;
+                    dlECoSo.Items.FindByValue((khoahoc.CoSoID == 0) ? "0" : khoahoc.CoSoID.ToString()).Selected = true;
+
+                    List<kus_CoSo> lstCoSo = kus_coso.getLSTCoSoWithID(khoahoc.CoSoID);
+                    kus_CoSo coso = lstCoSo.FirstOrDefault();
+                    dlEHTChiNhanh.Items.FindByValue((coso == null) ? 0.ToString() : coso.HTChiNhanhID.ToString()).Selected = true;
+
+                    //books
+                    this.load_dlAddBooks();
+                    this.load_gwkus_KhoaHoc_Books(khoahocID);
+                    //modal lich hoc
+                    lblchoseMaKhoa.Text = khoahoc.MaKhoaHoc;
+                    lblchoseTenKhoa.Text = khoahoc.TenKhoaHoc;
+                    lblchoseNgayKG.Text = (khoahoc.NgayKhaiGiang.Year <= 1900) ? "" : khoahoc.NgayKhaiGiang.ToString("dd-MM-yyyy");
+                    lblchoseNgayKT.Text = (khoahoc.NgayKetThuc.Year <= 1900) ? "" : khoahoc.NgayKetThuc.ToString("dd-MM-yyyy");
+                    this.load_LichHoc(khoahocID);
+                    //click create lich hoc 
+                    Session.SetCurrentCoSoID(khoahoc.CoSoID.ToString());
+                }
+                else
+                {
+                    return;
+                }
             }
         }
         catch (Exception ex)
@@ -357,20 +345,14 @@ public partial class ChuongTrinhHoc_KhoaHoc : BasePage
     protected void dlEChuongTrinh_SelectedIndexChanged(object sender, EventArgs e)
     {
         nc_lophoc = new nc_LopHocBLL();
-        dlELopHoc.DataSource = nc_lophoc.getListLopHocWithChuongTrinh(Convert.ToInt32(dlEChuongTrinh.SelectedValue));
-        dlELopHoc.DataTextField = "TenLopHoc";
-        dlELopHoc.DataValueField = "ID";
-        dlELopHoc.DataBind();
+        this.load_DropdownList(dlELopHoc, nc_lophoc.getListLopHocWithChuongTrinh(Convert.ToInt32(dlEChuongTrinh.SelectedValue)), "TenLopHoc", "ID");
         dlELopHoc.Items.Insert(0, new ListItem("-- Chọn lớp học --", "0"));
     }
     protected void dlEHTChiNhanh_SelectedIndexChanged(object sender, EventArgs e)
     {
         kus_coso = new kus_CoSoBLL();
-        dlCoSo.DataSource = kus_coso.getLSTCoSoWithChiNhanhID(Convert.ToInt32(dlEHTChiNhanh.SelectedValue));
-        dlCoSo.DataTextField = "TenCoSo";
-        dlCoSo.DataValueField = "CoSoID";
-        dlCoSo.DataBind();
-        dlCoSo.Items.Insert(0, new ListItem("------ Chọn Cơ Sở thuộc Hệ Thống Chi Nhánh -------", "0"));
+        this.load_DropdownList(dlCoSo, kus_coso.getLSTCoSoWithChiNhanhID(Convert.ToInt32(dlEHTChiNhanh.SelectedValue)), "TenCoSo", "CoSoID");
+        dlCoSo.Items.Insert(0, new ListItem("-- Chọn Cơ Sở thuộc Hệ Thống Chi Nhánh --", "0"));
     }
 
     //search

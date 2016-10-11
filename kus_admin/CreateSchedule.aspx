@@ -1227,8 +1227,7 @@
                                 </div>
                                 <div class="col-lg-12">
                                     <a onclick="lichhocEvent_click()"><i class="fa fa-calendar"></i>Xem Lịch học của tất cả các lớp tại Cơ Sở 
-                                   
-                                        <asp:Label ID="lblLichHocCoSo" CssClass="bold" runat="server" Text="Label"></asp:Label>
+                                       <strong><asp:Label ID="lblLichHocCoSo" CssClass="bold" runat="server" Text="Label"></asp:Label></strong>
                                     </a>
                                 </div>
                             </div>

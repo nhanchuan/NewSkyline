@@ -156,6 +156,9 @@ public partial class kus_admin_CreateSchedule : BasePage
             List<kus_CoSo> lstCoSo = kus_coso.getLSTCoSoWithID(khoahoc.CoSoID);
             kus_CoSo coso = lstCoSo.FirstOrDefault();
             dlEHTChiNhanh.Items.FindByValue((coso == null) ? 0.ToString() : coso.HTChiNhanhID.ToString()).Selected = true;
+
+            lblLichHocCoSo.Text = (coso == null) ? "" : coso.TenCoSo;
+
         }
         else
         {

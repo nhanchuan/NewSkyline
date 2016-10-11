@@ -70,8 +70,6 @@
                         <strong>Back to Video Library </strong><a class="btn green" href="../Pages/VideoManager.aspx"><i class="fa fa-backward"></i>Click here</a>
                     </div>
                 </div>--%>
-
-
                 <div class="form-group">
                     <label>Chuyên mục videos</label>
                     <asp:DropDownList ID="dlvideoscategory" CssClass="form-control" runat="server"></asp:DropDownList>
@@ -208,7 +206,5 @@
             clip: { provider: 'pseudo', autoPlay: false },
         });
     </script>
-
-
 </asp:Content>
 

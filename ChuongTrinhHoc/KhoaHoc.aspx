@@ -4,7 +4,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <!-- BEGIN PAGE HEADER-->
-    <h1 class="page-title">Thông tin khóa học
+    <h1 class="page-title">Course Information
     </h1>
     <div class="page-bar">
         <ul class="page-breadcrumb">
@@ -32,171 +32,20 @@
         </div>
     </div>
     <%--End Pages is Valid --%>
-    <div class="row">
-        <div class="portlet box green">
-            <div class="portlet-title">
-                <div class="caption">
-                    <i class="icon-grid"></i>Thông tin chương trình đào tạo
-                </div>
-                <div class="tools">
-                    <a href="javascript:;" class="collapse"></a>
-                    <a href="#portlet-config" data-toggle="modal" class="config"></a>
-                    <a href="javascript:;" class="reload"></a>
-                    <a href="javascript:;" class="remove"></a>
-                </div>
-            </div>
-            <div class="portlet-body form">
-                <div class="form-horizontal">
-                    <div class="form-body">
-                        <%-- /Row --%>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="control-label bold col-md-4">Tên khóa học</label>
-                                    <div class="col-md-8">
-                                        <asp:TextBox ID="txtTenKhoaHoc" CssClass="form-control" runat="server"></asp:TextBox>
-                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator2" ControlToValidate="txtTenKhoaHoc" ValidationGroup="validNewKhoaHoc" Display="Dynamic" ForeColor="Red" runat="server" ErrorMessage="Tên khóa học không được để trống !"></asp:RequiredFieldValidator>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
-                        <%-- /Row --%>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="control-label bold col-md-4">Ngày khai giảng</label>
-                                    <div class="col-md-8">
-                                        <%-- Date picker --%>
-                                        <div class="input-group date date-picker" data-date-format="dd-mm-yyyy">
-                                            <asp:TextBox ID="txtNgayKG" CssClass="form-control" runat="server"></asp:TextBox>
-                                            <span class="input-group-btn">
-                                                <button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
-                                            </span>
-                                        </div>
-                                        <%-- Date picker --%>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="control-label bold col-md-4">Số lượng học viên</label>
-                                    <div class="col-md-8">
-                                        <asp:TextBox ID="txtSoLuong" TextMode="Number" CssClass="form-control" runat="server"></asp:TextBox>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <%-- /Row --%>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="control-label bold col-md-4">Ngày kết thúc</label>
-                                    <div class="col-md-8">
-                                        <%-- Date picker --%>
-                                        <div class="input-group date date-picker" data-date-format="dd-mm-yyyy">
-                                            <asp:TextBox ID="txtNgayKT" CssClass="form-control" runat="server"></asp:TextBox>
-                                            <span class="input-group-btn">
-                                                <button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
-                                            </span>
-                                        </div>
-                                        <asp:CompareValidator ID="cvtxtStartDate" runat="server"
-                                            ControlToCompare="txtNgayKG" CultureInvariantValues="true"
-                                            Display="Dynamic" EnableClientScript="true"
-                                            ControlToValidate="txtNgayKT"
-                                            ForeColor="Red"
-                                            ErrorMessage="Start date must be earlier than finish date"
-                                            Type="Date" SetFocusOnError="true" Operator="GreaterThanEqual"
-                                            Text="Ngày khai giảng phải trước ngày kết thúc"></asp:CompareValidator>
-                                        <%-- Date picker --%>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="control-label bold col-md-4">Thời lượng <i>(tiết)</i></label>
-                                    <div class="col-md-8">
-                                        <asp:TextBox ID="txtThoiLuong" TextMode="Number" CssClass="form-control" runat="server"></asp:TextBox>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <asp:UpdatePanel runat="server">
-                            <ContentTemplate>
-                                <%-- /Row --%>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="control-label bold col-md-4">Thuộc loại chương trình</label>
-                                            <div class="col-md-8">
-                                                <asp:DropDownList ID="dlLoaiChuongTrinh" CssClass="form-control" AutoPostBack="true" OnSelectedIndexChanged="dlLoaiChuongTrinh_SelectedIndexChanged" runat="server"></asp:DropDownList>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="control-label bold col-md-4">Hệ thống chi nhánh</label>
-                                            <div class="col-md-8">
-                                                <asp:DropDownList ID="dlHTChiNhanh" AutoPostBack="true" OnSelectedIndexChanged="dlHTChiNhanh_SelectedIndexChanged" CssClass="form-control" runat="server"></asp:DropDownList>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <%-- /Row --%>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="control-label bold col-md-4">Thuộc chương trình</label>
-                                            <div class="col-md-8">
-                                                <asp:DropDownList ID="dlChuongTrinh" AutoPostBack="true" OnSelectedIndexChanged="dlChuongTrinh_SelectedIndexChanged" CssClass="form-control" runat="server"></asp:DropDownList>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="control-label bold col-md-4">Thuộc Cơ Sở</label>
-                                            <div class="col-md-8">
-                                                <asp:DropDownList ID="dlCoSo" CssClass="form-control" runat="server"></asp:DropDownList>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="control-label bold col-md-4">Thuộc lớp</label>
-                                            <div class="col-md-8">
-                                                <asp:DropDownList ID="dlLopHoc" CssClass="form-control" runat="server"></asp:DropDownList>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="control-label bold col-md-4"></label>
-                                            <div class="col-md-8"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </ContentTemplate>
-                        </asp:UpdatePanel>
-                    </div>
-                    <div class="form-actions right">
-                        <a class="btn btn-default">Cancel</a>
-                        <asp:Button ID="btnSaveNew" CssClass="btn blue" ValidationGroup="validNewKhoaHoc" OnClick="btnSaveNew_Click" runat="server" Text="Lưu thông tin" />
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="clearfix"></div>
     <div class="row">
+        <div class="col-lg-12">
+            <a class="btn green" href="#modalNewCourse" data-toggle="modal">Create a new course</a>
+        </div>
+
         <!-- BEGIN Portlet PORTLET-->
         <div class="portlet light">
             <div class="portlet-title">
                 <div class="caption">
                     <i class="glyphicon glyphicon-list-alt font-yellow-casablanca"></i>
                     <span class="caption-subject bold font-yellow-casablanca uppercase">Danh sách khóa học </span>
-                    <span class="caption-helper">more samples...</span>
+                    <%--<span class="caption-helper">more samples...</span>--%>
                 </div>
                 <div class="inputs">
                     <div class="portlet-input input-inline input-medium">
@@ -209,12 +58,12 @@
                     </div>
                 </div>
                 <div class="actions">
-                    <a id="btnLenlichhoc" onserverclick="btnLenlichhoc_ServerClick" runat="server"><i class="glyphicon glyphicon-calendar"></i>Lên lịch học</a>
-                    <a id="btnAddBooks" href="#modalGiaoTrinhHoc" runat="server" data-toggle="modal"><i class="fa fa-book"></i>Sách - Giáo trình học</a>
+                    <a id="btnLenlichhoc" onserverclick="btnLenlichhoc_ServerClick" runat="server"><i class="glyphicon glyphicon-calendar"></i>&nbsp Scheduled courses</a>
+                    <a id="btnAddBooks" href="#modalGiaoTrinhHoc" runat="server" data-toggle="modal"><i class="fa fa-book"></i>&nbsp Sách - Giáo trình học</a>
                     <a id="btnXemLichHoc" href="#modalXemLichHoc" title="Xem lịch học" data-toggle="modal" runat="server"><i class="fa fa-calendar"></i></a>
-                    <a class="btn btn-circle btn-icon-only btn-default" title="Xuất danh sách Excel" href="#">
+                    <%--<a class="btn btn-circle btn-icon-only btn-default" title="Xuất danh sách Excel" href="#">
                         <i class="fa fa-file-excel-o"></i>
-                    </a>
+                    </a>--%>
                     <a href="#modalEditKhoa" data-toggle="modal" id="btnEditKhoaHoc" title="Chỉnh sửa thông tin khóa học" runat="server">
                         <i class="icon-wrench"></i>
                     </a>
@@ -1413,5 +1262,167 @@
         </div>
     </div>
     <%-- End Modal xem lịch học --%>
+
+
+
+    <%-- Modal New Khoa Hoc --%>
+    <div id="modalNewCourse" class="modal fade modal-scroll" tabindex="-1" data-replace="true" role="dialog" data-backdrop="static" data-keyboard="false" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <i class="fa fa-list"></i>Create a new course
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-horizontal">
+                                <div class="form-body">
+                                    <%-- /Row --%>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label bold col-md-4">Tên khóa học</label>
+                                                <div class="col-md-8">
+                                                    <asp:TextBox ID="txtTenKhoaHoc" CssClass="form-control" runat="server"></asp:TextBox>
+                                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator2" ControlToValidate="txtTenKhoaHoc" ValidationGroup="validNewKhoaHoc" Display="Dynamic" ForeColor="Red" runat="server" ErrorMessage="Tên khóa học không được để trống !"></asp:RequiredFieldValidator>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <%-- /Row --%>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label bold col-md-4">Ngày khai giảng</label>
+                                                <div class="col-md-8">
+                                                    <%-- Date picker --%>
+                                                    <div class="input-group date date-picker" data-date-format="dd-mm-yyyy">
+                                                        <asp:TextBox ID="txtNgayKG" CssClass="form-control" runat="server"></asp:TextBox>
+                                                        <span class="input-group-btn">
+                                                            <button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
+                                                        </span>
+                                                    </div>
+                                                    <%-- Date picker --%>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label bold col-md-4">Số lượng học viên</label>
+                                                <div class="col-md-8">
+                                                    <asp:TextBox ID="txtSoLuong" TextMode="Number" CssClass="form-control" runat="server"></asp:TextBox>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <%-- /Row --%>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label bold col-md-4">Ngày kết thúc</label>
+                                                <div class="col-md-8">
+                                                    <%-- Date picker --%>
+                                                    <div class="input-group date date-picker" data-date-format="dd-mm-yyyy">
+                                                        <asp:TextBox ID="txtNgayKT" CssClass="form-control" runat="server"></asp:TextBox>
+                                                        <span class="input-group-btn">
+                                                            <button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
+                                                        </span>
+                                                    </div>
+                                                    <asp:CompareValidator ID="cvtxtStartDate" runat="server"
+                                                        ControlToCompare="txtNgayKG" CultureInvariantValues="true"
+                                                        Display="Dynamic" EnableClientScript="true"
+                                                        ControlToValidate="txtNgayKT"
+                                                        ForeColor="Red"
+                                                        ErrorMessage="Start date must be earlier than finish date"
+                                                        Type="Date" SetFocusOnError="true" Operator="GreaterThanEqual"
+                                                        Text="Ngày khai giảng phải trước ngày kết thúc"></asp:CompareValidator>
+                                                    <%-- Date picker --%>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label bold col-md-4">Thời lượng <i>(tiết)</i></label>
+                                                <div class="col-md-8">
+                                                    <asp:TextBox ID="txtThoiLuong" TextMode="Number" CssClass="form-control" runat="server"></asp:TextBox>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <asp:UpdatePanel runat="server">
+                                        <ContentTemplate>
+                                            <%-- /Row --%>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label bold col-md-4">Thuộc loại chương trình</label>
+                                                        <div class="col-md-8">
+                                                            <asp:DropDownList ID="dlLoaiChuongTrinh" CssClass="form-control" AutoPostBack="true" OnSelectedIndexChanged="dlLoaiChuongTrinh_SelectedIndexChanged" runat="server"></asp:DropDownList>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label bold col-md-4">Hệ thống chi nhánh</label>
+                                                        <div class="col-md-8">
+                                                            <asp:DropDownList ID="dlHTChiNhanh" AutoPostBack="true" OnSelectedIndexChanged="dlHTChiNhanh_SelectedIndexChanged" CssClass="form-control" runat="server"></asp:DropDownList>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <%-- /Row --%>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label bold col-md-4">Thuộc chương trình</label>
+                                                        <div class="col-md-8">
+                                                            <asp:DropDownList ID="dlChuongTrinh" AutoPostBack="true" OnSelectedIndexChanged="dlChuongTrinh_SelectedIndexChanged" CssClass="form-control" runat="server"></asp:DropDownList>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label bold col-md-4">Thuộc Cơ Sở</label>
+                                                        <div class="col-md-8">
+                                                            <asp:DropDownList ID="dlCoSo" CssClass="form-control" runat="server"></asp:DropDownList>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label bold col-md-4">Thuộc lớp</label>
+                                                        <div class="col-md-8">
+                                                            <asp:DropDownList ID="dlLopHoc" CssClass="form-control" runat="server"></asp:DropDownList>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label bold col-md-4"></label>
+                                                        <div class="col-md-8"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </ContentTemplate>
+                                    </asp:UpdatePanel>
+                                </div>
+                                <%--<div class="form-actions right"></div>--%>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-default" data-dismiss="modal">Cancel</a>
+                    <asp:Button ID="btnSaveNew" CssClass="btn blue" ValidationGroup="validNewKhoaHoc" OnClick="btnSaveNew_Click" runat="server" Text="Lưu thông tin" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%--End Modal New Khoa Hoc --%>
 </asp:Content>
 
