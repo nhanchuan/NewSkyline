@@ -702,6 +702,12 @@
                                     </ul>
                                 </li>
                                 <li>
+                                    <a href="../kus_admin/Promotions.aspx">
+                                        <i class="fa fa-ticket"></i>
+                                        Chương trình khuyến mãi
+                                    </a>
+                                </li>
+                                <li>
                                     <a href="#">
                                         <i class="fa fa-birthday-cake"></i>
                                         Quản lý sinh nhật

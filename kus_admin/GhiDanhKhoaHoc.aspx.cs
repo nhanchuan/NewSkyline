@@ -41,7 +41,7 @@ public partial class kus_admin_GhiDanhKhoaHoc : BasePage
                     this.AlertPageValid(false, "", alertPageValid, lblPageValid);
                     this.load_dlHTChiNhanh();
                     dlCoSo.Items.Insert(0, new ListItem("--- Chọn Cơ Sở ---", "0"));
-                    btnDangKyKhoaHoc.Attributes.Add("class", "btn btn-default disabled");
+                    btnDangKyKhoaHoc.Attributes.Add("class", "btn green disabled");
                     btnLenlichhoc.Attributes.Add("class", "btn btn-default disabled");
                     rptPager.Visible = true;
                     rptSearch.Visible = false;
@@ -188,7 +188,7 @@ public partial class kus_admin_GhiDanhKhoaHoc : BasePage
 
     protected void gwKhoaHoc_SelectedIndexChanged(object sender, EventArgs e)
     {
-        btnDangKyKhoaHoc.Attributes.Add("class", "btn btn-default");
+        btnDangKyKhoaHoc.Attributes.Add("class", "btn green");
         btnLenlichhoc.Attributes.Add("class", "btn btn-default");
     }
 

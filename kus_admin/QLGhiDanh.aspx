@@ -169,9 +169,9 @@
                                                 <ItemTemplate>
                                                     <%--<asp:Label ID="Label2" runat="server" Text='<%# Eval("MaKhoaHoc")+" - "+ Eval("TenKhoaHoc") +" | " + Eval("TenLopHoc") + " | " + Eval("TenChuongTrinh")%>'></asp:Label>--%>
                                                     <asp:Label ID="lblMaKhoaHoc" CssClass="uppercase" runat="server" Text='<%# Eval("MaKhoaHoc")+" - "+ Eval("TenKhoaHoc") %>'></asp:Label>
-                                                    <i class="fa fa-asterisk"></i>
+                                                    <%--<i class="fa fa-asterisk"></i>--%>-
                                                     <asp:Label ID="lblTenLopHoc" CssClass="uppercase" runat="server" Text='<%# Eval("TenLopHoc") %>'></asp:Label>
-                                                    <i class="fa fa-asterisk"></i>
+                                                    <%--<i class="fa fa-asterisk"></i>--%>-
                                                     <asp:Label ID="lblTenChuongTrinh" CssClass="uppercase" runat="server" Text='<%# Eval("TenChuongTrinh") %>'></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>

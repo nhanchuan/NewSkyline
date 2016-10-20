@@ -75,7 +75,7 @@
                 <div class="caption">
                     <i class="icon-paper-plane font-yellow-casablanca"></i>
                     <span class="caption-subject bold font-yellow-casablanca uppercase">Danh sách khóa học </span>
-                    <span class="caption-helper">more samples...</span>
+                    <%--<span class="caption-helper">more samples...</span>--%>
                 </div>
                 <div class="inputs">
                     <div class="portlet-input input-inline input-medium">
@@ -88,7 +88,7 @@
                     </div>
                 </div>
                 <div class="actions">
-                    <a id="btnDangKyKhoaHoc" onserverclick="btnDangKyKhoaHoc_ServerClick" runat="server"><i class="fa fa-edit"></i> Đăng ký khóa học</a>
+                    <a id="btnDangKyKhoaHoc" onserverclick="btnDangKyKhoaHoc_ServerClick" runat="server"><i class="fa fa-edit"></i> Course Registration</a>
                     <a id="btnLenlichhoc" onserverclick="btnLenlichhoc_ServerClick" runat="server"><i class="glyphicon glyphicon-calendar"></i> Lên lịch học</a>
                     <a class="btn btn-circle btn-icon-only btn-default" title="Xuất danh sách Excel" href="#">
                         <i class="fa fa-file-excel-o"></i>

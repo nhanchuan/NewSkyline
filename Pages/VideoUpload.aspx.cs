@@ -210,23 +210,23 @@ public partial class Pages_VideoUpload : BasePage
             else
             {
 
-                if (HasPermission(Session.GetCurrentUser().UserID, FunctionName.NewVideo, TypeAudit.Delete))
+                //if (HasPermission(Session.GetCurrentUser().UserID, FunctionName.NewVideo, TypeAudit.Delete))
+                //{
+                //    this.AlertPageValid(true, "Bạn không có quyền thực hiện chức năng này !", alertPageValid, lblPageValid);
+                //}
+                //else
+                //{
+                videos = new VideosBLL();
+                int videoid = Convert.ToInt32((gwVideos.Rows[e.RowIndex].FindControl("lblVideoID") as Label).Text);
+                if (videos.DeleteVideo(videoid))
                 {
-                    this.AlertPageValid(true, "Bạn không có quyền thực hiện chức năng này !", alertPageValid, lblPageValid);
+                    this.GetVideosPageWise(1);
                 }
                 else
                 {
-                    videos = new VideosBLL();
-                    int videoid = Convert.ToInt32((gwVideos.Rows[e.RowIndex].FindControl("lblVideoID") as Label).Text);
-                    if (videos.DeleteVideo(videoid))
-                    {
-                        this.GetVideosPageWise(1);
-                    }
-                    else
-                    {
-                        this.AlertPageValid(true, "Delete Videos False. Error to connect server  !", alertPageValid, lblPageValid);
-                    }
+                    this.AlertPageValid(true, "Delete Videos False. Error to connect server  !", alertPageValid, lblPageValid);
                 }
+                //}
             }
         }
         catch (Exception ex)
@@ -268,7 +268,7 @@ public partial class Pages_VideoUpload : BasePage
         {
             videos = new VideosBLL();
             int videoid = Convert.ToInt32((gwVideos.SelectedRow.FindControl("lblVideoID") as Label).Text);
-            if(videos.UpdateVideos(videoid,txtEvideoname.Text,txtELink.Text,Convert.ToInt32(dlEVideoCatwegory.SelectedValue),txtEShortDesc.Text))
+            if (videos.UpdateVideos(videoid, txtEvideoname.Text, txtELink.Text, Convert.ToInt32(dlEVideoCatwegory.SelectedValue), txtEShortDesc.Text))
             {
                 this.GetVideosPageWise(1);
             }

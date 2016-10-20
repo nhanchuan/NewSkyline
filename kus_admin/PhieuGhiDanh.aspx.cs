@@ -24,6 +24,7 @@ public partial class kus_admin_PhieuGhiDanh : BasePage
     TransactionHistoryBLL transactionHistory;
     EmployeesBLL emloyees;
     UserProfileBLL profile;
+    PromotionsBLL promotions;
     protected void Page_Load(object sender, EventArgs e)
     {
         this.setcurenturl();
@@ -56,6 +57,9 @@ public partial class kus_admin_PhieuGhiDanh : BasePage
                         this.load_rpLstImg();
                         txtCash.Text = "0";
                         txtTLGiamHP.Text = "0";
+                        this.load_dlPromotions();
+                        txtTLGiamHP.ReadOnly = true;
+                        txtCash.ReadOnly = true;
                     }
                 }
             }
@@ -83,6 +87,12 @@ public partial class kus_admin_PhieuGhiDanh : BasePage
             }
         }
         return check;
+    }
+    private void load_dlPromotions()
+    {
+        promotions = new PromotionsBLL();
+        this.load_DropdownList(dlPromotions, promotions.ListByInComing(true), "PromName", "PromotionID");
+        dlPromotions.Items.Insert(0, new ListItem("-- Chọn khuyến mãi --", "0"));
     }
     private void load_PhieuGDInfor(string code)
     {
@@ -138,7 +148,8 @@ public partial class kus_admin_PhieuGhiDanh : BasePage
             txtRemainFeeeTemp.Text = (string.IsNullOrEmpty(r["RemainFee"].ToString())) ? 0.ToString() : ((int)r["RemainFee"]).ToString();
 
             //Dissable Giam gia
-            if (((string.IsNullOrEmpty(r["RemainFee"].ToString())) ? 0 : (int)r["RemainFee"]) < ((string.IsNullOrEmpty(r["MucHocPhi"].ToString())) ? 0 : (int)r["MucHocPhi"]))
+            //if (((string.IsNullOrEmpty(r["RemainFee"].ToString())) ? 0 : (int)r["RemainFee"]) < ((string.IsNullOrEmpty(r["MucHocPhi"].ToString())) ? 0 : (int)r["MucHocPhi"]))
+            if (((string.IsNullOrEmpty(r["RemainFee"].ToString())) ? 0 : (int)r["RemainFee"]) <= 0)
             {
                 //txtTLGiamHP.Attributes.Add("class", "disabled");
                 txtTLGiamHP.ReadOnly = true;
@@ -280,6 +291,7 @@ public partial class kus_admin_PhieuGhiDanh : BasePage
             profile = new UserProfileBLL();
             string MaGD = Request.QueryString["MaGhiDanh"];
             kus_GhiDanh ghidanh = kus_ghidanh.getListGDCode(MaGD).FirstOrDefault();
+            kus_HocVien hocvien = kus_hocvien.getHocVienWithID(ghidanh.HocVienID).FirstOrDefault();
             string lydo = txtHPLyDo.Text;
             int SoTienGiam = Convert.ToInt32(txtCash.Text);
             int SoTienDong = Convert.ToInt32(txtThuKhachHang.Text);
@@ -291,14 +303,13 @@ public partial class kus_admin_PhieuGhiDanh : BasePage
             this.kus_ghidanh.UpdateRemainFee(ghidanh.GhiDanhID, Convert.ToInt32(txtRemainFeeeTemp.Text));
 
             //Update AvailableBalances
-            this.kus_hocvien.UpdateAvailableBalancesByHocVienID(ghidanh.HocVienID, Sodu);
+            this.kus_hocvien.UpdateAvailableBalancesByHocVienID(ghidanh.HocVienID, Math.Abs(hocvien.AvailableBalances - TruSoDu) + Sodu);
 
 
             //Save Bien Lai
             this.kus_bienlai.CreateBienLai(lydo, SoTienGiam, SoTienDong + TruSoDu, ReadNumber.ByWords(decimal.Parse((SoTienDong + TruSoDu).ToString())) + "đồng", ghidanh.GhiDanhID);
 
             //Save Transaction History
-            kus_HocVien hocvien = kus_hocvien.getHocVienWithID(ghidanh.HocVienID).FirstOrDefault();
             UserProfile pro = profile.getUserProfileWithID(Session.GetCurrentUser().UserID).FirstOrDefault();
             Employees emp = emloyees.getEmpWithProfileId(pro.ProfileID).FirstOrDefault();
             this.transactionHistory.NewTransactionHistory(hocvien.InfoID, lydo, SoTienDong + TruSoDu, emp.EmployeesID);
@@ -480,7 +491,7 @@ public partial class kus_admin_PhieuGhiDanh : BasePage
                 txtRemainFeeeTemp.Text = (Math.Abs((ThuKH + TruSoDu) - PhaiDong)).ToString();
             }
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             Response.Write("<script>alert('" + "Có lỗi xảy ra trong quá trình xử lý. Vui lòng kiểm tra lại các bước thực hiện !" + "')</script>");
         }
@@ -512,7 +523,7 @@ public partial class kus_admin_PhieuGhiDanh : BasePage
                 txtRemainFeeeTemp.Text = (Math.Abs((ThuKH + TruSoDu) - PhaiDong)).ToString();
             }
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             Response.Write("<script>alert('" + "Có lỗi xảy ra trong quá trình xử lý. Vui lòng kiểm tra lại các bước thực hiện !" + "')</script>");
         }
@@ -542,7 +553,7 @@ public partial class kus_admin_PhieuGhiDanh : BasePage
                 txtRemainFeeeTemp.Text = (Math.Abs((ThuKH + TruSoDu) - PhaiDong)).ToString();
             }
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             Response.Write("<script>alert('" + "Có lỗi xảy ra trong quá trình xử lý. Vui lòng kiểm tra lại các bước thực hiện !" + "')</script>");
         }
@@ -558,7 +569,120 @@ public partial class kus_admin_PhieuGhiDanh : BasePage
 
 
         }
-        catch (Exception ex)
+        catch (Exception)
+        {
+            Response.Write("<script>alert('" + "Có lỗi xảy ra trong quá trình xử lý. Vui lòng kiểm tra lại các bước thực hiện !" + "')</script>");
+        }
+    }
+
+    protected void dlPromotions_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            promotions = new PromotionsBLL();
+            kus_ghidanh = new kus_GhiDanhBLL();
+            int promoid = Convert.ToInt32(dlPromotions.SelectedValue);
+
+            Promotions promo = promotions.ListByPromotionID(promoid).FirstOrDefault();
+            if (promo != null)
+            {
+                if (promo.ReducedRate != 0)
+                {
+                    txtTLGiamHP.Text = promo.ReducedRate.ToString();
+                    string MaGD = Request.QueryString["MaGhiDanh"];
+                    DataTable tb = kus_ghidanh.kus_getTTPhieuGhiDanh(MaGD);
+                    int HP = 0;
+                    foreach (DataRow r in tb.Rows)
+                    {
+                        HP = (string.IsNullOrEmpty(r["MucHocPhi"].ToString())) ? 0 : ((int)r["MucHocPhi"]);
+                    }
+
+
+                    lblNumGiamHP.Text = (HP * promo.ReducedRate / 100).ToString("C", new CultureInfo("vi-VN"));
+                    txtCash.Text = (HP * promo.ReducedRate / 100).ToString();
+
+                    //So tien phai dong
+                    txtHPPhaiDong.Text = (HP - (HP * promo.ReducedRate / 100)).ToString("C", new CultureInfo("vi-VN"));
+                    txtHPPhaiDongTemp.Text = (HP - (HP * promo.ReducedRate / 100)).ToString();
+                    txtHPBangChu.Text = ReadNumber.ByWords(decimal.Parse((HP - (HP * promo.ReducedRate / 100)).ToString())) + "đồng";
+
+                    int truSD = Convert.ToInt32(txtMinus.Text);
+                    int ThuKH = Convert.ToInt32(txtThuKhachHang.Text);
+
+                    //txtRemainFeee
+                    txtRemainFeee.Text = Math.Abs((truSD + ThuKH) - (HP - (HP * promo.ReducedRate / 100))).ToString("C", new CultureInfo("vi-VN"));
+                    txtRemainFeeeTemp.Text = Math.Abs((truSD + ThuKH) - (HP - (HP * promo.ReducedRate / 100))).ToString();
+
+                }
+                else
+                {
+                    if (promo.Discount != 0)
+                    {
+                        txtCash.Text = promo.Discount.ToString();
+                        int HP = 0;
+                        int num = promo.Discount;
+                        string MaGD = Request.QueryString["MaGhiDanh"];
+                        DataTable tb = kus_ghidanh.kus_getTTPhieuGhiDanh(MaGD);
+                        foreach (DataRow r in tb.Rows)
+                        {
+                            HP = (string.IsNullOrEmpty(r["MucHocPhi"].ToString())) ? 0 : ((int)r["MucHocPhi"]);
+                        }
+                        float a = num;
+                        float b = HP;
+                        float Percent = (a / b) * 100;
+                        //txtTLGiamHP.Text = String.Format("{0:0.00}", Percent);
+                        txtTLGiamHP.Text = Percent.ToString();
+                        lblNumGiamHP.Text = num.ToString("C", new CultureInfo("vi-VN"));
+                        //So tien phai dong
+                        txtHPPhaiDong.Text = (HP - num).ToString("C", new CultureInfo("vi-VN"));
+                        txtHPPhaiDongTemp.Text = (HP - num).ToString();
+                        txtHPBangChu.Text = ReadNumber.ByWords(decimal.Parse((HP - num).ToString())) + "đồng";
+
+
+                        int truSD = Convert.ToInt32(txtMinus.Text);
+                        int ThuKH = Convert.ToInt32(txtThuKhachHang.Text);
+
+                        //txtRemainFeee
+                        txtRemainFeee.Text = Math.Abs((truSD + ThuKH) - (HP - num)).ToString("C", new CultureInfo("vi-VN"));
+                        txtRemainFeeeTemp.Text = Math.Abs((truSD + ThuKH) - (HP - num)).ToString();
+                    }
+                }
+
+            }
+            else
+            {
+                //Promotions is null
+                txtTLGiamHP.Text = "";
+                txtCash.Text = "";
+
+                string MaGD = Request.QueryString["MaGhiDanh"];
+                DataTable tb = kus_ghidanh.kus_getTTPhieuGhiDanh(MaGD);
+                int HP = 0;
+                foreach (DataRow r in tb.Rows)
+                {
+                    HP = (string.IsNullOrEmpty(r["MucHocPhi"].ToString())) ? 0 : ((int)r["MucHocPhi"]);
+                }
+
+                //So tien phai dong
+                txtHPPhaiDong.Text = HP.ToString("C", new CultureInfo("vi-VN"));
+                txtHPPhaiDongTemp.Text = HP.ToString();
+                txtHPBangChu.Text = ReadNumber.ByWords(decimal.Parse(HP.ToString())) + "đồng";
+
+                int truSD = Convert.ToInt32(txtMinus.Text);
+                int ThuKH = Convert.ToInt32(txtThuKhachHang.Text);
+
+                //txtRemainFeee
+                txtRemainFeee.Text = Math.Abs((truSD + ThuKH) - HP).ToString("C", new CultureInfo("vi-VN"));
+                txtRemainFeeeTemp.Text = Math.Abs((truSD + ThuKH) - HP).ToString();
+
+
+                txtCash.Text = "0";
+                txtTLGiamHP.Text = "0";
+
+
+            }
+        }
+        catch (Exception)
         {
             Response.Write("<script>alert('" + "Có lỗi xảy ra trong quá trình xử lý. Vui lòng kiểm tra lại các bước thực hiện !" + "')</script>");
         }

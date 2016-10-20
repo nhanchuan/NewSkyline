@@ -1018,53 +1018,62 @@
                                 <div class="col-lg-6">
                                     <div class="row">
                                         <div class="col-lg-12">
-                                            <div class="form-group">
-                                                <label class="control-label">Giảm giá: </label>
-                                                <div class="form-group">
-                                                    <asp:TextBox ID="txtTLGiamHP" AutoPostBack="true" OnTextChanged="txtTLGiamHP_TextChanged" runat="server"></asp:TextBox>
-                                                    % =
-                                    <asp:Label ID="lblNumGiamHP" runat="server" Text="₫"></asp:Label><br />
-                                                    <asp:RegularExpressionValidator ID="RegularExpressionValidator1" ControlToValidate="txtTLGiamHP" ValidationGroup="validDongHP" ValidationExpression="^\d+$" ForeColor="Red" Display="Static" runat="server" ErrorMessage="Chỉ được nhập số >=0!"></asp:RegularExpressionValidator>
-
-                                                    <asp:Label ID="lblwarning" ForeColor="Red" runat="server"></asp:Label><br />
-                                                    <label>OR</label>
+                                            <div class="panel panel-primary">
+                                                <div class="panel-body">
                                                     <div class="form-group">
-                                                        <asp:TextBox ID="txtCash" TextMode="Number" AutoPostBack="true" OnTextChanged="txtCash_TextChanged" runat="server"></asp:TextBox>&nbsp<span class="bold">₫</span>
-                                                        <asp:TextBox ID="txtCashTemp" CssClass="display-none" runat="server"></asp:TextBox>
+                                                        <label>Chương trình khuyến mãi</label>
+                                                        <asp:DropDownList ID="dlPromotions" AutoPostBack="true" OnSelectedIndexChanged="dlPromotions_SelectedIndexChanged" CssClass="form-control" runat="server"></asp:DropDownList>
                                                     </div>
-                                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server"
-                                                            ControlToValidate="txtCash"
-                                                            ValidationGroup="validDongHP"
-                                                            ForeColor="Red"
-                                                            Display="Dynamic"
-                                                            ErrorMessage="Enter the value 0 or The value must be integer and greater or equal than 0">
-                                                        </asp:RequiredFieldValidator>
-                                                        <asp:RangeValidator ID="RangeValidator2"
-                                                            ControlToValidate="txtCash"
-                                                            MinimumValue="0"
-                                                            MaximumValue="2147483647"
-                                                            ValidationGroup="validDongHP"
-                                                            ForeColor="Red"
-                                                            Display="Dynamic"
-                                                            Type="Integer"
-                                                            Text="The value must be integer and greater or equal than 0 and value does not exceed 2 billion !"
-                                                            runat="server" />
-                                                    <asp:CompareValidator ID="CompareValidator2" runat="server"
-                                                        ControlToCompare="txtDongHPTemp"
-                                                        CultureInvariantValues="true"
-                                                        Display="Dynamic"
-                                                        EnableClientScript="true"
-                                                        ControlToValidate="txtCash"
-                                                        ValidationGroup="validDongHP"
-                                                        ForeColor="Red"
-                                                        ErrorMessage="The value must be greater or equal Tuition!"
-                                                        Type="Integer"
-                                                        SetFocusOnError="true"
-                                                        Operator="LessThanEqual"
-                                                        Text="The value must be greater or equal Tuition!">
-                                                    </asp:CompareValidator>
+                                                    <div class="form-group">
+                                                        <label class="control-label">Giảm giá: </label>
+                                                        <div class="form-group">
+                                                            <asp:TextBox ID="txtTLGiamHP" AutoPostBack="true" OnTextChanged="txtTLGiamHP_TextChanged" runat="server"></asp:TextBox>
+                                                            % =
+                                    <asp:Label ID="lblNumGiamHP" runat="server" Text="₫"></asp:Label><br />
+                                                            <asp:RegularExpressionValidator ID="RegularExpressionValidator1" ControlToValidate="txtTLGiamHP" ValidationGroup="validDongHP" ValidationExpression="^\d+$" ForeColor="Red" Display="Static" runat="server" ErrorMessage="Chỉ được nhập số >=0!"></asp:RegularExpressionValidator>
+
+                                                            <asp:Label ID="lblwarning" ForeColor="Red" runat="server"></asp:Label><br />
+                                                            <label>OR</label>
+                                                            <div class="form-group">
+                                                                <asp:TextBox ID="txtCash" TextMode="Number" AutoPostBack="true" OnTextChanged="txtCash_TextChanged" runat="server"></asp:TextBox>&nbsp<span class="bold">₫</span>
+                                                                <asp:TextBox ID="txtCashTemp" CssClass="display-none" runat="server"></asp:TextBox>
+                                                            </div>
+                                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server"
+                                                                ControlToValidate="txtCash"
+                                                                ValidationGroup="validDongHP"
+                                                                ForeColor="Red"
+                                                                Display="Dynamic"
+                                                                ErrorMessage="Enter the value 0 or The value must be integer and greater or equal than 0">
+                                                            </asp:RequiredFieldValidator>
+                                                            <asp:RangeValidator ID="RangeValidator2"
+                                                                ControlToValidate="txtCash"
+                                                                MinimumValue="0"
+                                                                MaximumValue="2147483647"
+                                                                ValidationGroup="validDongHP"
+                                                                ForeColor="Red"
+                                                                Display="Dynamic"
+                                                                Type="Integer"
+                                                                Text="The value must be integer and greater or equal than 0 and value does not exceed 2 billion !"
+                                                                runat="server" />
+                                                            <asp:CompareValidator ID="CompareValidator2" runat="server"
+                                                                ControlToCompare="txtDongHPTemp"
+                                                                CultureInvariantValues="true"
+                                                                Display="Dynamic"
+                                                                EnableClientScript="true"
+                                                                ControlToValidate="txtCash"
+                                                                ValidationGroup="validDongHP"
+                                                                ForeColor="Red"
+                                                                ErrorMessage="The value must be greater or equal Tuition!"
+                                                                Type="Integer"
+                                                                SetFocusOnError="true"
+                                                                Operator="LessThanEqual"
+                                                                Text="The value must be greater or equal Tuition!">
+                                                            </asp:CompareValidator>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
+
                                         </div>
                                     </div>
                                     <div class="row">
@@ -1087,63 +1096,63 @@
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label class="control-label">Số dư khả dụng :</label>
-                                        <asp:TextBox ID="txtAvailableBalances" ReadOnly="true" CssClass="form-control" runat="server"></asp:TextBox>
-                                        <asp:TextBox ID="txttempAvailableBalances" TextMode="Number" CssClass="display-none" runat="server"></asp:TextBox>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Trừ số dư : </label>
-                                        &nbsp(<a id="btnGetAllSoDu" onserverclick="btnGetAllSoDu_ServerClick" runat="server">ALL</a>)
+                                        <div class="col-lg-12">
+                                            <div class="form-group">
+                                                <label class="control-label">Số dư khả dụng :</label>
+                                                <asp:TextBox ID="txtAvailableBalances" ReadOnly="true" CssClass="form-control" runat="server"></asp:TextBox>
+                                                <asp:TextBox ID="txttempAvailableBalances" TextMode="Number" CssClass="display-none" runat="server"></asp:TextBox>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Trừ số dư : </label>
+                                                &nbsp(<a id="btnGetAllSoDu" onserverclick="btnGetAllSoDu_ServerClick" runat="server">ALL</a>)
                                 <asp:TextBox ID="txtMinus" TextMode="Number" AutoPostBack="true" OnTextChanged="txtMinus_TextChanged" runat="server"></asp:TextBox>&nbsp<span class="bold">₫</span>
-                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server"
-                                            ControlToValidate="txtMinus"
-                                            ValidationGroup="validDongHP"
-                                            ForeColor="Red"
-                                            Display="Dynamic"
-                                            ErrorMessage="Enter the value 0 or The value must be integer and greater or equal than 0"></asp:RequiredFieldValidator>
-                                        <asp:RangeValidator ID="Range1"
-                                            ControlToValidate="txtMinus"
-                                            MinimumValue="0"
-                                            MaximumValue="2147483647"
-                                            ValidationGroup="validDongHP"
-                                            ForeColor="Red"
-                                            Display="Dynamic"
-                                            Type="Integer"
-                                            Text="The value must be integer and greater or equal than 0"
-                                            runat="server" />
-                                        <asp:CompareValidator ID="cvtxtMinus" runat="server"
-                                            ControlToCompare="txttempAvailableBalances"
-                                            CultureInvariantValues="true"
-                                            Display="Dynamic"
-                                            EnableClientScript="true"
-                                            ControlToValidate="txtMinus"
-                                            ValidationGroup="validDongHP"
-                                            ForeColor="Red"
-                                            ErrorMessage="The value not exceed the balance available!"
-                                            Type="Integer"
-                                            SetFocusOnError="true"
-                                            Operator="LessThanEqual"
-                                            Text="The value not exceed the balance available!">
-                                        </asp:CompareValidator>
-                                        <asp:CompareValidator ID="CompareValidator1" runat="server"
-                                            ControlToCompare="txtDongHPTemp"
-                                            CultureInvariantValues="true"
-                                            Display="Dynamic"
-                                            EnableClientScript="true"
-                                            ControlToValidate="txtMinus"
-                                            ValidationGroup="validDongHP"
-                                            ForeColor="Red"
-                                            ErrorMessage="The value must be greater or equal Tuition!"
-                                            Type="Integer"
-                                            SetFocusOnError="true"
-                                            Operator="LessThanEqual"
-                                            Text="The value must be greater or equal Tuition!">
-                                        </asp:CompareValidator>
+                                                <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server"
+                                                    ControlToValidate="txtMinus"
+                                                    ValidationGroup="validDongHP"
+                                                    ForeColor="Red"
+                                                    Display="Dynamic"
+                                                    ErrorMessage="Enter the value 0 or The value must be integer and greater or equal than 0"></asp:RequiredFieldValidator>
+                                                <asp:RangeValidator ID="Range1"
+                                                    ControlToValidate="txtMinus"
+                                                    MinimumValue="0"
+                                                    MaximumValue="2147483647"
+                                                    ValidationGroup="validDongHP"
+                                                    ForeColor="Red"
+                                                    Display="Dynamic"
+                                                    Type="Integer"
+                                                    Text="The value must be integer and greater or equal than 0"
+                                                    runat="server" />
+                                                <asp:CompareValidator ID="cvtxtMinus" runat="server"
+                                                    ControlToCompare="txttempAvailableBalances"
+                                                    CultureInvariantValues="true"
+                                                    Display="Dynamic"
+                                                    EnableClientScript="true"
+                                                    ControlToValidate="txtMinus"
+                                                    ValidationGroup="validDongHP"
+                                                    ForeColor="Red"
+                                                    ErrorMessage="The value not exceed the balance available!"
+                                                    Type="Integer"
+                                                    SetFocusOnError="true"
+                                                    Operator="LessThanEqual"
+                                                    Text="The value not exceed the balance available!">
+                                                </asp:CompareValidator>
+                                                <asp:CompareValidator ID="CompareValidator1" runat="server"
+                                                    ControlToCompare="txtDongHPTemp"
+                                                    CultureInvariantValues="true"
+                                                    Display="Dynamic"
+                                                    EnableClientScript="true"
+                                                    ControlToValidate="txtMinus"
+                                                    ValidationGroup="validDongHP"
+                                                    ForeColor="Red"
+                                                    ErrorMessage="The value must be greater or equal Tuition!"
+                                                    Type="Integer"
+                                                    SetFocusOnError="true"
+                                                    Operator="LessThanEqual"
+                                                    Text="The value must be greater or equal Tuition!">
+                                                </asp:CompareValidator>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
                                     <div class="form-group">
                                         <label class="control-label">Thu khách hàng : </label>
                                         <asp:TextBox ID="txtThuKhachHang" CssClass="form-control bold" AutoPostBack="true" OnTextChanged="txtThuKhachHang_TextChanged" TextMode="Number" runat="server"></asp:TextBox>

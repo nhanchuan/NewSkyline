@@ -208,8 +208,12 @@ public partial class kus_admin_GhiDanhHocVien : BasePage
 
             List<CustomerBasicInfo> lstBS = customerbasicinfo.GetCusBasicInfoWithCode(FileCode);
             CustomerBasicInfo basicinfo = lstBS.FirstOrDefault();
+
+
             this.customerbasicinfo.UpdateCustomerBasicInfo(basicinfo.InfoID, firstname, lastname, "", birthday, noisinh, sex, socmnd, NgayCapCMND, noicap);
+
             string HocvienCode = RandomName + DateTime.Now.Day.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Year.ToString();
+
             this.kus_hocvien.CreateCodeHocVien(HocvienCode);
 
             string diachithuongtru = txtDCThuongTru.Text;
@@ -219,6 +223,7 @@ public partial class kus_admin_GhiDanhHocVien : BasePage
             string hotenPH = txtHoTenPH.Text;
             string nghenghiep = txtNgheNghiepPH.Text;
             string phonePH = txtDienThoaiPH.Text;
+
             //int NVGioiThieu=
             List<UserProfile> lstprofile = userprofile.getUserProfileWithID(Session.GetCurrentUser().UserID);
             UserProfile userpro = lstprofile.FirstOrDefault();
@@ -255,7 +260,7 @@ public partial class kus_admin_GhiDanhHocVien : BasePage
                         {
                             string ghichu = txtGhiChu.Text;
 
-                            if (this.kus_ghidanh.GhiDanhMoi(hocvien.HocVienID, khoahoc.ID, NVGhiDanh, ghichu, datcoc, lop.MucHocPhi- datcoc))
+                            if (this.kus_ghidanh.GhiDanhMoi(hocvien.HocVienID, khoahoc.ID, NVGhiDanh, ghichu, datcoc, lop.MucHocPhi))
                             {
                                 Response.Redirect("http://" + Request.Url.Authority + "/kus_admin/QLGhiDanh.aspx");
                             }
@@ -405,7 +410,7 @@ public partial class kus_admin_GhiDanhHocVien : BasePage
                 nc_LopHoc lop = nc_lophoc.getListLopHocWithMaKhoaHoc(MaKhoaHoc).FirstOrDefault();
                 //Update Hoc vien AvailableBalances
                 this.kus_hocvien.UpdateAvailableBalancesByHocVienID(hocvien.HocVienID, hocvien.AvailableBalances + datcoc);
-                if (this.kus_ghidanh.GhiDanhMoi(hocvien.HocVienID, khoahoc.ID, NVGhiDanh, ghichu, datcoc, lop.MucHocPhi-datcoc))
+                if (this.kus_ghidanh.GhiDanhMoi(hocvien.HocVienID, khoahoc.ID, NVGhiDanh, ghichu, datcoc, lop.MucHocPhi))
                 {
                     Response.Redirect("http://" + Request.Url.Authority + "/kus_admin/QLGhiDanh.aspx");
                 }
